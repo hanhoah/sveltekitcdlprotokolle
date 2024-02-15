@@ -8,7 +8,7 @@
     <div class="dropdownmenu">
       <nav class:open={isMenuOpen}><ul>
         <li><a on:click={toggleMenu} href="/books">Bücher</a></li>
-        <li><a on:click={toggleMenu} href="/cdl">CDL Protokolle</a></li>
+        <li><a on:click={toggleMenu} href="/">CDL Protokolle</a></li>
         <li><a on:click={toggleMenu}  href="/">Leseproben</a></li>
       </ul></nav>
     </div>
