@@ -20,19 +20,23 @@
 <!-- Buch Detail {book.title}
 Link: {book.link} -->
 <img width=400 alt="{book.title}" src="{img}" />
-<h2>Titel: {book.title}</h2>
+<div class="p-3">
+<h2 class="mb-3">Titel: {book.title}</h2>
 
-<h2>
+<h2 class="mb-3">
 Beschreibung: 
 </h2>
 
-{@html desc}
 
-<div>
-
-    <a href="{book.link}" target="_blank">
-        <Button color="green">Mehr</Button>
-    </a>
+    {@html desc}
+    
+    <div class="mt-5">
+        
+        <a href="{book.link}" target="_blank">
+            <Button color="green">Mehr</Button>
+        </a>
+    </div>
 </div>
-
-
+    
+    
+    
