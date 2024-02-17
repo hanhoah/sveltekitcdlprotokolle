@@ -5,7 +5,7 @@
 
 <div class="bg-gray-200 w-full h-[300px] ">
 
-    <a href="/books/{book.id}">
+    <a href="/buecher/{book.id}">
         <div  class=" pt-2 overflow-auto">
 
             <img class="mx-auto" width="150" src="{getImg(book.img, book.id)}" alt="{book.title}" />

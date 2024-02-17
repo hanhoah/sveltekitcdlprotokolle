@@ -26,7 +26,7 @@
   <a href="/"><Logo /></a>
   <div id="desktopmenu" class="flex flex-row bg-slate-300 w-full space-x-5">
 
-    <a href="/books">Bücher</a>
+    <a href="/buecher">Bücher</a>
     <a  href="/">CDL Protokolle</a>
     <a  href="/">Leseproben</a>
   </div>
@@ -37,7 +37,7 @@
 
 <script>
 import Logo from "./Logo.svelte";
-let isMenuOpen = true;
+let isMenuOpen = false;
 
 let toggleMenu = ()=>{
   isMenuOpen = !isMenuOpen;
