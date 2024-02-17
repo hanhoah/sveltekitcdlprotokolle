@@ -1,5 +1,6 @@
 <script>
 	import { getImg } from '$lib/functions/getImg.ts';
+    import Book from '../book.svelte';
 
     export let data;
     // console.log('data from clientside', data);
@@ -8,7 +9,7 @@
     let book = data.bookdata;
     console.log('data object ist: ', data);
     let hashtags = data.hashtags;
-    let similarBooks = data.similarBooksIds;
+    let similarBooks = data.similarBooks;
     let desc = ""
 
     let img = getImg(book.img[0], book.id)
@@ -42,12 +43,13 @@ Link: {book.link} -->
     </div>
 
     <div>Ähnliche Bücher: </div>
-    {#each similarBooks as similarBook }
-    {similarBook} {@html spc}
-{/each}
-
     
-    
+    <ul class="grid grid-cols-2 md:grid-cols-3">
+        {#each similarBooks as book}
+          <li class="my-2"><Book book={{id: book.id,title: book.title,img: book.img}} /></li>
+        {/each}
+      </ul>
+       
 </div>
     
     
