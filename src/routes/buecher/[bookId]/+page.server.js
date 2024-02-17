@@ -1,7 +1,8 @@
 // Import der getBookDetails-Funktion aus der bookDetails-Datei
 import { getBookDetails } from './bookDetails';
-import { getSimilarBooks } from '$lib/functions/books.ts';
+import { getBookIdsFromHashtagIds, getBooksFromIds } from '$lib/functions/books.ts';
 import { getHashtagIds, hashtagIdsToText } from '$lib/functions/getHashtags.ts';
+// export const prerender = false;
 
 export async function load({ params }) {
 	const id = Number(params.bookId);
@@ -16,7 +17,9 @@ export async function load({ params }) {
 	const hashtags = await hashtagIdsToText(hashtagIds);
 
 	// ähnliche Bücher holen
-	const similarBooks = await getSimilarBooks(hashtagIds);
+	const booklist = await getBookIdsFromHashtagIds(hashtagIds);
+	const similarBooks = await getBooksFromIds(booklist);
+
 	// console.log('similar books are: ', similarBooksIds);
 
 	return {

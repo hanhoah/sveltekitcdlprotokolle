@@ -1,17 +1,21 @@
 <script>
     import { getImg } from "$lib/functions/getImg";
     export let book = {id:0,img:"",title:""};
+    // console.log('Book Komponenten Ausgabe ******************  book id ist ', book.id);
+    // console.log(typeof(book.id));
 </script>
 
 <div class="bg-gray-200 w-full h-[300px] ">
 
-    <a href="/buecher/{book.id}">
-        <div  class=" pt-2 overflow-auto">
-
-            <img class="mx-auto" width="150" src="{getImg(book.img, book.id)}" alt="{book.title}" />
+    <div  class=" pt-2 overflow-auto">
+            <a href={`/buecher/${book.id}`}>
+                <img class="mx-auto" width="150" src="{getImg(book.img, book.id)}" alt="{book.title}" />
+            </a>
             <div class="p-3">
-                {book.title}
+                <a href={`/buecher/${book.id}`}>
+                
+                    {book.title}
+                </a>
             </div>
         </div>
-    </a>
 </div>

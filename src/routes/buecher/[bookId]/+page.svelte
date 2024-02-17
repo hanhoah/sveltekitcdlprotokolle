@@ -3,21 +3,17 @@
     import Book from '../book.svelte';
 
     export let data;
-    // console.log('data from clientside', data);
     import { nl2br } from '$lib/functions/nl2br.ts';
     import { Button } from 'flowbite-svelte';
     let book = data.bookdata;
-    console.log('data object ist: ', data);
     let hashtags = data.hashtags;
     let similarBooks = data.similarBooks;
     let desc = ""
-
     let img = getImg(book.img[0], book.id)
     if(book.desc)
         desc = nl2br(book.desc)
     else desc = "noch keine Beschreibung vorhanden."
     const spc = '&#x20;'
-
 
 </script>
 
@@ -45,8 +41,8 @@ Link: {book.link} -->
     <div>Ähnliche Bücher: </div>
     
     <ul class="grid grid-cols-2 md:grid-cols-3">
-        {#each similarBooks as book}
-          <li class="my-2"><Book book={{id: book.id,title: book.title,img: book.img}} /></li>
+        {#each similarBooks as similarbook}
+          <li class="my-2"><Book book={{id: similarbook.id,title: similarbook.title,img: similarbook.img}} /></li>
         {/each}
       </ul>
        
