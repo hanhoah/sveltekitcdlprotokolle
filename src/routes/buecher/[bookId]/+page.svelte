@@ -36,14 +36,18 @@ Link: {book.link} -->
     
     </div>
 
-    <div>Stichwörter:
+    <div>
+    <div class="w-full my-5 bg-teal-200 p-3 text-lg font-bold text-center">Stichwörter: </div>
+        
+            
+
         {#each hashtags as hashtag }
             #{hashtag.tag} {@html spc}
         {/each}
 
     </div>
 
-    <div>Ähnliche Bücher: </div>
+    <div class="w-full my-5 bg-yellow-300 p-3 text-lg font-bold text-center">Ähnliche Bücher: </div>
     
     <ul class="grid grid-cols-2 md:grid-cols-3">
         {#each similarBooks as similarbook}
