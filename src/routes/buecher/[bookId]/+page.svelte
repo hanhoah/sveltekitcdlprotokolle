@@ -1,25 +1,29 @@
 <script>
-	import { getImg } from '$lib/functions/getImg.ts';
+    import { Button } from 'flowbite-svelte';
+    import { getImg } from '$lib/functions/getImg.ts';
     import Book from '../book.svelte';
 
-    export let data;
-    import { nl2br } from '$lib/functions/nl2br.ts';
-    import { Button } from 'flowbite-svelte';
-    let book = data.bookdata;
-    let hashtags = data.hashtags;
-    let similarBooks = data.similarBooks;
-    let desc = ""
-    let img = getImg(book.img[0], book.id)
-    if(book.desc)
-        desc = nl2br(book.desc)
-    else desc = "noch keine Beschreibung vorhanden."
-    const spc = '&#x20;'
 
+export let data;
+//console.log('data ', data);
+$: book = data.data
+$: title = book.title;
+$: img = getImg(book.img[0], book.id)
+$: desc = book.desc;
+$: similarBooks = data.similarBooks;
+$: hashtags = data.hashtags;
+
+console.log(hashtags);
+const spc = '&#x20;'
+
+    // $: post = data.post;
+    // console.log('post.bookDetails.bookdata', post.bookDetails.bookdata);
 </script>
+
 
 <!-- Buch Detail {book.title}
 Link: {book.link} -->
-<img width=400 alt="{book.title}" src="{img}" />
+<img width=400 alt="{title}" src="{img}" />
 
 <div class="p-3">
     <h2 class="mb-3">Titel: {book.title}</h2>
@@ -31,6 +35,7 @@ Link: {book.link} -->
     </a>
     
     </div>
+
     <div>Stichwörter:
         {#each hashtags as hashtag }
             #{hashtag.tag} {@html spc}
@@ -47,6 +52,5 @@ Link: {book.link} -->
       </ul>
        
 </div>
-    
     
     
