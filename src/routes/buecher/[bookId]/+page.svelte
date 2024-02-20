@@ -17,9 +17,9 @@
     <h2 class="mb-3">Titel: {book.title}</h2>
     <h2 class="mb-3">Beschreibung: </h2>
         {@html desc}
-    <div class="mt-5">
+    <div class="mt-5 flex flex-col items-center ">
     <a href="{book.link}" target="_blank">
-        <Button color="green">Mehr</Button>
+        <Button class="text-lg" color="green">{book.title} 🛒</Button>
     </a>
     </div>
     <div>
