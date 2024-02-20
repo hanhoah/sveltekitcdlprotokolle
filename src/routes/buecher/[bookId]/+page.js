@@ -10,16 +10,15 @@ export async function load({ params }) {
 	// Hashtags (abrufen)
 	let hashtagIds = await getHashtagIds(buchid);
 
-	// Hashtag IDs in Text umwandeln
-	let hashtags = await hashtagIdsToText(hashtagIds);
-
 	// ähnliche Bücher holen
 	let booklist = await getBookIdsFromHashtagIds(hashtagIds);
-	let similarBooks = await getBooksFromIds(booklist);
+	// let similarBooks = await getBooksFromIds(booklist);
 
 	return {
 		data,
-		hashtags,
-		similarBooks
+		streamed: {
+			similarBooks: getBooksFromIds(booklist),
+			hashtags: hashtagIdsToText(hashtagIds)
+		}
 	};
 }
