@@ -44,6 +44,24 @@ export async function getBookIdsFromCatId(catId: number): Promise<number[]> {
 	return catBookIds;
 }
 
+export function getCategories(): object[] {
+	const categories = [
+		{ id: 1, name: 'Gesundheit' },
+		{ id: 2, name: 'Krisenvorsorge' },
+		{ id: 3, name: 'Medizinskandale' },
+		{ id: 4, name: 'Tiergesundheit' }
+	];
+
+	return categories;
+}
+
+export async function getCategoryNameById(catId: number): Promise<string> {
+	console.log('funktion call getCategoryNameById');
+	const { data } = await supabase.from('categories').select('name').eq('id', catId);
+	console.log('data ', data);
+	return data[0].name;
+}
+
 export async function getBooksFromIds(ids: number[]): Promise<Book[] | null> {
 	// 2. Jetzt werden die Bücher zu den IDs ermittelt
 	const { data, error: books_err } = await supabase.from('books').select().in('id', ids);

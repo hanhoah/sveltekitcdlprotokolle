@@ -47,10 +47,6 @@
         </div>        
     </div>
 
-<BuchKategorien kategorien={data.streamed.bookcategories} />
-        
-
-
     <div class="bg-lime-100">
         <div class="w-full my-5 bg-lime-300 p-3 text-lg font-bold text-center">Ähnliche Bücher: </div>
         <ul class="grid grid-cols-2 md:grid-cols-3">

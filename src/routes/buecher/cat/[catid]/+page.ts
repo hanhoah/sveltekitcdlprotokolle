@@ -1,13 +1,21 @@
-import { getBookIdsFromCatId, getBooksFromIds, getBookCategories } from '$lib/functions/books.js';
+import {
+	getBookIdsFromCatId,
+	getBooksFromIds,
+	getBookCategories,
+	getCategoryNameById
+} from '$lib/functions/books.js';
 
 export async function load({ params }) {
-	const bookIds = await getBookIdsFromCatId(parseInt(params.catid));
-	const data = {};
+	const catid = params.catid;
+	const bookIds = await getBookIdsFromCatId(parseInt(catid));
+	const catname = await getCategoryNameById(parseInt(catid));
+	const bookcategories = getBookCategories();
+
+	const data = { catid, catname, bookcategories };
 	return {
+		data,
 		streamed: {
-			data,
-			books: getBooksFromIds(bookIds),
-			bookcategories: getBookCategories()
+			books: getBooksFromIds(bookIds)
 		}
 	};
 }

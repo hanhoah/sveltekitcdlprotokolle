@@ -1,0 +1,359 @@
+{
+	"version": 3,
+	"routes": [
+		{
+			"src": "/buecher",
+			"dest": "/buecher/"
+		},
+		{
+			"src": "/buecher/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher"
+			}
+		},
+		{
+			"src": "/test",
+			"dest": "/test/"
+		},
+		{
+			"src": "/test/",
+			"status": 308,
+			"headers": {
+				"Location": "/test"
+			}
+		},
+		{
+			"src": "/buecher/cat/1",
+			"dest": "/buecher/cat/1/"
+		},
+		{
+			"src": "/buecher/cat/1/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/cat/1"
+			}
+		},
+		{
+			"src": "/buecher/cat/2",
+			"dest": "/buecher/cat/2/"
+		},
+		{
+			"src": "/buecher/cat/2/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/cat/2"
+			}
+		},
+		{
+			"src": "/buecher/cat/3",
+			"dest": "/buecher/cat/3/"
+		},
+		{
+			"src": "/buecher/cat/3/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/cat/3"
+			}
+		},
+		{
+			"src": "/buecher/cat/4",
+			"dest": "/buecher/cat/4/"
+		},
+		{
+			"src": "/buecher/cat/4/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/cat/4"
+			}
+		},
+		{
+			"src": "/buecher/16",
+			"dest": "/buecher/16/"
+		},
+		{
+			"src": "/buecher/16/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/16"
+			}
+		},
+		{
+			"src": "/buecher/13",
+			"dest": "/buecher/13/"
+		},
+		{
+			"src": "/buecher/13/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/13"
+			}
+		},
+		{
+			"src": "/buecher/4",
+			"dest": "/buecher/4/"
+		},
+		{
+			"src": "/buecher/4/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/4"
+			}
+		},
+		{
+			"src": "/buecher/12",
+			"dest": "/buecher/12/"
+		},
+		{
+			"src": "/buecher/12/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/12"
+			}
+		},
+		{
+			"src": "/buecher/3",
+			"dest": "/buecher/3/"
+		},
+		{
+			"src": "/buecher/3/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/3"
+			}
+		},
+		{
+			"src": "/buecher/21",
+			"dest": "/buecher/21/"
+		},
+		{
+			"src": "/buecher/21/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/21"
+			}
+		},
+		{
+			"src": "/buecher/19",
+			"dest": "/buecher/19/"
+		},
+		{
+			"src": "/buecher/19/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/19"
+			}
+		},
+		{
+			"src": "/buecher/15",
+			"dest": "/buecher/15/"
+		},
+		{
+			"src": "/buecher/15/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/15"
+			}
+		},
+		{
+			"src": "/buecher/14",
+			"dest": "/buecher/14/"
+		},
+		{
+			"src": "/buecher/14/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/14"
+			}
+		},
+		{
+			"src": "/buecher/20",
+			"dest": "/buecher/20/"
+		},
+		{
+			"src": "/buecher/20/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/20"
+			}
+		},
+		{
+			"src": "/buecher/11",
+			"dest": "/buecher/11/"
+		},
+		{
+			"src": "/buecher/11/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/11"
+			}
+		},
+		{
+			"src": "/buecher/8",
+			"dest": "/buecher/8/"
+		},
+		{
+			"src": "/buecher/8/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/8"
+			}
+		},
+		{
+			"src": "/buecher/7",
+			"dest": "/buecher/7/"
+		},
+		{
+			"src": "/buecher/7/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/7"
+			}
+		},
+		{
+			"src": "/buecher/9",
+			"dest": "/buecher/9/"
+		},
+		{
+			"src": "/buecher/9/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/9"
+			}
+		},
+		{
+			"src": "/buecher/22",
+			"dest": "/buecher/22/"
+		},
+		{
+			"src": "/buecher/22/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/22"
+			}
+		},
+		{
+			"src": "/buecher/23",
+			"dest": "/buecher/23/"
+		},
+		{
+			"src": "/buecher/23/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/23"
+			}
+		},
+		{
+			"src": "/buecher/6",
+			"dest": "/buecher/6/"
+		},
+		{
+			"src": "/buecher/6/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/6"
+			}
+		},
+		{
+			"src": "/buecher/24",
+			"dest": "/buecher/24/"
+		},
+		{
+			"src": "/buecher/24/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/24"
+			}
+		},
+		{
+			"src": "/_app/immutable/.+",
+			"headers": {
+				"cache-control": "public, immutable, max-age=31536000"
+			}
+		},
+		{
+			"handle": "filesystem"
+		},
+		{
+			"src": "/.*",
+			"dest": "/fn"
+		}
+	],
+	"overrides": {
+		"index.html": {
+			"path": ""
+		},
+		"buecher.html": {
+			"path": "buecher"
+		},
+		"test.html": {
+			"path": "test"
+		},
+		"buecher/cat/1.html": {
+			"path": "buecher/cat/1"
+		},
+		"buecher/cat/2.html": {
+			"path": "buecher/cat/2"
+		},
+		"buecher/cat/3.html": {
+			"path": "buecher/cat/3"
+		},
+		"buecher/cat/4.html": {
+			"path": "buecher/cat/4"
+		},
+		"buecher/16.html": {
+			"path": "buecher/16"
+		},
+		"buecher/13.html": {
+			"path": "buecher/13"
+		},
+		"buecher/4.html": {
+			"path": "buecher/4"
+		},
+		"buecher/12.html": {
+			"path": "buecher/12"
+		},
+		"buecher/3.html": {
+			"path": "buecher/3"
+		},
+		"buecher/21.html": {
+			"path": "buecher/21"
+		},
+		"buecher/19.html": {
+			"path": "buecher/19"
+		},
+		"buecher/15.html": {
+			"path": "buecher/15"
+		},
+		"buecher/14.html": {
+			"path": "buecher/14"
+		},
+		"buecher/20.html": {
+			"path": "buecher/20"
+		},
+		"buecher/11.html": {
+			"path": "buecher/11"
+		},
+		"buecher/8.html": {
+			"path": "buecher/8"
+		},
+		"buecher/7.html": {
+			"path": "buecher/7"
+		},
+		"buecher/9.html": {
+			"path": "buecher/9"
+		},
+		"buecher/22.html": {
+			"path": "buecher/22"
+		},
+		"buecher/23.html": {
+			"path": "buecher/23"
+		},
+		"buecher/6.html": {
+			"path": "buecher/6"
+		},
+		"buecher/24.html": {
+			"path": "buecher/24"
+		}
+	}
+}
