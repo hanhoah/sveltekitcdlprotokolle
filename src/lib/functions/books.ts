@@ -27,6 +27,23 @@ export async function getBookIdsFromHashtagIds(hashtagIds: number[]): Promise<nu
 	return similarBooksIds;
 }
 
+export async function getBookIdsFromCatId(catId: number): Promise<number[]> {
+	let catBookIds: number[] = [];
+
+	const { data: bookIds, error } = await supabase
+		.from('books_categories')
+		.select('book_id')
+		.eq('category_id', catId);
+
+	if (error) {
+		console.log('Fehler beim Abrufen der BookIds(catId)');
+	} else {
+		console.log('Keine Fehler');
+		catBookIds = [...new Set(bookIds.map((row) => row.book_id))];
+	}
+	return catBookIds;
+}
+
 export async function getBooksFromIds(ids: number[]): Promise<Book[] | null> {
 	// 2. Jetzt werden die Bücher zu den IDs ermittelt
 	const { data, error: books_err } = await supabase.from('books').select().in('id', ids);

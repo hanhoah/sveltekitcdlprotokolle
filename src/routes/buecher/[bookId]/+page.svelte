@@ -1,7 +1,9 @@
 <script>
     import { Button } from 'flowbite-svelte';
     import { getImg } from '$lib/functions/getImg.ts';
+    import { Spinner } from 'flowbite-svelte';
     import Book from '../book.svelte';
+    import BuchKategorien from '../BuchKategorien.svelte';
 
     export let data;
     $: book = data.data
@@ -33,30 +35,19 @@
         <div class="p-2 w-full mt-5  bg-teal-300 text-lg font-bold text-center">Stichwörter: </div>
         <div class="p-5 flex flex-row justify-center ">
             {#await data.streamed.hashtags}
-            Loading...
-            {:then hashtags}
-                {#each hashtags as hashtag}
-                    #{hashtag.tag} {@html spc}
-                {/each}
+                <div class="loading">
+                    <Spinner />
+                    Loading hashtags ...
+                </div>
+                {:then hashtags}
+                    {#each hashtags as hashtag}
+                        #{hashtag.tag} {@html spc}
+                    {/each}
             {/await}
         </div>        
     </div>
 
-    <div class="bg-teal-100">
-        <div class="p-2 w-full mt-5  bg-teal-300 text-lg font-bold text-center">alle Kategorien: </div>
-        <div class="p-5 flex flex-row justify-center ">
-            {#await data.streamed.bookcategories}
-            Loading...
-            {:then categories}
-                <ul>
-                    {#each categories as category}
-    
-                        <li>{category.name}</li>
-                    {/each}
-                </ul>
-            {/await}
-        </div>        
-    </div>
+<BuchKategorien kategorien={data.streamed.bookcategories} />
         
 
 
@@ -64,7 +55,10 @@
         <div class="w-full my-5 bg-lime-300 p-3 text-lg font-bold text-center">Ähnliche Bücher: </div>
         <ul class="grid grid-cols-2 md:grid-cols-3">
         {#await data.streamed.similarBooks}
-            Loading...
+        <div class="loading">
+            <Spinner />
+            Loading similar books ...
+        </div>
             {:then similarBooks}
                 {#each similarBooks as similarbook}
                     <li class="my-2"><Book book={{id: similarbook.id,title: similarbook.title,img: similarbook.img}} /></li>
