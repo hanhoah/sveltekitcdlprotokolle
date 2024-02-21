@@ -11,39 +11,66 @@
     const spc = '&#x20;'
 </script>
 
-<img width=400 alt="{title}" src="{img}" />
-
-<div class="p-3">
-    <h2 class="mb-3">Titel: {book.title}</h2>
-    <h2 class="mb-3">Beschreibung: </h2>
-        {@html desc}
-    <div class="mt-5 flex flex-col items-center ">
-    <a href="{book.link}" target="_blank">
-        <Button class="text-lg" color="green">{book.title} 🛒</Button>
-    </a>
-    </div>
-    <div>
-    <div class="w-full my-5 bg-teal-200 p-3 text-lg font-bold text-center">Stichwörter: </div>
-            
-    {#await data.streamed.hashtags}
-    Loading...
-    {:then hashtags}
-        {#each hashtags as hashtag}
-            #{hashtag.tag} {@html spc}
-        {/each}
-    {/await}
-
-    </div>
-    <div class="w-full my-5 bg-yellow-300 p-3 text-lg font-bold text-center">Ähnliche Bücher: </div>
-    <ul class="grid grid-cols-2 md:grid-cols-3">
-    {#await data.streamed.similarBooks}
-        Loading...
-        {:then similarBooks}
-            {#each similarBooks as similarbook}
-                <li class="my-2"><Book book={{id: similarbook.id,title: similarbook.title,img: similarbook.img}} /></li>
-            {/each}
-    {/await}
-    </ul>
+<div class="w-full flex flex-row bg-gray-100 justify-center">
+    <img class="py-10" width=400 alt="{title}" src="{img}" />
 </div>
+
+
+    <div class="bg-yellow-100">
+        <h2 class=" bg-yellow-300 p-2">{book.title}</h2>
+        <div class="p-5">
+            {@html desc}
+
+        </div>
+        <div class="my-5 pb-10 flex flex-col items-center ">
+            <a href="{book.link}" target="_blank">
+                <Button class="text-lg" color="green">{book.title} 🛒</Button>
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-teal-100">
+        <div class="p-2 w-full mt-5  bg-teal-300 text-lg font-bold text-center">Stichwörter: </div>
+        <div class="p-5 flex flex-row justify-center ">
+            {#await data.streamed.hashtags}
+            Loading...
+            {:then hashtags}
+                {#each hashtags as hashtag}
+                    #{hashtag.tag} {@html spc}
+                {/each}
+            {/await}
+        </div>        
+    </div>
+
+    <div class="bg-teal-100">
+        <div class="p-2 w-full mt-5  bg-teal-300 text-lg font-bold text-center">alle Kategorien: </div>
+        <div class="p-5 flex flex-row justify-center ">
+            {#await data.streamed.bookcategories}
+            Loading...
+            {:then categories}
+                <ul>
+                    {#each categories as category}
+    
+                        <li>{category.name}</li>
+                    {/each}
+                </ul>
+            {/await}
+        </div>        
+    </div>
+        
+
+
+    <div class="bg-lime-100">
+        <div class="w-full my-5 bg-lime-300 p-3 text-lg font-bold text-center">Ähnliche Bücher: </div>
+        <ul class="grid grid-cols-2 md:grid-cols-3">
+        {#await data.streamed.similarBooks}
+            Loading...
+            {:then similarBooks}
+                {#each similarBooks as similarbook}
+                    <li class="my-2"><Book book={{id: similarbook.id,title: similarbook.title,img: similarbook.img}} /></li>
+                {/each}
+        {/await}
+        </ul>
+    </div>
     
     

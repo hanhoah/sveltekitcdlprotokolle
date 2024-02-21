@@ -5,7 +5,7 @@
     // console.log(typeof(book.id));
 </script>
 
-<div class="bg-gray-200 w-full h-[300px] ">
+<div class=" w-full h-[300px] ">
 
     <div  class=" pt-2 overflow-auto">
             <a href={`/buecher/${book.id}`}>

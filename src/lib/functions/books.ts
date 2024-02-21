@@ -40,3 +40,13 @@ export async function getBooksFromIds(ids: number[]): Promise<Book[] | null> {
 		return data;
 	}
 }
+
+export async function getBookCategories(): Promise<string[] | null> {
+	const { data, error: categories_err } = await supabase.from('categories').select();
+	if (categories_err) {
+		console.log('Fehler in der Abfrage');
+		return null;
+	} else {
+		return data;
+	}
+}

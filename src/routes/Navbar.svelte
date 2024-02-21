@@ -1,6 +1,6 @@
 <!-- mobile navbar -->
 <div class="md:hidden">
-  <div class="navbar">
+  <div class="navbar-mobile">
     <div class="">
       <a href="/"><Logo /></a>
       
@@ -23,16 +23,21 @@
 
 <!-- desktop navbar-->
 <div class="hidden md:block">
-  <a href="/"><Logo /></a>
-  <div id="desktopmenu" class="flex flex-row bg-slate-300 w-full space-x-5">
 
-    <a href="/buecher">Bücher</a>
-    <a  href="/">CDL Protokolle</a>
-    <a  href="/">Leseproben</a>
+  <div class="navbar-desktop space-x-20">
+    <a class="w-full" href="/"><Logo /></a>
+    <div id="desktopmenu" class="flex flex-row w-full space-x-5">
+      
+        <a class="menuitem" href="/buecher">Bücher</a>
+        <a class="menuitem"  href="/">CDL Protokolle</a>
+        <a class="menuitem"  href="/">Leseproben</a>
+
+    </div>
+  
   </div>
 
-</div>
 
+</div>  
 
 
 <script>
@@ -46,7 +51,9 @@ let toggleMenu = ()=>{
 
 <style>
 
-
+.menuitem{
+  @apply hover:underline hover:font-bold
+}
 
   ul#desktopmenu li{
     display: inline;
@@ -55,8 +62,12 @@ let toggleMenu = ()=>{
   a:active{
     @apply underline decoration-zinc-800 bg-green-300 ;
   }
-  .navbar{
+  .navbar-mobile{
     @apply bg-lime-200 flex justify-between items-center relative w-full 
+  }
+
+  .navbar-desktop{
+    @apply bg-lime-200 md:flex justify-between items-center relative w-full hidden 
   }
 
   nav{
