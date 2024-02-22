@@ -10,9 +10,14 @@ console.log('catid ist ', catid);
     
 </script>
   
+
+<div class="px-2 m-2 border-2 ">
     <h2>
         Bücher der Kategorie  {data.categories[catid].name}
     </h2>
+  
+  </div>
+  
     <ul class="grid grid-cols-2 md:grid-cols-3 bg-gray-100">
         {#await data.streamed.books}
         <div class="loading">
@@ -26,6 +31,5 @@ console.log('catid ist ', catid);
         {/await}
     </ul>
 
-    <BuchKategorien kategorien={data.data.bookcategories} />
 
   

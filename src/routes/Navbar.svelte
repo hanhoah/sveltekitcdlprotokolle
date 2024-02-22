@@ -8,7 +8,7 @@
     <div class="dropdownmenu">
       <nav class:open={isMenuOpen}><ul>
         <li><a on:click={toggleMenu} href="/buecher">Bücher</a></li>
-        <li><a on:click={toggleMenu} href="/">CDL Protokolle</a></li>
+        <li><a on:click={toggleMenu} href="/cdl-protokolle">CDL Protokolle</a></li>
         <li><a on:click={toggleMenu}  href="/">Leseproben</a></li>
       </ul></nav>
     </div>
@@ -29,7 +29,7 @@
     <div id="desktopmenu" class="flex flex-row w-full space-x-5">
       
         <a class="menuitem" href="/buecher">Bücher</a>
-        <a class="menuitem"  href="/">CDL Protokolle</a>
+        <a class="menuitem"  href="/cdl-protokolle">CDL Protokolle</a>
         <a class="menuitem"  href="/">Leseproben</a>
 
     </div>
