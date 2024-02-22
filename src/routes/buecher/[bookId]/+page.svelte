@@ -3,13 +3,13 @@
     import { getImg } from '$lib/functions/getImg.ts';
     import { Spinner } from 'flowbite-svelte';
     import Book from '../book.svelte';
-    import BuchKategorien from '../BuchKategorien.svelte';
 
     export let data;
     $: book = data.data
     $: title = book.title;
     $: img = getImg(book.img[0], book.id)
     $: desc = book.desc;
+
     const spc = '&#x20;'
 </script>
 
@@ -25,9 +25,19 @@
 
         </div>
         <div class="my-5 pb-10 flex flex-col items-center ">
-            <a href="{book.link}" target="_blank">
-                <Button class="text-lg" color="green">{book.title} 🛒</Button>
+            {#await data.streamed.links}
+            <div class="loading">
+                <Spinner />
+                Loading Shops ...
+            </div>
+            {:then links} 
+            {#each links as link }
+            <a href="{link.link}" target="_blank">
+                <Button class="text-lg mt-3" color="green">{link.label} 🛒</Button>
             </a>
+            {/each}
+                
+            {/await}
         </div>
     </div>
 

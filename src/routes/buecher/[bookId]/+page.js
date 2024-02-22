@@ -1,9 +1,5 @@
-import { getBookDetails } from './bookDetails';
-import {
-	getBookCategories,
-	getBookIdsFromHashtagIds,
-	getBooksFromIds
-} from '$lib/functions/books.ts';
+import { getBookDetails, getBooklinks } from './bookDetails.ts';
+import { getBookIdsFromHashtagIds, getBooksFromIds } from '$lib/functions/books.ts';
 import { getHashtagIds, hashtagIdsToText } from '$lib/functions/getHashtags.ts';
 
 export async function load({ params }) {
@@ -21,9 +17,9 @@ export async function load({ params }) {
 	return {
 		data,
 		streamed: {
+			links: getBooklinks(buchid),
 			similarBooks: getBooksFromIds(booklist),
-			hashtags: hashtagIdsToText(hashtagIds),
-			bookcategories: getBookCategories()
+			hashtags: hashtagIdsToText(hashtagIds)
 		}
 	};
 }
