@@ -13,6 +13,17 @@
 			}
 		},
 		{
+			"src": "/cdl-protokolle",
+			"dest": "/cdl-protokolle/"
+		},
+		{
+			"src": "/cdl-protokolle/",
+			"status": 308,
+			"headers": {
+				"Location": "/cdl-protokolle"
+			}
+		},
+		{
 			"src": "/test",
 			"dest": "/test/"
 		},
@@ -285,6 +296,9 @@
 		},
 		"buecher.html": {
 			"path": "buecher"
+		},
+		"cdl-protokolle.html": {
+			"path": "cdl-protokolle"
 		},
 		"test.html": {
 			"path": "test"
