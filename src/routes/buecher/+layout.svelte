@@ -2,6 +2,7 @@
     export let data
     console.log('data', data);
     import { Button } from 'flowbite-svelte';
+    import { inject } from '@vercel/analytics'
 </script>
 
 <div>
