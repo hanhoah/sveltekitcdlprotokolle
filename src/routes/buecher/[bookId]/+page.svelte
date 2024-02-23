@@ -3,6 +3,7 @@
     import { getImg } from '$lib/functions/getImg.ts';
     import { Spinner } from 'flowbite-svelte';
     import Book from '../book.svelte';
+    import { Badge } from 'flowbite-svelte';
 
     export let data;
     $: book = data.data
@@ -51,7 +52,7 @@
                 </div>
                 {:then hashtags}
                     {#each hashtags as hashtag}
-                        #{hashtag.tag} {@html spc}
+                        <Badge class="mx-3" border color="yellow">#{hashtag.tag}</Badge>
                     {/each}
             {/await}
         </div>        

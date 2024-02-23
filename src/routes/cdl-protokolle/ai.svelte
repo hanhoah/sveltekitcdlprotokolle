@@ -4,7 +4,38 @@
 
 </script>
 <div>
-    Die erste Einnahme besteht aus drei aktivierten Tropfen (im Verhältnis 1:1), zu denen man 200ml Wasser gibt. Am ersten Behandlungstag nehmen Sie diese vor dem Schlafen ein. Am zweiten Tag nehmen Sie eine Stunde nach dem Frühstück drei weitere aktivierte Tropfen mit 200ml Wasser ein und wiederum drei weitere aktivierte Tropfen mit 200ml Wasser vor dem Schlafengehen. Am dritten Tag nehmen Sie die zwei vorherigen Dosen nach dem Frühstück und vor dem Schlafengehen ein und fügen eine weitere Dosis eine Stunde nach dem Essen
-    hinzu. Danach geht es mit den gleichen drei Dosen weiter, eine Stunde nach dem Frühstück, dem Essen und vor dem Schlafengehen, solange die Behandlung notwendig ist und bis Sie sich wieder erholt haben.
+<h2>
+    AI Protokoll (Anti Impf Protokoll)
+
+</h2>
+
+
+
+<ul>
+    <li>
+        <a target="_blank" href="https://t.me/cdl_protokolle/14896">👉 Allgemeine Empfehlungen</a>
+    </li>
+    <li>
+        <a target="_blank" href="https://t.me/cdl_protokolle/14898">👉 VOR der Impfung</a>
+    </li>
+    <li>
+        <a target="_blank" href="https://t.me/cdl_protokolle/14903">👉 DIREKT NACH der Impfung</a>
+    </li>
+    <li>
+        <a target="_blank" href="https://t.me/cdl_protokolle/14909">👉 Tägliche Pflege 3-6 Monate NACH der Impfung</a>
+    </li>
+    <li>
+        <a target="_blank" href="https://t.me/cdl_protokolle/14915">👉 Ergänzende Therapien</a>
+    </li>
+    <li>
+        <a target="_blank" href="https://t.me/cdl_protokolle/14793">👉 AI Protokoll als PDF</a>
+    </li>
+</ul>
+
 </div>
-<Fraguns link="https://t.me/cdl_protokolle/8" />
+<Fraguns link="https://t.me/cdl_protokolle/14923" />
+<style>
+    div{
+        @apply my-5
+    }
+</style>

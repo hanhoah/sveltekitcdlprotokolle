@@ -1,5 +1,6 @@
 function noop() {
 }
+const identity = (x) => x;
 function is_promise(value) {
   return !!value && (typeof value === "object" || typeof value === "function") && typeof /** @type {any} */
   value.then === "function";
@@ -273,12 +274,13 @@ export {
   each as h,
   add_attribute as i,
   is_promise as j,
-  compute_rest_props as k,
-  escape_attribute_value as l,
+  identity as k,
+  compute_rest_props as l,
   missing_component as m,
   noop as n,
   onDestroy as o,
-  safe_not_equal as p,
+  escape_attribute_value as p,
+  safe_not_equal as q,
   setContext as s,
   validate_component as v
 };

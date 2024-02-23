@@ -29,7 +29,7 @@
 	import Z from './z.svelte';
   </script>
   
-  <Accordion>
+  <Accordion activeClass="bg-white">
     <AccordionItem>
         <span slot="header">Protokoll A: Wie Amateur, für alle Anfänger</span>
         <div>

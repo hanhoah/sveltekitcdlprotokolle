@@ -8,3 +8,8 @@
     hinzu. Danach geht es mit den gleichen drei Dosen weiter, eine Stunde nach dem Frühstück, dem Essen und vor dem Schlafengehen, solange die Behandlung notwendig ist und bis Sie sich wieder erholt haben.
 </div>
 <Fraguns link="https://t.me/cdl_protokolle/8" />
+<style>
+    div{
+        @apply my-5
+    }
+</style>

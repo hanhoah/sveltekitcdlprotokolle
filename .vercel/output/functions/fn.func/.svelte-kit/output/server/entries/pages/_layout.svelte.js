@@ -1777,7 +1777,7 @@ const Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let $page, $$unsubscribe_page;
   $$unsubscribe_page = subscribe(page, (value) => $page = value);
   $$unsubscribe_page();
-  return `${$$result.head += `<!-- HEAD_svelte-2l12l8_START -->${$$result.title = `<title>${escape($page.data.title || "CDL Protokolle ")}</title>`, ""}<!-- HEAD_svelte-2l12l8_END -->`, ""}  <div class="bg-white max-w-screen-md m-auto md:block justify-center items-center"><div class="w-full mx-auto px-"> ${validate_component(Navbar, "Navbar").$$render($$result, {}, {}, {})} <div class=""></div> ${slots.default ? slots.default({}) : ``}</div> ${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})}</div> `;
+  return `${$$result.head += `<!-- HEAD_svelte-2l12l8_START -->${$$result.title = `<title>${escape($page.data.title || "CDL Protokolle ")}</title>`, ""}<!-- HEAD_svelte-2l12l8_END -->`, ""}  <div class="bg-white max-w-screen-md m-auto md:block justify-center items-center text-black"><div class="w-full mx-auto px-"> ${validate_component(Navbar, "Navbar").$$render($$result, {}, {}, {})} <div class=""></div> ${slots.default ? slots.default({}) : ``}</div> ${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})}</div>  `;
 });
 export {
   Layout as default
