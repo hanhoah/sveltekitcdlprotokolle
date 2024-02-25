@@ -17,6 +17,7 @@
 	import N from './n.svelte';
 	import O from './o.svelte';
 	import P from './p.svelte';
+	import Pzwei from './pzwei.svelte';
 	import Q from './q.svelte';
 	import R from './r.svelte';
 	import S from './s.svelte';
@@ -156,6 +157,15 @@
         <P />
         </div>
     </AccordionItem>
+    <AccordionItem>
+        <span slot="header">
+    Protokoll P (zweiter Monat): Wie Parasiten
+            
+        </span>
+        <div>
+        <Pzwei />
+        </div>
+    </AccordionItem>    
     <AccordionItem>
         <span slot="header">
     Protokoll Q: Wie Quaddel und Brandwunden
