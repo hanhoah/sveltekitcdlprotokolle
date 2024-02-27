@@ -3,6 +3,7 @@
 	import Footer from "./Footer.svelte";
   import { page } from "$app/stores";
   import Navbar from "./Navbar.svelte";
+  import { inject } from '@vercel/analytics'
   </script>
 
 <svelte:head>
@@ -20,10 +21,7 @@
     <Footer />
   </div>
 
-  <style>
 
-  </style>
-  
 
   <!--
 

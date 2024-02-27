@@ -8,3 +8,10 @@ h1 {
 h2 {
 	@apply text-lg font-bold;
 }
+p {
+	@apply my-5;
+}
+
+#desc ul {
+	@apply p-3 list-disc ml-5;
+}

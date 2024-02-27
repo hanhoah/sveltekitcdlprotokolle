@@ -2,10 +2,8 @@
 <script>
     import Book from '../../book.svelte';
     import { Spinner } from 'flowbite-svelte';
-    import BuchKategorien from '../../BuchKategorien.svelte';
     export let data;
     $: catid = parseInt(data.data.catid)-1
-console.log('catid ist ', catid);
 
     
 </script>

@@ -9,7 +9,7 @@
       <nav class:open={isMenuOpen}><ul>
         <li><a on:click={toggleMenu} href="/buecher">Bücher</a></li>
         <li><a on:click={toggleMenu} href="/cdl-protokolle">CDL Protokolle</a></li>
-        <li><a on:click={toggleMenu}  href="/">Leseproben</a></li>
+        <li><a on:click={toggleMenu}  href="/produkte">Produkte</a></li>
       </ul></nav>
     </div>
     <button on:click={toggleMenu} class="burger">
@@ -23,22 +23,15 @@
 
 <!-- desktop navbar-->
 <div class="hidden md:block">
-
   <div class="navbar-desktop space-x-20">
     <a class="w-full" href="/"><Logo /></a>
     <div id="desktopmenu" class="flex flex-row w-full space-x-5">
-      
         <a class="menuitem" href="/buecher">Bücher</a>
         <a class="menuitem"  href="/cdl-protokolle">CDL Protokolle</a>
-        <a class="menuitem"  href="/">Leseproben</a>
-
+        <a class="menuitem"  href="/produkte">Produkte</a>
     </div>
-  
   </div>
-
-
 </div>  
-
 
 <script>
 import Logo from "./Logo.svelte";

@@ -1,6 +1,6 @@
 <script>
     import { Button } from 'flowbite-svelte';
-    import { getImg } from '$lib/functions/getImg.ts';
+    import { getImg } from '$lib/functions/getBookImg.ts';
     import { Spinner } from 'flowbite-svelte';
     import Book from '../book.svelte';
     import { Badge } from 'flowbite-svelte';
@@ -8,7 +8,7 @@
     export let data;
     $: book = data.data
     $: title = book.title;
-    $: img = getImg(book.img[0], book.id)
+    $: img = getImg(book.img[0], book.id, "books")
     $: desc = book.desc;
 
     const spc = '&#x20;'
