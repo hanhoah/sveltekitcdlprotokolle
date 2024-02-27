@@ -24,6 +24,17 @@
 			}
 		},
 		{
+			"src": "/produkte",
+			"dest": "/produkte/"
+		},
+		{
+			"src": "/produkte/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte"
+			}
+		},
+		{
 			"src": "/test",
 			"dest": "/test/"
 		},
@@ -277,6 +288,204 @@
 			}
 		},
 		{
+			"src": "/produkte/cat/5",
+			"dest": "/produkte/cat/5/"
+		},
+		{
+			"src": "/produkte/cat/5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/5"
+			}
+		},
+		{
+			"src": "/produkte/cat/6",
+			"dest": "/produkte/cat/6/"
+		},
+		{
+			"src": "/produkte/cat/6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/6"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ay-2",
+			"dest": "/produkte/gvk-ay-2/"
+		},
+		{
+			"src": "/produkte/gvk-ay-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ay-2"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ay-4",
+			"dest": "/produkte/gvk-ay-4/"
+		},
+		{
+			"src": "/produkte/gvk-ay-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ay-4"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ay-5",
+			"dest": "/produkte/gvk-ay-5/"
+		},
+		{
+			"src": "/produkte/gvk-ay-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ay-5"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ay-6",
+			"dest": "/produkte/gvk-ay-6/"
+		},
+		{
+			"src": "/produkte/gvk-ay-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ay-6"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ay-7",
+			"dest": "/produkte/gvk-ay-7/"
+		},
+		{
+			"src": "/produkte/gvk-ay-7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ay-7"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ay-8",
+			"dest": "/produkte/gvk-ay-8/"
+		},
+		{
+			"src": "/produkte/gvk-ay-8/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ay-8"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ay-10",
+			"dest": "/produkte/gvk-ay-10/"
+		},
+		{
+			"src": "/produkte/gvk-ay-10/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ay-10"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ay-9",
+			"dest": "/produkte/gvk-ay-9/"
+		},
+		{
+			"src": "/produkte/gvk-ay-9/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ay-9"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ap-1",
+			"dest": "/produkte/gvk-ap-1/"
+		},
+		{
+			"src": "/produkte/gvk-ap-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ap-1"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ay-1",
+			"dest": "/produkte/gvk-ay-1/"
+		},
+		{
+			"src": "/produkte/gvk-ay-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ay-1"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ay-3",
+			"dest": "/produkte/gvk-ay-3/"
+		},
+		{
+			"src": "/produkte/gvk-ay-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ay-3"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ay-11",
+			"dest": "/produkte/gvk-ay-11/"
+		},
+		{
+			"src": "/produkte/gvk-ay-11/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ay-11"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ap-2",
+			"dest": "/produkte/gvk-ap-2/"
+		},
+		{
+			"src": "/produkte/gvk-ap-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ap-2"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ap-5",
+			"dest": "/produkte/gvk-ap-5/"
+		},
+		{
+			"src": "/produkte/gvk-ap-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ap-5"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ap-4",
+			"dest": "/produkte/gvk-ap-4/"
+		},
+		{
+			"src": "/produkte/gvk-ap-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ap-4"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ap-3",
+			"dest": "/produkte/gvk-ap-3/"
+		},
+		{
+			"src": "/produkte/gvk-ap-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ap-3"
+			}
+		},
+		{
 			"src": "/_app/immutable/.+",
 			"headers": {
 				"cache-control": "public, immutable, max-age=31536000"
@@ -299,6 +508,9 @@
 		},
 		"cdl-protokolle.html": {
 			"path": "cdl-protokolle"
+		},
+		"produkte.html": {
+			"path": "produkte"
 		},
 		"test.html": {
 			"path": "test"
@@ -368,6 +580,60 @@
 		},
 		"buecher/24.html": {
 			"path": "buecher/24"
+		},
+		"produkte/cat/5.html": {
+			"path": "produkte/cat/5"
+		},
+		"produkte/cat/6.html": {
+			"path": "produkte/cat/6"
+		},
+		"produkte/gvk-ay-2.html": {
+			"path": "produkte/gvk-ay-2"
+		},
+		"produkte/gvk-ay-4.html": {
+			"path": "produkte/gvk-ay-4"
+		},
+		"produkte/gvk-ay-5.html": {
+			"path": "produkte/gvk-ay-5"
+		},
+		"produkte/gvk-ay-6.html": {
+			"path": "produkte/gvk-ay-6"
+		},
+		"produkte/gvk-ay-7.html": {
+			"path": "produkte/gvk-ay-7"
+		},
+		"produkte/gvk-ay-8.html": {
+			"path": "produkte/gvk-ay-8"
+		},
+		"produkte/gvk-ay-10.html": {
+			"path": "produkte/gvk-ay-10"
+		},
+		"produkte/gvk-ay-9.html": {
+			"path": "produkte/gvk-ay-9"
+		},
+		"produkte/gvk-ap-1.html": {
+			"path": "produkte/gvk-ap-1"
+		},
+		"produkte/gvk-ay-1.html": {
+			"path": "produkte/gvk-ay-1"
+		},
+		"produkte/gvk-ay-3.html": {
+			"path": "produkte/gvk-ay-3"
+		},
+		"produkte/gvk-ay-11.html": {
+			"path": "produkte/gvk-ay-11"
+		},
+		"produkte/gvk-ap-2.html": {
+			"path": "produkte/gvk-ap-2"
+		},
+		"produkte/gvk-ap-5.html": {
+			"path": "produkte/gvk-ap-5"
+		},
+		"produkte/gvk-ap-4.html": {
+			"path": "produkte/gvk-ap-4"
+		},
+		"produkte/gvk-ap-3.html": {
+			"path": "produkte/gvk-ap-3"
 		}
 	}
 }

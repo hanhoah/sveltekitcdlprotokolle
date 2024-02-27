@@ -12,7 +12,7 @@
                 <img class="mx-auto" width="150" src="{getProductImg(product.img, product.id, "products")}" alt="{product.name}" />
             </a>
             <div class="p-3">
-                <a href={`/products/${product.id}`}>
+                <a href={`/produkte/${product.id}`}>
                 
                     {product.name}
                 </a>
