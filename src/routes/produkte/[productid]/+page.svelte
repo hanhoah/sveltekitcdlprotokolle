@@ -3,18 +3,17 @@
     import { getProductImg } from '$lib/functions/getProductImg.ts';
     import { Spinner } from 'flowbite-svelte';
     import Product from '../product.svelte';
-    import { Badge } from 'flowbite-svelte';
-
     export let data;
 
-    console.log('data in +page ist ', data);
-    $: pid = data.data.id
+    // console.log('data in +page ist ', data);
+    console.log('***************');
     $: img = getProductImg(data.data.image) 
     $: name = data.data.name
     $: desc = data.data.description
     $: link = data.data.link
     let title = "test"
     const spc = '&#x20;'
+
 </script>
 
 <div class="w-full flex flex-row bg-gray-100 justify-center">
@@ -44,8 +43,19 @@
     <div class="bg-lime-100">
         <div class="w-full my-5 bg-lime-300 p-3 text-lg font-bold text-center">Ähnliche Produkte: </div>
         <ul class="grid grid-cols-2 md:grid-cols-3">
+            {#await data.streamed.similarProducts}
+            <div class="loading">
+                <Spinner />
+                Loading similar Products ...
+            </div>
+                {:then similarProducts}
+                    {#each similarProducts as similarProduct}
+                            <li class="my-2"><Product product={{id: similarProduct.id,name: similarProduct.name,img: similarProduct.image}} /></li>
+                    {/each}
+            {/await}
+            </ul>    
 
-        </ul>
+
     </div>
     
     
