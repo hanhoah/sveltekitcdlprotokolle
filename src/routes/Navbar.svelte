@@ -10,7 +10,10 @@
         <li><a on:click={toggleMenu} href="/buecher">Bücher</a></li>
         <li><a on:click={toggleMenu} href="/cdl-protokolle">CDL Protokolle</a></li>
         <li><a on:click={toggleMenu}  href="/produkte">Produkte</a></li>
-        <li><a on:click={toggleMenu}  href="/gai-goi-vermittlung">gg</a></li>
+<!--
+  <li><a on:click={toggleMenu}  href="/gai-goi-vermittlung">gg</a></li>
+
+-->
       </ul></nav>
     </div>
     <button on:click={toggleMenu} class="burger">
@@ -29,7 +32,7 @@
     <div id="desktopmenu" class="flex flex-row w-full space-x-5">
         <a class="menuitem" href="/buecher">Bücher</a>
         <a class="menuitem"  href="/cdl-protokolle">CDL Protokolle</a>
-        <a class="menuitem"  href="/gai-goi-vermittlung">gg</a>
+        <a class="menuitem"  href="/produkte">Produkte</a>
     </div>
   </div>
 </div>  
