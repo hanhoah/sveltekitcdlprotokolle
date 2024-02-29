@@ -24,6 +24,17 @@
 			}
 		},
 		{
+			"src": "/gai-goi-vermittlung",
+			"dest": "/gai-goi-vermittlung/"
+		},
+		{
+			"src": "/gai-goi-vermittlung/",
+			"status": 308,
+			"headers": {
+				"Location": "/gai-goi-vermittlung"
+			}
+		},
+		{
 			"src": "/produkte",
 			"dest": "/produkte/"
 		},
@@ -530,6 +541,9 @@
 		},
 		"cdl-protokolle.html": {
 			"path": "cdl-protokolle"
+		},
+		"gai-goi-vermittlung.html": {
+			"path": "gai-goi-vermittlung"
 		},
 		"produkte.html": {
 			"path": "produkte"
