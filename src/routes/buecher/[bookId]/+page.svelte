@@ -20,7 +20,7 @@
 
 
     <div class="bg-yellow-100">
-        <h2 class=" bg-yellow-300 p-2">{book.title}</h2>
+        <h2 class=" bg-yellow-300 p-2">{title}</h2>
         <div class="p-5">
             {@html desc}
 
@@ -39,6 +39,16 @@
             {/each}
                 
             {/await}
+            <a href="https://www.amazon.de/gp/search?ie=UTF8&tag=jumex_online-21&linkCode=ur2&linkId=470bf27aa1feb315de9cb5f18b114f2f&camp=1638&creative=6742&index=books&keywords={title}" target="_blank">
+                <Button class="text-lg mt-3" color="light"> <img width="100" src="/images/logos/Amazon.de-Logo.svg.png" /></Button>
+                
+            </a>
+            
+
+            <a href="https://www.ebay.de/sch/i.html?_from=R40&_trksid=p4432023.m570.l1313&_nkw={title}&_sacat=0" target="_blank">
+                <Button class="text-lg mt-3" color="light"> <img width="100" src="/images/logos/EBay_logo.png" /></Button>
+            </a>
+
         </div>
     </div>
 

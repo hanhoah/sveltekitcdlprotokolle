@@ -1,6 +1,7 @@
 import { c as create_ssr_component, o as onDestroy, a as spread, e as escape_object, b as createEventDispatcher, v as validate_component, d as subscribe, f as escape } from "../../chunks/ssr.js";
 import { p as page } from "../../chunks/stores.js";
 import "@vercel/analytics";
+import "iconify-icon";
 const matchIconName = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const stringToIcon = (value, validate, allowSimpleName, provider = "") => {
   const colonSeparated = value.split(":");

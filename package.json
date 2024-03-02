@@ -44,6 +44,7 @@
 	"dependencies": {
 		"@supabase/supabase-js": "^2.39.3",
 		"@vercel/analytics": "^1.2.2",
+		"iconify-icon": "^2.0.0",
 		"svelte-i18n": "^4.0.0"
 	}
 }
