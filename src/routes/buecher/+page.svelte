@@ -1,5 +1,6 @@
 <script>
   import Book from './book.svelte';
+  import { Spinner } from 'flowbite-svelte';
   export let data;
 </script>
 
@@ -8,7 +9,7 @@
 </div>
   <ul class="grid grid-cols-2 md:grid-cols-3">
     {#await data.streamed.books}
-      Loading books ...
+    <Spinner /> loading books ...
       {:then books} 
         {#each books as book}
         <li class="my-2"><Book book={{id: book.id,title: book.title,img: book.img}} /></li>

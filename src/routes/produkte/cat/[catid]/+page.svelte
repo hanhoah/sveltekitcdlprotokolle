@@ -5,7 +5,6 @@
     export let data;
     $: catid = data.data.catid
 
-    
 </script>
   
 
@@ -16,10 +15,12 @@
 </div>
     <ul class="grid grid-cols-2 md:grid-cols-3">
       {#await data.streamed.products}
-        Loading Products ...
+        <Spinner />
+          Lade Produkte ...
         {:then products} 
           {#each products as product}
           <li class="my-2"><Product product={{id: product.id,name: product.name,img: product.image}} /></li>
           {/each}
       {/await}
     </ul>
+
