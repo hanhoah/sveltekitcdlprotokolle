@@ -5,6 +5,19 @@ export async function load({ params }) {
 	let select = `name, image, description, link, products_categories(category_id)`;
 	let { data } = await supabase.from('products').select(select).eq('id', pid).limit(1).single();
 
+	let name = data.name;
+
+	async function getSearchTerm(name) {
+		let tempArray = name.split(' ');
+		// für ein gutes Ergebnis bei der Amazon und Ebay Suche werden nur die ersten 3 Wörter von name genutzt
+		tempArray = tempArray.slice(0, 3);
+		let searchTerm = tempArray.join(' ');
+		// console.log('Ausgabe function getSearchTerm(name): ', searchTerm);
+		return searchTerm;
+	}
+
+	let searchterm = await getSearchTerm(name);
+
 	// get Similar Products
 	// Kategorie Id
 	let kid = data.products_categories[0].category_id;
@@ -33,6 +46,7 @@ export async function load({ params }) {
 
 	return {
 		data,
+		searchterm,
 		streamed: {
 			similarProducts: getProductsFromIds(spids)
 		}

@@ -21,9 +21,7 @@ export async function getProductIdsFromCatId(catId: number): Promise<string[]> {
 	if (error) {
 		console.log('Fehler beim Abrufen der ProductIds(catId)');
 	} else {
-		console.log('Keine Fehler');
 		catProductIds = [...new Set(productIds.map((row) => row.product_id))];
-		console.log('catProductIds ', catProductIds);
 	}
 	return catProductIds;
 }
