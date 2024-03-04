@@ -420,17 +420,6 @@
 			}
 		},
 		{
-			"src": "/produkte/cat/5",
-			"dest": "/produkte/cat/5/"
-		},
-		{
-			"src": "/produkte/cat/5/",
-			"status": 308,
-			"headers": {
-				"Location": "/produkte/cat/5"
-			}
-		},
-		{
 			"src": "/produkte/cat/6",
 			"dest": "/produkte/cat/6/"
 		},
@@ -439,6 +428,17 @@
 			"status": 308,
 			"headers": {
 				"Location": "/produkte/cat/6"
+			}
+		},
+		{
+			"src": "/produkte/cat/5",
+			"dest": "/produkte/cat/5/"
+		},
+		{
+			"src": "/produkte/cat/5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/5"
 			}
 		},
 		{
@@ -497,14 +497,25 @@
 			}
 		},
 		{
-			"src": "/produkte/cat/12",
-			"dest": "/produkte/cat/12/"
+			"src": "/produkte/cat/29",
+			"dest": "/produkte/cat/29/"
 		},
 		{
-			"src": "/produkte/cat/12/",
+			"src": "/produkte/cat/29/",
 			"status": 308,
 			"headers": {
-				"Location": "/produkte/cat/12"
+				"Location": "/produkte/cat/29"
+			}
+		},
+		{
+			"src": "/produkte/cat/27",
+			"dest": "/produkte/cat/27/"
+		},
+		{
+			"src": "/produkte/cat/27/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/27"
 			}
 		},
 		{
@@ -519,6 +530,28 @@
 			}
 		},
 		{
+			"src": "/produkte/cat/28",
+			"dest": "/produkte/cat/28/"
+		},
+		{
+			"src": "/produkte/cat/28/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/28"
+			}
+		},
+		{
+			"src": "/produkte/cat/24",
+			"dest": "/produkte/cat/24/"
+		},
+		{
+			"src": "/produkte/cat/24/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/24"
+			}
+		},
+		{
 			"src": "/produkte/cat/14",
 			"dest": "/produkte/cat/14/"
 		},
@@ -527,6 +560,17 @@
 			"status": 308,
 			"headers": {
 				"Location": "/produkte/cat/14"
+			}
+		},
+		{
+			"src": "/produkte/cat/12",
+			"dest": "/produkte/cat/12/"
+		},
+		{
+			"src": "/produkte/cat/12/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/12"
 			}
 		},
 		{
@@ -596,6 +640,17 @@
 			}
 		},
 		{
+			"src": "/produkte/cat/26",
+			"dest": "/produkte/cat/26/"
+		},
+		{
+			"src": "/produkte/cat/26/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/26"
+			}
+		},
+		{
 			"src": "/produkte/cat/21",
 			"dest": "/produkte/cat/21/"
 		},
@@ -626,17 +681,6 @@
 			"status": 308,
 			"headers": {
 				"Location": "/produkte/cat/23"
-			}
-		},
-		{
-			"src": "/produkte/cat/24",
-			"dest": "/produkte/cat/24/"
-		},
-		{
-			"src": "/produkte/cat/24/",
-			"status": 308,
-			"headers": {
-				"Location": "/produkte/cat/24"
 			}
 		},
 		{
@@ -914,11 +958,11 @@
 		"buecher/37.html": {
 			"path": "buecher/37"
 		},
-		"produkte/cat/5.html": {
-			"path": "produkte/cat/5"
-		},
 		"produkte/cat/6.html": {
 			"path": "produkte/cat/6"
+		},
+		"produkte/cat/5.html": {
+			"path": "produkte/cat/5"
 		},
 		"produkte/cat/7.html": {
 			"path": "produkte/cat/7"
@@ -935,14 +979,26 @@
 		"produkte/cat/11.html": {
 			"path": "produkte/cat/11"
 		},
-		"produkte/cat/12.html": {
-			"path": "produkte/cat/12"
+		"produkte/cat/29.html": {
+			"path": "produkte/cat/29"
+		},
+		"produkte/cat/27.html": {
+			"path": "produkte/cat/27"
 		},
 		"produkte/cat/13.html": {
 			"path": "produkte/cat/13"
 		},
+		"produkte/cat/28.html": {
+			"path": "produkte/cat/28"
+		},
+		"produkte/cat/24.html": {
+			"path": "produkte/cat/24"
+		},
 		"produkte/cat/14.html": {
 			"path": "produkte/cat/14"
+		},
+		"produkte/cat/12.html": {
+			"path": "produkte/cat/12"
 		},
 		"produkte/cat/15.html": {
 			"path": "produkte/cat/15"
@@ -962,6 +1018,9 @@
 		"produkte/cat/20.html": {
 			"path": "produkte/cat/20"
 		},
+		"produkte/cat/26.html": {
+			"path": "produkte/cat/26"
+		},
 		"produkte/cat/21.html": {
 			"path": "produkte/cat/21"
 		},
@@ -970,9 +1029,6 @@
 		},
 		"produkte/cat/23.html": {
 			"path": "produkte/cat/23"
-		},
-		"produkte/cat/24.html": {
-			"path": "produkte/cat/24"
 		},
 		"produkte/cat/25.html": {
 			"path": "produkte/cat/25"

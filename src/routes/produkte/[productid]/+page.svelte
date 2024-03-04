@@ -3,7 +3,6 @@
     import { getProductImg } from '$lib/functions/getProductImg.ts';
     import { Spinner } from 'flowbite-svelte';
     import Product from '../product.svelte';
-	import P from '../../cdl-protokolle/p.svelte';
     export let data;
 
     // console.log('data in +page ist ', data);
@@ -37,7 +36,7 @@
         </div>
         <div id="links" class="w-5/6 m-auto bg-zinc-50 border-zinc-200 border-2 p-5">
 
-            <div class="my-5 pb-10 flex flex-col items-center ">
+            <div class="my-5 pb-10 flex flex-col items-center space-y-5">
                 <a href="{link}" target="_blank">
                     <Button class="text-lg mt-3" color="green">{name} 🛒</Button>
                 </a>
