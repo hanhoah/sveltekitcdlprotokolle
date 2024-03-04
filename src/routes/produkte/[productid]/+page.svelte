@@ -3,6 +3,7 @@
     import { getProductImg } from '$lib/functions/getProductImg.ts';
     import { Spinner } from 'flowbite-svelte';
     import Product from '../product.svelte';
+    import { Badge } from 'flowbite-svelte';
     export let data;
 
     // console.log('data in +page ist ', data);
@@ -32,7 +33,8 @@
         <h2 class=" bg-yellow-300 p-2">{name}</h2>
         <div id="desc" class="p-5">
             {@html desc}
-
+            <Badge large color="green">Green</Badge>
+            <Badge large color="yellow">Yellow</Badge>
         </div>
         <div id="links" class="w-5/6 m-auto bg-zinc-50 border-zinc-200 border-2 p-5">
 

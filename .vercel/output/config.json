@@ -475,17 +475,6 @@
 			}
 		},
 		{
-			"src": "/produkte/cat/10",
-			"dest": "/produkte/cat/10/"
-		},
-		{
-			"src": "/produkte/cat/10/",
-			"status": 308,
-			"headers": {
-				"Location": "/produkte/cat/10"
-			}
-		},
-		{
 			"src": "/produkte/cat/11",
 			"dest": "/produkte/cat/11/"
 		},
@@ -1060,9 +1049,6 @@
 		},
 		"produkte/cat/9.html": {
 			"path": "produkte/cat/9"
-		},
-		"produkte/cat/10.html": {
-			"path": "produkte/cat/10"
 		},
 		"produkte/cat/11.html": {
 			"path": "produkte/cat/11"
