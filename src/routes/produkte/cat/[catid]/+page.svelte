@@ -10,7 +10,7 @@
 
 <div class="px-2 m-2 border-2 ">
     <h2>
-        Produkte der Kategorie  {data.data.catname}
+        {data.data.productQty} Produkte der Kategorie  {data.data.catname} gefunden
     </h2>
 </div>
     <ul class="grid grid-cols-2 md:grid-cols-3">

@@ -35,10 +35,17 @@ export function getCategories(): object[] {
 	return categories;
 }
 
+export async function countProductsByCategory(cat: number): Promise<number | null> {
+	const { count } = await supabase
+		.from('products_categories')
+		.select('*', { count: 'exact', head: true })
+		.eq('category_id', cat);
+
+	return count;
+}
+
 export async function getCategoryNameById(catId: number): Promise<string> {
-	console.log('funktion call getCategoryNameById');
 	const { data } = await supabase.from('categories').select('name').eq('id', catId);
-	console.log('data ', data);
 	return data[0].name;
 }
 

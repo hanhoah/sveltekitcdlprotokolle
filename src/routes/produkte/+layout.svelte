@@ -9,9 +9,13 @@
         <nav>
             <div class="grid grid-cols-4 md:grid-cols-6 m-5 gap-3 ">
                 {#each data.categories as category}
-                <a href="/produkte/cat/{category.id}">
+                <a href="/produkte/cat/{category.category_id}">
                 <div class="w-full  p-1 text-xs bg-green-100  hover:bg-yellow-300">
+                    {#if category.name ==='Oele'}
+                        Öle
+                    {:else}
                         {category.name}
+                    {/if}
                     </div>
                 </a>
                 {/each}

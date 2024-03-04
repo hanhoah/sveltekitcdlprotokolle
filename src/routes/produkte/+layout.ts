@@ -1,5 +1,5 @@
 import { supabase } from '$lib/supabaseClient';
-
+/*
 const categories = [
 	{ id: 5, name: 'Ayurveda' },
 	{ id: 6, name: 'Aphrodisiaka' },
@@ -43,13 +43,12 @@ const categories = [
 	// { id: 43, name: 'Stoffwechsel' },
 	// { id: , name: 'Vitalpilze' }, ==> id 23
 ];
-
 categories.sort((a, b) => a.name.localeCompare(b.name));
+*/
 
 export async function load() {
-	const { data, count } = await supabase
-		.from('products')
-		.select('*', { count: 'exact', head: true });
+	const { count } = await supabase.from('products').select('*', { count: 'exact', head: true });
+	const { data: categories } = await supabase.from('productcategories').select('*').order('name');
 	return {
 		count,
 		categories
