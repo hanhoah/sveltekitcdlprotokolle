@@ -4,7 +4,8 @@
   import { page } from "$app/stores";
   import Navbar from "./Navbar.svelte";
   import { inject } from '@vercel/analytics'
-  import 'iconify-icon'
+  import Icon from "@iconify/svelte";
+
   </script>
 
 <svelte:head>
@@ -16,6 +17,10 @@
     <div class="w-full mx-auto px-">
       <!-- 1280w (800h)-->
        <Navbar />
+       <form class="flex border-2 justify-center items-center" method="post" action="/search">
+        <input class="w-full border-0 border-collapse border-gray-400" type="text" name="search" placeholder="Wonach suchen Sie?" />
+        <button class="border-1 border-collapse border-gray-400 p-2" type="submit"><Icon width="24" icon="ion:search-outline" /></button>
+      </form>
 	   <div class=""/>
       <slot />
     </div>

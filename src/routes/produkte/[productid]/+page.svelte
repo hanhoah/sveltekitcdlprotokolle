@@ -3,7 +3,6 @@
     import { getProductImg } from '$lib/functions/getProductImg.ts';
     import { Spinner } from 'flowbite-svelte';
     import Product from '../product.svelte';
-    import { Badge } from 'flowbite-svelte';
 	import { getBadge } from '$lib/functions/shops.ts';
     export let data;
 
@@ -24,7 +23,7 @@
     <img class="py-10" width=400 alt="{name}" src="{img}" />
 </div>
 
-<div class="my-5 pb-10 flex flex-col items-center top-0 sticky ">
+<div class="my-5 pb-10 flex flex-col items-center top-0 sticky z-10">
     <a href="{link}" target="_blank">
         <Button class="text-lg mt-3" color="green">{name} 🛒</Button>
     </a>
@@ -67,7 +66,10 @@
             </div>
                 {:then similarProducts}
                     {#each similarProducts as similarProduct}
-                            <li class="my-2"><Product product={{id: similarProduct.id,name: similarProduct.name,img: similarProduct.image}} /></li>
+                            <li class="my-2 relative">
+                              {@html getBadge(similarProduct.id)}
+                                <Product product={{id: similarProduct.id,name: similarProduct.name,img: similarProduct.image}} />
+                            </li>
                     {/each}
             {/await}
             </ul>    
