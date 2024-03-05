@@ -3,28 +3,11 @@
     // import { COLOR } from '$env/static/private';
     import Product from '../../product.svelte';
     import { Spinner } from 'flowbite-svelte';
-    import {Badge} from 'flowbite-svelte';
     export let data;
     $: catid = data.data.catid
+    import { getBadge } from '$lib/functions/shops.ts';
 
-    function getBadge(id){
-      let shopid = id.split('-')[0]
-      let shop = ""
 
-      switch(shopid){
-        case "gvk":
-          shop = "Kronenberg"
-          break;
-        case "wk":
-          shop = "Waldkraft"
-          break;
-        default:
-          shop = "Unknown"
-      }
-      let badge = '<div class="border-2 absolute right-2 text-white rounded-md text-s p-1 text-center top-5 w-24 bg-purple-700 opacity-65" large color="green">' + shop + '</div>'
-
-      return badge
-    }
 
 </script>
   

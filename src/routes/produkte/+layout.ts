@@ -1,4 +1,5 @@
 import { supabase } from '$lib/supabaseClient';
+
 /*
 const categories = [
 	// { id: , name: 'Naturkosmetik' }, ==> id 15

@@ -274,13 +274,13 @@ export {
   each as h,
   add_attribute as i,
   is_promise as j,
-  compute_rest_props as k,
-  safe_not_equal as l,
+  identity as k,
+  compute_rest_props as l,
   missing_component as m,
   noop as n,
   onDestroy as o,
-  identity as p,
-  escape_attribute_value as q,
+  escape_attribute_value as p,
+  safe_not_equal as q,
   setContext as s,
   validate_component as v
 };

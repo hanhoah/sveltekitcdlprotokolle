@@ -1,6 +1,7 @@
 <script>
   export let data;
   import Product from './product.svelte';
+  import { getBadge } from '$lib/functions/shops.ts';
 </script>
 
 <div class="px-2 m-2 border-2 ">
@@ -10,8 +11,11 @@
     {#await data.streamed.products}
       Loading Products ...
       {:then products} 
-        {#each products as product}
-        <li class="my-2"><Product product={{id: product.id,name: product.name,img: product.image}} /></li>
+      {#each products as product}
+          <li class="my-2 relative">
+            {@html getBadge(product.id)}
+            <Product product={{id: product.id,name: product.name,img: product.image}} />
+          </li>
         {/each}
     {/await}
   </ul>

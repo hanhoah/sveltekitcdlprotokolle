@@ -4,12 +4,12 @@
     import { Spinner } from 'flowbite-svelte';
     import Product from '../product.svelte';
     import { Badge } from 'flowbite-svelte';
+	import { getBadge } from '$lib/functions/shops.ts';
     export let data;
 
-    // console.log('data in +page ist ', data);
-    console.log('***************');
     $: img = getProductImg(data.data.image) 
     $: name = data.data.name
+    $: id = data.data.id
     $: desc = data.data.description
     $: link = data.data.link
     $: searchterm = data.searchterm
@@ -19,7 +19,8 @@
 
 </script>
 
-<div class="w-full flex flex-row bg-gray-100 justify-center">
+<div class="w-full flex flex-row bg-gray-100 justify-center relative">
+    {@html getBadge(id)}
     <img class="py-10" width=400 alt="{name}" src="{img}" />
 </div>
 
@@ -33,8 +34,6 @@
         <h2 class=" bg-yellow-300 p-2">{name}</h2>
         <div id="desc" class="p-5">
             {@html desc}
-            <Badge large color="green">Green</Badge>
-            <Badge large color="yellow">Yellow</Badge>
         </div>
         <div id="links" class="w-5/6 m-auto bg-zinc-50 border-zinc-200 border-2 p-5">
 

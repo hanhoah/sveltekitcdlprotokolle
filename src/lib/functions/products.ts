@@ -14,14 +14,15 @@ export async function getProductIdsFromCatId(catId: number): Promise<string[]> {
 	let catProductIds: number[] = [];
 
 	const { data: productIds, error } = await supabase
-		.from('products_categories')
-		.select('product_id')
+		.from('productscategoryview')
+		.select('id')
 		.eq('category_id', catId);
 
 	if (error) {
-		console.log('Fehler beim Abrufen der ProductIds(catId)');
+		console.log('Fehler beim Abrufen der ProductIds(catId): ', error);
 	} else {
-		catProductIds = [...new Set(productIds.map((row) => row.product_id))];
+		//das ergebnis ist ein Array of Objects und muss zu einem array of strings umgewandelt werden
+		catProductIds = productIds.map((row) => row.id);
 	}
 	return catProductIds;
 }
@@ -51,7 +52,11 @@ export async function getCategoryNameById(catId: number): Promise<string> {
 
 export async function getProductsFromIds(ids: string[]): Promise<Book[] | null> {
 	// 2. Jetzt werden die Produkte zu den IDs ermittelt
-	const { data, error: products_err } = await supabase.from('products').select().in('id', ids);
+	const { data, error: products_err } = await supabase
+		.from('products')
+		.select()
+		.in('id', ids)
+		.order('name');
 
 	if (products_err) {
 		// console.error('Fehler beim Abrufen der Bücher aus der ID-Liste:', books_err.message);

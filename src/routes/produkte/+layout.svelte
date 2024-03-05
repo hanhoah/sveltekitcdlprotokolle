@@ -1,6 +1,7 @@
 <script>
     export let data
 
+
 </script>
 
 <div class="w-full  p-3 text-xs bg-yellow-200  hover:bg-lime-300">{data.count} Produkte in der Datenbank gefunden. Bitte wählen Sie eine Kategorie aus um Ihr Produkt schneller zu finden.</div>
