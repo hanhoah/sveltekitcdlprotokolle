@@ -22,10 +22,6 @@ export async function load({ params }) {
 		description ||
 		`Entdecken Sie eine Vielzahl von Produkten in der Kategorie ${catname} auf CDL Protokolle.`;
 
-	console.log('load funktion der categorie seite:');
-	console.log('metadescription: ', metaDescription);
-	console.log('title: ', title);
-
 	const data = {
 		catid,
 		catname,

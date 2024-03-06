@@ -6,11 +6,28 @@
   import { inject } from '@vercel/analytics'
   import Icon from "@iconify/svelte";
 
+  function getDescription($page){
+    try {
+      return  $page.data.data.metaDescription || $page.data.data.description.replace(/(<([^>]+)>)/gi, "").substring(0,155)  
+    } catch (error) {
+      return 'Willkommen auf cdl-protokolle.com – Ihrer Quelle für hochwertige Gesundheitsinformationen und wertvolle Tipps für ein gesundes Leben! Entdecken Sie kostenlose Leseproben aus erstklassigen Gesundheitsbüchern und erhalten Sie zahlreiche Ratschläge zur Verbesserung Ihrer Gesundheit, ohne den Einsatz von Pharma-Medizin. Unsere Website entstand aus einer engagierten Telegram-Gruppe und bietet Ihnen organisierte Informationen sowie die Möglichkeit zum aktiven Austausch. Tauchen Sie ein in die Welt der ganzheitlichen Gesundheit und fördern Sie Ihr Wohlbefinden auf natürliche Weise. Starten Sie jetzt Ihren Weg zu einem gesünderen Lebensstil!'
+    }
+  }
+
+  function getTitle($page){
+    try {
+      return $page.data.data.title || $page.data.data.name  
+    } catch (error) {
+      return 'CDL Protokolle '
+    }
+    
+  }
+
   </script>
 
 <svelte:head>
-  <title>{$page.data.title || 'CDL Protokolle '}</title>
-  <meta name="description" content={$page.data.metaDescription || 'Willkommen auf cdl-protokolle.com – Ihrer Quelle für hochwertige Gesundheitsinformationen und wertvolle Tipps für ein gesundes Leben! Entdecken Sie kostenlose Leseproben aus erstklassigen Gesundheitsbüchern und erhalten Sie zahlreiche Ratschläge zur Verbesserung Ihrer Gesundheit, ohne den Einsatz von Pharma-Medizin. Unsere Website entstand aus einer engagierten Telegram-Gruppe und bietet Ihnen organisierte Informationen sowie die Möglichkeit zum aktiven Austausch. Tauchen Sie ein in die Welt der ganzheitlichen Gesundheit und fördern Sie Ihr Wohlbefinden auf natürliche Weise. Starten Sie jetzt Ihren Weg zu einem gesünderen Lebensstil!'} />
+  <title>{getTitle($page)}</title>
+  <meta name="description" content={getDescription($page)} />
 </svelte:head>
 
   <!-- mobile Display -->
@@ -24,7 +41,7 @@
           <button class="border-1 border-collapse border-gray-400 p-2" type="submit"><Icon width="24" icon="ion:search-outline" /></button>
         </form>
        -->
-	   <div class=""/>
+       		<!-- Debugging-Ausgabe für die SEO-Daten -->
       <slot />
     </div>
     <Footer />

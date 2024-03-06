@@ -11,7 +11,12 @@ export async function load({ params }) {
 	const catname = await getCategoryNameById(parseInt(catid));
 	const bookcategories = getBookCategories();
 
-	const data = { catid, catname, bookcategories };
+	//SEO
+	const title = catname + ' Bücher | cdl-protokolle.com';
+	// Erstelle die Meta-Beschreibung basierend auf der Kategoriebeschreibung oder einem Standardtext
+	const metaDescription = `Entdecken Sie eine Vielzahl von Büchern auf cdl-protokolle.com`;
+
+	const data = { catid, catname, bookcategories, title, metaDescription };
 	return {
 		data,
 		streamed: {

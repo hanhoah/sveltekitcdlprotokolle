@@ -1774,11 +1774,25 @@ const Navbar = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   $$result.css.add(css);
   return ` <div class="md:hidden"><div class="navbar-mobile svelte-1krbgaj"><div class=""><a href="/" class="svelte-1krbgaj">${validate_component(Logo, "Logo").$$render($$result, {}, {}, {})}</a></div> <div class="dropdownmenu"><nav class="${["svelte-1krbgaj", ""].join(" ").trim()}"><ul class="svelte-1krbgaj"><li><a href="/buecher" class="svelte-1krbgaj" data-svelte-h="svelte-1p7qgmo">Bücher</a></li> <li><a href="/cdl-protokolle" class="svelte-1krbgaj" data-svelte-h="svelte-1o47wwz">CDL Protokolle</a></li> <li><a href="/produkte" class="svelte-1krbgaj" data-svelte-h="svelte-1a5b1wg">Produkte</a></li> </ul></nav></div> <button class="burger svelte-1krbgaj" data-svelte-h="svelte-1ddgedt"><div class="bar-1 svelte-1krbgaj"></div> <div class="bar-2 svelte-1krbgaj"></div> <div class="bar-3 svelte-1krbgaj"></div></button></div></div>  <div class="hidden md:block"><div class="navbar-desktop space-x-20 svelte-1krbgaj"><a class="w-full svelte-1krbgaj" href="/">${validate_component(Logo, "Logo").$$render($$result, {}, {}, {})}</a> <div id="desktopmenu" class="flex flex-row w-full space-x-5" data-svelte-h="svelte-1d1hipj"><a class="menuitem svelte-1krbgaj" href="/buecher">Bücher</a> <a class="menuitem svelte-1krbgaj" href="/cdl-protokolle">CDL Protokolle</a> <a class="menuitem svelte-1krbgaj" href="/produkte">Produkte</a></div></div> </div>`;
 });
+function getDescription($page) {
+  try {
+    return $page.data.data.metaDescription || $page.data.data.description.replace(/(<([^>]+)>)/gi, "").substring(0, 155);
+  } catch (error) {
+    return "Willkommen auf cdl-protokolle.com – Ihrer Quelle für hochwertige Gesundheitsinformationen und wertvolle Tipps für ein gesundes Leben! Entdecken Sie kostenlose Leseproben aus erstklassigen Gesundheitsbüchern und erhalten Sie zahlreiche Ratschläge zur Verbesserung Ihrer Gesundheit, ohne den Einsatz von Pharma-Medizin. Unsere Website entstand aus einer engagierten Telegram-Gruppe und bietet Ihnen organisierte Informationen sowie die Möglichkeit zum aktiven Austausch. Tauchen Sie ein in die Welt der ganzheitlichen Gesundheit und fördern Sie Ihr Wohlbefinden auf natürliche Weise. Starten Sie jetzt Ihren Weg zu einem gesünderen Lebensstil!";
+  }
+}
+function getTitle($page) {
+  try {
+    return $page.data.data.title || $page.data.data.name;
+  } catch (error) {
+    return "CDL Protokolle ";
+  }
+}
 const Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let $page, $$unsubscribe_page;
   $$unsubscribe_page = subscribe(page, (value) => $page = value);
   $$unsubscribe_page();
-  return `${$$result.head += `<!-- HEAD_svelte-euj27p_START -->${$$result.title = `<title>${escape($page.data.title || "CDL Protokolle ")}</title>`, ""}<meta name="description"${add_attribute("content", $page.data.metaDescription || "Willkommen auf cdl-protokolle.com – Ihrer Quelle für hochwertige Gesundheitsinformationen und wertvolle Tipps für ein gesundes Leben! Entdecken Sie kostenlose Leseproben aus erstklassigen Gesundheitsbüchern und erhalten Sie zahlreiche Ratschläge zur Verbesserung Ihrer Gesundheit, ohne den Einsatz von Pharma-Medizin. Unsere Website entstand aus einer engagierten Telegram-Gruppe und bietet Ihnen organisierte Informationen sowie die Möglichkeit zum aktiven Austausch. Tauchen Sie ein in die Welt der ganzheitlichen Gesundheit und fördern Sie Ihr Wohlbefinden auf natürliche Weise. Starten Sie jetzt Ihren Weg zu einem gesünderen Lebensstil!", 0)}><!-- HEAD_svelte-euj27p_END -->`, ""}  <div class="bg-white max-w-screen-md m-auto md:block justify-center items-center text-black"><div class="w-full mx-auto px-"> ${validate_component(Navbar, "Navbar").$$render($$result, {}, {}, {})}  <div class=""></div> ${slots.default ? slots.default({}) : ``}</div> ${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})}</div>`;
+  return `${$$result.head += `<!-- HEAD_svelte-1u25c53_START -->${$$result.title = `<title>${escape(getTitle($page))}</title>`, ""}<meta name="description"${add_attribute("content", getDescription($page), 0)}><!-- HEAD_svelte-1u25c53_END -->`, ""}  <div class="bg-white max-w-screen-md m-auto md:block justify-center items-center text-black"><div class="w-full mx-auto px-"> ${validate_component(Navbar, "Navbar").$$render($$result, {}, {}, {})}   ${slots.default ? slots.default({}) : ``}</div> ${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})}</div>`;
 });
 export {
   Layout as default
