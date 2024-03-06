@@ -5,6 +5,7 @@
     import { Spinner } from 'flowbite-svelte';
     export let data;
     $: catid = data.data.catid
+    $: description = data.data.description
     import { getBadge } from '$lib/functions/shops.ts';
 
 
@@ -17,6 +18,15 @@
     </h2>
 
   </div>
+
+  {#if description}
+  <div id="description">
+    {description}
+  </div>
+  {/if}
+
+
+
     <ul class="grid grid-cols-2 md:grid-cols-3">
       {#await data.streamed.products}
         <Spinner />

@@ -1,4 +1,4 @@
-import { c as create_ssr_component, o as onDestroy, a as spread, e as escape_object, b as createEventDispatcher, v as validate_component, d as subscribe, f as escape } from "../../chunks/ssr.js";
+import { c as create_ssr_component, o as onDestroy, a as spread, e as escape_object, b as createEventDispatcher, v as validate_component, d as subscribe, f as escape, g as add_attribute } from "../../chunks/ssr.js";
 import { p as page } from "../../chunks/stores.js";
 import "@vercel/analytics";
 const matchIconName = /^[a-z0-9]+(-[a-z0-9]+)*$/;
@@ -1778,7 +1778,7 @@ const Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let $page, $$unsubscribe_page;
   $$unsubscribe_page = subscribe(page, (value) => $page = value);
   $$unsubscribe_page();
-  return `${$$result.head += `<!-- HEAD_svelte-2l12l8_START -->${$$result.title = `<title>${escape($page.data.title || "CDL Protokolle ")}</title>`, ""}<!-- HEAD_svelte-2l12l8_END -->`, ""}  <div class="bg-white max-w-screen-md m-auto md:block justify-center items-center text-black"><div class="w-full mx-auto px-"> ${validate_component(Navbar, "Navbar").$$render($$result, {}, {}, {})}  <div class=""></div> ${slots.default ? slots.default({}) : ``}</div> ${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})}</div> `;
+  return `${$$result.head += `<!-- HEAD_svelte-euj27p_START -->${$$result.title = `<title>${escape($page.data.title || "CDL Protokolle ")}</title>`, ""}<meta name="description"${add_attribute("content", $page.data.metaDescription || "Willkommen auf cdl-protokolle.com – Ihrer Quelle für hochwertige Gesundheitsinformationen und wertvolle Tipps für ein gesundes Leben! Entdecken Sie kostenlose Leseproben aus erstklassigen Gesundheitsbüchern und erhalten Sie zahlreiche Ratschläge zur Verbesserung Ihrer Gesundheit, ohne den Einsatz von Pharma-Medizin. Unsere Website entstand aus einer engagierten Telegram-Gruppe und bietet Ihnen organisierte Informationen sowie die Möglichkeit zum aktiven Austausch. Tauchen Sie ein in die Welt der ganzheitlichen Gesundheit und fördern Sie Ihr Wohlbefinden auf natürliche Weise. Starten Sie jetzt Ihren Weg zu einem gesünderen Lebensstil!", 0)}><!-- HEAD_svelte-euj27p_END -->`, ""}  <div class="bg-white max-w-screen-md m-auto md:block justify-center items-center text-black"><div class="w-full mx-auto px-"> ${validate_component(Navbar, "Navbar").$$render($$result, {}, {}, {})}  <div class=""></div> ${slots.default ? slots.default({}) : ``}</div> ${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})}</div>`;
 });
 export {
   Layout as default

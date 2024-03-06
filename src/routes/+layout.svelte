@@ -10,6 +10,7 @@
 
 <svelte:head>
   <title>{$page.data.title || 'CDL Protokolle '}</title>
+  <meta name="description" content={$page.data.metaDescription || 'Willkommen auf cdl-protokolle.com – Ihrer Quelle für hochwertige Gesundheitsinformationen und wertvolle Tipps für ein gesundes Leben! Entdecken Sie kostenlose Leseproben aus erstklassigen Gesundheitsbüchern und erhalten Sie zahlreiche Ratschläge zur Verbesserung Ihrer Gesundheit, ohne den Einsatz von Pharma-Medizin. Unsere Website entstand aus einer engagierten Telegram-Gruppe und bietet Ihnen organisierte Informationen sowie die Möglichkeit zum aktiven Austausch. Tauchen Sie ein in die Welt der ganzheitlichen Gesundheit und fördern Sie Ihr Wohlbefinden auf natürliche Weise. Starten Sie jetzt Ihren Weg zu einem gesünderen Lebensstil!'} />
 </svelte:head>
 
   <!-- mobile Display -->
@@ -22,7 +23,6 @@
           <input class="w-full border-0 border-collapse border-gray-400" type="text" name="search" placeholder="Wonach suchen Sie?" />
           <button class="border-1 border-collapse border-gray-400 p-2" type="submit"><Icon width="24" icon="ion:search-outline" /></button>
         </form>
-
        -->
 	   <div class=""/>
       <slot />
@@ -30,18 +30,3 @@
     <Footer />
   </div>
 
-
-
-  <!--
-
-light
-  yellow-300
-  teal-200
-  green-500
-  lime-200
-
-
-dark
-  cyan-700
-
-  -->

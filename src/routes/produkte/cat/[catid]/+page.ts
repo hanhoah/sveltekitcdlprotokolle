@@ -1,3 +1,4 @@
+import { getCategoryDescription } from '$lib/functions/categories.js';
 import {
 	getProductIdsFromCatId,
 	getProductsFromIds,
@@ -12,8 +13,28 @@ export async function load({ params }) {
 	const productQty = await countProductsByCategory(parseInt(catid));
 	const catname = await getCategoryNameById(parseInt(catid));
 	const productcategories = getCategories();
+	const description = await getCategoryDescription(parseInt(catid));
 
-	const data = { catid, catname, productcategories, productQty };
+	//SEO
+	const title = `${catname} - CDL Protokolle`;
+	// Erstelle die Meta-Beschreibung basierend auf der Kategoriebeschreibung oder einem Standardtext
+	const metaDescription =
+		description ||
+		`Entdecken Sie eine Vielzahl von Produkten in der Kategorie ${catname} auf CDL Protokolle.`;
+
+	console.log('load funktion der categorie seite:');
+	console.log('metadescription: ', metaDescription);
+	console.log('title: ', title);
+
+	const data = {
+		catid,
+		catname,
+		productcategories,
+		productQty,
+		description,
+		title,
+		metaDescription
+	};
 	return {
 		data,
 		streamed: {

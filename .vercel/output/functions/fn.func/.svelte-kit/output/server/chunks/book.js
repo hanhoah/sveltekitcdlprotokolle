@@ -1,4 +1,4 @@
-import { c as create_ssr_component, i as add_attribute, f as escape } from "./ssr.js";
+import { c as create_ssr_component, g as add_attribute, f as escape } from "./ssr.js";
 function getImg(filename, id, folder) {
   let img = "";
   const path = `/images/${folder}/`;
