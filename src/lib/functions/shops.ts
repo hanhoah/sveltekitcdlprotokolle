@@ -2,6 +2,7 @@ import { Badge } from 'flowbite-svelte';
 
 export function getBadge(id) {
 	let shopid = id.split('-')[0];
+	// console.log('get badge from shopid ', shopid);
 	let shop = '';
 	let color = '';
 
@@ -13,6 +14,10 @@ export function getBadge(id) {
 		case 'wk':
 			shop = 'Waldkraft';
 			color = 'bg-green-700';
+			break;
+		case 'cw':
+			shop = 'Cellavita';
+			color = 'bg-lime-500';
 			break;
 		default:
 			shop = 'Unknown';

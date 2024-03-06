@@ -1,14 +1,35 @@
-
 <script>
-    // import { COLOR } from '$env/static/private';
+    import { page } from '$app/stores';
     import Product from '../../product.svelte';
     import { Spinner } from 'flowbite-svelte';
+    import { getBadge } from '$lib/functions/shops.ts';
+    import { setupLazyLoading } from '$lib/functions/lazyload.js';
+  	import { onMount } from 'svelte';
+
+    console.log(page);
+    
     export let data;
+    
     $: catid = data.data.catid
     $: description = data.data.description
-    import { getBadge } from '$lib/functions/shops.ts';
+    $: qty = data.data.productQty
+    $: currentpage = data.data.page
+    onMount(() => {
+        setupLazyLoading(); // Rufe die Funktion auf
+    });
 
+    function getPageSelector(qty) {
+        if (qty > 50) {
+            let numPages = Math.ceil(qty / 50);
+            return Array.from({ length: numPages }, (_, i) => i + 1);
+        } else {
+            return null;
+        }
+    }
 
+    function getClass(page) {
+        return page === currentPage ? 'page-number current-page' : 'page-number';
+    }
 
 </script>
   
@@ -33,15 +54,44 @@
           Lade Produkte ...
         {:then products} 
           {#each products as product}
-          <div class="">
+          <div class="lazy-load">
           <li class="my-2 relative">
+            <!-- Beachte, dass wir das 'loading' Attribut dynamisch hinzufügen -->
               {@html getBadge(product.id)}
-
               <Product product={{id: product.id,name: product.name,img: product.image}} />
-              
             </li>
           </div>
           {/each}
       {/await}
     </ul>
 
+    {#if getPageSelector(qty)}
+    <div class="page-selector">
+        {#each getPageSelector(qty) as pageNumber}
+        {#if pageNumber == currentpage}
+            <span class="page-number current-page">{pageNumber}</span>
+        {:else}
+            <a href="/produkte/cat/{catid}?page={pageNumber}" class="page-number">{pageNumber}</a>
+        {/if}
+        {/each}
+    </div>
+{/if}
+
+
+<style>
+  .page-selector {
+    @apply my-10 flex justify-center
+  }
+
+  .page-number {
+    @apply p-2 ml-5 border-2 cursor-pointer
+  }
+
+  .page-number:hover { @apply underline bg-gray-800 text-white
+  
+  }
+
+  .current-page {
+        @apply bg-blue-500 text-white; 
+    }
+</style>

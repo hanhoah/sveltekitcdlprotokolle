@@ -9,6 +9,42 @@ interface Product {
 	description: string;
 }
 
+export async function getProductsByCategoryId(catid: number): Promise<object[]> {
+	// console.log('neue verbesserte Funktion durch nutzung von Supabase Views');
+	const { data, error } = await supabase
+		.from('productswithcategory')
+		.select('*')
+		.eq('category_id', catid)
+		.order('name');
+	if (error) {
+		console.log(
+			'Fehler beim Abrufen von Produkten getProductsByCategoryId lib/functions/products.ts'
+		);
+	} else return data;
+}
+
+export async function getProductsByCategoryIdWithPagination(
+	catid: number,
+	page: number,
+	pageSize: number
+) {
+	console.log('page ist ', page);
+	const offset = (page - 1) * pageSize; // Berechne den Offset basierend auf der aktuellen Seite
+	const { data, error } = await supabase
+		.from('productswithcategory')
+		.select('*')
+		.eq('category_id', catid)
+		.order('name')
+		.range(offset, offset + pageSize - 1); // range() Methode für Offset und Limit
+
+	if (error) {
+		console.error('Error fetching products:', error.message);
+		return null;
+	}
+
+	return data;
+}
+
 export async function getProductIdsFromCatId(catId: number): Promise<string[]> {
 	console.log('getProductIdsFromCatid, ', catId);
 	let catProductIds: number[] = [];
@@ -66,6 +102,30 @@ export async function getProductsFromIds(ids: string[]): Promise<Book[] | null> 
 		// console.log('Bücher:', data);
 		return data;
 	}
+}
+
+export async function getProductsFromIdsWithPagination(
+	productIds: number[],
+	page: number,
+	pageSize: number
+) {
+	const offset = page - 1 + pageSize; // Berechne den Offset basierend auf der aktuellen Seite
+	console.log('offset ist ', offset);
+	console.log('page ist ', page);
+	console.log('Pagesize ist ', pageSize);
+	const { data, error } = await supabase
+		.from('products')
+		.select('*')
+		.in('id', productIds)
+		.order('name')
+		.range(offset, offset + pageSize - 1); // range() Methode für Offset und Limit
+
+	if (error) {
+		console.error('Error fetching products:', error.message);
+		return null;
+	}
+
+	return data;
 }
 
 export async function getProductCategories(): Promise<string[] | null> {

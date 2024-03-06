@@ -7,6 +7,12 @@ export async function load({ params }) {
 
 	let name = data.name;
 
+	//SEO
+	const title = name;
+	// Erstelle die Meta-Beschreibung basierend auf der Kategoriebeschreibung oder einem Standardtext
+	const metaDescription =
+		data.description || `Entdecken Sie eine Vielzahl von Produkten auf cdl-protokolle.com`;
+
 	async function getSearchTerm(name) {
 		let tempArray = name.split(' ');
 		// für ein gutes Ergebnis bei der Amazon und Ebay Suche werden nur die ersten 3 Wörter von name genutzt
