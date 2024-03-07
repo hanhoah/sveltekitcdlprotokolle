@@ -1,5 +1,6 @@
 import { s as supabase } from "../../../../../chunks/supabaseClient.js";
 async function getCategoryDescription(catid) {
+  console.log("getCategoryDescription");
   const { data, error } = await supabase.from("categories").select("description").eq("id", catid).single();
   try {
     if (data && data.description) {
@@ -12,6 +13,7 @@ async function getCategoryDescription(catid) {
   }
 }
 async function getProductsByCategoryId(catid) {
+  console.log("getProductsByCategoryId");
   const { data, error } = await supabase.from("productswithcategory").select("*").eq("category_id", catid).order("name");
   if (error) {
     console.log(
@@ -21,6 +23,7 @@ async function getProductsByCategoryId(catid) {
     return data;
 }
 async function getProductsByCategoryIdWithPagination(catid, page, pageSize) {
+  console.log("getProductsByCategoryIdWithPagination");
   console.log("page ist ", page);
   const offset = (page - 1) * pageSize;
   const { data, error } = await supabase.from("productswithcategory").select("*").eq("category_id", catid).order("name").range(offset, offset + pageSize - 1);
@@ -31,6 +34,7 @@ async function getProductsByCategoryIdWithPagination(catid, page, pageSize) {
   return data;
 }
 function getCategories() {
+  console.log("getCategories");
   const categories = [
     { id: 5, name: "Ayurveda" },
     { id: 6, name: "Aphrodisiaka" }
@@ -38,15 +42,18 @@ function getCategories() {
   return categories;
 }
 async function countProductsByCategory(cat) {
+  console.log("countProductsByCategory");
   const { count } = await supabase.from("products_categories").select("*", { count: "exact", head: true }).eq("category_id", cat);
   return count;
 }
 async function getCategoryNameById(catId) {
+  console.log("getCategoryNameById");
   const { data } = await supabase.from("categories").select("name").eq("id", catId);
   return data[0].name;
 }
 const prerender = false;
 async function fetchProducts(catid, paginate, page) {
+  console.log("fetchProducts");
   if (paginate) {
     return getProductsByCategoryIdWithPagination(catid, page, 50);
   } else {

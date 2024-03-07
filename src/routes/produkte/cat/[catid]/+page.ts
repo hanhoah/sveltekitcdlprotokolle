@@ -11,6 +11,7 @@ import {
 } from '$lib/functions/products.ts';
 
 async function fetchProducts(catid: number, paginate: boolean, page: number) {
+	console.log('fetchProducts');
 	if (paginate) {
 		return getProductsByCategoryIdWithPagination(catid, page, 50); // Seitennummer und Seitengröße
 	} else {

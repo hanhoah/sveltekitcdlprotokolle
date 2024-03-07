@@ -1,0 +1,59 @@
+[33m16:40:14 [vite-plugin-svelte] /home/han/projects/sveltekit/cdlprotokolle/src/routes/buecher/[bookId]/+page.svelte:43:60 A11y: <img> element should have an alt attribute[39m
+41:             {/await}
+42:             <a href="https://www.amazon.de/gp/search?ie=UTF8&tag=jumex_online-21&linkCode=ur2&linkId=470bf27aa1feb315de9cb5f18b114f2f&camp=1638&creative=6742&index=books&keywords={title}" target="_blank">
+43:                 <Button class="text-lg mt-3" color="light"> <img width="100" src="/images/logos/Amazon.de-Logo.svg.png" /></Button>
+                                                                ^
+44:                 
+45:             </a>
+[33m16:40:14 [vite-plugin-svelte] /home/han/projects/sveltekit/cdlprotokolle/src/routes/buecher/[bookId]/+page.svelte:49:60 A11y: <img> element should have an alt attribute[39m
+47: 
+48:             <a href="https://www.ebay.de/sch/i.html?_from=R40&_trksid=p4432023.m570.l1313&_nkw={title}&_sacat=0" target="_blank">
+49:                 <Button class="text-lg mt-3" color="light"> <img width="100" src="/images/logos/EBay_logo.png" /></Button>
+                                                                ^
+50:             </a>
+51: 
+[33m16:40:15 [vite-plugin-svelte] /home/han/projects/sveltekit/cdlprotokolle/src/routes/Navbar.svelte:56:2 Unused CSS selector "ul#desktopmenu li"[39m
+54: }
+55: 
+56:   ul#desktopmenu li{
+      ^
+57:     display: inline;
+58:   }
+[33m16:40:16 [vite-plugin-svelte] /home/han/projects/sveltekit/cdlprotokolle/src/routes/cdl-protokolle/fraguns.svelte:8:104 A11y: Screenreaders already announce <img> elements as an image.[39m
+ 6: 
+ 7: <div class="border-2 p-3 m-3 bg-teal-200">
+ 8:     Hast du eine Frage zu diesem Protokoll. Klicke auf das Telegram Logo <a target="_blank" href={link}><img src={telegram} width="100" alt="Image" /></a> um diese an unserer Telegram Community zu stellen. Nach dem Klick auf den Link öffnet dieses Protokoll in Telegram und du kannst deine Frage direkt an unsere hilfreichen Mitglieder stellen. 
+                                                                                                            ^
+ 9: </div>
+"inject" is imported from external module "@vercel/analytics" but never used in "src/routes/+layout.svelte".
+[33m16:40:17 [vite-plugin-svelte] /home/han/projects/sveltekit/cdlprotokolle/src/routes/buecher/[bookId]/+page.svelte:43:60 A11y: <img> element should have an alt attribute[39m
+41:             {/await}
+42:             <a href="https://www.amazon.de/gp/search?ie=UTF8&tag=jumex_online-21&linkCode=ur2&linkId=470bf27aa1feb315de9cb5f18b114f2f&camp=1638&creative=6742&index=books&keywords={title}" target="_blank">
+43:                 <Button class="text-lg mt-3" color="light"> <img width="100" src="/images/logos/Amazon.de-Logo.svg.png" /></Button>
+                                                                ^
+44:                 
+45:             </a>
+[33m16:40:17 [vite-plugin-svelte] /home/han/projects/sveltekit/cdlprotokolle/src/routes/buecher/[bookId]/+page.svelte:49:60 A11y: <img> element should have an alt attribute[39m
+47: 
+48:             <a href="https://www.ebay.de/sch/i.html?_from=R40&_trksid=p4432023.m570.l1313&_nkw={title}&_sacat=0" target="_blank">
+49:                 <Button class="text-lg mt-3" color="light"> <img width="100" src="/images/logos/EBay_logo.png" /></Button>
+                                                                ^
+50:             </a>
+51: 
+[33m16:40:18 [vite-plugin-svelte] /home/han/projects/sveltekit/cdlprotokolle/src/routes/Navbar.svelte:56:2 Unused CSS selector "ul#desktopmenu li"[39m
+54: }
+55: 
+56:   ul#desktopmenu li{
+      ^
+57:     display: inline;
+58:   }
+[33m16:40:19 [vite-plugin-svelte] /home/han/projects/sveltekit/cdlprotokolle/src/routes/cdl-protokolle/fraguns.svelte:8:104 A11y: Screenreaders already announce <img> elements as an image.[39m
+ 6: 
+ 7: <div class="border-2 p-3 m-3 bg-teal-200">
+ 8:     Hast du eine Frage zu diesem Protokoll. Klicke auf das Telegram Logo <a target="_blank" href={link}><img src={telegram} width="100" alt="Image" /></a> um diese an unserer Telegram Community zu stellen. Nach dem Klick auf den Link öffnet dieses Protokoll in Telegram und du kannst deine Frage direkt an unsere hilfreichen Mitglieder stellen. 
+                                                                                                            ^
+ 9: </div>
+  node_modules/ws/lib/buffer-util.js
+    - [1m[36mbufferutil[39m[22m
+  node_modules/ws/lib/validation.js
+    - [1m[36mutf-8-validate[39m[22m

@@ -1,6 +1,7 @@
 import { supabase } from '$lib/supabaseClient';
 
 export async function getCategoryDescription(catid: number): Promise<string | null> {
+	console.log('getCategoryDescription');
 	// Daten von Supabase abrufen, nur das Feld 'description' auswählen und sicherstellen, dass nur ein Objekt zurückgegeben wird
 	const { data, error } = await supabase
 		.from('categories')
