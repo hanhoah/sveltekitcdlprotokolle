@@ -27,6 +27,10 @@ function getBadge(id) {
       shop = "Waldkraft";
       color = "bg-green-700";
       break;
+    case "cw":
+      shop = "Cellavita";
+      color = "bg-lime-500";
+      break;
     default:
       shop = "Unknown";
   }

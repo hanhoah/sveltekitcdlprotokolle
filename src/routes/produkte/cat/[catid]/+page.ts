@@ -1,3 +1,6 @@
+// URL Parameter Pagination erfordert, dass diese seite nicht geprerendered werden kann
+export const prerender = false;
+
 import { getCategoryDescription } from '$lib/functions/categories.js';
 import {
 	getCategories,
