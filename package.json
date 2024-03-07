@@ -13,11 +13,6 @@
 	},
 	"devDependencies": {
 		"@iconify/svelte": "^3.1.6",
-		"@sveltejs/adapter-static": "^3.0.1",
-		"@sveltejs/adapter-vercel": "^5.1.0",
-		"@sveltejs/enhanced-img": "^0.1.8",
-		"@sveltejs/kit": "^2.0.0",
-		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/eslint": "8.56.0",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
@@ -46,6 +41,11 @@
 		"@sveltejs/adapter-node": "^4.0.1",
 		"@vercel/analytics": "^1.2.2",
 		"iconify-icon": "^2.0.0",
-		"svelte-i18n": "^4.0.0"
+		"svelte-i18n": "^4.0.0",
+		"@sveltejs/adapter-static": "^3.0.1",
+		"@sveltejs/adapter-vercel": "^5.1.0",
+		"@sveltejs/enhanced-img": "^0.1.8",
+		"@sveltejs/kit": "^2.0.0",
+		"@sveltejs/vite-plugin-svelte": "^3.0.0"
 	}
 }
