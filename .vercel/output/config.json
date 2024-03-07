@@ -420,6 +420,39 @@
 			}
 		},
 		{
+			"src": "/produkte/cw-na-85",
+			"dest": "/produkte/cw-na-85/"
+		},
+		{
+			"src": "/produkte/cw-na-85/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cw-na-85"
+			}
+		},
+		{
+			"src": "/produkte/cw-na-86",
+			"dest": "/produkte/cw-na-86/"
+		},
+		{
+			"src": "/produkte/cw-na-86/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cw-na-86"
+			}
+		},
+		{
+			"src": "/produkte/cw-na-87",
+			"dest": "/produkte/cw-na-87/"
+		},
+		{
+			"src": "/produkte/cw-na-87/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cw-na-87"
+			}
+		},
+		{
 			"src": "/produkte/gvk-ay-2",
 			"dest": "/produkte/gvk-ay-2/"
 		},
@@ -516,39 +549,6 @@
 			"status": 308,
 			"headers": {
 				"Location": "/produkte/gvk-ap-1"
-			}
-		},
-		{
-			"src": "/produkte/gvk-ay-1",
-			"dest": "/produkte/gvk-ay-1/"
-		},
-		{
-			"src": "/produkte/gvk-ay-1/",
-			"status": 308,
-			"headers": {
-				"Location": "/produkte/gvk-ay-1"
-			}
-		},
-		{
-			"src": "/produkte/gvk-ay-3",
-			"dest": "/produkte/gvk-ay-3/"
-		},
-		{
-			"src": "/produkte/gvk-ay-3/",
-			"status": 308,
-			"headers": {
-				"Location": "/produkte/gvk-ay-3"
-			}
-		},
-		{
-			"src": "/produkte/gvk-ay-11",
-			"dest": "/produkte/gvk-ay-11/"
-		},
-		{
-			"src": "/produkte/gvk-ay-11/",
-			"status": 308,
-			"headers": {
-				"Location": "/produkte/gvk-ay-11"
 			}
 		},
 		{
@@ -683,6 +683,15 @@
 		"buecher/37.html": {
 			"path": "buecher/37"
 		},
+		"produkte/cw-na-85.html": {
+			"path": "produkte/cw-na-85"
+		},
+		"produkte/cw-na-86.html": {
+			"path": "produkte/cw-na-86"
+		},
+		"produkte/cw-na-87.html": {
+			"path": "produkte/cw-na-87"
+		},
 		"produkte/gvk-ay-2.html": {
 			"path": "produkte/gvk-ay-2"
 		},
@@ -709,15 +718,6 @@
 		},
 		"produkte/gvk-ap-1.html": {
 			"path": "produkte/gvk-ap-1"
-		},
-		"produkte/gvk-ay-1.html": {
-			"path": "produkte/gvk-ay-1"
-		},
-		"produkte/gvk-ay-3.html": {
-			"path": "produkte/gvk-ay-3"
-		},
-		"produkte/gvk-ay-11.html": {
-			"path": "produkte/gvk-ay-11"
 		}
 	}
 }
