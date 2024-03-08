@@ -17,28 +17,32 @@ const Product = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 function getBadge(id) {
   let shopid = id.split("-")[0];
   let shop = "";
-  let color = "";
+  let bgcolor = "";
   switch (shopid) {
     case "gvk":
       shop = "Kronenberg";
-      color = "bg-amber-500";
+      bgcolor = "bg-amber-500";
       break;
     case "wk":
       shop = "Waldkraft";
-      color = "bg-green-700";
+      bgcolor = "bg-green-700";
       break;
     case "cw":
       shop = "Cellavita";
-      color = "bg-lime-500";
+      bgcolor = "bg-lime-500";
       break;
     case "cv":
       shop = "Cellavita";
-      color = "bg-lime-500";
+      bgcolor = "bg-lime-500";
+      break;
+    case "be":
+      shop = "Bedrop";
+      bgcolor = "bg-orange-200";
       break;
     default:
       shop = "Unknown";
   }
-  const badge = '<div class="border-2 absolute right-2 text-white rounded-md text-s p-1 text-center top-5 w-24 ' + color + ' opacity-65" large color="green">' + shop + "</div>";
+  const badge = '<div class="border-2 absolute right-2 text-black rounded-md text-s p-1 text-center top-5 w-24 ' + bgcolor + ' opacity-65" large color="green">' + shop + "</div>";
   return badge;
 }
 export {

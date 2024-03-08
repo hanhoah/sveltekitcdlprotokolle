@@ -420,6 +420,28 @@
 			}
 		},
 		{
+			"src": "/buecher/38",
+			"dest": "/buecher/38/"
+		},
+		{
+			"src": "/buecher/38/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/38"
+			}
+		},
+		{
+			"src": "/buecher/39",
+			"dest": "/buecher/39/"
+		},
+		{
+			"src": "/buecher/39/",
+			"status": 308,
+			"headers": {
+				"Location": "/buecher/39"
+			}
+		},
+		{
 			"src": "/produkte/cat/6",
 			"dest": "/produkte/cat/6/"
 		},
@@ -3357,6 +3379,28 @@
 			}
 		},
 		{
+			"src": "/produkte/be-pp-5",
+			"dest": "/produkte/be-pp-5/"
+		},
+		{
+			"src": "/produkte/be-pp-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/be-pp-5"
+			}
+		},
+		{
+			"src": "/produkte/be-pp-23",
+			"dest": "/produkte/be-pp-23/"
+		},
+		{
+			"src": "/produkte/be-pp-23/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/be-pp-23"
+			}
+		},
+		{
 			"src": "/produkte/cv-nat-1",
 			"dest": "/produkte/cv-nat-1/"
 		},
@@ -3442,28 +3486,6 @@
 			"status": 308,
 			"headers": {
 				"Location": "/produkte/cv-nat-8"
-			}
-		},
-		{
-			"src": "/produkte/cv-nat-9",
-			"dest": "/produkte/cv-nat-9/"
-		},
-		{
-			"src": "/produkte/cv-nat-9/",
-			"status": 308,
-			"headers": {
-				"Location": "/produkte/cv-nat-9"
-			}
-		},
-		{
-			"src": "/produkte/cv-nat-10",
-			"dest": "/produkte/cv-nat-10/"
-		},
-		{
-			"src": "/produkte/cv-nat-10/",
-			"status": 308,
-			"headers": {
-				"Location": "/produkte/cv-nat-10"
 			}
 		},
 		{
@@ -4555,6 +4577,12 @@
 		"buecher/37.html": {
 			"path": "buecher/37"
 		},
+		"buecher/38.html": {
+			"path": "buecher/38"
+		},
+		"buecher/39.html": {
+			"path": "buecher/39"
+		},
 		"produkte/cat/6.html": {
 			"path": "produkte/cat/6"
 		},
@@ -5356,6 +5384,12 @@
 		"produkte/cw-na-8.html": {
 			"path": "produkte/cw-na-8"
 		},
+		"produkte/be-pp-5.html": {
+			"path": "produkte/be-pp-5"
+		},
+		"produkte/be-pp-23.html": {
+			"path": "produkte/be-pp-23"
+		},
 		"produkte/cv-nat-1.html": {
 			"path": "produkte/cv-nat-1"
 		},
@@ -5379,12 +5413,6 @@
 		},
 		"produkte/cv-nat-8.html": {
 			"path": "produkte/cv-nat-8"
-		},
-		"produkte/cv-nat-9.html": {
-			"path": "produkte/cv-nat-9"
-		},
-		"produkte/cv-nat-10.html": {
-			"path": "produkte/cv-nat-10"
 		},
 		"produkte/gvk-ol-17.html": {
 			"path": "produkte/gvk-ol-17"
