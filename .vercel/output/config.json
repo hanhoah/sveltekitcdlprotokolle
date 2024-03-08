@@ -541,6 +541,17 @@
 			}
 		},
 		{
+			"src": "/produkte/cat/47",
+			"dest": "/produkte/cat/47/"
+		},
+		{
+			"src": "/produkte/cat/47/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/47"
+			}
+		},
+		{
 			"src": "/produkte/cat/30",
 			"dest": "/produkte/cat/30/"
 		},
@@ -1913,6 +1924,116 @@
 			"status": 308,
 			"headers": {
 				"Location": "/produkte/wk-ge-4"
+			}
+		},
+		{
+			"src": "/produkte/cv-ge-9",
+			"dest": "/produkte/cv-ge-9/"
+		},
+		{
+			"src": "/produkte/cv-ge-9/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cv-ge-9"
+			}
+		},
+		{
+			"src": "/produkte/cv-ge-1",
+			"dest": "/produkte/cv-ge-1/"
+		},
+		{
+			"src": "/produkte/cv-ge-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cv-ge-1"
+			}
+		},
+		{
+			"src": "/produkte/cv-ge-86",
+			"dest": "/produkte/cv-ge-86/"
+		},
+		{
+			"src": "/produkte/cv-ge-86/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cv-ge-86"
+			}
+		},
+		{
+			"src": "/produkte/cv-ge-89",
+			"dest": "/produkte/cv-ge-89/"
+		},
+		{
+			"src": "/produkte/cv-ge-89/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cv-ge-89"
+			}
+		},
+		{
+			"src": "/produkte/cv-ge-87",
+			"dest": "/produkte/cv-ge-87/"
+		},
+		{
+			"src": "/produkte/cv-ge-87/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cv-ge-87"
+			}
+		},
+		{
+			"src": "/produkte/cv-ge-88",
+			"dest": "/produkte/cv-ge-88/"
+		},
+		{
+			"src": "/produkte/cv-ge-88/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cv-ge-88"
+			}
+		},
+		{
+			"src": "/produkte/cv-ge-84",
+			"dest": "/produkte/cv-ge-84/"
+		},
+		{
+			"src": "/produkte/cv-ge-84/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cv-ge-84"
+			}
+		},
+		{
+			"src": "/produkte/cv-ge-82",
+			"dest": "/produkte/cv-ge-82/"
+		},
+		{
+			"src": "/produkte/cv-ge-82/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cv-ge-82"
+			}
+		},
+		{
+			"src": "/produkte/cv-ge-85",
+			"dest": "/produkte/cv-ge-85/"
+		},
+		{
+			"src": "/produkte/cv-ge-85/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cv-ge-85"
+			}
+		},
+		{
+			"src": "/produkte/cv-ge-2",
+			"dest": "/produkte/cv-ge-2/"
+		},
+		{
+			"src": "/produkte/cv-ge-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cv-ge-2"
 			}
 		},
 		{
@@ -4467,6 +4588,9 @@
 		"produkte/cat/28.html": {
 			"path": "produkte/cat/28"
 		},
+		"produkte/cat/47.html": {
+			"path": "produkte/cat/47"
+		},
 		"produkte/cat/30.html": {
 			"path": "produkte/cat/30"
 		},
@@ -4841,6 +4965,36 @@
 		},
 		"produkte/wk-ge-4.html": {
 			"path": "produkte/wk-ge-4"
+		},
+		"produkte/cv-ge-9.html": {
+			"path": "produkte/cv-ge-9"
+		},
+		"produkte/cv-ge-1.html": {
+			"path": "produkte/cv-ge-1"
+		},
+		"produkte/cv-ge-86.html": {
+			"path": "produkte/cv-ge-86"
+		},
+		"produkte/cv-ge-89.html": {
+			"path": "produkte/cv-ge-89"
+		},
+		"produkte/cv-ge-87.html": {
+			"path": "produkte/cv-ge-87"
+		},
+		"produkte/cv-ge-88.html": {
+			"path": "produkte/cv-ge-88"
+		},
+		"produkte/cv-ge-84.html": {
+			"path": "produkte/cv-ge-84"
+		},
+		"produkte/cv-ge-82.html": {
+			"path": "produkte/cv-ge-82"
+		},
+		"produkte/cv-ge-85.html": {
+			"path": "produkte/cv-ge-85"
+		},
+		"produkte/cv-ge-2.html": {
+			"path": "produkte/cv-ge-2"
 		},
 		"produkte/wk-gl-5.html": {
 			"path": "produkte/wk-gl-5"
