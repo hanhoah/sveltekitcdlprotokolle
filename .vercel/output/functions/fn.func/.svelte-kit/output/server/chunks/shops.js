@@ -31,6 +31,10 @@ function getBadge(id) {
       shop = "Cellavita";
       color = "bg-lime-500";
       break;
+    case "cv":
+      shop = "Cellavita";
+      color = "bg-lime-500";
+      break;
     default:
       shop = "Unknown";
   }
