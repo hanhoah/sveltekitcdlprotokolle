@@ -1,4 +1,4 @@
-import { l as getContext } from "./ssr.js";
+import { h as getContext } from "./ssr.js";
 import "./exports.js";
 import "devalue";
 function get(key, parse = JSON.parse) {

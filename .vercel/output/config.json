@@ -420,6 +420,402 @@
 			}
 		},
 		{
+			"src": "/produkte/cat/6",
+			"dest": "/produkte/cat/6/"
+		},
+		{
+			"src": "/produkte/cat/6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/6"
+			}
+		},
+		{
+			"src": "/produkte/cat/5",
+			"dest": "/produkte/cat/5/"
+		},
+		{
+			"src": "/produkte/cat/5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/5"
+			}
+		},
+		{
+			"src": "/produkte/cat/7",
+			"dest": "/produkte/cat/7/"
+		},
+		{
+			"src": "/produkte/cat/7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/7"
+			}
+		},
+		{
+			"src": "/produkte/cat/8",
+			"dest": "/produkte/cat/8/"
+		},
+		{
+			"src": "/produkte/cat/8/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/8"
+			}
+		},
+		{
+			"src": "/produkte/cat/9",
+			"dest": "/produkte/cat/9/"
+		},
+		{
+			"src": "/produkte/cat/9/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/9"
+			}
+		},
+		{
+			"src": "/produkte/cat/11",
+			"dest": "/produkte/cat/11/"
+		},
+		{
+			"src": "/produkte/cat/11/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/11"
+			}
+		},
+		{
+			"src": "/produkte/cat/29",
+			"dest": "/produkte/cat/29/"
+		},
+		{
+			"src": "/produkte/cat/29/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/29"
+			}
+		},
+		{
+			"src": "/produkte/cat/27",
+			"dest": "/produkte/cat/27/"
+		},
+		{
+			"src": "/produkte/cat/27/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/27"
+			}
+		},
+		{
+			"src": "/produkte/cat/13",
+			"dest": "/produkte/cat/13/"
+		},
+		{
+			"src": "/produkte/cat/13/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/13"
+			}
+		},
+		{
+			"src": "/produkte/cat/28",
+			"dest": "/produkte/cat/28/"
+		},
+		{
+			"src": "/produkte/cat/28/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/28"
+			}
+		},
+		{
+			"src": "/produkte/cat/30",
+			"dest": "/produkte/cat/30/"
+		},
+		{
+			"src": "/produkte/cat/30/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/30"
+			}
+		},
+		{
+			"src": "/produkte/cat/24",
+			"dest": "/produkte/cat/24/"
+		},
+		{
+			"src": "/produkte/cat/24/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/24"
+			}
+		},
+		{
+			"src": "/produkte/cat/14",
+			"dest": "/produkte/cat/14/"
+		},
+		{
+			"src": "/produkte/cat/14/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/14"
+			}
+		},
+		{
+			"src": "/produkte/cat/31",
+			"dest": "/produkte/cat/31/"
+		},
+		{
+			"src": "/produkte/cat/31/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/31"
+			}
+		},
+		{
+			"src": "/produkte/cat/32",
+			"dest": "/produkte/cat/32/"
+		},
+		{
+			"src": "/produkte/cat/32/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/32"
+			}
+		},
+		{
+			"src": "/produkte/cat/33",
+			"dest": "/produkte/cat/33/"
+		},
+		{
+			"src": "/produkte/cat/33/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/33"
+			}
+		},
+		{
+			"src": "/produkte/cat/12",
+			"dest": "/produkte/cat/12/"
+		},
+		{
+			"src": "/produkte/cat/12/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/12"
+			}
+		},
+		{
+			"src": "/produkte/cat/34",
+			"dest": "/produkte/cat/34/"
+		},
+		{
+			"src": "/produkte/cat/34/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/34"
+			}
+		},
+		{
+			"src": "/produkte/cat/35",
+			"dest": "/produkte/cat/35/"
+		},
+		{
+			"src": "/produkte/cat/35/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/35"
+			}
+		},
+		{
+			"src": "/produkte/cat/15",
+			"dest": "/produkte/cat/15/"
+		},
+		{
+			"src": "/produkte/cat/15/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/15"
+			}
+		},
+		{
+			"src": "/produkte/cat/37",
+			"dest": "/produkte/cat/37/"
+		},
+		{
+			"src": "/produkte/cat/37/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/37"
+			}
+		},
+		{
+			"src": "/produkte/cat/38",
+			"dest": "/produkte/cat/38/"
+		},
+		{
+			"src": "/produkte/cat/38/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/38"
+			}
+		},
+		{
+			"src": "/produkte/cat/39",
+			"dest": "/produkte/cat/39/"
+		},
+		{
+			"src": "/produkte/cat/39/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/39"
+			}
+		},
+		{
+			"src": "/produkte/cat/17",
+			"dest": "/produkte/cat/17/"
+		},
+		{
+			"src": "/produkte/cat/17/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/17"
+			}
+		},
+		{
+			"src": "/produkte/cat/18",
+			"dest": "/produkte/cat/18/"
+		},
+		{
+			"src": "/produkte/cat/18/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/18"
+			}
+		},
+		{
+			"src": "/produkte/cat/40",
+			"dest": "/produkte/cat/40/"
+		},
+		{
+			"src": "/produkte/cat/40/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/40"
+			}
+		},
+		{
+			"src": "/produkte/cat/41",
+			"dest": "/produkte/cat/41/"
+		},
+		{
+			"src": "/produkte/cat/41/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/41"
+			}
+		},
+		{
+			"src": "/produkte/cat/42",
+			"dest": "/produkte/cat/42/"
+		},
+		{
+			"src": "/produkte/cat/42/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/42"
+			}
+		},
+		{
+			"src": "/produkte/cat/19",
+			"dest": "/produkte/cat/19/"
+		},
+		{
+			"src": "/produkte/cat/19/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/19"
+			}
+		},
+		{
+			"src": "/produkte/cat/20",
+			"dest": "/produkte/cat/20/"
+		},
+		{
+			"src": "/produkte/cat/20/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/20"
+			}
+		},
+		{
+			"src": "/produkte/cat/26",
+			"dest": "/produkte/cat/26/"
+		},
+		{
+			"src": "/produkte/cat/26/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/26"
+			}
+		},
+		{
+			"src": "/produkte/cat/43",
+			"dest": "/produkte/cat/43/"
+		},
+		{
+			"src": "/produkte/cat/43/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/43"
+			}
+		},
+		{
+			"src": "/produkte/cat/21",
+			"dest": "/produkte/cat/21/"
+		},
+		{
+			"src": "/produkte/cat/21/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/21"
+			}
+		},
+		{
+			"src": "/produkte/cat/22",
+			"dest": "/produkte/cat/22/"
+		},
+		{
+			"src": "/produkte/cat/22/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/22"
+			}
+		},
+		{
+			"src": "/produkte/cat/23",
+			"dest": "/produkte/cat/23/"
+		},
+		{
+			"src": "/produkte/cat/23/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/23"
+			}
+		},
+		{
+			"src": "/produkte/cat/25",
+			"dest": "/produkte/cat/25/"
+		},
+		{
+			"src": "/produkte/cat/25/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cat/25"
+			}
+		},
+		{
 			"src": "/produkte/cw-na-85",
 			"dest": "/produkte/cw-na-85/"
 		},
@@ -549,6 +945,2888 @@
 			"status": 308,
 			"headers": {
 				"Location": "/produkte/gvk-ap-1"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ap-4",
+			"dest": "/produkte/gvk-ap-4/"
+		},
+		{
+			"src": "/produkte/gvk-ap-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ap-4"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ap-5",
+			"dest": "/produkte/gvk-ap-5/"
+		},
+		{
+			"src": "/produkte/gvk-ap-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ap-5"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ap-3",
+			"dest": "/produkte/gvk-ap-3/"
+		},
+		{
+			"src": "/produkte/gvk-ap-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ap-3"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ap-2",
+			"dest": "/produkte/gvk-ap-2/"
+		},
+		{
+			"src": "/produkte/gvk-ap-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ap-2"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ay-11",
+			"dest": "/produkte/gvk-ay-11/"
+		},
+		{
+			"src": "/produkte/gvk-ay-11/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ay-11"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ay-3",
+			"dest": "/produkte/gvk-ay-3/"
+		},
+		{
+			"src": "/produkte/gvk-ay-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ay-3"
+			}
+		},
+		{
+			"src": "/produkte/gvk-be-24",
+			"dest": "/produkte/gvk-be-24/"
+		},
+		{
+			"src": "/produkte/gvk-be-24/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-be-24"
+			}
+		},
+		{
+			"src": "/produkte/gvk-be-23",
+			"dest": "/produkte/gvk-be-23/"
+		},
+		{
+			"src": "/produkte/gvk-be-23/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-be-23"
+			}
+		},
+		{
+			"src": "/produkte/gvk-be-22",
+			"dest": "/produkte/gvk-be-22/"
+		},
+		{
+			"src": "/produkte/gvk-be-22/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-be-22"
+			}
+		},
+		{
+			"src": "/produkte/gvk-be-21",
+			"dest": "/produkte/gvk-be-21/"
+		},
+		{
+			"src": "/produkte/gvk-be-21/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-be-21"
+			}
+		},
+		{
+			"src": "/produkte/gvk-be-20",
+			"dest": "/produkte/gvk-be-20/"
+		},
+		{
+			"src": "/produkte/gvk-be-20/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-be-20"
+			}
+		},
+		{
+			"src": "/produkte/gvk-be-27",
+			"dest": "/produkte/gvk-be-27/"
+		},
+		{
+			"src": "/produkte/gvk-be-27/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-be-27"
+			}
+		},
+		{
+			"src": "/produkte/gvk-be-18",
+			"dest": "/produkte/gvk-be-18/"
+		},
+		{
+			"src": "/produkte/gvk-be-18/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-be-18"
+			}
+		},
+		{
+			"src": "/produkte/gvk-be-17",
+			"dest": "/produkte/gvk-be-17/"
+		},
+		{
+			"src": "/produkte/gvk-be-17/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-be-17"
+			}
+		},
+		{
+			"src": "/produkte/gvk-be-16",
+			"dest": "/produkte/gvk-be-16/"
+		},
+		{
+			"src": "/produkte/gvk-be-16/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-be-16"
+			}
+		},
+		{
+			"src": "/produkte/gvk-be-19",
+			"dest": "/produkte/gvk-be-19/"
+		},
+		{
+			"src": "/produkte/gvk-be-19/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-be-19"
+			}
+		},
+		{
+			"src": "/produkte/gvk-bi-1",
+			"dest": "/produkte/gvk-bi-1/"
+		},
+		{
+			"src": "/produkte/gvk-bi-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-bi-1"
+			}
+		},
+		{
+			"src": "/produkte/gvk-bi-2",
+			"dest": "/produkte/gvk-bi-2/"
+		},
+		{
+			"src": "/produkte/gvk-bi-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-bi-2"
+			}
+		},
+		{
+			"src": "/produkte/gvk-cd-6",
+			"dest": "/produkte/gvk-cd-6/"
+		},
+		{
+			"src": "/produkte/gvk-cd-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-cd-6"
+			}
+		},
+		{
+			"src": "/produkte/gvk-cd-5",
+			"dest": "/produkte/gvk-cd-5/"
+		},
+		{
+			"src": "/produkte/gvk-cd-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-cd-5"
+			}
+		},
+		{
+			"src": "/produkte/gvk-cd-4",
+			"dest": "/produkte/gvk-cd-4/"
+		},
+		{
+			"src": "/produkte/gvk-cd-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-cd-4"
+			}
+		},
+		{
+			"src": "/produkte/gvk-cd-3",
+			"dest": "/produkte/gvk-cd-3/"
+		},
+		{
+			"src": "/produkte/gvk-cd-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-cd-3"
+			}
+		},
+		{
+			"src": "/produkte/gvk-cd-2",
+			"dest": "/produkte/gvk-cd-2/"
+		},
+		{
+			"src": "/produkte/gvk-cd-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-cd-2"
+			}
+		},
+		{
+			"src": "/produkte/gvk-cd-1",
+			"dest": "/produkte/gvk-cd-1/"
+		},
+		{
+			"src": "/produkte/gvk-cd-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-cd-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-au-3",
+			"dest": "/produkte/wk-au-3/"
+		},
+		{
+			"src": "/produkte/wk-au-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-au-3"
+			}
+		},
+		{
+			"src": "/produkte/gvk-dln-7",
+			"dest": "/produkte/gvk-dln-7/"
+		},
+		{
+			"src": "/produkte/gvk-dln-7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-dln-7"
+			}
+		},
+		{
+			"src": "/produkte/wk-au-8",
+			"dest": "/produkte/wk-au-8/"
+		},
+		{
+			"src": "/produkte/wk-au-8/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-au-8"
+			}
+		},
+		{
+			"src": "/produkte/wk-au-6",
+			"dest": "/produkte/wk-au-6/"
+		},
+		{
+			"src": "/produkte/wk-au-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-au-6"
+			}
+		},
+		{
+			"src": "/produkte/gvk-dln-6",
+			"dest": "/produkte/gvk-dln-6/"
+		},
+		{
+			"src": "/produkte/gvk-dln-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-dln-6"
+			}
+		},
+		{
+			"src": "/produkte/gvk-dln-5",
+			"dest": "/produkte/gvk-dln-5/"
+		},
+		{
+			"src": "/produkte/gvk-dln-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-dln-5"
+			}
+		},
+		{
+			"src": "/produkte/gvk-dln-4",
+			"dest": "/produkte/gvk-dln-4/"
+		},
+		{
+			"src": "/produkte/gvk-dln-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-dln-4"
+			}
+		},
+		{
+			"src": "/produkte/wk-au-4",
+			"dest": "/produkte/wk-au-4/"
+		},
+		{
+			"src": "/produkte/wk-au-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-au-4"
+			}
+		},
+		{
+			"src": "/produkte/wk-au-2",
+			"dest": "/produkte/wk-au-2/"
+		},
+		{
+			"src": "/produkte/wk-au-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-au-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-au-7",
+			"dest": "/produkte/wk-au-7/"
+		},
+		{
+			"src": "/produkte/wk-au-7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-au-7"
+			}
+		},
+		{
+			"src": "/produkte/wk-em-3",
+			"dest": "/produkte/wk-em-3/"
+		},
+		{
+			"src": "/produkte/wk-em-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-em-3"
+			}
+		},
+		{
+			"src": "/produkte/wk-em-1",
+			"dest": "/produkte/wk-em-1/"
+		},
+		{
+			"src": "/produkte/wk-em-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-em-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-em-2",
+			"dest": "/produkte/wk-em-2/"
+		},
+		{
+			"src": "/produkte/wk-em-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-em-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-en-10",
+			"dest": "/produkte/wk-en-10/"
+		},
+		{
+			"src": "/produkte/wk-en-10/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-en-10"
+			}
+		},
+		{
+			"src": "/produkte/wk-en-5",
+			"dest": "/produkte/wk-en-5/"
+		},
+		{
+			"src": "/produkte/wk-en-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-en-5"
+			}
+		},
+		{
+			"src": "/produkte/wk-en-3",
+			"dest": "/produkte/wk-en-3/"
+		},
+		{
+			"src": "/produkte/wk-en-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-en-3"
+			}
+		},
+		{
+			"src": "/produkte/wk-en-6",
+			"dest": "/produkte/wk-en-6/"
+		},
+		{
+			"src": "/produkte/wk-en-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-en-6"
+			}
+		},
+		{
+			"src": "/produkte/wk-en-8",
+			"dest": "/produkte/wk-en-8/"
+		},
+		{
+			"src": "/produkte/wk-en-8/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-en-8"
+			}
+		},
+		{
+			"src": "/produkte/wk-en-9",
+			"dest": "/produkte/wk-en-9/"
+		},
+		{
+			"src": "/produkte/wk-en-9/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-en-9"
+			}
+		},
+		{
+			"src": "/produkte/wk-en-4",
+			"dest": "/produkte/wk-en-4/"
+		},
+		{
+			"src": "/produkte/wk-en-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-en-4"
+			}
+		},
+		{
+			"src": "/produkte/wk-en-7",
+			"dest": "/produkte/wk-en-7/"
+		},
+		{
+			"src": "/produkte/wk-en-7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-en-7"
+			}
+		},
+		{
+			"src": "/produkte/wk-en-2",
+			"dest": "/produkte/wk-en-2/"
+		},
+		{
+			"src": "/produkte/wk-en-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-en-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-en-1",
+			"dest": "/produkte/wk-en-1/"
+		},
+		{
+			"src": "/produkte/wk-en-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-en-1"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ex-29",
+			"dest": "/produkte/gvk-ex-29/"
+		},
+		{
+			"src": "/produkte/gvk-ex-29/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ex-29"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ex-28",
+			"dest": "/produkte/gvk-ex-28/"
+		},
+		{
+			"src": "/produkte/gvk-ex-28/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ex-28"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ex-27",
+			"dest": "/produkte/gvk-ex-27/"
+		},
+		{
+			"src": "/produkte/gvk-ex-27/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ex-27"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ex-26",
+			"dest": "/produkte/gvk-ex-26/"
+		},
+		{
+			"src": "/produkte/gvk-ex-26/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ex-26"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ex-24",
+			"dest": "/produkte/gvk-ex-24/"
+		},
+		{
+			"src": "/produkte/gvk-ex-24/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ex-24"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ex-25",
+			"dest": "/produkte/gvk-ex-25/"
+		},
+		{
+			"src": "/produkte/gvk-ex-25/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ex-25"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ex-23",
+			"dest": "/produkte/gvk-ex-23/"
+		},
+		{
+			"src": "/produkte/gvk-ex-23/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ex-23"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ex-22",
+			"dest": "/produkte/gvk-ex-22/"
+		},
+		{
+			"src": "/produkte/gvk-ex-22/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ex-22"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ex-21",
+			"dest": "/produkte/gvk-ex-21/"
+		},
+		{
+			"src": "/produkte/gvk-ex-21/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ex-21"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ex-20",
+			"dest": "/produkte/gvk-ex-20/"
+		},
+		{
+			"src": "/produkte/gvk-ex-20/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ex-20"
+			}
+		},
+		{
+			"src": "/produkte/wk-ge-10",
+			"dest": "/produkte/wk-ge-10/"
+		},
+		{
+			"src": "/produkte/wk-ge-10/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ge-10"
+			}
+		},
+		{
+			"src": "/produkte/wk-ge-9",
+			"dest": "/produkte/wk-ge-9/"
+		},
+		{
+			"src": "/produkte/wk-ge-9/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ge-9"
+			}
+		},
+		{
+			"src": "/produkte/wk-ge-2",
+			"dest": "/produkte/wk-ge-2/"
+		},
+		{
+			"src": "/produkte/wk-ge-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ge-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-ge-1",
+			"dest": "/produkte/wk-ge-1/"
+		},
+		{
+			"src": "/produkte/wk-ge-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ge-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-ge-3",
+			"dest": "/produkte/wk-ge-3/"
+		},
+		{
+			"src": "/produkte/wk-ge-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ge-3"
+			}
+		},
+		{
+			"src": "/produkte/wk-ge-8",
+			"dest": "/produkte/wk-ge-8/"
+		},
+		{
+			"src": "/produkte/wk-ge-8/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ge-8"
+			}
+		},
+		{
+			"src": "/produkte/wk-ge-5",
+			"dest": "/produkte/wk-ge-5/"
+		},
+		{
+			"src": "/produkte/wk-ge-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ge-5"
+			}
+		},
+		{
+			"src": "/produkte/wk-ge-6",
+			"dest": "/produkte/wk-ge-6/"
+		},
+		{
+			"src": "/produkte/wk-ge-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ge-6"
+			}
+		},
+		{
+			"src": "/produkte/wk-ge-7",
+			"dest": "/produkte/wk-ge-7/"
+		},
+		{
+			"src": "/produkte/wk-ge-7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ge-7"
+			}
+		},
+		{
+			"src": "/produkte/wk-ge-4",
+			"dest": "/produkte/wk-ge-4/"
+		},
+		{
+			"src": "/produkte/wk-ge-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ge-4"
+			}
+		},
+		{
+			"src": "/produkte/wk-gl-5",
+			"dest": "/produkte/wk-gl-5/"
+		},
+		{
+			"src": "/produkte/wk-gl-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-gl-5"
+			}
+		},
+		{
+			"src": "/produkte/wk-gl-1",
+			"dest": "/produkte/wk-gl-1/"
+		},
+		{
+			"src": "/produkte/wk-gl-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-gl-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-gl-4",
+			"dest": "/produkte/wk-gl-4/"
+		},
+		{
+			"src": "/produkte/wk-gl-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-gl-4"
+			}
+		},
+		{
+			"src": "/produkte/wk-gl-3",
+			"dest": "/produkte/wk-gl-3/"
+		},
+		{
+			"src": "/produkte/wk-gl-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-gl-3"
+			}
+		},
+		{
+			"src": "/produkte/wk-gl-2",
+			"dest": "/produkte/wk-gl-2/"
+		},
+		{
+			"src": "/produkte/wk-gl-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-gl-2"
+			}
+		},
+		{
+			"src": "/produkte/gvk-wpo-1",
+			"dest": "/produkte/gvk-wpo-1/"
+		},
+		{
+			"src": "/produkte/gvk-wpo-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-wpo-1"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ha-5",
+			"dest": "/produkte/gvk-ha-5/"
+		},
+		{
+			"src": "/produkte/gvk-ha-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ha-5"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ha-4",
+			"dest": "/produkte/gvk-ha-4/"
+		},
+		{
+			"src": "/produkte/gvk-ha-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ha-4"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ha-3",
+			"dest": "/produkte/gvk-ha-3/"
+		},
+		{
+			"src": "/produkte/gvk-ha-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ha-3"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ha-2",
+			"dest": "/produkte/gvk-ha-2/"
+		},
+		{
+			"src": "/produkte/gvk-ha-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ha-2"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ha-1",
+			"dest": "/produkte/gvk-ha-1/"
+		},
+		{
+			"src": "/produkte/gvk-ha-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ha-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-he-9",
+			"dest": "/produkte/wk-he-9/"
+		},
+		{
+			"src": "/produkte/wk-he-9/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-he-9"
+			}
+		},
+		{
+			"src": "/produkte/wk-he-8",
+			"dest": "/produkte/wk-he-8/"
+		},
+		{
+			"src": "/produkte/wk-he-8/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-he-8"
+			}
+		},
+		{
+			"src": "/produkte/wk-he-7",
+			"dest": "/produkte/wk-he-7/"
+		},
+		{
+			"src": "/produkte/wk-he-7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-he-7"
+			}
+		},
+		{
+			"src": "/produkte/wk-he-12",
+			"dest": "/produkte/wk-he-12/"
+		},
+		{
+			"src": "/produkte/wk-he-12/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-he-12"
+			}
+		},
+		{
+			"src": "/produkte/wk-he-10",
+			"dest": "/produkte/wk-he-10/"
+		},
+		{
+			"src": "/produkte/wk-he-10/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-he-10"
+			}
+		},
+		{
+			"src": "/produkte/wk-he-11",
+			"dest": "/produkte/wk-he-11/"
+		},
+		{
+			"src": "/produkte/wk-he-11/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-he-11"
+			}
+		},
+		{
+			"src": "/produkte/wk-he-2",
+			"dest": "/produkte/wk-he-2/"
+		},
+		{
+			"src": "/produkte/wk-he-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-he-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-he-3",
+			"dest": "/produkte/wk-he-3/"
+		},
+		{
+			"src": "/produkte/wk-he-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-he-3"
+			}
+		},
+		{
+			"src": "/produkte/wk-he-4",
+			"dest": "/produkte/wk-he-4/"
+		},
+		{
+			"src": "/produkte/wk-he-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-he-4"
+			}
+		},
+		{
+			"src": "/produkte/wk-he-6",
+			"dest": "/produkte/wk-he-6/"
+		},
+		{
+			"src": "/produkte/wk-he-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-he-6"
+			}
+		},
+		{
+			"src": "/produkte/wk-im-12",
+			"dest": "/produkte/wk-im-12/"
+		},
+		{
+			"src": "/produkte/wk-im-12/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-im-12"
+			}
+		},
+		{
+			"src": "/produkte/wk-im-11",
+			"dest": "/produkte/wk-im-11/"
+		},
+		{
+			"src": "/produkte/wk-im-11/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-im-11"
+			}
+		},
+		{
+			"src": "/produkte/wk-im-8",
+			"dest": "/produkte/wk-im-8/"
+		},
+		{
+			"src": "/produkte/wk-im-8/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-im-8"
+			}
+		},
+		{
+			"src": "/produkte/wk-im-7",
+			"dest": "/produkte/wk-im-7/"
+		},
+		{
+			"src": "/produkte/wk-im-7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-im-7"
+			}
+		},
+		{
+			"src": "/produkte/wk-im-10",
+			"dest": "/produkte/wk-im-10/"
+		},
+		{
+			"src": "/produkte/wk-im-10/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-im-10"
+			}
+		},
+		{
+			"src": "/produkte/wk-im-24",
+			"dest": "/produkte/wk-im-24/"
+		},
+		{
+			"src": "/produkte/wk-im-24/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-im-24"
+			}
+		},
+		{
+			"src": "/produkte/wk-im-6",
+			"dest": "/produkte/wk-im-6/"
+		},
+		{
+			"src": "/produkte/wk-im-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-im-6"
+			}
+		},
+		{
+			"src": "/produkte/wk-im-17",
+			"dest": "/produkte/wk-im-17/"
+		},
+		{
+			"src": "/produkte/wk-im-17/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-im-17"
+			}
+		},
+		{
+			"src": "/produkte/wk-im-13",
+			"dest": "/produkte/wk-im-13/"
+		},
+		{
+			"src": "/produkte/wk-im-13/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-im-13"
+			}
+		},
+		{
+			"src": "/produkte/wk-im-2",
+			"dest": "/produkte/wk-im-2/"
+		},
+		{
+			"src": "/produkte/wk-im-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-im-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-ir-2",
+			"dest": "/produkte/wk-ir-2/"
+		},
+		{
+			"src": "/produkte/wk-ir-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ir-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-ir-10",
+			"dest": "/produkte/wk-ir-10/"
+		},
+		{
+			"src": "/produkte/wk-ir-10/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ir-10"
+			}
+		},
+		{
+			"src": "/produkte/wk-ir-7",
+			"dest": "/produkte/wk-ir-7/"
+		},
+		{
+			"src": "/produkte/wk-ir-7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ir-7"
+			}
+		},
+		{
+			"src": "/produkte/wk-ir-8",
+			"dest": "/produkte/wk-ir-8/"
+		},
+		{
+			"src": "/produkte/wk-ir-8/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ir-8"
+			}
+		},
+		{
+			"src": "/produkte/wk-ir-1",
+			"dest": "/produkte/wk-ir-1/"
+		},
+		{
+			"src": "/produkte/wk-ir-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ir-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-ir-9",
+			"dest": "/produkte/wk-ir-9/"
+		},
+		{
+			"src": "/produkte/wk-ir-9/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ir-9"
+			}
+		},
+		{
+			"src": "/produkte/wk-ir-3",
+			"dest": "/produkte/wk-ir-3/"
+		},
+		{
+			"src": "/produkte/wk-ir-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ir-3"
+			}
+		},
+		{
+			"src": "/produkte/wk-ir-4",
+			"dest": "/produkte/wk-ir-4/"
+		},
+		{
+			"src": "/produkte/wk-ir-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ir-4"
+			}
+		},
+		{
+			"src": "/produkte/wk-ir-6",
+			"dest": "/produkte/wk-ir-6/"
+		},
+		{
+			"src": "/produkte/wk-ir-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ir-6"
+			}
+		},
+		{
+			"src": "/produkte/wk-ir-5",
+			"dest": "/produkte/wk-ir-5/"
+		},
+		{
+			"src": "/produkte/wk-ir-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-ir-5"
+			}
+		},
+		{
+			"src": "/produkte/gvk-in-94",
+			"dest": "/produkte/gvk-in-94/"
+		},
+		{
+			"src": "/produkte/gvk-in-94/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-in-94"
+			}
+		},
+		{
+			"src": "/produkte/gvk-in-93",
+			"dest": "/produkte/gvk-in-93/"
+		},
+		{
+			"src": "/produkte/gvk-in-93/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-in-93"
+			}
+		},
+		{
+			"src": "/produkte/gvk-in-92",
+			"dest": "/produkte/gvk-in-92/"
+		},
+		{
+			"src": "/produkte/gvk-in-92/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-in-92"
+			}
+		},
+		{
+			"src": "/produkte/gvk-in-91",
+			"dest": "/produkte/gvk-in-91/"
+		},
+		{
+			"src": "/produkte/gvk-in-91/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-in-91"
+			}
+		},
+		{
+			"src": "/produkte/gvk-in-90",
+			"dest": "/produkte/gvk-in-90/"
+		},
+		{
+			"src": "/produkte/gvk-in-90/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-in-90"
+			}
+		},
+		{
+			"src": "/produkte/gvk-in-89",
+			"dest": "/produkte/gvk-in-89/"
+		},
+		{
+			"src": "/produkte/gvk-in-89/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-in-89"
+			}
+		},
+		{
+			"src": "/produkte/gvk-in-87",
+			"dest": "/produkte/gvk-in-87/"
+		},
+		{
+			"src": "/produkte/gvk-in-87/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-in-87"
+			}
+		},
+		{
+			"src": "/produkte/gvk-in-88",
+			"dest": "/produkte/gvk-in-88/"
+		},
+		{
+			"src": "/produkte/gvk-in-88/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-in-88"
+			}
+		},
+		{
+			"src": "/produkte/gvk-in-86",
+			"dest": "/produkte/gvk-in-86/"
+		},
+		{
+			"src": "/produkte/gvk-in-86/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-in-86"
+			}
+		},
+		{
+			"src": "/produkte/gvk-in-85",
+			"dest": "/produkte/gvk-in-85/"
+		},
+		{
+			"src": "/produkte/gvk-in-85/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-in-85"
+			}
+		},
+		{
+			"src": "/produkte/wk-kn-2",
+			"dest": "/produkte/wk-kn-2/"
+		},
+		{
+			"src": "/produkte/wk-kn-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-kn-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-kn-13",
+			"dest": "/produkte/wk-kn-13/"
+		},
+		{
+			"src": "/produkte/wk-kn-13/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-kn-13"
+			}
+		},
+		{
+			"src": "/produkte/wk-kn-11",
+			"dest": "/produkte/wk-kn-11/"
+		},
+		{
+			"src": "/produkte/wk-kn-11/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-kn-11"
+			}
+		},
+		{
+			"src": "/produkte/wk-kn-7",
+			"dest": "/produkte/wk-kn-7/"
+		},
+		{
+			"src": "/produkte/wk-kn-7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-kn-7"
+			}
+		},
+		{
+			"src": "/produkte/wk-kn-10",
+			"dest": "/produkte/wk-kn-10/"
+		},
+		{
+			"src": "/produkte/wk-kn-10/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-kn-10"
+			}
+		},
+		{
+			"src": "/produkte/wk-kn-12",
+			"dest": "/produkte/wk-kn-12/"
+		},
+		{
+			"src": "/produkte/wk-kn-12/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-kn-12"
+			}
+		},
+		{
+			"src": "/produkte/wk-kn-9",
+			"dest": "/produkte/wk-kn-9/"
+		},
+		{
+			"src": "/produkte/wk-kn-9/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-kn-9"
+			}
+		},
+		{
+			"src": "/produkte/wk-kn-4",
+			"dest": "/produkte/wk-kn-4/"
+		},
+		{
+			"src": "/produkte/wk-kn-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-kn-4"
+			}
+		},
+		{
+			"src": "/produkte/wk-kn-1",
+			"dest": "/produkte/wk-kn-1/"
+		},
+		{
+			"src": "/produkte/wk-kn-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-kn-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-kn-3",
+			"dest": "/produkte/wk-kn-3/"
+		},
+		{
+			"src": "/produkte/wk-kn-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-kn-3"
+			}
+		},
+		{
+			"src": "/produkte/wk-kl-2",
+			"dest": "/produkte/wk-kl-2/"
+		},
+		{
+			"src": "/produkte/wk-kl-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-kl-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-kl-3",
+			"dest": "/produkte/wk-kl-3/"
+		},
+		{
+			"src": "/produkte/wk-kl-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-kl-3"
+			}
+		},
+		{
+			"src": "/produkte/wk-kl-1",
+			"dest": "/produkte/wk-kl-1/"
+		},
+		{
+			"src": "/produkte/wk-kl-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-kl-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-kl-4",
+			"dest": "/produkte/wk-kl-4/"
+		},
+		{
+			"src": "/produkte/wk-kl-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-kl-4"
+			}
+		},
+		{
+			"src": "/produkte/gvk-kos-19",
+			"dest": "/produkte/gvk-kos-19/"
+		},
+		{
+			"src": "/produkte/gvk-kos-19/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-kos-19"
+			}
+		},
+		{
+			"src": "/produkte/gvk-kos-13",
+			"dest": "/produkte/gvk-kos-13/"
+		},
+		{
+			"src": "/produkte/gvk-kos-13/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-kos-13"
+			}
+		},
+		{
+			"src": "/produkte/gvk-kos-12",
+			"dest": "/produkte/gvk-kos-12/"
+		},
+		{
+			"src": "/produkte/gvk-kos-12/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-kos-12"
+			}
+		},
+		{
+			"src": "/produkte/gvk-kos-11",
+			"dest": "/produkte/gvk-kos-11/"
+		},
+		{
+			"src": "/produkte/gvk-kos-11/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-kos-11"
+			}
+		},
+		{
+			"src": "/produkte/wk-nk-6",
+			"dest": "/produkte/wk-nk-6/"
+		},
+		{
+			"src": "/produkte/wk-nk-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-nk-6"
+			}
+		},
+		{
+			"src": "/produkte/gvk-kos-10",
+			"dest": "/produkte/gvk-kos-10/"
+		},
+		{
+			"src": "/produkte/gvk-kos-10/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-kos-10"
+			}
+		},
+		{
+			"src": "/produkte/gvk-kos-9",
+			"dest": "/produkte/gvk-kos-9/"
+		},
+		{
+			"src": "/produkte/gvk-kos-9/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-kos-9"
+			}
+		},
+		{
+			"src": "/produkte/wk-nk-3",
+			"dest": "/produkte/wk-nk-3/"
+		},
+		{
+			"src": "/produkte/wk-nk-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-nk-3"
+			}
+		},
+		{
+			"src": "/produkte/gvk-kos-8",
+			"dest": "/produkte/gvk-kos-8/"
+		},
+		{
+			"src": "/produkte/gvk-kos-8/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-kos-8"
+			}
+		},
+		{
+			"src": "/produkte/gvk-kos-7",
+			"dest": "/produkte/gvk-kos-7/"
+		},
+		{
+			"src": "/produkte/gvk-kos-7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-kos-7"
+			}
+		},
+		{
+			"src": "/produkte/wk-md-7",
+			"dest": "/produkte/wk-md-7/"
+		},
+		{
+			"src": "/produkte/wk-md-7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-md-7"
+			}
+		},
+		{
+			"src": "/produkte/wk-md-10",
+			"dest": "/produkte/wk-md-10/"
+		},
+		{
+			"src": "/produkte/wk-md-10/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-md-10"
+			}
+		},
+		{
+			"src": "/produkte/wk-md-9",
+			"dest": "/produkte/wk-md-9/"
+		},
+		{
+			"src": "/produkte/wk-md-9/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-md-9"
+			}
+		},
+		{
+			"src": "/produkte/wk-md-11",
+			"dest": "/produkte/wk-md-11/"
+		},
+		{
+			"src": "/produkte/wk-md-11/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-md-11"
+			}
+		},
+		{
+			"src": "/produkte/wk-md-2",
+			"dest": "/produkte/wk-md-2/"
+		},
+		{
+			"src": "/produkte/wk-md-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-md-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-md-5",
+			"dest": "/produkte/wk-md-5/"
+		},
+		{
+			"src": "/produkte/wk-md-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-md-5"
+			}
+		},
+		{
+			"src": "/produkte/wk-md-3",
+			"dest": "/produkte/wk-md-3/"
+		},
+		{
+			"src": "/produkte/wk-md-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-md-3"
+			}
+		},
+		{
+			"src": "/produkte/wk-md-1",
+			"dest": "/produkte/wk-md-1/"
+		},
+		{
+			"src": "/produkte/wk-md-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-md-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-md-4",
+			"dest": "/produkte/wk-md-4/"
+		},
+		{
+			"src": "/produkte/wk-md-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-md-4"
+			}
+		},
+		{
+			"src": "/produkte/wk-md-8",
+			"dest": "/produkte/wk-md-8/"
+		},
+		{
+			"src": "/produkte/wk-md-8/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-md-8"
+			}
+		},
+		{
+			"src": "/produkte/wk-mi-5",
+			"dest": "/produkte/wk-mi-5/"
+		},
+		{
+			"src": "/produkte/wk-mi-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-mi-5"
+			}
+		},
+		{
+			"src": "/produkte/wk-mi-3",
+			"dest": "/produkte/wk-mi-3/"
+		},
+		{
+			"src": "/produkte/wk-mi-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-mi-3"
+			}
+		},
+		{
+			"src": "/produkte/wk-mi-1",
+			"dest": "/produkte/wk-mi-1/"
+		},
+		{
+			"src": "/produkte/wk-mi-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-mi-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-mi-4",
+			"dest": "/produkte/wk-mi-4/"
+		},
+		{
+			"src": "/produkte/wk-mi-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-mi-4"
+			}
+		},
+		{
+			"src": "/produkte/wk-mi-2",
+			"dest": "/produkte/wk-mi-2/"
+		},
+		{
+			"src": "/produkte/wk-mi-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-mi-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-mi-6",
+			"dest": "/produkte/wk-mi-6/"
+		},
+		{
+			"src": "/produkte/wk-mi-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-mi-6"
+			}
+		},
+		{
+			"src": "/produkte/gvk-kos-17",
+			"dest": "/produkte/gvk-kos-17/"
+		},
+		{
+			"src": "/produkte/gvk-kos-17/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-kos-17"
+			}
+		},
+		{
+			"src": "/produkte/wk-mh-4",
+			"dest": "/produkte/wk-mh-4/"
+		},
+		{
+			"src": "/produkte/wk-mh-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-mh-4"
+			}
+		},
+		{
+			"src": "/produkte/wk-mh-1",
+			"dest": "/produkte/wk-mh-1/"
+		},
+		{
+			"src": "/produkte/wk-mh-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-mh-1"
+			}
+		},
+		{
+			"src": "/produkte/gvk-kos-1",
+			"dest": "/produkte/gvk-kos-1/"
+		},
+		{
+			"src": "/produkte/gvk-kos-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-kos-1"
+			}
+		},
+		{
+			"src": "/produkte/gvk-kos-2",
+			"dest": "/produkte/gvk-kos-2/"
+		},
+		{
+			"src": "/produkte/gvk-kos-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-kos-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-mh-2",
+			"dest": "/produkte/wk-mh-2/"
+		},
+		{
+			"src": "/produkte/wk-mh-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-mh-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-mh-3",
+			"dest": "/produkte/wk-mh-3/"
+		},
+		{
+			"src": "/produkte/wk-mh-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-mh-3"
+			}
+		},
+		{
+			"src": "/produkte/cw-na-1",
+			"dest": "/produkte/cw-na-1/"
+		},
+		{
+			"src": "/produkte/cw-na-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cw-na-1"
+			}
+		},
+		{
+			"src": "/produkte/cw-na-2",
+			"dest": "/produkte/cw-na-2/"
+		},
+		{
+			"src": "/produkte/cw-na-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cw-na-2"
+			}
+		},
+		{
+			"src": "/produkte/cw-na-3",
+			"dest": "/produkte/cw-na-3/"
+		},
+		{
+			"src": "/produkte/cw-na-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cw-na-3"
+			}
+		},
+		{
+			"src": "/produkte/cw-na-4",
+			"dest": "/produkte/cw-na-4/"
+		},
+		{
+			"src": "/produkte/cw-na-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cw-na-4"
+			}
+		},
+		{
+			"src": "/produkte/cw-na-5",
+			"dest": "/produkte/cw-na-5/"
+		},
+		{
+			"src": "/produkte/cw-na-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cw-na-5"
+			}
+		},
+		{
+			"src": "/produkte/cw-na-6",
+			"dest": "/produkte/cw-na-6/"
+		},
+		{
+			"src": "/produkte/cw-na-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cw-na-6"
+			}
+		},
+		{
+			"src": "/produkte/cw-na-7",
+			"dest": "/produkte/cw-na-7/"
+		},
+		{
+			"src": "/produkte/cw-na-7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cw-na-7"
+			}
+		},
+		{
+			"src": "/produkte/gvk-na-104",
+			"dest": "/produkte/gvk-na-104/"
+		},
+		{
+			"src": "/produkte/gvk-na-104/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-na-104"
+			}
+		},
+		{
+			"src": "/produkte/gvk-na-103",
+			"dest": "/produkte/gvk-na-103/"
+		},
+		{
+			"src": "/produkte/gvk-na-103/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-na-103"
+			}
+		},
+		{
+			"src": "/produkte/cw-na-8",
+			"dest": "/produkte/cw-na-8/"
+		},
+		{
+			"src": "/produkte/cw-na-8/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/cw-na-8"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ol-17",
+			"dest": "/produkte/gvk-ol-17/"
+		},
+		{
+			"src": "/produkte/gvk-ol-17/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ol-17"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ol-14",
+			"dest": "/produkte/gvk-ol-14/"
+		},
+		{
+			"src": "/produkte/gvk-ol-14/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ol-14"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ol-13",
+			"dest": "/produkte/gvk-ol-13/"
+		},
+		{
+			"src": "/produkte/gvk-ol-13/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ol-13"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ol-12",
+			"dest": "/produkte/gvk-ol-12/"
+		},
+		{
+			"src": "/produkte/gvk-ol-12/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ol-12"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ol-11",
+			"dest": "/produkte/gvk-ol-11/"
+		},
+		{
+			"src": "/produkte/gvk-ol-11/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ol-11"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ol-10",
+			"dest": "/produkte/gvk-ol-10/"
+		},
+		{
+			"src": "/produkte/gvk-ol-10/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ol-10"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ol-9",
+			"dest": "/produkte/gvk-ol-9/"
+		},
+		{
+			"src": "/produkte/gvk-ol-9/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ol-9"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ol-8",
+			"dest": "/produkte/gvk-ol-8/"
+		},
+		{
+			"src": "/produkte/gvk-ol-8/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ol-8"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ol-7",
+			"dest": "/produkte/gvk-ol-7/"
+		},
+		{
+			"src": "/produkte/gvk-ol-7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ol-7"
+			}
+		},
+		{
+			"src": "/produkte/gvk-ol-6",
+			"dest": "/produkte/gvk-ol-6/"
+		},
+		{
+			"src": "/produkte/gvk-ol-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-ol-6"
+			}
+		},
+		{
+			"src": "/produkte/wk-oz-1",
+			"dest": "/produkte/wk-oz-1/"
+		},
+		{
+			"src": "/produkte/wk-oz-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-oz-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-oz-3",
+			"dest": "/produkte/wk-oz-3/"
+		},
+		{
+			"src": "/produkte/wk-oz-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-oz-3"
+			}
+		},
+		{
+			"src": "/produkte/wk-oz-2",
+			"dest": "/produkte/wk-oz-2/"
+		},
+		{
+			"src": "/produkte/wk-oz-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-oz-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-pa-2",
+			"dest": "/produkte/wk-pa-2/"
+		},
+		{
+			"src": "/produkte/wk-pa-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-pa-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-pa-3",
+			"dest": "/produkte/wk-pa-3/"
+		},
+		{
+			"src": "/produkte/wk-pa-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-pa-3"
+			}
+		},
+		{
+			"src": "/produkte/wk-pa-5",
+			"dest": "/produkte/wk-pa-5/"
+		},
+		{
+			"src": "/produkte/wk-pa-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-pa-5"
+			}
+		},
+		{
+			"src": "/produkte/wk-pa-4",
+			"dest": "/produkte/wk-pa-4/"
+		},
+		{
+			"src": "/produkte/wk-pa-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-pa-4"
+			}
+		},
+		{
+			"src": "/produkte/wk-pa-6",
+			"dest": "/produkte/wk-pa-6/"
+		},
+		{
+			"src": "/produkte/wk-pa-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-pa-6"
+			}
+		},
+		{
+			"src": "/produkte/wk-pa-1",
+			"dest": "/produkte/wk-pa-1/"
+		},
+		{
+			"src": "/produkte/wk-pa-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-pa-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-sch-3",
+			"dest": "/produkte/wk-sch-3/"
+		},
+		{
+			"src": "/produkte/wk-sch-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-sch-3"
+			}
+		},
+		{
+			"src": "/produkte/wk-sch-5",
+			"dest": "/produkte/wk-sch-5/"
+		},
+		{
+			"src": "/produkte/wk-sch-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-sch-5"
+			}
+		},
+		{
+			"src": "/produkte/wk-sch-2",
+			"dest": "/produkte/wk-sch-2/"
+		},
+		{
+			"src": "/produkte/wk-sch-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-sch-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-sch-1",
+			"dest": "/produkte/wk-sch-1/"
+		},
+		{
+			"src": "/produkte/wk-sch-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-sch-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-sch-4",
+			"dest": "/produkte/wk-sch-4/"
+		},
+		{
+			"src": "/produkte/wk-sch-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-sch-4"
+			}
+		},
+		{
+			"src": "/produkte/gvk-sch-5",
+			"dest": "/produkte/gvk-sch-5/"
+		},
+		{
+			"src": "/produkte/gvk-sch-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-sch-5"
+			}
+		},
+		{
+			"src": "/produkte/gvk-sch-4",
+			"dest": "/produkte/gvk-sch-4/"
+		},
+		{
+			"src": "/produkte/gvk-sch-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-sch-4"
+			}
+		},
+		{
+			"src": "/produkte/gvk-sch-3",
+			"dest": "/produkte/gvk-sch-3/"
+		},
+		{
+			"src": "/produkte/gvk-sch-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-sch-3"
+			}
+		},
+		{
+			"src": "/produkte/gvk-sch-2",
+			"dest": "/produkte/gvk-sch-2/"
+		},
+		{
+			"src": "/produkte/gvk-sch-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-sch-2"
+			}
+		},
+		{
+			"src": "/produkte/gvk-sch-27",
+			"dest": "/produkte/gvk-sch-27/"
+		},
+		{
+			"src": "/produkte/gvk-sch-27/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-sch-27"
+			}
+		},
+		{
+			"src": "/produkte/gvk-sch-26",
+			"dest": "/produkte/gvk-sch-26/"
+		},
+		{
+			"src": "/produkte/gvk-sch-26/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-sch-26"
+			}
+		},
+		{
+			"src": "/produkte/gvk-sch-25",
+			"dest": "/produkte/gvk-sch-25/"
+		},
+		{
+			"src": "/produkte/gvk-sch-25/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-sch-25"
+			}
+		},
+		{
+			"src": "/produkte/gvk-sch-24",
+			"dest": "/produkte/gvk-sch-24/"
+		},
+		{
+			"src": "/produkte/gvk-sch-24/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-sch-24"
+			}
+		},
+		{
+			"src": "/produkte/gvk-sch-23",
+			"dest": "/produkte/gvk-sch-23/"
+		},
+		{
+			"src": "/produkte/gvk-sch-23/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-sch-23"
+			}
+		},
+		{
+			"src": "/produkte/gvk-sch-22",
+			"dest": "/produkte/gvk-sch-22/"
+		},
+		{
+			"src": "/produkte/gvk-sch-22/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-sch-22"
+			}
+		},
+		{
+			"src": "/produkte/gvk-sf-2",
+			"dest": "/produkte/gvk-sf-2/"
+		},
+		{
+			"src": "/produkte/gvk-sf-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-sf-2"
+			}
+		},
+		{
+			"src": "/produkte/gvk-sf-1",
+			"dest": "/produkte/gvk-sf-1/"
+		},
+		{
+			"src": "/produkte/gvk-sf-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-sf-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-se-2",
+			"dest": "/produkte/wk-se-2/"
+		},
+		{
+			"src": "/produkte/wk-se-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-se-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-se-1",
+			"dest": "/produkte/wk-se-1/"
+		},
+		{
+			"src": "/produkte/wk-se-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-se-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-se-3",
+			"dest": "/produkte/wk-se-3/"
+		},
+		{
+			"src": "/produkte/wk-se-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-se-3"
+			}
+		},
+		{
+			"src": "/produkte/wk-sw-9",
+			"dest": "/produkte/wk-sw-9/"
+		},
+		{
+			"src": "/produkte/wk-sw-9/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-sw-9"
+			}
+		},
+		{
+			"src": "/produkte/wk-sw-11",
+			"dest": "/produkte/wk-sw-11/"
+		},
+		{
+			"src": "/produkte/wk-sw-11/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-sw-11"
+			}
+		},
+		{
+			"src": "/produkte/wk-sw-10",
+			"dest": "/produkte/wk-sw-10/"
+		},
+		{
+			"src": "/produkte/wk-sw-10/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-sw-10"
+			}
+		},
+		{
+			"src": "/produkte/wk-sw-12",
+			"dest": "/produkte/wk-sw-12/"
+		},
+		{
+			"src": "/produkte/wk-sw-12/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-sw-12"
+			}
+		},
+		{
+			"src": "/produkte/wk-sw-6",
+			"dest": "/produkte/wk-sw-6/"
+		},
+		{
+			"src": "/produkte/wk-sw-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-sw-6"
+			}
+		},
+		{
+			"src": "/produkte/wk-sw-1",
+			"dest": "/produkte/wk-sw-1/"
+		},
+		{
+			"src": "/produkte/wk-sw-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-sw-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-sw-2",
+			"dest": "/produkte/wk-sw-2/"
+		},
+		{
+			"src": "/produkte/wk-sw-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-sw-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-sw-7",
+			"dest": "/produkte/wk-sw-7/"
+		},
+		{
+			"src": "/produkte/wk-sw-7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-sw-7"
+			}
+		},
+		{
+			"src": "/produkte/wk-sw-8",
+			"dest": "/produkte/wk-sw-8/"
+		},
+		{
+			"src": "/produkte/wk-sw-8/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-sw-8"
+			}
+		},
+		{
+			"src": "/produkte/wk-sw-3",
+			"dest": "/produkte/wk-sw-3/"
+		},
+		{
+			"src": "/produkte/wk-sw-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-sw-3"
+			}
+		},
+		{
+			"src": "/produkte/gvk-tkp-77",
+			"dest": "/produkte/gvk-tkp-77/"
+		},
+		{
+			"src": "/produkte/gvk-tkp-77/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-tkp-77"
+			}
+		},
+		{
+			"src": "/produkte/gvk-tkp-76",
+			"dest": "/produkte/gvk-tkp-76/"
+		},
+		{
+			"src": "/produkte/gvk-tkp-76/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-tkp-76"
+			}
+		},
+		{
+			"src": "/produkte/gvk-tkp-75",
+			"dest": "/produkte/gvk-tkp-75/"
+		},
+		{
+			"src": "/produkte/gvk-tkp-75/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-tkp-75"
+			}
+		},
+		{
+			"src": "/produkte/gvk-tkp-74",
+			"dest": "/produkte/gvk-tkp-74/"
+		},
+		{
+			"src": "/produkte/gvk-tkp-74/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-tkp-74"
+			}
+		},
+		{
+			"src": "/produkte/gvk-tkp-73",
+			"dest": "/produkte/gvk-tkp-73/"
+		},
+		{
+			"src": "/produkte/gvk-tkp-73/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-tkp-73"
+			}
+		},
+		{
+			"src": "/produkte/gvk-tkp-72",
+			"dest": "/produkte/gvk-tkp-72/"
+		},
+		{
+			"src": "/produkte/gvk-tkp-72/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-tkp-72"
+			}
+		},
+		{
+			"src": "/produkte/gvk-tkp-71",
+			"dest": "/produkte/gvk-tkp-71/"
+		},
+		{
+			"src": "/produkte/gvk-tkp-71/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-tkp-71"
+			}
+		},
+		{
+			"src": "/produkte/gvk-tkp-70",
+			"dest": "/produkte/gvk-tkp-70/"
+		},
+		{
+			"src": "/produkte/gvk-tkp-70/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-tkp-70"
+			}
+		},
+		{
+			"src": "/produkte/gvk-tkp-69",
+			"dest": "/produkte/gvk-tkp-69/"
+		},
+		{
+			"src": "/produkte/gvk-tkp-69/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-tkp-69"
+			}
+		},
+		{
+			"src": "/produkte/gvk-tkp-68",
+			"dest": "/produkte/gvk-tkp-68/"
+		},
+		{
+			"src": "/produkte/gvk-tkp-68/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-tkp-68"
+			}
+		},
+		{
+			"src": "/produkte/gvk-th-58",
+			"dest": "/produkte/gvk-th-58/"
+		},
+		{
+			"src": "/produkte/gvk-th-58/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-th-58"
+			}
+		},
+		{
+			"src": "/produkte/gvk-th-57",
+			"dest": "/produkte/gvk-th-57/"
+		},
+		{
+			"src": "/produkte/gvk-th-57/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-th-57"
+			}
+		},
+		{
+			"src": "/produkte/gvk-th-56",
+			"dest": "/produkte/gvk-th-56/"
+		},
+		{
+			"src": "/produkte/gvk-th-56/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-th-56"
+			}
+		},
+		{
+			"src": "/produkte/gvk-th-55",
+			"dest": "/produkte/gvk-th-55/"
+		},
+		{
+			"src": "/produkte/gvk-th-55/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-th-55"
+			}
+		},
+		{
+			"src": "/produkte/gvk-th-54",
+			"dest": "/produkte/gvk-th-54/"
+		},
+		{
+			"src": "/produkte/gvk-th-54/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-th-54"
+			}
+		},
+		{
+			"src": "/produkte/gvk-th-53",
+			"dest": "/produkte/gvk-th-53/"
+		},
+		{
+			"src": "/produkte/gvk-th-53/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-th-53"
+			}
+		},
+		{
+			"src": "/produkte/gvk-th-52",
+			"dest": "/produkte/gvk-th-52/"
+		},
+		{
+			"src": "/produkte/gvk-th-52/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-th-52"
+			}
+		},
+		{
+			"src": "/produkte/gvk-th-51",
+			"dest": "/produkte/gvk-th-51/"
+		},
+		{
+			"src": "/produkte/gvk-th-51/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-th-51"
+			}
+		},
+		{
+			"src": "/produkte/gvk-th-50",
+			"dest": "/produkte/gvk-th-50/"
+		},
+		{
+			"src": "/produkte/gvk-th-50/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-th-50"
+			}
+		},
+		{
+			"src": "/produkte/gvk-th-49",
+			"dest": "/produkte/gvk-th-49/"
+		},
+		{
+			"src": "/produkte/gvk-th-49/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-th-49"
+			}
+		},
+		{
+			"src": "/produkte/gvk-vp-2",
+			"dest": "/produkte/gvk-vp-2/"
+		},
+		{
+			"src": "/produkte/gvk-vp-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-vp-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-vp-1",
+			"dest": "/produkte/wk-vp-1/"
+		},
+		{
+			"src": "/produkte/wk-vp-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-vp-1"
+			}
+		},
+		{
+			"src": "/produkte/wk-vp-2",
+			"dest": "/produkte/wk-vp-2/"
+		},
+		{
+			"src": "/produkte/wk-vp-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-vp-2"
+			}
+		},
+		{
+			"src": "/produkte/wk-vp-3",
+			"dest": "/produkte/wk-vp-3/"
+		},
+		{
+			"src": "/produkte/wk-vp-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-vp-3"
+			}
+		},
+		{
+			"src": "/produkte/wk-vp-5",
+			"dest": "/produkte/wk-vp-5/"
+		},
+		{
+			"src": "/produkte/wk-vp-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-vp-5"
+			}
+		},
+		{
+			"src": "/produkte/wk-vp-4",
+			"dest": "/produkte/wk-vp-4/"
+		},
+		{
+			"src": "/produkte/wk-vp-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-vp-4"
+			}
+		},
+		{
+			"src": "/produkte/wk-vp-6",
+			"dest": "/produkte/wk-vp-6/"
+		},
+		{
+			"src": "/produkte/wk-vp-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/wk-vp-6"
+			}
+		},
+		{
+			"src": "/produkte/gvk-co-2",
+			"dest": "/produkte/gvk-co-2/"
+		},
+		{
+			"src": "/produkte/gvk-co-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-co-2"
+			}
+		},
+		{
+			"src": "/produkte/gvk-co-1",
+			"dest": "/produkte/gvk-co-1/"
+		},
+		{
+			"src": "/produkte/gvk-co-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-co-1"
+			}
+		},
+		{
+			"src": "/produkte/gvk-vp-1",
+			"dest": "/produkte/gvk-vp-1/"
+		},
+		{
+			"src": "/produkte/gvk-vp-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-vp-1"
+			}
+		},
+		{
+			"src": "/produkte/gvk-zu-8",
+			"dest": "/produkte/gvk-zu-8/"
+		},
+		{
+			"src": "/produkte/gvk-zu-8/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-zu-8"
+			}
+		},
+		{
+			"src": "/produkte/gvk-zu-7",
+			"dest": "/produkte/gvk-zu-7/"
+		},
+		{
+			"src": "/produkte/gvk-zu-7/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-zu-7"
+			}
+		},
+		{
+			"src": "/produkte/gvk-zu-6",
+			"dest": "/produkte/gvk-zu-6/"
+		},
+		{
+			"src": "/produkte/gvk-zu-6/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-zu-6"
+			}
+		},
+		{
+			"src": "/produkte/gvk-zu-5",
+			"dest": "/produkte/gvk-zu-5/"
+		},
+		{
+			"src": "/produkte/gvk-zu-5/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-zu-5"
+			}
+		},
+		{
+			"src": "/produkte/gvk-zu-4",
+			"dest": "/produkte/gvk-zu-4/"
+		},
+		{
+			"src": "/produkte/gvk-zu-4/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-zu-4"
+			}
+		},
+		{
+			"src": "/produkte/gvk-zu-3",
+			"dest": "/produkte/gvk-zu-3/"
+		},
+		{
+			"src": "/produkte/gvk-zu-3/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-zu-3"
+			}
+		},
+		{
+			"src": "/produkte/gvk-zu-2",
+			"dest": "/produkte/gvk-zu-2/"
+		},
+		{
+			"src": "/produkte/gvk-zu-2/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-zu-2"
+			}
+		},
+		{
+			"src": "/produkte/gvk-zu-1",
+			"dest": "/produkte/gvk-zu-1/"
+		},
+		{
+			"src": "/produkte/gvk-zu-1/",
+			"status": 308,
+			"headers": {
+				"Location": "/produkte/gvk-zu-1"
 			}
 		},
 		{
@@ -683,6 +3961,114 @@
 		"buecher/37.html": {
 			"path": "buecher/37"
 		},
+		"produkte/cat/6.html": {
+			"path": "produkte/cat/6"
+		},
+		"produkte/cat/5.html": {
+			"path": "produkte/cat/5"
+		},
+		"produkte/cat/7.html": {
+			"path": "produkte/cat/7"
+		},
+		"produkte/cat/8.html": {
+			"path": "produkte/cat/8"
+		},
+		"produkte/cat/9.html": {
+			"path": "produkte/cat/9"
+		},
+		"produkte/cat/11.html": {
+			"path": "produkte/cat/11"
+		},
+		"produkte/cat/29.html": {
+			"path": "produkte/cat/29"
+		},
+		"produkte/cat/27.html": {
+			"path": "produkte/cat/27"
+		},
+		"produkte/cat/13.html": {
+			"path": "produkte/cat/13"
+		},
+		"produkte/cat/28.html": {
+			"path": "produkte/cat/28"
+		},
+		"produkte/cat/30.html": {
+			"path": "produkte/cat/30"
+		},
+		"produkte/cat/24.html": {
+			"path": "produkte/cat/24"
+		},
+		"produkte/cat/14.html": {
+			"path": "produkte/cat/14"
+		},
+		"produkte/cat/31.html": {
+			"path": "produkte/cat/31"
+		},
+		"produkte/cat/32.html": {
+			"path": "produkte/cat/32"
+		},
+		"produkte/cat/33.html": {
+			"path": "produkte/cat/33"
+		},
+		"produkte/cat/12.html": {
+			"path": "produkte/cat/12"
+		},
+		"produkte/cat/34.html": {
+			"path": "produkte/cat/34"
+		},
+		"produkte/cat/35.html": {
+			"path": "produkte/cat/35"
+		},
+		"produkte/cat/15.html": {
+			"path": "produkte/cat/15"
+		},
+		"produkte/cat/37.html": {
+			"path": "produkte/cat/37"
+		},
+		"produkte/cat/38.html": {
+			"path": "produkte/cat/38"
+		},
+		"produkte/cat/39.html": {
+			"path": "produkte/cat/39"
+		},
+		"produkte/cat/17.html": {
+			"path": "produkte/cat/17"
+		},
+		"produkte/cat/18.html": {
+			"path": "produkte/cat/18"
+		},
+		"produkte/cat/40.html": {
+			"path": "produkte/cat/40"
+		},
+		"produkte/cat/41.html": {
+			"path": "produkte/cat/41"
+		},
+		"produkte/cat/42.html": {
+			"path": "produkte/cat/42"
+		},
+		"produkte/cat/19.html": {
+			"path": "produkte/cat/19"
+		},
+		"produkte/cat/20.html": {
+			"path": "produkte/cat/20"
+		},
+		"produkte/cat/26.html": {
+			"path": "produkte/cat/26"
+		},
+		"produkte/cat/43.html": {
+			"path": "produkte/cat/43"
+		},
+		"produkte/cat/21.html": {
+			"path": "produkte/cat/21"
+		},
+		"produkte/cat/22.html": {
+			"path": "produkte/cat/22"
+		},
+		"produkte/cat/23.html": {
+			"path": "produkte/cat/23"
+		},
+		"produkte/cat/25.html": {
+			"path": "produkte/cat/25"
+		},
 		"produkte/cw-na-85.html": {
 			"path": "produkte/cw-na-85"
 		},
@@ -718,6 +4104,792 @@
 		},
 		"produkte/gvk-ap-1.html": {
 			"path": "produkte/gvk-ap-1"
+		},
+		"produkte/gvk-ap-4.html": {
+			"path": "produkte/gvk-ap-4"
+		},
+		"produkte/gvk-ap-5.html": {
+			"path": "produkte/gvk-ap-5"
+		},
+		"produkte/gvk-ap-3.html": {
+			"path": "produkte/gvk-ap-3"
+		},
+		"produkte/gvk-ap-2.html": {
+			"path": "produkte/gvk-ap-2"
+		},
+		"produkte/gvk-ay-11.html": {
+			"path": "produkte/gvk-ay-11"
+		},
+		"produkte/gvk-ay-3.html": {
+			"path": "produkte/gvk-ay-3"
+		},
+		"produkte/gvk-be-24.html": {
+			"path": "produkte/gvk-be-24"
+		},
+		"produkte/gvk-be-23.html": {
+			"path": "produkte/gvk-be-23"
+		},
+		"produkte/gvk-be-22.html": {
+			"path": "produkte/gvk-be-22"
+		},
+		"produkte/gvk-be-21.html": {
+			"path": "produkte/gvk-be-21"
+		},
+		"produkte/gvk-be-20.html": {
+			"path": "produkte/gvk-be-20"
+		},
+		"produkte/gvk-be-27.html": {
+			"path": "produkte/gvk-be-27"
+		},
+		"produkte/gvk-be-18.html": {
+			"path": "produkte/gvk-be-18"
+		},
+		"produkte/gvk-be-17.html": {
+			"path": "produkte/gvk-be-17"
+		},
+		"produkte/gvk-be-16.html": {
+			"path": "produkte/gvk-be-16"
+		},
+		"produkte/gvk-be-19.html": {
+			"path": "produkte/gvk-be-19"
+		},
+		"produkte/gvk-bi-1.html": {
+			"path": "produkte/gvk-bi-1"
+		},
+		"produkte/gvk-bi-2.html": {
+			"path": "produkte/gvk-bi-2"
+		},
+		"produkte/gvk-cd-6.html": {
+			"path": "produkte/gvk-cd-6"
+		},
+		"produkte/gvk-cd-5.html": {
+			"path": "produkte/gvk-cd-5"
+		},
+		"produkte/gvk-cd-4.html": {
+			"path": "produkte/gvk-cd-4"
+		},
+		"produkte/gvk-cd-3.html": {
+			"path": "produkte/gvk-cd-3"
+		},
+		"produkte/gvk-cd-2.html": {
+			"path": "produkte/gvk-cd-2"
+		},
+		"produkte/gvk-cd-1.html": {
+			"path": "produkte/gvk-cd-1"
+		},
+		"produkte/wk-au-3.html": {
+			"path": "produkte/wk-au-3"
+		},
+		"produkte/gvk-dln-7.html": {
+			"path": "produkte/gvk-dln-7"
+		},
+		"produkte/wk-au-8.html": {
+			"path": "produkte/wk-au-8"
+		},
+		"produkte/wk-au-6.html": {
+			"path": "produkte/wk-au-6"
+		},
+		"produkte/gvk-dln-6.html": {
+			"path": "produkte/gvk-dln-6"
+		},
+		"produkte/gvk-dln-5.html": {
+			"path": "produkte/gvk-dln-5"
+		},
+		"produkte/gvk-dln-4.html": {
+			"path": "produkte/gvk-dln-4"
+		},
+		"produkte/wk-au-4.html": {
+			"path": "produkte/wk-au-4"
+		},
+		"produkte/wk-au-2.html": {
+			"path": "produkte/wk-au-2"
+		},
+		"produkte/wk-au-7.html": {
+			"path": "produkte/wk-au-7"
+		},
+		"produkte/wk-em-3.html": {
+			"path": "produkte/wk-em-3"
+		},
+		"produkte/wk-em-1.html": {
+			"path": "produkte/wk-em-1"
+		},
+		"produkte/wk-em-2.html": {
+			"path": "produkte/wk-em-2"
+		},
+		"produkte/wk-en-10.html": {
+			"path": "produkte/wk-en-10"
+		},
+		"produkte/wk-en-5.html": {
+			"path": "produkte/wk-en-5"
+		},
+		"produkte/wk-en-3.html": {
+			"path": "produkte/wk-en-3"
+		},
+		"produkte/wk-en-6.html": {
+			"path": "produkte/wk-en-6"
+		},
+		"produkte/wk-en-8.html": {
+			"path": "produkte/wk-en-8"
+		},
+		"produkte/wk-en-9.html": {
+			"path": "produkte/wk-en-9"
+		},
+		"produkte/wk-en-4.html": {
+			"path": "produkte/wk-en-4"
+		},
+		"produkte/wk-en-7.html": {
+			"path": "produkte/wk-en-7"
+		},
+		"produkte/wk-en-2.html": {
+			"path": "produkte/wk-en-2"
+		},
+		"produkte/wk-en-1.html": {
+			"path": "produkte/wk-en-1"
+		},
+		"produkte/gvk-ex-29.html": {
+			"path": "produkte/gvk-ex-29"
+		},
+		"produkte/gvk-ex-28.html": {
+			"path": "produkte/gvk-ex-28"
+		},
+		"produkte/gvk-ex-27.html": {
+			"path": "produkte/gvk-ex-27"
+		},
+		"produkte/gvk-ex-26.html": {
+			"path": "produkte/gvk-ex-26"
+		},
+		"produkte/gvk-ex-24.html": {
+			"path": "produkte/gvk-ex-24"
+		},
+		"produkte/gvk-ex-25.html": {
+			"path": "produkte/gvk-ex-25"
+		},
+		"produkte/gvk-ex-23.html": {
+			"path": "produkte/gvk-ex-23"
+		},
+		"produkte/gvk-ex-22.html": {
+			"path": "produkte/gvk-ex-22"
+		},
+		"produkte/gvk-ex-21.html": {
+			"path": "produkte/gvk-ex-21"
+		},
+		"produkte/gvk-ex-20.html": {
+			"path": "produkte/gvk-ex-20"
+		},
+		"produkte/wk-ge-10.html": {
+			"path": "produkte/wk-ge-10"
+		},
+		"produkte/wk-ge-9.html": {
+			"path": "produkte/wk-ge-9"
+		},
+		"produkte/wk-ge-2.html": {
+			"path": "produkte/wk-ge-2"
+		},
+		"produkte/wk-ge-1.html": {
+			"path": "produkte/wk-ge-1"
+		},
+		"produkte/wk-ge-3.html": {
+			"path": "produkte/wk-ge-3"
+		},
+		"produkte/wk-ge-8.html": {
+			"path": "produkte/wk-ge-8"
+		},
+		"produkte/wk-ge-5.html": {
+			"path": "produkte/wk-ge-5"
+		},
+		"produkte/wk-ge-6.html": {
+			"path": "produkte/wk-ge-6"
+		},
+		"produkte/wk-ge-7.html": {
+			"path": "produkte/wk-ge-7"
+		},
+		"produkte/wk-ge-4.html": {
+			"path": "produkte/wk-ge-4"
+		},
+		"produkte/wk-gl-5.html": {
+			"path": "produkte/wk-gl-5"
+		},
+		"produkte/wk-gl-1.html": {
+			"path": "produkte/wk-gl-1"
+		},
+		"produkte/wk-gl-4.html": {
+			"path": "produkte/wk-gl-4"
+		},
+		"produkte/wk-gl-3.html": {
+			"path": "produkte/wk-gl-3"
+		},
+		"produkte/wk-gl-2.html": {
+			"path": "produkte/wk-gl-2"
+		},
+		"produkte/gvk-wpo-1.html": {
+			"path": "produkte/gvk-wpo-1"
+		},
+		"produkte/gvk-ha-5.html": {
+			"path": "produkte/gvk-ha-5"
+		},
+		"produkte/gvk-ha-4.html": {
+			"path": "produkte/gvk-ha-4"
+		},
+		"produkte/gvk-ha-3.html": {
+			"path": "produkte/gvk-ha-3"
+		},
+		"produkte/gvk-ha-2.html": {
+			"path": "produkte/gvk-ha-2"
+		},
+		"produkte/gvk-ha-1.html": {
+			"path": "produkte/gvk-ha-1"
+		},
+		"produkte/wk-he-9.html": {
+			"path": "produkte/wk-he-9"
+		},
+		"produkte/wk-he-8.html": {
+			"path": "produkte/wk-he-8"
+		},
+		"produkte/wk-he-7.html": {
+			"path": "produkte/wk-he-7"
+		},
+		"produkte/wk-he-12.html": {
+			"path": "produkte/wk-he-12"
+		},
+		"produkte/wk-he-10.html": {
+			"path": "produkte/wk-he-10"
+		},
+		"produkte/wk-he-11.html": {
+			"path": "produkte/wk-he-11"
+		},
+		"produkte/wk-he-2.html": {
+			"path": "produkte/wk-he-2"
+		},
+		"produkte/wk-he-3.html": {
+			"path": "produkte/wk-he-3"
+		},
+		"produkte/wk-he-4.html": {
+			"path": "produkte/wk-he-4"
+		},
+		"produkte/wk-he-6.html": {
+			"path": "produkte/wk-he-6"
+		},
+		"produkte/wk-im-12.html": {
+			"path": "produkte/wk-im-12"
+		},
+		"produkte/wk-im-11.html": {
+			"path": "produkte/wk-im-11"
+		},
+		"produkte/wk-im-8.html": {
+			"path": "produkte/wk-im-8"
+		},
+		"produkte/wk-im-7.html": {
+			"path": "produkte/wk-im-7"
+		},
+		"produkte/wk-im-10.html": {
+			"path": "produkte/wk-im-10"
+		},
+		"produkte/wk-im-24.html": {
+			"path": "produkte/wk-im-24"
+		},
+		"produkte/wk-im-6.html": {
+			"path": "produkte/wk-im-6"
+		},
+		"produkte/wk-im-17.html": {
+			"path": "produkte/wk-im-17"
+		},
+		"produkte/wk-im-13.html": {
+			"path": "produkte/wk-im-13"
+		},
+		"produkte/wk-im-2.html": {
+			"path": "produkte/wk-im-2"
+		},
+		"produkte/wk-ir-2.html": {
+			"path": "produkte/wk-ir-2"
+		},
+		"produkte/wk-ir-10.html": {
+			"path": "produkte/wk-ir-10"
+		},
+		"produkte/wk-ir-7.html": {
+			"path": "produkte/wk-ir-7"
+		},
+		"produkte/wk-ir-8.html": {
+			"path": "produkte/wk-ir-8"
+		},
+		"produkte/wk-ir-1.html": {
+			"path": "produkte/wk-ir-1"
+		},
+		"produkte/wk-ir-9.html": {
+			"path": "produkte/wk-ir-9"
+		},
+		"produkte/wk-ir-3.html": {
+			"path": "produkte/wk-ir-3"
+		},
+		"produkte/wk-ir-4.html": {
+			"path": "produkte/wk-ir-4"
+		},
+		"produkte/wk-ir-6.html": {
+			"path": "produkte/wk-ir-6"
+		},
+		"produkte/wk-ir-5.html": {
+			"path": "produkte/wk-ir-5"
+		},
+		"produkte/gvk-in-94.html": {
+			"path": "produkte/gvk-in-94"
+		},
+		"produkte/gvk-in-93.html": {
+			"path": "produkte/gvk-in-93"
+		},
+		"produkte/gvk-in-92.html": {
+			"path": "produkte/gvk-in-92"
+		},
+		"produkte/gvk-in-91.html": {
+			"path": "produkte/gvk-in-91"
+		},
+		"produkte/gvk-in-90.html": {
+			"path": "produkte/gvk-in-90"
+		},
+		"produkte/gvk-in-89.html": {
+			"path": "produkte/gvk-in-89"
+		},
+		"produkte/gvk-in-87.html": {
+			"path": "produkte/gvk-in-87"
+		},
+		"produkte/gvk-in-88.html": {
+			"path": "produkte/gvk-in-88"
+		},
+		"produkte/gvk-in-86.html": {
+			"path": "produkte/gvk-in-86"
+		},
+		"produkte/gvk-in-85.html": {
+			"path": "produkte/gvk-in-85"
+		},
+		"produkte/wk-kn-2.html": {
+			"path": "produkte/wk-kn-2"
+		},
+		"produkte/wk-kn-13.html": {
+			"path": "produkte/wk-kn-13"
+		},
+		"produkte/wk-kn-11.html": {
+			"path": "produkte/wk-kn-11"
+		},
+		"produkte/wk-kn-7.html": {
+			"path": "produkte/wk-kn-7"
+		},
+		"produkte/wk-kn-10.html": {
+			"path": "produkte/wk-kn-10"
+		},
+		"produkte/wk-kn-12.html": {
+			"path": "produkte/wk-kn-12"
+		},
+		"produkte/wk-kn-9.html": {
+			"path": "produkte/wk-kn-9"
+		},
+		"produkte/wk-kn-4.html": {
+			"path": "produkte/wk-kn-4"
+		},
+		"produkte/wk-kn-1.html": {
+			"path": "produkte/wk-kn-1"
+		},
+		"produkte/wk-kn-3.html": {
+			"path": "produkte/wk-kn-3"
+		},
+		"produkte/wk-kl-2.html": {
+			"path": "produkte/wk-kl-2"
+		},
+		"produkte/wk-kl-3.html": {
+			"path": "produkte/wk-kl-3"
+		},
+		"produkte/wk-kl-1.html": {
+			"path": "produkte/wk-kl-1"
+		},
+		"produkte/wk-kl-4.html": {
+			"path": "produkte/wk-kl-4"
+		},
+		"produkte/gvk-kos-19.html": {
+			"path": "produkte/gvk-kos-19"
+		},
+		"produkte/gvk-kos-13.html": {
+			"path": "produkte/gvk-kos-13"
+		},
+		"produkte/gvk-kos-12.html": {
+			"path": "produkte/gvk-kos-12"
+		},
+		"produkte/gvk-kos-11.html": {
+			"path": "produkte/gvk-kos-11"
+		},
+		"produkte/wk-nk-6.html": {
+			"path": "produkte/wk-nk-6"
+		},
+		"produkte/gvk-kos-10.html": {
+			"path": "produkte/gvk-kos-10"
+		},
+		"produkte/gvk-kos-9.html": {
+			"path": "produkte/gvk-kos-9"
+		},
+		"produkte/wk-nk-3.html": {
+			"path": "produkte/wk-nk-3"
+		},
+		"produkte/gvk-kos-8.html": {
+			"path": "produkte/gvk-kos-8"
+		},
+		"produkte/gvk-kos-7.html": {
+			"path": "produkte/gvk-kos-7"
+		},
+		"produkte/wk-md-7.html": {
+			"path": "produkte/wk-md-7"
+		},
+		"produkte/wk-md-10.html": {
+			"path": "produkte/wk-md-10"
+		},
+		"produkte/wk-md-9.html": {
+			"path": "produkte/wk-md-9"
+		},
+		"produkte/wk-md-11.html": {
+			"path": "produkte/wk-md-11"
+		},
+		"produkte/wk-md-2.html": {
+			"path": "produkte/wk-md-2"
+		},
+		"produkte/wk-md-5.html": {
+			"path": "produkte/wk-md-5"
+		},
+		"produkte/wk-md-3.html": {
+			"path": "produkte/wk-md-3"
+		},
+		"produkte/wk-md-1.html": {
+			"path": "produkte/wk-md-1"
+		},
+		"produkte/wk-md-4.html": {
+			"path": "produkte/wk-md-4"
+		},
+		"produkte/wk-md-8.html": {
+			"path": "produkte/wk-md-8"
+		},
+		"produkte/wk-mi-5.html": {
+			"path": "produkte/wk-mi-5"
+		},
+		"produkte/wk-mi-3.html": {
+			"path": "produkte/wk-mi-3"
+		},
+		"produkte/wk-mi-1.html": {
+			"path": "produkte/wk-mi-1"
+		},
+		"produkte/wk-mi-4.html": {
+			"path": "produkte/wk-mi-4"
+		},
+		"produkte/wk-mi-2.html": {
+			"path": "produkte/wk-mi-2"
+		},
+		"produkte/wk-mi-6.html": {
+			"path": "produkte/wk-mi-6"
+		},
+		"produkte/gvk-kos-17.html": {
+			"path": "produkte/gvk-kos-17"
+		},
+		"produkte/wk-mh-4.html": {
+			"path": "produkte/wk-mh-4"
+		},
+		"produkte/wk-mh-1.html": {
+			"path": "produkte/wk-mh-1"
+		},
+		"produkte/gvk-kos-1.html": {
+			"path": "produkte/gvk-kos-1"
+		},
+		"produkte/gvk-kos-2.html": {
+			"path": "produkte/gvk-kos-2"
+		},
+		"produkte/wk-mh-2.html": {
+			"path": "produkte/wk-mh-2"
+		},
+		"produkte/wk-mh-3.html": {
+			"path": "produkte/wk-mh-3"
+		},
+		"produkte/cw-na-1.html": {
+			"path": "produkte/cw-na-1"
+		},
+		"produkte/cw-na-2.html": {
+			"path": "produkte/cw-na-2"
+		},
+		"produkte/cw-na-3.html": {
+			"path": "produkte/cw-na-3"
+		},
+		"produkte/cw-na-4.html": {
+			"path": "produkte/cw-na-4"
+		},
+		"produkte/cw-na-5.html": {
+			"path": "produkte/cw-na-5"
+		},
+		"produkte/cw-na-6.html": {
+			"path": "produkte/cw-na-6"
+		},
+		"produkte/cw-na-7.html": {
+			"path": "produkte/cw-na-7"
+		},
+		"produkte/gvk-na-104.html": {
+			"path": "produkte/gvk-na-104"
+		},
+		"produkte/gvk-na-103.html": {
+			"path": "produkte/gvk-na-103"
+		},
+		"produkte/cw-na-8.html": {
+			"path": "produkte/cw-na-8"
+		},
+		"produkte/gvk-ol-17.html": {
+			"path": "produkte/gvk-ol-17"
+		},
+		"produkte/gvk-ol-14.html": {
+			"path": "produkte/gvk-ol-14"
+		},
+		"produkte/gvk-ol-13.html": {
+			"path": "produkte/gvk-ol-13"
+		},
+		"produkte/gvk-ol-12.html": {
+			"path": "produkte/gvk-ol-12"
+		},
+		"produkte/gvk-ol-11.html": {
+			"path": "produkte/gvk-ol-11"
+		},
+		"produkte/gvk-ol-10.html": {
+			"path": "produkte/gvk-ol-10"
+		},
+		"produkte/gvk-ol-9.html": {
+			"path": "produkte/gvk-ol-9"
+		},
+		"produkte/gvk-ol-8.html": {
+			"path": "produkte/gvk-ol-8"
+		},
+		"produkte/gvk-ol-7.html": {
+			"path": "produkte/gvk-ol-7"
+		},
+		"produkte/gvk-ol-6.html": {
+			"path": "produkte/gvk-ol-6"
+		},
+		"produkte/wk-oz-1.html": {
+			"path": "produkte/wk-oz-1"
+		},
+		"produkte/wk-oz-3.html": {
+			"path": "produkte/wk-oz-3"
+		},
+		"produkte/wk-oz-2.html": {
+			"path": "produkte/wk-oz-2"
+		},
+		"produkte/wk-pa-2.html": {
+			"path": "produkte/wk-pa-2"
+		},
+		"produkte/wk-pa-3.html": {
+			"path": "produkte/wk-pa-3"
+		},
+		"produkte/wk-pa-5.html": {
+			"path": "produkte/wk-pa-5"
+		},
+		"produkte/wk-pa-4.html": {
+			"path": "produkte/wk-pa-4"
+		},
+		"produkte/wk-pa-6.html": {
+			"path": "produkte/wk-pa-6"
+		},
+		"produkte/wk-pa-1.html": {
+			"path": "produkte/wk-pa-1"
+		},
+		"produkte/wk-sch-3.html": {
+			"path": "produkte/wk-sch-3"
+		},
+		"produkte/wk-sch-5.html": {
+			"path": "produkte/wk-sch-5"
+		},
+		"produkte/wk-sch-2.html": {
+			"path": "produkte/wk-sch-2"
+		},
+		"produkte/wk-sch-1.html": {
+			"path": "produkte/wk-sch-1"
+		},
+		"produkte/wk-sch-4.html": {
+			"path": "produkte/wk-sch-4"
+		},
+		"produkte/gvk-sch-5.html": {
+			"path": "produkte/gvk-sch-5"
+		},
+		"produkte/gvk-sch-4.html": {
+			"path": "produkte/gvk-sch-4"
+		},
+		"produkte/gvk-sch-3.html": {
+			"path": "produkte/gvk-sch-3"
+		},
+		"produkte/gvk-sch-2.html": {
+			"path": "produkte/gvk-sch-2"
+		},
+		"produkte/gvk-sch-27.html": {
+			"path": "produkte/gvk-sch-27"
+		},
+		"produkte/gvk-sch-26.html": {
+			"path": "produkte/gvk-sch-26"
+		},
+		"produkte/gvk-sch-25.html": {
+			"path": "produkte/gvk-sch-25"
+		},
+		"produkte/gvk-sch-24.html": {
+			"path": "produkte/gvk-sch-24"
+		},
+		"produkte/gvk-sch-23.html": {
+			"path": "produkte/gvk-sch-23"
+		},
+		"produkte/gvk-sch-22.html": {
+			"path": "produkte/gvk-sch-22"
+		},
+		"produkte/gvk-sf-2.html": {
+			"path": "produkte/gvk-sf-2"
+		},
+		"produkte/gvk-sf-1.html": {
+			"path": "produkte/gvk-sf-1"
+		},
+		"produkte/wk-se-2.html": {
+			"path": "produkte/wk-se-2"
+		},
+		"produkte/wk-se-1.html": {
+			"path": "produkte/wk-se-1"
+		},
+		"produkte/wk-se-3.html": {
+			"path": "produkte/wk-se-3"
+		},
+		"produkte/wk-sw-9.html": {
+			"path": "produkte/wk-sw-9"
+		},
+		"produkte/wk-sw-11.html": {
+			"path": "produkte/wk-sw-11"
+		},
+		"produkte/wk-sw-10.html": {
+			"path": "produkte/wk-sw-10"
+		},
+		"produkte/wk-sw-12.html": {
+			"path": "produkte/wk-sw-12"
+		},
+		"produkte/wk-sw-6.html": {
+			"path": "produkte/wk-sw-6"
+		},
+		"produkte/wk-sw-1.html": {
+			"path": "produkte/wk-sw-1"
+		},
+		"produkte/wk-sw-2.html": {
+			"path": "produkte/wk-sw-2"
+		},
+		"produkte/wk-sw-7.html": {
+			"path": "produkte/wk-sw-7"
+		},
+		"produkte/wk-sw-8.html": {
+			"path": "produkte/wk-sw-8"
+		},
+		"produkte/wk-sw-3.html": {
+			"path": "produkte/wk-sw-3"
+		},
+		"produkte/gvk-tkp-77.html": {
+			"path": "produkte/gvk-tkp-77"
+		},
+		"produkte/gvk-tkp-76.html": {
+			"path": "produkte/gvk-tkp-76"
+		},
+		"produkte/gvk-tkp-75.html": {
+			"path": "produkte/gvk-tkp-75"
+		},
+		"produkte/gvk-tkp-74.html": {
+			"path": "produkte/gvk-tkp-74"
+		},
+		"produkte/gvk-tkp-73.html": {
+			"path": "produkte/gvk-tkp-73"
+		},
+		"produkte/gvk-tkp-72.html": {
+			"path": "produkte/gvk-tkp-72"
+		},
+		"produkte/gvk-tkp-71.html": {
+			"path": "produkte/gvk-tkp-71"
+		},
+		"produkte/gvk-tkp-70.html": {
+			"path": "produkte/gvk-tkp-70"
+		},
+		"produkte/gvk-tkp-69.html": {
+			"path": "produkte/gvk-tkp-69"
+		},
+		"produkte/gvk-tkp-68.html": {
+			"path": "produkte/gvk-tkp-68"
+		},
+		"produkte/gvk-th-58.html": {
+			"path": "produkte/gvk-th-58"
+		},
+		"produkte/gvk-th-57.html": {
+			"path": "produkte/gvk-th-57"
+		},
+		"produkte/gvk-th-56.html": {
+			"path": "produkte/gvk-th-56"
+		},
+		"produkte/gvk-th-55.html": {
+			"path": "produkte/gvk-th-55"
+		},
+		"produkte/gvk-th-54.html": {
+			"path": "produkte/gvk-th-54"
+		},
+		"produkte/gvk-th-53.html": {
+			"path": "produkte/gvk-th-53"
+		},
+		"produkte/gvk-th-52.html": {
+			"path": "produkte/gvk-th-52"
+		},
+		"produkte/gvk-th-51.html": {
+			"path": "produkte/gvk-th-51"
+		},
+		"produkte/gvk-th-50.html": {
+			"path": "produkte/gvk-th-50"
+		},
+		"produkte/gvk-th-49.html": {
+			"path": "produkte/gvk-th-49"
+		},
+		"produkte/gvk-vp-2.html": {
+			"path": "produkte/gvk-vp-2"
+		},
+		"produkte/wk-vp-1.html": {
+			"path": "produkte/wk-vp-1"
+		},
+		"produkte/wk-vp-2.html": {
+			"path": "produkte/wk-vp-2"
+		},
+		"produkte/wk-vp-3.html": {
+			"path": "produkte/wk-vp-3"
+		},
+		"produkte/wk-vp-5.html": {
+			"path": "produkte/wk-vp-5"
+		},
+		"produkte/wk-vp-4.html": {
+			"path": "produkte/wk-vp-4"
+		},
+		"produkte/wk-vp-6.html": {
+			"path": "produkte/wk-vp-6"
+		},
+		"produkte/gvk-co-2.html": {
+			"path": "produkte/gvk-co-2"
+		},
+		"produkte/gvk-co-1.html": {
+			"path": "produkte/gvk-co-1"
+		},
+		"produkte/gvk-vp-1.html": {
+			"path": "produkte/gvk-vp-1"
+		},
+		"produkte/gvk-zu-8.html": {
+			"path": "produkte/gvk-zu-8"
+		},
+		"produkte/gvk-zu-7.html": {
+			"path": "produkte/gvk-zu-7"
+		},
+		"produkte/gvk-zu-6.html": {
+			"path": "produkte/gvk-zu-6"
+		},
+		"produkte/gvk-zu-5.html": {
+			"path": "produkte/gvk-zu-5"
+		},
+		"produkte/gvk-zu-4.html": {
+			"path": "produkte/gvk-zu-4"
+		},
+		"produkte/gvk-zu-3.html": {
+			"path": "produkte/gvk-zu-3"
+		},
+		"produkte/gvk-zu-2.html": {
+			"path": "produkte/gvk-zu-2"
+		},
+		"produkte/gvk-zu-1.html": {
+			"path": "produkte/gvk-zu-1"
 		}
 	}
 }
