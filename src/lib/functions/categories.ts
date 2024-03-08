@@ -1,7 +1,16 @@
 import { supabase } from '$lib/supabaseClient';
 
+export async function getCategoryNameById(catid: number): Promise<string> {
+	console.log('getCategoryNameById: ', catid);
+	const { data, error } = await supabase.from('categories').select('name').eq('id', catid).single();
+	return data?.name;
+}
+
 export async function getCategoryDescription(catid: number): Promise<string | null> {
-	console.log('getCategoryDescription');
+	// Debugging
+	// console.log('getCategoryDescription');
+	// console.log('description ist ', data?.description);
+
 	// Daten von Supabase abrufen, nur das Feld 'description' auswählen und sicherstellen, dass nur ein Objekt zurückgegeben wird
 	const { data, error } = await supabase
 		.from('categories')

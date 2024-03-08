@@ -16,8 +16,10 @@
 
   pageproducts = getPageProducts();
 
-  let length = data.products.length
+  $: length = data.products.length
   let currentPage = 1;
+  $: category = data.category;
+  $: description = data.description;
   
   const totalPages = () => Math.ceil(length / maxProductsPerPage);
   
@@ -33,6 +35,13 @@
   pageproducts = goToPage(1);
 </script>
 
+<div class="w-full"><h2 class="text-center my-5">{length} Produkte in der Kategorie {category} gefunden.</h2></div>
+
+<!-- Kategorie Beschreibung wenn vorhanden -->
+{#if description }
+<div class="border-2 p-2 bg-slate-100">{description}</div>
+  
+{/if}
 
 <!-- Hier zeigst du die Produkte an -->
 <ul class="grid grid-cols-2 md:grid-cols-3">
