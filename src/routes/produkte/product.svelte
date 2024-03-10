@@ -11,9 +11,8 @@
             <a href={`/produkte/${product.id}`}>
                 <img class="mx-auto" width="150" src="{getProductImg(product.img)}" alt="{product.name}" />
             </a>
-            <div class="p-3">
+            <div class="p-3 text-sm">
                 <a href={`/produkte/${product.id}`}>
-                
                     {product.name}
                 </a>
             </div>
