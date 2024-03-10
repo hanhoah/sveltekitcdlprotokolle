@@ -39,7 +39,7 @@
 
 <!-- Kategorie Beschreibung wenn vorhanden -->
 {#if description }
-<div class="border-2 p-2 bg-slate-100">{description}</div>
+<div class="border-2 p-2 bg-slate-100">{@html description}</div>
   
 {/if}
 

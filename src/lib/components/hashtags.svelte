@@ -16,10 +16,10 @@
   
   <div class="bg-red-200 mt-10 p-3">
     <h2>Nicht das passende Produkt gefunden? Wähle einen der folgenden beliebten Hashtags:</h2>
-    <div class="col columns-6 text-xs">
+    <div class="col columns-3 md:columns-6 text-xs">
       {#each topHashTags as { tag, anzahl, hashtag_id }}
       <a href="/produkte/hashtag/{hashtag_id}">
-        <div class="p-1 border-2 m-1 bg-red-50 border-red-300">{tag} ({anzahl})</div>
+        <div class=" border-2 mt-1 md:p-1 md:m-1 bg-red-50 border-red-300">{tag} ({anzahl})</div>
       </a>
       {/each}
     </div>
