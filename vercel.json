@@ -1,8 +1,7 @@
 {
 	"functions": {
 		"ssr": {
-			"runtime": "nodejs18.x",
-			"memory": 1024
+			"runtime": "nodejs14.x"
 		}
 	}
 }
