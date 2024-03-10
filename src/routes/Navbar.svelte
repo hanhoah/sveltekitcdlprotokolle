@@ -49,7 +49,7 @@ let toggleMenu = ()=>{
 <style>
 
 .menuitem{
-  @apply hover:underline hover:font-bold
+  @apply hover:underline hover:font-bold;
 }
 
   ul#desktopmenu li{
