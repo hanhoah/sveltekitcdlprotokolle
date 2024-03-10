@@ -1,4 +1,4 @@
-import { supabase } from '$lib/supabaseClient';
+import supabase from '$lib/supabaseClient';
 
 interface Product {
 	id: string;

@@ -1,4 +1,4 @@
-import { supabase } from '$lib/supabaseClient';
+import supabase from '$lib/supabaseClient';
 
 export async function getCategoryNameById(catid: number): Promise<string> {
 	console.log('getCategoryNameById: ', catid);

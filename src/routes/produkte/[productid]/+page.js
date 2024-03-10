@@ -1,4 +1,4 @@
-import { supabase } from '$lib/supabaseClient.js';
+import supabase from '$lib/supabaseClient.js';
 
 export async function load({ params }) {
 	let pid = params.productid;

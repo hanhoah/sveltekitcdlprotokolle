@@ -1,5 +1,5 @@
 export const prerender = false;
-import { supabase } from '$lib/supabaseClient.js';
+import supabase from '$lib/supabaseClient.js';
 
 async function getBooks(q: string) {
 	const { data } = await supabase.from('books').select().textSearch('title', q);

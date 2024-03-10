@@ -1,4 +1,4 @@
-import { supabase } from '$lib/supabaseClient';
+import supabase from '$lib/supabaseClient';
 
 export async function getTopHashTags(minappearance: number): object[] {
 	console.log('getting Top Hash Tags: ');

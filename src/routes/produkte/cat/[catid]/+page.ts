@@ -1,5 +1,5 @@
 import { getCategoryDescription, getCategoryNameById } from '$lib/functions/categories.js';
-import { supabase } from '$lib/supabaseClient.js';
+import supabase from '$lib/supabaseClient.js';
 
 // This can be false if you're using a fallback (i.e. SPA mode)
 export const prerender = 'false';

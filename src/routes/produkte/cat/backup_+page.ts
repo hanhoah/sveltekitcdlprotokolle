@@ -1,5 +1,5 @@
 import { getCategoryDescription, getCategoryNameById } from '$lib/functions/categories.js';
-import { supabase } from '$lib/supabaseClient.js';
+import supabase from '$lib/supabaseClient.js';
 
 export async function load({ params }) {
 	// Hier lädst du alle Produkte aus deiner Datenquelle, z.B. einer API
