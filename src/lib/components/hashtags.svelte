@@ -23,12 +23,5 @@
       </a>
       {/each}
     </div>
-    <div>
-      {#each topHashTags as { hashtag_id }}
-        '/produkte/hashtag/{hashtag_id}', 
-
-      {/each}
-    </div>
-
   </div>
   
