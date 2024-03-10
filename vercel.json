@@ -1,7 +1,0 @@
-{
-	"functions": {
-		"ssr": {
-			"runtime": "nodejs20.x"
-		}
-	}
-}
