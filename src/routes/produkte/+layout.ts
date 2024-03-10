@@ -12,6 +12,8 @@ const categories = [
 categories.sort((a, b) => a.name.localeCompare(b.name));
 */
 
+console.log('Produkt Layout wird initialisiert...');
+
 export async function load() {
 	const { count } = await supabase.from('products').select('*', { count: 'exact', head: true });
 	const { data: categories } = await supabase.from('productcategories').select('*').order('name');

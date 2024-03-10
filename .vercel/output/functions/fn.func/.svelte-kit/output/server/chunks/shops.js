@@ -12,7 +12,7 @@ const Product = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let { product = { id: 0, img: "", name: "" } } = $$props;
   if ($$props.product === void 0 && $$bindings.product && product !== void 0)
     $$bindings.product(product);
-  return `<div class="w-full h-[300px] "><div class="pt-2 overflow-auto"><a${add_attribute("href", `/produkte/${product.id}`, 0)}><img class="mx-auto" width="150"${add_attribute("src", getProductImg(product.img, product.id), 0)}${add_attribute("alt", product.name, 0)}></a> <div class="p-3"><a${add_attribute("href", `/produkte/${product.id}`, 0)}>${escape(product.name)}</a></div></div></div>`;
+  return `<div class="w-full h-[300px] "><div class="pt-2 overflow-auto"><a${add_attribute("href", `/produkte/${product.id}`, 0)}><img class="mx-auto" width="150"${add_attribute("src", getProductImg(product.img), 0)}${add_attribute("alt", product.name, 0)}></a> <div class="p-3"><a${add_attribute("href", `/produkte/${product.id}`, 0)}>${escape(product.name)}</a></div></div></div>`;
 });
 function getBadge(id) {
   let shopid = id.split("-")[0];

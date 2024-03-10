@@ -6,7 +6,7 @@ export async function load({ params }) {
 	let { data } = await supabase.from('products').select(select).eq('id', pid).limit(1).single();
 
 	let name = data.name;
-	console.log('product: ', name);
+	console.log('product: ', name, 'id: ', pid);
 
 	//SEO
 	const title = name;

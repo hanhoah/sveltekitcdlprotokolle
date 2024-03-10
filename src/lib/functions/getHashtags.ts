@@ -1,5 +1,29 @@
 import { supabase } from '$lib/supabaseClient';
 
+export async function getTopHashTags(minappearance: number): object[] {
+	console.log('getting Top Hash Tags: ');
+	const { data, error } = await supabase
+		.from('hashtags_qty_view')
+		.select('tag, anzahl, hashtag_id')
+		.order('tag')
+		.gte('anzahl', minappearance);
+
+	if (error) {
+		throw new Error('Fehler beim Abrufen der Top Hash Tags: ' + error.message);
+	}
+
+	return data;
+}
+
+export async function getHashtag(id: number): string{
+	const {data, error } = await supabase.from('hashtags').select('tag').eq('id', id).limit(1).single()
+	if (error){
+		throw new Error('Fehler beim Abrufen des Hashtag Namens: ' + error.message)
+	}
+
+	return data;
+}
+
 export async function getHashtagIds(bookId: number) {
 	// Hashtags für das Buch abrufen
 	const { data: hashtagsData, error } = await supabase

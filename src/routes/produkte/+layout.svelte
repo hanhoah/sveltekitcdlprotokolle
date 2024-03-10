@@ -1,11 +1,12 @@
 <script>
+    import Hashtags from '$lib/components/hashtags.svelte';
     export let data
 
 
 </script>
 
 <div class="w-full  p-3 text-xs bg-yellow-200  hover:bg-lime-300">{data.count} Produkte in der Datenbank gefunden. Bitte wählen Sie eine Kategorie aus um Ihr Produkt schneller zu finden.</div>
-<div>
+<div class="mb-5">
     <div>
         <nav>
             <div class="grid grid-cols-4 md:grid-cols-6 m-5 gap-3 ">
@@ -24,5 +25,6 @@
         </nav>
     </div>
     <slot />
+    <Hashtags />
 </div>
 

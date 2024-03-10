@@ -24,6 +24,19 @@ export async function getProductsByCategoryId(catid: number): Promise<object[]> 
 	} else return data;
 }
 
+export async function getProductsByName(name: string): Promise<object[]> {
+	console.log('getProductsByName', name);
+
+	const { data, error } = await supabase
+		.from('products')
+		.select('*')
+		.ilike('name', '%' + name + '%')
+		.order('name');
+	if (error) {
+		console.log('Fehler beim Abrufen getProductsByName');
+	} else return data;
+}
+
 export async function getProductsByCategoryIdWithPagination(
 	catid: number,
 	page: number,
