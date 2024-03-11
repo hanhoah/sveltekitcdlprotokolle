@@ -1,7 +1,16 @@
 import supabase from '$lib/supabaseClient';
 
+let cachedTopHashTags = null;
+
 export async function getTopHashTags(minappearance: number): object[] {
-	console.log('getting Top Hash Tags: ');
+	// Überprüfe ob das Ergebnis bereits im Cache gespeichert ist
+
+	if(cachedTopHashTags){
+		console.log('Getting Top Hash Tags from cache');
+		return cachedTopHashTags;
+	}
+
+	console.log('Getting Top Hash Tags from supabase');
 	const { data, error } = await supabase
 		.from('hashtags_qty_view')
 		.select('tag, anzahl, hashtag_id')
@@ -11,6 +20,9 @@ export async function getTopHashTags(minappearance: number): object[] {
 	if (error) {
 		throw new Error('Fehler beim Abrufen der Top Hash Tags: ' + error.message);
 	}
+
+	console.log('Speichern des Ergebnis im Cache um zukünftige Abfragen zu beschleunigen');
+	cachedTopHashTags = data;
 
 	return data;
 }

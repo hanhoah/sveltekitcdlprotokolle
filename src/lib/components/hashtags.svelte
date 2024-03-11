@@ -4,14 +4,16 @@
   
     let topHashTags = [];
   
-    onMount(async () => {
+    async function fetchTopHashTags() {
       try {
         topHashTags = await getTopHashTags(3);
-        console.log('TopHashTags are: ', topHashTags);
+        // console.log('TopHashTags are: ', topHashTags);
       } catch (error) {
         console.error('Fehler beim Laden der Top-Hashtags:', error.message);
       }
-    });
+    }
+
+    onMount(fetchTopHashTags);
   </script>
   
   <div class="bg-red-200 mt-10 p-3">
