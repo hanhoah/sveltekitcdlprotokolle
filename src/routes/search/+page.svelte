@@ -3,12 +3,12 @@
     import { Spinner } from 'flowbite-svelte';
     import { getBadge } from '$lib/functions/shops.ts';
 
-    export let form
-    const books = form?.books
-    const qtyBooks = books?.length
-    const products = form?.products
-    const qtyProducts = products?.length
-    const q = form?.q
+    export let data
+    $:  books = data.books
+    $:  qtyBooks = data.books.length
+    $:  products = data.products
+    $:  qtyProducts = data.products.length
+    $: q = data.q
     import Book from '../buecher/book.svelte';
     
     
@@ -33,6 +33,18 @@
     gefunden. 
 
 </div>
+{#if qtyProducts == 30 }
+    <div class="bg-green-100">
+        Hinweis: Aus Performance Gründen werden Suchergebnisse auf 30 Produkte limitiert. Falls Sie Ihr Produkt nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.
+
+    </div>
+{/if}
+{#if qtyBooks == 30 }
+<div class="bg-red-100">
+    Hinweis: Aus Performance Gründen werden Suchergebnisse auf 30 Bücher limitiert. Falls Sie Ihr Buch nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.
+
+</div>
+{/if}
 
     <ul class="grid grid-cols-2 md:grid-cols-3">
         {#each books as book}
