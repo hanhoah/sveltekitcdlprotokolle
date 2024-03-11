@@ -35,7 +35,7 @@
       <!-- 1280w (800h)-->
        <Navbar />
        <form class="flex border-2 justify-center items-center" method="get" action="/search">
-        <input class="w-full border-0 border-collapse border-gray-400" type="text" name="q" placeholder="Wonach suchen Sie?" />
+        <input class="w-full border-0 border-collapse border-gray-400" type="text" name="q" placeholder="Wonach suchen Sie? (Bücher, Produkte, Inhaltsstoffe)" />
         <button class="border-1 border-collapse border-gray-400 p-2" type="submit"><Icon width="24" icon="ion:search-outline" /></button>
     </form>
     
