@@ -1,5 +1,5 @@
 import { c as create_ssr_component, l as compute_rest_props, a as spread, e as escape_object, p as escape_attribute_value, g as add_attribute } from "./ssr.js";
-import { twMerge } from "tailwind-merge";
+import { t as twMerge } from "./bundle-mjs.js";
 const Spinner = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let $$restProps = compute_rest_props($$props, ["color", "bg", "customColor", "size", "currentFill", "currentColor"]);
   let { color = "primary" } = $$props;

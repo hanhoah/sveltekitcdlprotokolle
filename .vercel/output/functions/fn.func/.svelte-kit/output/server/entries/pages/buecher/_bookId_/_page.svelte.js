@@ -1,6 +1,6 @@
 import { k as identity, c as create_ssr_component, l as compute_rest_props, b as createEventDispatcher, v as validate_component, h as getContext, a as spread, p as escape_attribute_value, e as escape_object, f as escape, g as add_attribute, j as is_promise, n as noop, i as each } from "../../../../chunks/ssr.js";
 import { F as Frame } from "../../../../chunks/Frame.js";
-import { twMerge } from "tailwind-merge";
+import { t as twMerge } from "../../../../chunks/bundle-mjs.js";
 import { B as Button } from "../../../../chunks/Button.js";
 import { S as Spinner } from "../../../../chunks/Spinner.js";
 import { g as getImg, B as Book } from "../../../../chunks/book.js";

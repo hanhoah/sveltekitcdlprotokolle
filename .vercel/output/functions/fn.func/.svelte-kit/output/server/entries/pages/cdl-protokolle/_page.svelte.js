@@ -1,7 +1,7 @@
 import { c as create_ssr_component, l as compute_rest_props, s as setContext, v as validate_component, h as getContext, d as subscribe, g as add_attribute } from "../../../chunks/ssr.js";
 import { w as writable } from "../../../chunks/index.js";
 import { F as Frame } from "../../../chunks/Frame.js";
-import { twMerge } from "tailwind-merge";
+import { t as twMerge } from "../../../chunks/bundle-mjs.js";
 const Accordion = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let $$restProps = compute_rest_props($$props, ["multiple", "flush", "activeClass", "inactiveClass", "defaultClass"]);
   let { multiple = false } = $$props;

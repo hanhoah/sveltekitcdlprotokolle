@@ -1,6 +1,6 @@
 import { c as create_ssr_component, l as compute_rest_props, h as getContext, a as spread, p as escape_attribute_value, e as escape_object } from "./ssr.js";
 import { i as is_void } from "./names.js";
-import { twMerge } from "tailwind-merge";
+import { t as twMerge } from "./bundle-mjs.js";
 const Button = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let $$restProps = compute_rest_props($$props, ["pill", "outline", "size", "href", "type", "color", "shadow", "tag", "checked"]);
   const group = getContext("group");
