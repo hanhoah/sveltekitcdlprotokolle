@@ -14,7 +14,6 @@
 	"devDependencies": {
 		"@iconify/svelte": "^3.1.6",
 		"@sveltejs/adapter-vercel": "^5.1.1",
-		"@sveltejs/kit": "^2.5.3",
 		"@types/eslint": "8.56.0",
 		"@typescript-eslint/eslint-plugin": "^6.21.0",
 		"@typescript-eslint/parser": "^6.21.0",
@@ -40,6 +39,7 @@
 		"@supabase/supabase-js": "^2.39.8",
 		"@sveltejs/adapter-auto": "^3.1.1",
 		"@sveltejs/enhanced-img": "^0.1.8",
+		"@sveltejs/kit": "^2.5.3",
 		"@sveltejs/vite-plugin-svelte": "^3.0.2",
 		"@vercel/analytics": "^1.2.2",
 		"iconify-icon": "^2.0.0",
