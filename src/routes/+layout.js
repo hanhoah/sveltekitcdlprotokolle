@@ -3,4 +3,6 @@ import { inject } from '@vercel/analytics';
 
 inject({ mode: dev ? 'development' : 'production' });
 
-export const config = {};
+export const config = {
+	runtime: 'edge'
+};
