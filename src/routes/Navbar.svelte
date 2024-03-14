@@ -10,6 +10,7 @@
         <li><a on:click={toggleMenu} href="/buecher">Bücher</a></li>
         <li><a on:click={toggleMenu} href="/cdl-protokolle">CDL Protokolle</a></li>
         <li><a on:click={toggleMenu}  href="/produkte">Produkte</a></li>
+        <li><a on:click={toggleMenu}  href="/gutscheine">Gutscheine</a></li>
 <!--
   <li><a on:click={toggleMenu}  href="/gai-goi-vermittlung">gg</a></li>
 

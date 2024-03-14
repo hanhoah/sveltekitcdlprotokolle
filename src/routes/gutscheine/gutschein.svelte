@@ -10,7 +10,7 @@
 </script>
 
 <a href="{href}" target="_blank">
-    <div class="w-60 h-44 mt-2 p-2 bg-{color}-200 text-{color}-800">
+    <div class="w-48 h-44 mt-2 p-2 bg-{color}-200 text-{color}-800">
         <div class="border-[4px] h-full p-2 border-white border-dotted " >
             <div class="overflow-auto">
                 <h2>
