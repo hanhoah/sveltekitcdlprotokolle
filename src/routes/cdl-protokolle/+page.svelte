@@ -29,9 +29,9 @@
 	import Y from './y.svelte';
 	import Z from './z.svelte';
   </script>
-  
+    
   <Accordion activeClass="bg-white">
-    <AccordionItem>
+    <AccordionItem >
         <span slot="header">Protokoll A: Wie Amateur, für alle Anfänger</span>
         <div>
         <A />
