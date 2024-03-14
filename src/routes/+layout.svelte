@@ -33,7 +33,7 @@
 </svelte:head>
 
 <!-- mobile Display -->
-<div class="bg-white max-w-screen-md m-auto md:block justify-center items-center text-black">
+<div class="bg-white max-w-screen-lg m-auto md:block justify-center items-center text-black">
 	<div class="w-full mx-auto px-">
 		<!-- 1280w (800h)-->
 		<Navbar></Navbar>
