@@ -1,7 +1,7 @@
 import { c as create_ssr_component, f as escape, i as each, v as validate_component } from "../../../../../chunks/ssr.js";
 import { g as getBadge, P as Product } from "../../../../../chunks/shops.js";
 const css = {
-  code: ".page-selector.svelte-ra8vou{margin-top:2.5rem;margin-bottom:2.5rem;display:flex;justify-content:center\n}.page-number.svelte-ra8vou{margin-left:1.25rem;cursor:pointer;border-width:2px;padding:0.5rem\n}.page-number.svelte-ra8vou:hover{--tw-bg-opacity:1;background-color:rgb(31 41 55 / var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity));text-decoration-line:underline\n}.current-page.svelte-ra8vou{--tw-bg-opacity:1;background-color:rgb(63 131 248 / var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))\n}",
+  code: ".page-selector.svelte-71d3gi{margin-top:2.5rem;margin-bottom:2.5rem;display:flex;justify-content:center\n}.page-number.svelte-71d3gi{margin-left:1.25rem;cursor:pointer;border-width:2px;padding:0.5rem\n}.page-number.svelte-71d3gi:hover{--tw-bg-opacity:1;background-color:rgb(31 41 55 / var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity));text-decoration-line:underline\n}.current-page.svelte-71d3gi{--tw-bg-opacity:1;background-color:rgb(59 130 246 / var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))\n}",
   map: null
 };
 const maxProductsPerPage = 50;
@@ -48,8 +48,8 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       {},
       {}
     )}</li> </div>`;
-  })}</ul>  ${totalPages() > 1 ? `<div class="page-selector svelte-ra8vou">${each(Array.from({ length: totalPages() }).map((_, index) => index + 1), (page) => {
-    return `${page == currentPage ? `<span class="page-number current-page svelte-ra8vou">${escape(page)}</span>` : `<a class="page-number svelte-ra8vou">${escape(page)}</a>`}`;
+  })}</ul>  ${totalPages() > 1 ? `<div class="page-selector svelte-71d3gi">${each(Array.from({ length: totalPages() }).map((_, index) => index + 1), (page) => {
+    return `${page == currentPage ? `<span class="page-number current-page svelte-71d3gi">${escape(page)}</span>` : `<a class="page-number svelte-71d3gi">${escape(page)}</a>`}`;
   })}</div>` : ``}`;
 });
 export {

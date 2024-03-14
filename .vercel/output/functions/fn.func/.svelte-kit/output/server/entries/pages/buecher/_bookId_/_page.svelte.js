@@ -235,15 +235,7 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
         })} </a>`;
       })} `;
     }(__value);
-  }(data.streamed.links)} <a href="${"https://www.amazon.de/gp/search?ie=UTF8&tag=jumex_online-21&linkCode=ur2&linkId=470bf27aa1feb315de9cb5f18b114f2f&camp=1638&creative=6742&index=books&keywords=" + escape(title, true)}" target="_blank">${validate_component(Button, "Button").$$render($$result, { class: "text-lg mt-3", color: "light" }, {}, {
-    default: () => {
-      return `<img width="100" src="/images/logos/Amazon.de-Logo.svg.png">`;
-    }
-  })}</a> <a href="${"https://www.ebay.de/sch/i.html?_from=R40&_trksid=p4432023.m570.l1313&_nkw=" + escape(title, true) + "&_sacat=0"}" target="_blank">${validate_component(Button, "Button").$$render($$result, { class: "text-lg mt-3", color: "light" }, {}, {
-    default: () => {
-      return `<img width="100" src="/images/logos/EBay_logo.png">`;
-    }
-  })}</a></div></div> <div class="bg-teal-100"><div class="p-2 w-full mt-5 bg-teal-300 text-lg font-bold text-center" data-svelte-h="svelte-ooggy2">Stichwörter:</div> <div class="p-5 flex flex-row justify-center ">${function(__value) {
+  }(data.streamed.links)} <a href="${"https://www.amazon.de/gp/search?ie=UTF8&tag=jumex_online-21&linkCode=ur2&linkId=470bf27aa1feb315de9cb5f18b114f2f&camp=1638&creative=6742&index=books&keywords=" + escape(title, true)}" target="_blank"><img width="100" alt="Amazon Logo" src="/images/logos/Amazon.de-Logo.svg.png"></a> <a href="${"https://www.ebay.de/sch/i.html?_from=R40&_trksid=p4432023.m570.l1313&_nkw=" + escape(title, true) + "&_sacat=0"}" target="_blank"><img width="100" alt="Ebay Logo" src="/images/logos/EBay_logo.png"></a></div></div> <div class="bg-teal-100"><div class="p-2 w-full mt-5 bg-teal-300 text-lg font-bold text-center" data-svelte-h="svelte-ooggy2">Stichwörter:</div> <div class="p-5 flex flex-row justify-center ">${function(__value) {
     if (is_promise(__value)) {
       __value.then(null, noop);
       return ` <div class="loading">${validate_component(Spinner, "Spinner").$$render($$result, {}, {}, {})}
