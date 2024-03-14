@@ -1,14 +1,37 @@
 globalThis.global = globalThis;
+var __create = Object.create;
 var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __defNormalProp = (obj, key2, value) => key2 in obj ? __defProp(obj, key2, { enumerable: true, configurable: true, writable: true, value }) : obj[key2] = value;
 var __esm = (fn, res) => function __init() {
   return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
 var __export = (target, all) => {
   for (var name2 in all)
     __defProp(target, name2, { get: all[name2], enumerable: true });
 };
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key2 of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key2) && key2 !== except)
+        __defProp(to, key2, { get: () => from[key2], enumerable: !(desc = __getOwnPropDesc(from, key2)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 var __publicField = (obj, key2, value) => {
   __defNormalProp(obj, typeof key2 !== "symbol" ? key2 + "" : key2, value);
   return value;
@@ -34,6 +57,10 @@ var __privateSet = (obj, member, value, setter) => {
 
 // .svelte-kit/output/server/chunks/ssr.js
 function noop() {
+}
+function is_promise(value) {
+  return !!value && (typeof value === "object" || typeof value === "function") && typeof /** @type {any} */
+  value.then === "function";
 }
 function run(fn) {
   return fn();
@@ -68,8 +95,8 @@ function compute_rest_props(props, keys) {
 function custom_event(type, detail, { bubbles = false, cancelable = false } = {}) {
   return new CustomEvent(type, { detail, bubbles, cancelable });
 }
-function set_current_component(component4) {
-  current_component = component4;
+function set_current_component(component15) {
+  current_component = component15;
 }
 function get_current_component() {
   if (!current_component)
@@ -80,9 +107,9 @@ function onDestroy(fn) {
   get_current_component().$$.on_destroy.push(fn);
 }
 function createEventDispatcher() {
-  const component4 = get_current_component();
+  const component15 = get_current_component();
   return (type, detail, { cancelable = false } = {}) => {
-    const callbacks = component4.$$.callbacks[type];
+    const callbacks = component15.$$.callbacks[type];
     if (callbacks) {
       const event = custom_event(
         /** @type {string} */
@@ -91,7 +118,7 @@ function createEventDispatcher() {
         { cancelable }
       );
       callbacks.slice().forEach((fn) => {
-        fn.call(component4, event);
+        fn.call(component15, event);
       });
       return !event.defaultPrevented;
     }
@@ -104,6 +131,9 @@ function setContext(key2, context) {
 }
 function getContext(key2) {
   return get_current_component().$$.context.get(key2);
+}
+function ensure_array_like(array_like_or_iterator) {
+  return array_like_or_iterator?.length !== void 0 ? array_like_or_iterator : Array.from(array_like_or_iterator);
 }
 function spread(args, attrs_to_add) {
   const attributes = Object.assign({}, ...args);
@@ -188,15 +218,23 @@ function escape_object(obj) {
   }
   return result;
 }
-function validate_component(component4, name2) {
-  if (!component4 || !component4.$$render) {
+function each(items, fn) {
+  items = ensure_array_like(items);
+  let str = "";
+  for (let i = 0; i < items.length; i += 1) {
+    str += fn(items[i], i);
+  }
+  return str;
+}
+function validate_component(component15, name2) {
+  if (!component15 || !component15.$$render) {
     if (name2 === "svelte:component")
       name2 += " this={...}";
     throw new Error(
       `<${name2}> is not a valid SSR component. You may need to review your build config to ensure that dependencies are compiled, rather than imported as pre-compiled modules. Otherwise you may need to fix a <${name2}>.`
     );
   }
-  return component4;
+  return component15;
 }
 function create_ssr_component(fn) {
   function $$render(result, props, bindings, slots, context) {
@@ -224,7 +262,7 @@ function create_ssr_component(fn) {
       return {
         html,
         css: {
-          code: Array.from(result.css).map((css3) => css3.code).join("\n"),
+          code: Array.from(result.css).map((css4) => css4.code).join("\n"),
           map: null
           // TODO
         },
@@ -243,9 +281,10 @@ function add_attribute(name2, value, boolean) {
 function style_object_to_string(style_object) {
   return Object.keys(style_object).filter((key2) => style_object[key2]).map((key2) => `${key2}: ${escape_attribute_value(style_object[key2])};`).join(" ");
 }
-var current_component, _boolean_attributes, boolean_attributes, invalid_attribute_name_character, ATTR_REGEX, CONTENT_REGEX, missing_component, on_destroy;
+var identity, current_component, _boolean_attributes, boolean_attributes, invalid_attribute_name_character, ATTR_REGEX, CONTENT_REGEX, missing_component, on_destroy;
 var init_ssr = __esm({
   ".svelte-kit/output/server/chunks/ssr.js"() {
+    identity = (x) => x;
     _boolean_attributes = /** @type {const} */
     [
       "allowfullscreen",
@@ -922,9 +961,9 @@ function calculateSize(size, ratio, precision) {
 }
 function splitSVGDefs(content, tag = "defs") {
   let defs = "";
-  const index4 = content.indexOf("<" + tag);
-  while (index4 >= 0) {
-    const start = content.indexOf(">", index4);
+  const index15 = content.indexOf("<" + tag);
+  while (index15 >= 0) {
+    const start = content.indexOf(">", index15);
     const end = content.indexOf("</" + tag);
     if (start === -1 || end === -1) {
       break;
@@ -934,7 +973,7 @@ function splitSVGDefs(content, tag = "defs") {
       break;
     }
     defs += content.slice(start + 1, end).trim();
-    content = content.slice(0, index4).trim() + content.slice(endEnd + 1);
+    content = content.slice(0, index15).trim() + content.slice(endEnd + 1);
   }
   return {
     defs,
@@ -1406,9 +1445,9 @@ function sendQuery(config3, payload, query, done) {
     resetTimer();
     clearQueue();
     if (!config3.random) {
-      const index4 = config3.resources.indexOf(item.resource);
-      if (index4 !== -1 && index4 !== config3.index) {
-        config3.index = index4;
+      const index15 = config3.resources.indexOf(item.resource);
+      if (index15 !== -1 && index15 !== config3.index) {
+        config3.index = index15;
       }
     }
     status = "completed";
@@ -1483,8 +1522,8 @@ function initRedundancy(cfg) {
   const instance = {
     query,
     find,
-    setIndex: (index4) => {
-      config3.index = index4;
+    setIndex: (index15) => {
+      config3.index = index15;
     },
     getIndex: () => config3.index,
     cleanup
@@ -1582,9 +1621,9 @@ function iterateBrowserStorage(key2, callback) {
   if (!func) {
     return;
   }
-  const version2 = getStoredItem(func, browserCacheVersionKey);
-  if (version2 !== browserCacheVersion) {
-    if (version2) {
+  const version7 = getStoredItem(func, browserCacheVersionKey);
+  if (version7 !== browserCacheVersion) {
+    if (version7) {
       const total2 = getBrowserStorageItemsCount(func);
       for (let i = 0; i < total2; i++) {
         removeStoredItem(func, browserCachePrefix + i.toString());
@@ -1595,8 +1634,8 @@ function iterateBrowserStorage(key2, callback) {
     return;
   }
   const minTime = Math.floor(Date.now() / browserStorageHour) - browserStorageCacheExpiration;
-  const parseItem = (index4) => {
-    const name2 = browserCachePrefix + index4.toString();
+  const parseItem = (index15) => {
+    const name2 = browserCachePrefix + index15.toString();
     const item = getStoredItem(func, name2);
     if (typeof item !== "string") {
       return;
@@ -1604,7 +1643,7 @@ function iterateBrowserStorage(key2, callback) {
     try {
       const data = JSON.parse(item);
       if (typeof data === "object" && typeof data.cached === "number" && data.cached > minTime && typeof data.provider === "string" && typeof data.data === "object" && typeof data.data.prefix === "string" && // Valid item: run callback
-      callback(data, index4)) {
+      callback(data, index15)) {
         return true;
       }
     } catch (err) {
@@ -1675,12 +1714,12 @@ function storeInBrowserStorage(storage2, data) {
       return;
     }
     const set = browserStorageEmptyItems[key2];
-    let index4;
+    let index15;
     if (set.size) {
-      set.delete(index4 = Array.from(set).shift());
+      set.delete(index15 = Array.from(set).shift());
     } else {
-      index4 = getBrowserStorageItemsCount(func);
-      if (index4 >= browserStorageLimit || !setBrowserStorageItemsCount(func, index4 + 1)) {
+      index15 = getBrowserStorageItemsCount(func);
+      if (index15 >= browserStorageLimit || !setBrowserStorageItemsCount(func, index15 + 1)) {
         return;
       }
     }
@@ -1691,7 +1730,7 @@ function storeInBrowserStorage(storage2, data) {
     };
     return setStoredItem(
       func,
-      browserCachePrefix + index4.toString(),
+      browserCachePrefix + index15.toString(),
       JSON.stringify(item)
     );
   }
@@ -2163,9 +2202,9 @@ var init_layout_svelte = __esm({
         icons: []
       };
       let length = 0;
-      icons.forEach((name2, index4) => {
+      icons.forEach((name2, index15) => {
         length += name2.length + 1;
-        if (length >= maxLength && index4 > 0) {
+        if (length >= maxLength && index15 > 0) {
           results.push(item);
           item = {
             type,
@@ -2490,7 +2529,7 @@ var init__ = __esm({
     index = 0;
     component = async () => component_cache ?? (component_cache = (await Promise.resolve().then(() => (init_layout_svelte(), layout_svelte_exports))).default);
     universal_id = "src/routes/+layout.js";
-    imports = ["_app/immutable/nodes/0.DoMioAAU.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/stores.or7Ypc1L.js", "_app/immutable/chunks/entry.B8L6UBeC.js", "_app/immutable/chunks/index.DEpSfGhY.js"];
+    imports = ["_app/immutable/nodes/0.C0J0YrPY.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/stores.CC9o7SCZ.js", "_app/immutable/chunks/entry.BDgyxAUI.js", "_app/immutable/chunks/index.DEpSfGhY.js"];
     stylesheets = ["_app/immutable/assets/0.BHl-HPRx.css"];
     fonts = [];
   }
@@ -2529,23 +2568,31 @@ var init__2 = __esm({
   ".svelte-kit/output/server/nodes/1.js"() {
     index2 = 1;
     component2 = async () => component_cache2 ?? (component_cache2 = (await Promise.resolve().then(() => (init_error_svelte(), error_svelte_exports))).default);
-    imports2 = ["_app/immutable/nodes/1.C1g8vBv3.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/stores.or7Ypc1L.js", "_app/immutable/chunks/entry.B8L6UBeC.js", "_app/immutable/chunks/index.DEpSfGhY.js"];
+    imports2 = ["_app/immutable/nodes/1.Nb6IG-Jo.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/stores.CC9o7SCZ.js", "_app/immutable/chunks/entry.BDgyxAUI.js", "_app/immutable/chunks/index.DEpSfGhY.js"];
     stylesheets2 = [];
     fonts2 = [];
   }
 });
 
-// .svelte-kit/output/server/entries/pages/cdl-protokolle/_page.js
-var page_exports = {};
-__export(page_exports, {
-  config: () => config2
+// .svelte-kit/output/server/entries/pages/buecher/_layout.ts.js
+var layout_ts_exports = {};
+__export(layout_ts_exports, {
+  load: () => load
 });
-var config2;
-var init_page = __esm({
-  ".svelte-kit/output/server/entries/pages/cdl-protokolle/_page.js"() {
-    config2 = {
-      runtime: "edge"
-    };
+function load() {
+  return {
+    categories
+  };
+}
+var categories;
+var init_layout_ts = __esm({
+  ".svelte-kit/output/server/entries/pages/buecher/_layout.ts.js"() {
+    categories = [
+      { id: 1, name: "Gesundheit" },
+      { id: 2, name: "Krisenvorsorge" },
+      { id: 3, name: "Medizinskandale" },
+      { id: 4, name: "Tiergesundheit" }
+    ];
   }
 });
 
@@ -2734,16 +2781,16 @@ function createSplitModifiers(config3) {
     let bracketDepth = 0;
     let modifierStart = 0;
     let postfixModifierPosition;
-    for (let index4 = 0; index4 < className.length; index4++) {
-      let currentCharacter = className[index4];
+    for (let index15 = 0; index15 < className.length; index15++) {
+      let currentCharacter = className[index15];
       if (bracketDepth === 0) {
-        if (currentCharacter === firstSeparatorCharacter && (isSeparatorSingleCharacter || className.slice(index4, index4 + separatorLength) === separator2)) {
-          modifiers.push(className.slice(modifierStart, index4));
-          modifierStart = index4 + separatorLength;
+        if (currentCharacter === firstSeparatorCharacter && (isSeparatorSingleCharacter || className.slice(index15, index15 + separatorLength) === separator2)) {
+          modifiers.push(className.slice(modifierStart, index15));
+          modifierStart = index15 + separatorLength;
           continue;
         }
         if (currentCharacter === "/") {
-          postfixModifierPosition = index4;
+          postfixModifierPosition = index15;
           continue;
         }
       }
@@ -2850,12 +2897,12 @@ function mergeClassList(classList, configUtils) {
   }).reverse().map((parsed) => parsed.originalClassName).join(" ");
 }
 function twJoin() {
-  let index4 = 0;
+  let index15 = 0;
   let argument;
   let resolvedValue;
   let string = "";
-  while (index4 < arguments.length) {
-    if (argument = arguments[index4++]) {
+  while (index15 < arguments.length) {
+    if (argument = arguments[index15++]) {
       if (resolvedValue = toValue(argument)) {
         string && (string += " ");
         string += resolvedValue;
@@ -5047,6 +5094,7410 @@ var init_bundle_mjs = __esm({
   }
 });
 
+// .svelte-kit/output/server/chunks/Button.js
+var Button;
+var init_Button = __esm({
+  ".svelte-kit/output/server/chunks/Button.js"() {
+    init_ssr();
+    init_names();
+    init_bundle_mjs();
+    Button = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let $$restProps = compute_rest_props($$props, ["pill", "outline", "size", "href", "type", "color", "shadow", "tag", "checked"]);
+      const group = getContext("group");
+      let { pill = false } = $$props;
+      let { outline = false } = $$props;
+      let { size = group ? "sm" : "md" } = $$props;
+      let { href = void 0 } = $$props;
+      let { type = "button" } = $$props;
+      let { color = group ? outline ? "dark" : "alternative" : "primary" } = $$props;
+      let { shadow = false } = $$props;
+      let { tag = "button" } = $$props;
+      let { checked = void 0 } = $$props;
+      const colorClasses = {
+        alternative: "text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-400 hover:text-primary-700 focus-within:text-primary-700 dark:focus-within:text-white dark:hover:text-white dark:hover:bg-gray-700",
+        blue: "text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700",
+        dark: "text-white bg-gray-800 hover:bg-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700",
+        green: "text-white bg-green-700 hover:bg-green-800 dark:bg-green-600 dark:hover:bg-green-700",
+        light: "text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600",
+        primary: "text-white bg-primary-700 hover:bg-primary-800 dark:bg-primary-600 dark:hover:bg-primary-700",
+        purple: "text-white bg-purple-700 hover:bg-purple-800 dark:bg-purple-600 dark:hover:bg-purple-700",
+        red: "text-white bg-red-700 hover:bg-red-800 dark:bg-red-600 dark:hover:bg-red-700",
+        yellow: "text-white bg-yellow-400 hover:bg-yellow-500 ",
+        none: ""
+      };
+      const colorCheckedClasses = {
+        alternative: "text-primary-700 border dark:text-primary-500 bg-gray-100 dark:bg-gray-700 border-gray-300 shadow-gray-300 dark:shadow-gray-800 shadow-inner",
+        blue: "text-blue-900 bg-blue-400 dark:bg-blue-500 shadow-blue-700 dark:shadow-blue-800 shadow-inner",
+        dark: "text-white bg-gray-500 dark:bg-gray-600 shadow-gray-800 dark:shadow-gray-900 shadow-inner",
+        green: "text-green-900 bg-green-400 dark:bg-green-500 shadow-green-700 dark:shadow-green-800 shadow-inner",
+        light: "text-gray-900 bg-gray-100 border border-gray-300 dark:bg-gray-500 dark:text-gray-900 dark:border-gray-700 shadow-gray-300 dark:shadow-gray-700 shadow-inner",
+        primary: "text-primary-900 bg-primary-400 dark:bg-primary-500 shadow-primary-700 dark:shadow-primary-800 shadow-inner",
+        purple: "text-purple-900 bg-purple-400 dark:bg-purple-500 shadow-purple-700 dark:shadow-purple-800 shadow-inner",
+        red: "text-red-900 bg-red-400 dark:bg-red-500 shadow-red-700 dark:shadow-red-800 shadow-inner",
+        yellow: "text-yellow-900 bg-yellow-300 dark:bg-yellow-400 shadow-yellow-500 dark:shadow-yellow-700 shadow-inner",
+        none: ""
+      };
+      const coloredFocusClasses = {
+        alternative: "focus-within:ring-gray-200 dark:focus-within:ring-gray-700",
+        blue: "focus-within:ring-blue-300 dark:focus-within:ring-blue-800",
+        dark: "focus-within:ring-gray-300 dark:focus-within:ring-gray-700",
+        green: "focus-within:ring-green-300 dark:focus-within:ring-green-800",
+        light: "focus-within:ring-gray-200 dark:focus-within:ring-gray-700",
+        primary: "focus-within:ring-primary-300 dark:focus-within:ring-primary-800",
+        purple: "focus-within:ring-purple-300 dark:focus-within:ring-purple-900",
+        red: "focus-within:ring-red-300 dark:focus-within:ring-red-900",
+        yellow: "focus-within:ring-yellow-300 dark:focus-within:ring-yellow-900",
+        none: ""
+      };
+      const coloredShadowClasses = {
+        alternative: "shadow-gray-500/50 dark:shadow-gray-800/80",
+        blue: "shadow-blue-500/50 dark:shadow-blue-800/80",
+        dark: "shadow-gray-500/50 dark:shadow-gray-800/80",
+        green: "shadow-green-500/50 dark:shadow-green-800/80",
+        light: "shadow-gray-500/50 dark:shadow-gray-800/80",
+        primary: "shadow-primary-500/50 dark:shadow-primary-800/80",
+        purple: "shadow-purple-500/50 dark:shadow-purple-800/80",
+        red: "shadow-red-500/50 dark:shadow-red-800/80 ",
+        yellow: "shadow-yellow-500/50 dark:shadow-yellow-800/80 ",
+        none: ""
+      };
+      const outlineClasses = {
+        alternative: "text-gray-900 dark:text-gray-400 hover:text-white border border-gray-800 hover:bg-gray-900 focus-within:bg-gray-900 focus-within:text-white focus-within:ring-gray-300 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-600 dark:focus-within:ring-gray-800",
+        blue: "text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600",
+        dark: "text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus-within:bg-gray-900 focus-within:text-white dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-600",
+        green: "text-green-700 hover:text-white border border-green-700 hover:bg-green-800 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600",
+        light: "text-gray-500 hover:text-gray-900 bg-white border border-gray-200 dark:border-gray-600 dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600",
+        primary: "text-primary-700 hover:text-white border border-primary-700 hover:bg-primary-700 dark:border-primary-500 dark:text-primary-500 dark:hover:text-white dark:hover:bg-primary-600",
+        purple: "text-purple-700 hover:text-white border border-purple-700 hover:bg-purple-800 dark:border-purple-400 dark:text-purple-400 dark:hover:text-white dark:hover:bg-purple-500",
+        red: "text-red-700 hover:text-white border border-red-700 hover:bg-red-800 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600",
+        yellow: "text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400",
+        none: ""
+      };
+      const sizeClasses = {
+        xs: "px-3 py-2 text-xs",
+        sm: "px-4 py-2 text-sm",
+        md: "px-5 py-2.5 text-sm",
+        lg: "px-5 py-3 text-base",
+        xl: "px-6 py-3.5 text-base"
+      };
+      const hasBorder = () => outline || color === "alternative" || color === "light";
+      let buttonClass;
+      if ($$props.pill === void 0 && $$bindings.pill && pill !== void 0)
+        $$bindings.pill(pill);
+      if ($$props.outline === void 0 && $$bindings.outline && outline !== void 0)
+        $$bindings.outline(outline);
+      if ($$props.size === void 0 && $$bindings.size && size !== void 0)
+        $$bindings.size(size);
+      if ($$props.href === void 0 && $$bindings.href && href !== void 0)
+        $$bindings.href(href);
+      if ($$props.type === void 0 && $$bindings.type && type !== void 0)
+        $$bindings.type(type);
+      if ($$props.color === void 0 && $$bindings.color && color !== void 0)
+        $$bindings.color(color);
+      if ($$props.shadow === void 0 && $$bindings.shadow && shadow !== void 0)
+        $$bindings.shadow(shadow);
+      if ($$props.tag === void 0 && $$bindings.tag && tag !== void 0)
+        $$bindings.tag(tag);
+      if ($$props.checked === void 0 && $$bindings.checked && checked !== void 0)
+        $$bindings.checked(checked);
+      buttonClass = twMerge(
+        "text-center font-medium",
+        group ? "focus-within:ring-2" : "focus-within:ring-4",
+        group && "focus-within:z-10",
+        group || "focus-within:outline-none",
+        "inline-flex items-center justify-center " + sizeClasses[size],
+        outline && checked && "border dark:border-gray-900",
+        outline && checked && colorCheckedClasses[color],
+        outline && !checked && outlineClasses[color],
+        !outline && checked && colorCheckedClasses[color],
+        !outline && !checked && colorClasses[color],
+        color === "alternative" && (group && !checked ? "dark:bg-gray-700 dark:text-white dark:border-gray-700 dark:hover:border-gray-600 dark:hover:bg-gray-600" : "dark:bg-transparent dark:border-gray-600 dark:hover:border-gray-600"),
+        outline && color === "dark" && (group ? checked ? "bg-gray-900 border-gray-800 dark:border-white dark:bg-gray-600" : "dark:text-white border-gray-800 dark:border-white" : "dark:text-gray-400 dark:border-gray-700"),
+        coloredFocusClasses[color],
+        hasBorder() && group && "border-s-0 first:border-s",
+        group ? pill && "first:rounded-s-full last:rounded-e-full" || "first:rounded-s-lg last:rounded-e-lg" : pill && "rounded-full" || "rounded-lg",
+        shadow && "shadow-lg",
+        shadow && coloredShadowClasses[color],
+        $$props.disabled && "cursor-not-allowed opacity-50",
+        $$props.class
+      );
+      return `${href ? `<a${spread(
+        [
+          { href: escape_attribute_value(href) },
+          escape_object($$restProps),
+          {
+            class: escape_attribute_value(buttonClass)
+          },
+          { role: "button" }
+        ],
+        {}
+      )}>${slots.default ? slots.default({}) : ``}</a>` : `${tag === "button" ? `<button${spread(
+        [
+          { type: escape_attribute_value(type) },
+          escape_object($$restProps),
+          {
+            class: escape_attribute_value(buttonClass)
+          }
+        ],
+        {}
+      )}>${slots.default ? slots.default({}) : ``}</button>` : `${((tag$1) => {
+        return tag$1 ? `<${tag}${spread(
+          [
+            escape_object($$restProps),
+            {
+              class: escape_attribute_value(buttonClass)
+            }
+          ],
+          {}
+        )}>${is_void(tag$1) ? "" : `${slots.default ? slots.default({}) : ``}`}${is_void(tag$1) ? "" : `</${tag$1}>`}` : "";
+      })(tag)}`}`} `;
+    });
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/buecher/_layout.svelte.js
+var layout_svelte_exports2 = {};
+__export(layout_svelte_exports2, {
+  default: () => Layout2
+});
+var Layout2;
+var init_layout_svelte2 = __esm({
+  ".svelte-kit/output/server/entries/pages/buecher/_layout.svelte.js"() {
+    init_ssr();
+    init_Button();
+    Layout2 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let { data } = $$props;
+      console.log("data", data);
+      if ($$props.data === void 0 && $$bindings.data && data !== void 0)
+        $$bindings.data(data);
+      return `<div><div><nav><div class="grid grid-cols-2 md:grid-cols-4 m-5 gap-3 ">${each(data.categories, (category) => {
+        return `${validate_component(Button, "Button").$$render($$result, { color: "blue", pill: true }, {}, {
+          default: () => {
+            return `<a href="${"/buecher/cat/" + escape(category.id, true)}">${escape(category.name)}</a> `;
+          }
+        })}`;
+      })}</div></nav></div> ${slots.default ? slots.default({}) : ``}</div>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/2.js
+var __exports3 = {};
+__export(__exports3, {
+  component: () => component3,
+  fonts: () => fonts3,
+  imports: () => imports3,
+  index: () => index3,
+  stylesheets: () => stylesheets3,
+  universal: () => layout_ts_exports,
+  universal_id: () => universal_id2
+});
+var index3, component_cache3, component3, universal_id2, imports3, stylesheets3, fonts3;
+var init__3 = __esm({
+  ".svelte-kit/output/server/nodes/2.js"() {
+    init_layout_ts();
+    index3 = 2;
+    component3 = async () => component_cache3 ?? (component_cache3 = (await Promise.resolve().then(() => (init_layout_svelte2(), layout_svelte_exports2))).default);
+    universal_id2 = "src/routes/buecher/+layout.ts";
+    imports3 = ["_app/immutable/nodes/2.alqd-PJB.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/Button.BWb8FycM.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
+    stylesheets3 = [];
+    fonts3 = [];
+  }
+});
+
+// node_modules/.pnpm/@supabase+node-fetch@2.6.15/node_modules/@supabase/node-fetch/browser.js
+var browser_exports = {};
+__export(browser_exports, {
+  Headers: () => Headers2,
+  Request: () => Request2,
+  Response: () => Response2,
+  default: () => browser_default,
+  fetch: () => fetch2
+});
+var getGlobal, globalObject, fetch2, browser_default, Headers2, Request2, Response2;
+var init_browser = __esm({
+  "node_modules/.pnpm/@supabase+node-fetch@2.6.15/node_modules/@supabase/node-fetch/browser.js"() {
+    "use strict";
+    getGlobal = function() {
+      if (typeof self !== "undefined") {
+        return self;
+      }
+      if (typeof window !== "undefined") {
+        return window;
+      }
+      if (typeof global !== "undefined") {
+        return global;
+      }
+      throw new Error("unable to locate global object");
+    };
+    globalObject = getGlobal();
+    fetch2 = globalObject.fetch;
+    browser_default = globalObject.fetch.bind(globalObject);
+    Headers2 = globalObject.Headers;
+    Request2 = globalObject.Request;
+    Response2 = globalObject.Response;
+  }
+});
+
+// node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/helper.js
+var resolveFetch;
+var init_helper = __esm({
+  "node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/helper.js"() {
+    resolveFetch = (customFetch) => {
+      let _fetch;
+      if (customFetch) {
+        _fetch = customFetch;
+      } else if (typeof fetch === "undefined") {
+        _fetch = (...args) => Promise.resolve().then(() => (init_browser(), browser_exports)).then(({ default: fetch3 }) => fetch3(...args));
+      } else {
+        _fetch = fetch;
+      }
+      return (...args) => _fetch(...args);
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/types.js
+var FunctionsError, FunctionsFetchError, FunctionsRelayError, FunctionsHttpError;
+var init_types = __esm({
+  "node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/types.js"() {
+    FunctionsError = class extends Error {
+      constructor(message, name2 = "FunctionsError", context) {
+        super(message);
+        this.name = name2;
+        this.context = context;
+      }
+    };
+    FunctionsFetchError = class extends FunctionsError {
+      constructor(context) {
+        super("Failed to send a request to the Edge Function", "FunctionsFetchError", context);
+      }
+    };
+    FunctionsRelayError = class extends FunctionsError {
+      constructor(context) {
+        super("Relay Error invoking the Edge Function", "FunctionsRelayError", context);
+      }
+    };
+    FunctionsHttpError = class extends FunctionsError {
+      constructor(context) {
+        super("Edge Function returned a non-2xx status code", "FunctionsHttpError", context);
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/FunctionsClient.js
+var __awaiter, FunctionsClient;
+var init_FunctionsClient = __esm({
+  "node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/FunctionsClient.js"() {
+    init_helper();
+    init_types();
+    __awaiter = function(thisArg, _arguments, P2, generator) {
+      function adopt(value) {
+        return value instanceof P2 ? value : new P2(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator["throw"](value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    FunctionsClient = class {
+      constructor(url, { headers: headers2 = {}, customFetch } = {}) {
+        this.url = url;
+        this.headers = headers2;
+        this.fetch = resolveFetch(customFetch);
+      }
+      /**
+       * Updates the authorization header
+       * @param token - the new jwt token sent in the authorisation header
+       */
+      setAuth(token) {
+        this.headers.Authorization = `Bearer ${token}`;
+      }
+      /**
+       * Invokes a function
+       * @param functionName - The name of the Function to invoke.
+       * @param options - Options for invoking the Function.
+       */
+      invoke(functionName, options2 = {}) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+          try {
+            const { headers: headers2, method, body: functionArgs } = options2;
+            let _headers = {};
+            let body2;
+            if (functionArgs && (headers2 && !Object.prototype.hasOwnProperty.call(headers2, "Content-Type") || !headers2)) {
+              if (typeof Blob !== "undefined" && functionArgs instanceof Blob || functionArgs instanceof ArrayBuffer) {
+                _headers["Content-Type"] = "application/octet-stream";
+                body2 = functionArgs;
+              } else if (typeof functionArgs === "string") {
+                _headers["Content-Type"] = "text/plain";
+                body2 = functionArgs;
+              } else if (typeof FormData !== "undefined" && functionArgs instanceof FormData) {
+                body2 = functionArgs;
+              } else {
+                _headers["Content-Type"] = "application/json";
+                body2 = JSON.stringify(functionArgs);
+              }
+            }
+            const response = yield this.fetch(`${this.url}/${functionName}`, {
+              method: method || "POST",
+              // headers priority is (high to low):
+              // 1. invoke-level headers
+              // 2. client-level headers
+              // 3. default Content-Type header
+              headers: Object.assign(Object.assign(Object.assign({}, _headers), this.headers), headers2),
+              body: body2
+            }).catch((fetchError) => {
+              throw new FunctionsFetchError(fetchError);
+            });
+            const isRelayError = response.headers.get("x-relay-error");
+            if (isRelayError && isRelayError === "true") {
+              throw new FunctionsRelayError(response);
+            }
+            if (!response.ok) {
+              throw new FunctionsHttpError(response);
+            }
+            let responseType = ((_a = response.headers.get("Content-Type")) !== null && _a !== void 0 ? _a : "text/plain").split(";")[0].trim();
+            let data;
+            if (responseType === "application/json") {
+              data = yield response.json();
+            } else if (responseType === "application/octet-stream") {
+              data = yield response.blob();
+            } else if (responseType === "multipart/form-data") {
+              data = yield response.formData();
+            } else {
+              data = yield response.text();
+            }
+            return { data, error: null };
+          } catch (error) {
+            return { data: null, error };
+          }
+        });
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/index.js
+var init_module = __esm({
+  "node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/index.js"() {
+    init_FunctionsClient();
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestError.js
+var PostgrestError;
+var init_PostgrestError = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestError.js"() {
+    PostgrestError = class extends Error {
+      constructor(context) {
+        super(context.message);
+        this.name = "PostgrestError";
+        this.details = context.details;
+        this.hint = context.hint;
+        this.code = context.code;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestBuilder.js
+var PostgrestBuilder;
+var init_PostgrestBuilder = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestBuilder.js"() {
+    init_browser();
+    init_PostgrestError();
+    PostgrestBuilder = class {
+      constructor(builder) {
+        this.shouldThrowOnError = false;
+        this.method = builder.method;
+        this.url = builder.url;
+        this.headers = builder.headers;
+        this.schema = builder.schema;
+        this.body = builder.body;
+        this.shouldThrowOnError = builder.shouldThrowOnError;
+        this.signal = builder.signal;
+        this.isMaybeSingle = builder.isMaybeSingle;
+        if (builder.fetch) {
+          this.fetch = builder.fetch;
+        } else if (typeof fetch === "undefined") {
+          this.fetch = browser_default;
+        } else {
+          this.fetch = fetch;
+        }
+      }
+      /**
+       * If there's an error with the query, throwOnError will reject the promise by
+       * throwing the error instead of returning it as part of a successful response.
+       *
+       * {@link https://github.com/supabase/supabase-js/issues/92}
+       */
+      throwOnError() {
+        this.shouldThrowOnError = true;
+        return this;
+      }
+      then(onfulfilled, onrejected) {
+        if (this.schema === void 0) {
+        } else if (["GET", "HEAD"].includes(this.method)) {
+          this.headers["Accept-Profile"] = this.schema;
+        } else {
+          this.headers["Content-Profile"] = this.schema;
+        }
+        if (this.method !== "GET" && this.method !== "HEAD") {
+          this.headers["Content-Type"] = "application/json";
+        }
+        const _fetch = this.fetch;
+        let res = _fetch(this.url.toString(), {
+          method: this.method,
+          headers: this.headers,
+          body: JSON.stringify(this.body),
+          signal: this.signal
+        }).then(async (res2) => {
+          var _a, _b, _c;
+          let error = null;
+          let data = null;
+          let count = null;
+          let status = res2.status;
+          let statusText = res2.statusText;
+          if (res2.ok) {
+            if (this.method !== "HEAD") {
+              const body2 = await res2.text();
+              if (body2 === "") {
+              } else if (this.headers["Accept"] === "text/csv") {
+                data = body2;
+              } else if (this.headers["Accept"] && this.headers["Accept"].includes("application/vnd.pgrst.plan+text")) {
+                data = body2;
+              } else {
+                data = JSON.parse(body2);
+              }
+            }
+            const countHeader = (_a = this.headers["Prefer"]) === null || _a === void 0 ? void 0 : _a.match(/count=(exact|planned|estimated)/);
+            const contentRange = (_b = res2.headers.get("content-range")) === null || _b === void 0 ? void 0 : _b.split("/");
+            if (countHeader && contentRange && contentRange.length > 1) {
+              count = parseInt(contentRange[1]);
+            }
+            if (this.isMaybeSingle && this.method === "GET" && Array.isArray(data)) {
+              if (data.length > 1) {
+                error = {
+                  // https://github.com/PostgREST/postgrest/blob/a867d79c42419af16c18c3fb019eba8df992626f/src/PostgREST/Error.hs#L553
+                  code: "PGRST116",
+                  details: `Results contain ${data.length} rows, application/vnd.pgrst.object+json requires 1 row`,
+                  hint: null,
+                  message: "JSON object requested, multiple (or no) rows returned"
+                };
+                data = null;
+                count = null;
+                status = 406;
+                statusText = "Not Acceptable";
+              } else if (data.length === 1) {
+                data = data[0];
+              } else {
+                data = null;
+              }
+            }
+          } else {
+            const body2 = await res2.text();
+            try {
+              error = JSON.parse(body2);
+              if (Array.isArray(error) && res2.status === 404) {
+                data = [];
+                error = null;
+                status = 200;
+                statusText = "OK";
+              }
+            } catch (_d) {
+              if (res2.status === 404 && body2 === "") {
+                status = 204;
+                statusText = "No Content";
+              } else {
+                error = {
+                  message: body2
+                };
+              }
+            }
+            if (error && this.isMaybeSingle && ((_c = error === null || error === void 0 ? void 0 : error.details) === null || _c === void 0 ? void 0 : _c.includes("0 rows"))) {
+              error = null;
+              status = 200;
+              statusText = "OK";
+            }
+            if (error && this.shouldThrowOnError) {
+              throw new PostgrestError(error);
+            }
+          }
+          const postgrestResponse = {
+            error,
+            data,
+            count,
+            status,
+            statusText
+          };
+          return postgrestResponse;
+        });
+        if (!this.shouldThrowOnError) {
+          res = res.catch((fetchError) => {
+            var _a, _b, _c;
+            return {
+              error: {
+                message: `${(_a = fetchError === null || fetchError === void 0 ? void 0 : fetchError.name) !== null && _a !== void 0 ? _a : "FetchError"}: ${fetchError === null || fetchError === void 0 ? void 0 : fetchError.message}`,
+                details: `${(_b = fetchError === null || fetchError === void 0 ? void 0 : fetchError.stack) !== null && _b !== void 0 ? _b : ""}`,
+                hint: "",
+                code: `${(_c = fetchError === null || fetchError === void 0 ? void 0 : fetchError.code) !== null && _c !== void 0 ? _c : ""}`
+              },
+              data: null,
+              count: null,
+              status: 0,
+              statusText: ""
+            };
+          });
+        }
+        return res.then(onfulfilled, onrejected);
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestTransformBuilder.js
+var PostgrestTransformBuilder;
+var init_PostgrestTransformBuilder = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestTransformBuilder.js"() {
+    init_PostgrestBuilder();
+    PostgrestTransformBuilder = class extends PostgrestBuilder {
+      /**
+       * Perform a SELECT on the query result.
+       *
+       * By default, `.insert()`, `.update()`, `.upsert()`, and `.delete()` do not
+       * return modified rows. By calling this method, modified rows are returned in
+       * `data`.
+       *
+       * @param columns - The columns to retrieve, separated by commas
+       */
+      select(columns) {
+        let quoted2 = false;
+        const cleanedColumns = (columns !== null && columns !== void 0 ? columns : "*").split("").map((c) => {
+          if (/\s/.test(c) && !quoted2) {
+            return "";
+          }
+          if (c === '"') {
+            quoted2 = !quoted2;
+          }
+          return c;
+        }).join("");
+        this.url.searchParams.set("select", cleanedColumns);
+        if (this.headers["Prefer"]) {
+          this.headers["Prefer"] += ",";
+        }
+        this.headers["Prefer"] += "return=representation";
+        return this;
+      }
+      /**
+       * Order the query result by `column`.
+       *
+       * You can call this method multiple times to order by multiple columns.
+       *
+       * You can order referenced tables, but it only affects the ordering of the
+       * parent table if you use `!inner` in the query.
+       *
+       * @param column - The column to order by
+       * @param options - Named parameters
+       * @param options.ascending - If `true`, the result will be in ascending order
+       * @param options.nullsFirst - If `true`, `null`s appear first. If `false`,
+       * `null`s appear last.
+       * @param options.referencedTable - Set this to order a referenced table by
+       * its columns
+       * @param options.foreignTable - Deprecated, use `options.referencedTable`
+       * instead
+       */
+      order(column, { ascending = true, nullsFirst, foreignTable, referencedTable = foreignTable } = {}) {
+        const key2 = referencedTable ? `${referencedTable}.order` : "order";
+        const existingOrder = this.url.searchParams.get(key2);
+        this.url.searchParams.set(key2, `${existingOrder ? `${existingOrder},` : ""}${column}.${ascending ? "asc" : "desc"}${nullsFirst === void 0 ? "" : nullsFirst ? ".nullsfirst" : ".nullslast"}`);
+        return this;
+      }
+      /**
+       * Limit the query result by `count`.
+       *
+       * @param count - The maximum number of rows to return
+       * @param options - Named parameters
+       * @param options.referencedTable - Set this to limit rows of referenced
+       * tables instead of the parent table
+       * @param options.foreignTable - Deprecated, use `options.referencedTable`
+       * instead
+       */
+      limit(count, { foreignTable, referencedTable = foreignTable } = {}) {
+        const key2 = typeof referencedTable === "undefined" ? "limit" : `${referencedTable}.limit`;
+        this.url.searchParams.set(key2, `${count}`);
+        return this;
+      }
+      /**
+       * Limit the query result by starting at an offset (`from`) and ending at the offset (`from + to`).
+       * Only records within this range are returned.
+       * This respects the query order and if there is no order clause the range could behave unexpectedly.
+       * The `from` and `to` values are 0-based and inclusive: `range(1, 3)` will include the second, third
+       * and fourth rows of the query.
+       *
+       * @param from - The starting index from which to limit the result
+       * @param to - The last index to which to limit the result
+       * @param options - Named parameters
+       * @param options.referencedTable - Set this to limit rows of referenced
+       * tables instead of the parent table
+       * @param options.foreignTable - Deprecated, use `options.referencedTable`
+       * instead
+       */
+      range(from, to, { foreignTable, referencedTable = foreignTable } = {}) {
+        const keyOffset = typeof referencedTable === "undefined" ? "offset" : `${referencedTable}.offset`;
+        const keyLimit = typeof referencedTable === "undefined" ? "limit" : `${referencedTable}.limit`;
+        this.url.searchParams.set(keyOffset, `${from}`);
+        this.url.searchParams.set(keyLimit, `${to - from + 1}`);
+        return this;
+      }
+      /**
+       * Set the AbortSignal for the fetch request.
+       *
+       * @param signal - The AbortSignal to use for the fetch request
+       */
+      abortSignal(signal) {
+        this.signal = signal;
+        return this;
+      }
+      /**
+       * Return `data` as a single object instead of an array of objects.
+       *
+       * Query result must be one row (e.g. using `.limit(1)`), otherwise this
+       * returns an error.
+       */
+      single() {
+        this.headers["Accept"] = "application/vnd.pgrst.object+json";
+        return this;
+      }
+      /**
+       * Return `data` as a single object instead of an array of objects.
+       *
+       * Query result must be zero or one row (e.g. using `.limit(1)`), otherwise
+       * this returns an error.
+       */
+      maybeSingle() {
+        if (this.method === "GET") {
+          this.headers["Accept"] = "application/json";
+        } else {
+          this.headers["Accept"] = "application/vnd.pgrst.object+json";
+        }
+        this.isMaybeSingle = true;
+        return this;
+      }
+      /**
+       * Return `data` as a string in CSV format.
+       */
+      csv() {
+        this.headers["Accept"] = "text/csv";
+        return this;
+      }
+      /**
+       * Return `data` as an object in [GeoJSON](https://geojson.org) format.
+       */
+      geojson() {
+        this.headers["Accept"] = "application/geo+json";
+        return this;
+      }
+      /**
+       * Return `data` as the EXPLAIN plan for the query.
+       *
+       * You need to enable the
+       * [db_plan_enabled](https://supabase.com/docs/guides/database/debugging-performance#enabling-explain)
+       * setting before using this method.
+       *
+       * @param options - Named parameters
+       *
+       * @param options.analyze - If `true`, the query will be executed and the
+       * actual run time will be returned
+       *
+       * @param options.verbose - If `true`, the query identifier will be returned
+       * and `data` will include the output columns of the query
+       *
+       * @param options.settings - If `true`, include information on configuration
+       * parameters that affect query planning
+       *
+       * @param options.buffers - If `true`, include information on buffer usage
+       *
+       * @param options.wal - If `true`, include information on WAL record generation
+       *
+       * @param options.format - The format of the output, can be `"text"` (default)
+       * or `"json"`
+       */
+      explain({ analyze = false, verbose = false, settings = false, buffers = false, wal = false, format = "text" } = {}) {
+        var _a;
+        const options2 = [
+          analyze ? "analyze" : null,
+          verbose ? "verbose" : null,
+          settings ? "settings" : null,
+          buffers ? "buffers" : null,
+          wal ? "wal" : null
+        ].filter(Boolean).join("|");
+        const forMediatype = (_a = this.headers["Accept"]) !== null && _a !== void 0 ? _a : "application/json";
+        this.headers["Accept"] = `application/vnd.pgrst.plan+${format}; for="${forMediatype}"; options=${options2};`;
+        if (format === "json")
+          return this;
+        else
+          return this;
+      }
+      /**
+       * Rollback the query.
+       *
+       * `data` will still be returned, but the query is not committed.
+       */
+      rollback() {
+        var _a;
+        if (((_a = this.headers["Prefer"]) !== null && _a !== void 0 ? _a : "").trim().length > 0) {
+          this.headers["Prefer"] += ",tx=rollback";
+        } else {
+          this.headers["Prefer"] = "tx=rollback";
+        }
+        return this;
+      }
+      /**
+       * Override the type of the returned `data`.
+       *
+       * @typeParam NewResult - The new result type to override with
+       */
+      returns() {
+        return this;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestFilterBuilder.js
+var PostgrestFilterBuilder;
+var init_PostgrestFilterBuilder = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestFilterBuilder.js"() {
+    init_PostgrestTransformBuilder();
+    PostgrestFilterBuilder = class extends PostgrestTransformBuilder {
+      /**
+       * Match only rows where `column` is equal to `value`.
+       *
+       * To check if the value of `column` is NULL, you should use `.is()` instead.
+       *
+       * @param column - The column to filter on
+       * @param value - The value to filter with
+       */
+      eq(column, value) {
+        this.url.searchParams.append(column, `eq.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` is not equal to `value`.
+       *
+       * @param column - The column to filter on
+       * @param value - The value to filter with
+       */
+      neq(column, value) {
+        this.url.searchParams.append(column, `neq.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` is greater than `value`.
+       *
+       * @param column - The column to filter on
+       * @param value - The value to filter with
+       */
+      gt(column, value) {
+        this.url.searchParams.append(column, `gt.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` is greater than or equal to `value`.
+       *
+       * @param column - The column to filter on
+       * @param value - The value to filter with
+       */
+      gte(column, value) {
+        this.url.searchParams.append(column, `gte.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` is less than `value`.
+       *
+       * @param column - The column to filter on
+       * @param value - The value to filter with
+       */
+      lt(column, value) {
+        this.url.searchParams.append(column, `lt.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` is less than or equal to `value`.
+       *
+       * @param column - The column to filter on
+       * @param value - The value to filter with
+       */
+      lte(column, value) {
+        this.url.searchParams.append(column, `lte.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` matches `pattern` case-sensitively.
+       *
+       * @param column - The column to filter on
+       * @param pattern - The pattern to match with
+       */
+      like(column, pattern2) {
+        this.url.searchParams.append(column, `like.${pattern2}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` matches all of `patterns` case-sensitively.
+       *
+       * @param column - The column to filter on
+       * @param patterns - The patterns to match with
+       */
+      likeAllOf(column, patterns) {
+        this.url.searchParams.append(column, `like(all).{${patterns.join(",")}}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` matches any of `patterns` case-sensitively.
+       *
+       * @param column - The column to filter on
+       * @param patterns - The patterns to match with
+       */
+      likeAnyOf(column, patterns) {
+        this.url.searchParams.append(column, `like(any).{${patterns.join(",")}}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` matches `pattern` case-insensitively.
+       *
+       * @param column - The column to filter on
+       * @param pattern - The pattern to match with
+       */
+      ilike(column, pattern2) {
+        this.url.searchParams.append(column, `ilike.${pattern2}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` matches all of `patterns` case-insensitively.
+       *
+       * @param column - The column to filter on
+       * @param patterns - The patterns to match with
+       */
+      ilikeAllOf(column, patterns) {
+        this.url.searchParams.append(column, `ilike(all).{${patterns.join(",")}}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` matches any of `patterns` case-insensitively.
+       *
+       * @param column - The column to filter on
+       * @param patterns - The patterns to match with
+       */
+      ilikeAnyOf(column, patterns) {
+        this.url.searchParams.append(column, `ilike(any).{${patterns.join(",")}}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` IS `value`.
+       *
+       * For non-boolean columns, this is only relevant for checking if the value of
+       * `column` is NULL by setting `value` to `null`.
+       *
+       * For boolean columns, you can also set `value` to `true` or `false` and it
+       * will behave the same way as `.eq()`.
+       *
+       * @param column - The column to filter on
+       * @param value - The value to filter with
+       */
+      is(column, value) {
+        this.url.searchParams.append(column, `is.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` is included in the `values` array.
+       *
+       * @param column - The column to filter on
+       * @param values - The values array to filter with
+       */
+      in(column, values) {
+        const cleanedValues = values.map((s2) => {
+          if (typeof s2 === "string" && new RegExp("[,()]").test(s2))
+            return `"${s2}"`;
+          else
+            return `${s2}`;
+        }).join(",");
+        this.url.searchParams.append(column, `in.(${cleanedValues})`);
+        return this;
+      }
+      /**
+       * Only relevant for jsonb, array, and range columns. Match only rows where
+       * `column` contains every element appearing in `value`.
+       *
+       * @param column - The jsonb, array, or range column to filter on
+       * @param value - The jsonb, array, or range value to filter with
+       */
+      contains(column, value) {
+        if (typeof value === "string") {
+          this.url.searchParams.append(column, `cs.${value}`);
+        } else if (Array.isArray(value)) {
+          this.url.searchParams.append(column, `cs.{${value.join(",")}}`);
+        } else {
+          this.url.searchParams.append(column, `cs.${JSON.stringify(value)}`);
+        }
+        return this;
+      }
+      /**
+       * Only relevant for jsonb, array, and range columns. Match only rows where
+       * every element appearing in `column` is contained by `value`.
+       *
+       * @param column - The jsonb, array, or range column to filter on
+       * @param value - The jsonb, array, or range value to filter with
+       */
+      containedBy(column, value) {
+        if (typeof value === "string") {
+          this.url.searchParams.append(column, `cd.${value}`);
+        } else if (Array.isArray(value)) {
+          this.url.searchParams.append(column, `cd.{${value.join(",")}}`);
+        } else {
+          this.url.searchParams.append(column, `cd.${JSON.stringify(value)}`);
+        }
+        return this;
+      }
+      /**
+       * Only relevant for range columns. Match only rows where every element in
+       * `column` is greater than any element in `range`.
+       *
+       * @param column - The range column to filter on
+       * @param range - The range to filter with
+       */
+      rangeGt(column, range) {
+        this.url.searchParams.append(column, `sr.${range}`);
+        return this;
+      }
+      /**
+       * Only relevant for range columns. Match only rows where every element in
+       * `column` is either contained in `range` or greater than any element in
+       * `range`.
+       *
+       * @param column - The range column to filter on
+       * @param range - The range to filter with
+       */
+      rangeGte(column, range) {
+        this.url.searchParams.append(column, `nxl.${range}`);
+        return this;
+      }
+      /**
+       * Only relevant for range columns. Match only rows where every element in
+       * `column` is less than any element in `range`.
+       *
+       * @param column - The range column to filter on
+       * @param range - The range to filter with
+       */
+      rangeLt(column, range) {
+        this.url.searchParams.append(column, `sl.${range}`);
+        return this;
+      }
+      /**
+       * Only relevant for range columns. Match only rows where every element in
+       * `column` is either contained in `range` or less than any element in
+       * `range`.
+       *
+       * @param column - The range column to filter on
+       * @param range - The range to filter with
+       */
+      rangeLte(column, range) {
+        this.url.searchParams.append(column, `nxr.${range}`);
+        return this;
+      }
+      /**
+       * Only relevant for range columns. Match only rows where `column` is
+       * mutually exclusive to `range` and there can be no element between the two
+       * ranges.
+       *
+       * @param column - The range column to filter on
+       * @param range - The range to filter with
+       */
+      rangeAdjacent(column, range) {
+        this.url.searchParams.append(column, `adj.${range}`);
+        return this;
+      }
+      /**
+       * Only relevant for array and range columns. Match only rows where
+       * `column` and `value` have an element in common.
+       *
+       * @param column - The array or range column to filter on
+       * @param value - The array or range value to filter with
+       */
+      overlaps(column, value) {
+        if (typeof value === "string") {
+          this.url.searchParams.append(column, `ov.${value}`);
+        } else {
+          this.url.searchParams.append(column, `ov.{${value.join(",")}}`);
+        }
+        return this;
+      }
+      /**
+       * Only relevant for text and tsvector columns. Match only rows where
+       * `column` matches the query string in `query`.
+       *
+       * @param column - The text or tsvector column to filter on
+       * @param query - The query text to match with
+       * @param options - Named parameters
+       * @param options.config - The text search configuration to use
+       * @param options.type - Change how the `query` text is interpreted
+       */
+      textSearch(column, query, { config: config3, type } = {}) {
+        let typePart = "";
+        if (type === "plain") {
+          typePart = "pl";
+        } else if (type === "phrase") {
+          typePart = "ph";
+        } else if (type === "websearch") {
+          typePart = "w";
+        }
+        const configPart = config3 === void 0 ? "" : `(${config3})`;
+        this.url.searchParams.append(column, `${typePart}fts${configPart}.${query}`);
+        return this;
+      }
+      /**
+       * Match only rows where each column in `query` keys is equal to its
+       * associated value. Shorthand for multiple `.eq()`s.
+       *
+       * @param query - The object to filter with, with column names as keys mapped
+       * to their filter values
+       */
+      match(query) {
+        Object.entries(query).forEach(([column, value]) => {
+          this.url.searchParams.append(column, `eq.${value}`);
+        });
+        return this;
+      }
+      /**
+       * Match only rows which doesn't satisfy the filter.
+       *
+       * Unlike most filters, `opearator` and `value` are used as-is and need to
+       * follow [PostgREST
+       * syntax](https://postgrest.org/en/stable/api.html#operators). You also need
+       * to make sure they are properly sanitized.
+       *
+       * @param column - The column to filter on
+       * @param operator - The operator to be negated to filter with, following
+       * PostgREST syntax
+       * @param value - The value to filter with, following PostgREST syntax
+       */
+      not(column, operator, value) {
+        this.url.searchParams.append(column, `not.${operator}.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows which satisfy at least one of the filters.
+       *
+       * Unlike most filters, `filters` is used as-is and needs to follow [PostgREST
+       * syntax](https://postgrest.org/en/stable/api.html#operators). You also need
+       * to make sure it's properly sanitized.
+       *
+       * It's currently not possible to do an `.or()` filter across multiple tables.
+       *
+       * @param filters - The filters to use, following PostgREST syntax
+       * @param options - Named parameters
+       * @param options.referencedTable - Set this to filter on referenced tables
+       * instead of the parent table
+       * @param options.foreignTable - Deprecated, use `referencedTable` instead
+       */
+      or(filters, { foreignTable, referencedTable = foreignTable } = {}) {
+        const key2 = referencedTable ? `${referencedTable}.or` : "or";
+        this.url.searchParams.append(key2, `(${filters})`);
+        return this;
+      }
+      /**
+       * Match only rows which satisfy the filter. This is an escape hatch - you
+       * should use the specific filter methods wherever possible.
+       *
+       * Unlike most filters, `opearator` and `value` are used as-is and need to
+       * follow [PostgREST
+       * syntax](https://postgrest.org/en/stable/api.html#operators). You also need
+       * to make sure they are properly sanitized.
+       *
+       * @param column - The column to filter on
+       * @param operator - The operator to filter with, following PostgREST syntax
+       * @param value - The value to filter with, following PostgREST syntax
+       */
+      filter(column, operator, value) {
+        this.url.searchParams.append(column, `${operator}.${value}`);
+        return this;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestQueryBuilder.js
+var PostgrestQueryBuilder;
+var init_PostgrestQueryBuilder = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestQueryBuilder.js"() {
+    init_PostgrestFilterBuilder();
+    PostgrestQueryBuilder = class {
+      constructor(url, { headers: headers2 = {}, schema, fetch: fetch3 }) {
+        this.url = url;
+        this.headers = headers2;
+        this.schema = schema;
+        this.fetch = fetch3;
+      }
+      /**
+       * Perform a SELECT query on the table or view.
+       *
+       * @param columns - The columns to retrieve, separated by commas. Columns can be renamed when returned with `customName:columnName`
+       *
+       * @param options - Named parameters
+       *
+       * @param options.head - When set to `true`, `data` will not be returned.
+       * Useful if you only need the count.
+       *
+       * @param options.count - Count algorithm to use to count rows in the table or view.
+       *
+       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+       * hood.
+       *
+       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+       * statistics under the hood.
+       *
+       * `"estimated"`: Uses exact count for low numbers and planned count for high
+       * numbers.
+       */
+      select(columns, { head = false, count } = {}) {
+        const method = head ? "HEAD" : "GET";
+        let quoted2 = false;
+        const cleanedColumns = (columns !== null && columns !== void 0 ? columns : "*").split("").map((c) => {
+          if (/\s/.test(c) && !quoted2) {
+            return "";
+          }
+          if (c === '"') {
+            quoted2 = !quoted2;
+          }
+          return c;
+        }).join("");
+        this.url.searchParams.set("select", cleanedColumns);
+        if (count) {
+          this.headers["Prefer"] = `count=${count}`;
+        }
+        return new PostgrestFilterBuilder({
+          method,
+          url: this.url,
+          headers: this.headers,
+          schema: this.schema,
+          fetch: this.fetch,
+          allowEmpty: false
+        });
+      }
+      /**
+       * Perform an INSERT into the table or view.
+       *
+       * By default, inserted rows are not returned. To return it, chain the call
+       * with `.select()`.
+       *
+       * @param values - The values to insert. Pass an object to insert a single row
+       * or an array to insert multiple rows.
+       *
+       * @param options - Named parameters
+       *
+       * @param options.count - Count algorithm to use to count inserted rows.
+       *
+       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+       * hood.
+       *
+       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+       * statistics under the hood.
+       *
+       * `"estimated"`: Uses exact count for low numbers and planned count for high
+       * numbers.
+       *
+       * @param options.defaultToNull - Make missing fields default to `null`.
+       * Otherwise, use the default value for the column. Only applies for bulk
+       * inserts.
+       */
+      insert(values, { count, defaultToNull = true } = {}) {
+        const method = "POST";
+        const prefersHeaders = [];
+        if (this.headers["Prefer"]) {
+          prefersHeaders.push(this.headers["Prefer"]);
+        }
+        if (count) {
+          prefersHeaders.push(`count=${count}`);
+        }
+        if (!defaultToNull) {
+          prefersHeaders.push("missing=default");
+        }
+        this.headers["Prefer"] = prefersHeaders.join(",");
+        if (Array.isArray(values)) {
+          const columns = values.reduce((acc, x) => acc.concat(Object.keys(x)), []);
+          if (columns.length > 0) {
+            const uniqueColumns = [...new Set(columns)].map((column) => `"${column}"`);
+            this.url.searchParams.set("columns", uniqueColumns.join(","));
+          }
+        }
+        return new PostgrestFilterBuilder({
+          method,
+          url: this.url,
+          headers: this.headers,
+          schema: this.schema,
+          body: values,
+          fetch: this.fetch,
+          allowEmpty: false
+        });
+      }
+      /**
+       * Perform an UPSERT on the table or view. Depending on the column(s) passed
+       * to `onConflict`, `.upsert()` allows you to perform the equivalent of
+       * `.insert()` if a row with the corresponding `onConflict` columns doesn't
+       * exist, or if it does exist, perform an alternative action depending on
+       * `ignoreDuplicates`.
+       *
+       * By default, upserted rows are not returned. To return it, chain the call
+       * with `.select()`.
+       *
+       * @param values - The values to upsert with. Pass an object to upsert a
+       * single row or an array to upsert multiple rows.
+       *
+       * @param options - Named parameters
+       *
+       * @param options.onConflict - Comma-separated UNIQUE column(s) to specify how
+       * duplicate rows are determined. Two rows are duplicates if all the
+       * `onConflict` columns are equal.
+       *
+       * @param options.ignoreDuplicates - If `true`, duplicate rows are ignored. If
+       * `false`, duplicate rows are merged with existing rows.
+       *
+       * @param options.count - Count algorithm to use to count upserted rows.
+       *
+       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+       * hood.
+       *
+       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+       * statistics under the hood.
+       *
+       * `"estimated"`: Uses exact count for low numbers and planned count for high
+       * numbers.
+       *
+       * @param options.defaultToNull - Make missing fields default to `null`.
+       * Otherwise, use the default value for the column. This only applies when
+       * inserting new rows, not when merging with existing rows under
+       * `ignoreDuplicates: false`. This also only applies when doing bulk upserts.
+       */
+      upsert(values, { onConflict, ignoreDuplicates = false, count, defaultToNull = true } = {}) {
+        const method = "POST";
+        const prefersHeaders = [`resolution=${ignoreDuplicates ? "ignore" : "merge"}-duplicates`];
+        if (onConflict !== void 0)
+          this.url.searchParams.set("on_conflict", onConflict);
+        if (this.headers["Prefer"]) {
+          prefersHeaders.push(this.headers["Prefer"]);
+        }
+        if (count) {
+          prefersHeaders.push(`count=${count}`);
+        }
+        if (!defaultToNull) {
+          prefersHeaders.push("missing=default");
+        }
+        this.headers["Prefer"] = prefersHeaders.join(",");
+        if (Array.isArray(values)) {
+          const columns = values.reduce((acc, x) => acc.concat(Object.keys(x)), []);
+          if (columns.length > 0) {
+            const uniqueColumns = [...new Set(columns)].map((column) => `"${column}"`);
+            this.url.searchParams.set("columns", uniqueColumns.join(","));
+          }
+        }
+        return new PostgrestFilterBuilder({
+          method,
+          url: this.url,
+          headers: this.headers,
+          schema: this.schema,
+          body: values,
+          fetch: this.fetch,
+          allowEmpty: false
+        });
+      }
+      /**
+       * Perform an UPDATE on the table or view.
+       *
+       * By default, updated rows are not returned. To return it, chain the call
+       * with `.select()` after filters.
+       *
+       * @param values - The values to update with
+       *
+       * @param options - Named parameters
+       *
+       * @param options.count - Count algorithm to use to count updated rows.
+       *
+       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+       * hood.
+       *
+       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+       * statistics under the hood.
+       *
+       * `"estimated"`: Uses exact count for low numbers and planned count for high
+       * numbers.
+       */
+      update(values, { count } = {}) {
+        const method = "PATCH";
+        const prefersHeaders = [];
+        if (this.headers["Prefer"]) {
+          prefersHeaders.push(this.headers["Prefer"]);
+        }
+        if (count) {
+          prefersHeaders.push(`count=${count}`);
+        }
+        this.headers["Prefer"] = prefersHeaders.join(",");
+        return new PostgrestFilterBuilder({
+          method,
+          url: this.url,
+          headers: this.headers,
+          schema: this.schema,
+          body: values,
+          fetch: this.fetch,
+          allowEmpty: false
+        });
+      }
+      /**
+       * Perform a DELETE on the table or view.
+       *
+       * By default, deleted rows are not returned. To return it, chain the call
+       * with `.select()` after filters.
+       *
+       * @param options - Named parameters
+       *
+       * @param options.count - Count algorithm to use to count deleted rows.
+       *
+       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+       * hood.
+       *
+       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+       * statistics under the hood.
+       *
+       * `"estimated"`: Uses exact count for low numbers and planned count for high
+       * numbers.
+       */
+      delete({ count } = {}) {
+        const method = "DELETE";
+        const prefersHeaders = [];
+        if (count) {
+          prefersHeaders.push(`count=${count}`);
+        }
+        if (this.headers["Prefer"]) {
+          prefersHeaders.unshift(this.headers["Prefer"]);
+        }
+        this.headers["Prefer"] = prefersHeaders.join(",");
+        return new PostgrestFilterBuilder({
+          method,
+          url: this.url,
+          headers: this.headers,
+          schema: this.schema,
+          fetch: this.fetch,
+          allowEmpty: false
+        });
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/version.js
+var version2;
+var init_version = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/version.js"() {
+    version2 = "1.9.2";
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/constants.js
+var DEFAULT_HEADERS;
+var init_constants = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/constants.js"() {
+    init_version();
+    DEFAULT_HEADERS = { "X-Client-Info": `postgrest-js/${version2}` };
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestClient.js
+var PostgrestClient;
+var init_PostgrestClient = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestClient.js"() {
+    init_PostgrestQueryBuilder();
+    init_PostgrestFilterBuilder();
+    init_constants();
+    PostgrestClient = class _PostgrestClient {
+      // TODO: Add back shouldThrowOnError once we figure out the typings
+      /**
+       * Creates a PostgREST client.
+       *
+       * @param url - URL of the PostgREST endpoint
+       * @param options - Named parameters
+       * @param options.headers - Custom headers
+       * @param options.schema - Postgres schema to switch to
+       * @param options.fetch - Custom fetch
+       */
+      constructor(url, { headers: headers2 = {}, schema, fetch: fetch3 } = {}) {
+        this.url = url;
+        this.headers = Object.assign(Object.assign({}, DEFAULT_HEADERS), headers2);
+        this.schemaName = schema;
+        this.fetch = fetch3;
+      }
+      /**
+       * Perform a query on a table or a view.
+       *
+       * @param relation - The table or view name to query
+       */
+      from(relation) {
+        const url = new URL(`${this.url}/${relation}`);
+        return new PostgrestQueryBuilder(url, {
+          headers: Object.assign({}, this.headers),
+          schema: this.schemaName,
+          fetch: this.fetch
+        });
+      }
+      /**
+       * Select a schema to query or perform an function (rpc) call.
+       *
+       * The schema needs to be on the list of exposed schemas inside Supabase.
+       *
+       * @param schema - The schema to query
+       */
+      schema(schema) {
+        return new _PostgrestClient(this.url, {
+          headers: this.headers,
+          schema,
+          fetch: this.fetch
+        });
+      }
+      /**
+       * Perform a function call.
+       *
+       * @param fn - The function name to call
+       * @param args - The arguments to pass to the function call
+       * @param options - Named parameters
+       * @param options.head - When set to `true`, `data` will not be returned.
+       * Useful if you only need the count.
+       * @param options.count - Count algorithm to use to count rows returned by the
+       * function. Only applicable for [set-returning
+       * functions](https://www.postgresql.org/docs/current/functions-srf.html).
+       *
+       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+       * hood.
+       *
+       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+       * statistics under the hood.
+       *
+       * `"estimated"`: Uses exact count for low numbers and planned count for high
+       * numbers.
+       */
+      rpc(fn, args = {}, { head = false, count } = {}) {
+        let method;
+        const url = new URL(`${this.url}/rpc/${fn}`);
+        let body2;
+        if (head) {
+          method = "HEAD";
+          Object.entries(args).forEach(([name2, value]) => {
+            url.searchParams.append(name2, `${value}`);
+          });
+        } else {
+          method = "POST";
+          body2 = args;
+        }
+        const headers2 = Object.assign({}, this.headers);
+        if (count) {
+          headers2["Prefer"] = `count=${count}`;
+        }
+        return new PostgrestFilterBuilder({
+          method,
+          url,
+          headers: headers2,
+          schema: this.schemaName,
+          body: body2,
+          fetch: this.fetch,
+          allowEmpty: false
+        });
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/index.js
+var init_module2 = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/index.js"() {
+    init_PostgrestClient();
+    init_PostgrestQueryBuilder();
+    init_PostgrestFilterBuilder();
+    init_PostgrestTransformBuilder();
+    init_PostgrestBuilder();
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/version.js
+var version3;
+var init_version2 = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/version.js"() {
+    version3 = "2.9.3";
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/constants.js
+var DEFAULT_HEADERS2, VSN, DEFAULT_TIMEOUT, WS_CLOSE_NORMAL, SOCKET_STATES, CHANNEL_STATES, CHANNEL_EVENTS, TRANSPORTS, CONNECTION_STATE;
+var init_constants2 = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/constants.js"() {
+    init_version2();
+    DEFAULT_HEADERS2 = { "X-Client-Info": `realtime-js/${version3}` };
+    VSN = "1.0.0";
+    DEFAULT_TIMEOUT = 1e4;
+    WS_CLOSE_NORMAL = 1e3;
+    (function(SOCKET_STATES2) {
+      SOCKET_STATES2[SOCKET_STATES2["connecting"] = 0] = "connecting";
+      SOCKET_STATES2[SOCKET_STATES2["open"] = 1] = "open";
+      SOCKET_STATES2[SOCKET_STATES2["closing"] = 2] = "closing";
+      SOCKET_STATES2[SOCKET_STATES2["closed"] = 3] = "closed";
+    })(SOCKET_STATES || (SOCKET_STATES = {}));
+    (function(CHANNEL_STATES2) {
+      CHANNEL_STATES2["closed"] = "closed";
+      CHANNEL_STATES2["errored"] = "errored";
+      CHANNEL_STATES2["joined"] = "joined";
+      CHANNEL_STATES2["joining"] = "joining";
+      CHANNEL_STATES2["leaving"] = "leaving";
+    })(CHANNEL_STATES || (CHANNEL_STATES = {}));
+    (function(CHANNEL_EVENTS2) {
+      CHANNEL_EVENTS2["close"] = "phx_close";
+      CHANNEL_EVENTS2["error"] = "phx_error";
+      CHANNEL_EVENTS2["join"] = "phx_join";
+      CHANNEL_EVENTS2["reply"] = "phx_reply";
+      CHANNEL_EVENTS2["leave"] = "phx_leave";
+      CHANNEL_EVENTS2["access_token"] = "access_token";
+    })(CHANNEL_EVENTS || (CHANNEL_EVENTS = {}));
+    (function(TRANSPORTS2) {
+      TRANSPORTS2["websocket"] = "websocket";
+    })(TRANSPORTS || (TRANSPORTS = {}));
+    (function(CONNECTION_STATE2) {
+      CONNECTION_STATE2["Connecting"] = "connecting";
+      CONNECTION_STATE2["Open"] = "open";
+      CONNECTION_STATE2["Closing"] = "closing";
+      CONNECTION_STATE2["Closed"] = "closed";
+    })(CONNECTION_STATE || (CONNECTION_STATE = {}));
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/timer.js
+var Timer;
+var init_timer = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/timer.js"() {
+    Timer = class {
+      constructor(callback, timerCalc) {
+        this.callback = callback;
+        this.timerCalc = timerCalc;
+        this.timer = void 0;
+        this.tries = 0;
+        this.callback = callback;
+        this.timerCalc = timerCalc;
+      }
+      reset() {
+        this.tries = 0;
+        clearTimeout(this.timer);
+      }
+      // Cancels any previous scheduleTimeout and schedules callback
+      scheduleTimeout() {
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+          this.tries = this.tries + 1;
+          this.callback();
+        }, this.timerCalc(this.tries + 1));
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/serializer.js
+var Serializer;
+var init_serializer = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/serializer.js"() {
+    Serializer = class {
+      constructor() {
+        this.HEADER_LENGTH = 1;
+      }
+      decode(rawPayload, callback) {
+        if (rawPayload.constructor === ArrayBuffer) {
+          return callback(this._binaryDecode(rawPayload));
+        }
+        if (typeof rawPayload === "string") {
+          return callback(JSON.parse(rawPayload));
+        }
+        return callback({});
+      }
+      _binaryDecode(buffer) {
+        const view = new DataView(buffer);
+        const decoder = new TextDecoder();
+        return this._decodeBroadcast(buffer, view, decoder);
+      }
+      _decodeBroadcast(buffer, view, decoder) {
+        const topicSize = view.getUint8(1);
+        const eventSize = view.getUint8(2);
+        let offset = this.HEADER_LENGTH + 2;
+        const topic = decoder.decode(buffer.slice(offset, offset + topicSize));
+        offset = offset + topicSize;
+        const event = decoder.decode(buffer.slice(offset, offset + eventSize));
+        offset = offset + eventSize;
+        const data = JSON.parse(decoder.decode(buffer.slice(offset, buffer.byteLength)));
+        return { ref: null, topic, event, payload: data };
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/push.js
+var Push;
+var init_push = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/push.js"() {
+    init_constants2();
+    Push = class {
+      /**
+       * Initializes the Push
+       *
+       * @param channel The Channel
+       * @param event The event, for example `"phx_join"`
+       * @param payload The payload, for example `{user_id: 123}`
+       * @param timeout The push timeout in milliseconds
+       */
+      constructor(channel, event, payload = {}, timeout = DEFAULT_TIMEOUT) {
+        this.channel = channel;
+        this.event = event;
+        this.payload = payload;
+        this.timeout = timeout;
+        this.sent = false;
+        this.timeoutTimer = void 0;
+        this.ref = "";
+        this.receivedResp = null;
+        this.recHooks = [];
+        this.refEvent = null;
+      }
+      resend(timeout) {
+        this.timeout = timeout;
+        this._cancelRefEvent();
+        this.ref = "";
+        this.refEvent = null;
+        this.receivedResp = null;
+        this.sent = false;
+        this.send();
+      }
+      send() {
+        if (this._hasReceived("timeout")) {
+          return;
+        }
+        this.startTimeout();
+        this.sent = true;
+        this.channel.socket.push({
+          topic: this.channel.topic,
+          event: this.event,
+          payload: this.payload,
+          ref: this.ref,
+          join_ref: this.channel._joinRef()
+        });
+      }
+      updatePayload(payload) {
+        this.payload = Object.assign(Object.assign({}, this.payload), payload);
+      }
+      receive(status, callback) {
+        var _a;
+        if (this._hasReceived(status)) {
+          callback((_a = this.receivedResp) === null || _a === void 0 ? void 0 : _a.response);
+        }
+        this.recHooks.push({ status, callback });
+        return this;
+      }
+      startTimeout() {
+        if (this.timeoutTimer) {
+          return;
+        }
+        this.ref = this.channel.socket._makeRef();
+        this.refEvent = this.channel._replyEventName(this.ref);
+        const callback = (payload) => {
+          this._cancelRefEvent();
+          this._cancelTimeout();
+          this.receivedResp = payload;
+          this._matchReceive(payload);
+        };
+        this.channel._on(this.refEvent, {}, callback);
+        this.timeoutTimer = setTimeout(() => {
+          this.trigger("timeout", {});
+        }, this.timeout);
+      }
+      trigger(status, response) {
+        if (this.refEvent)
+          this.channel._trigger(this.refEvent, { status, response });
+      }
+      destroy() {
+        this._cancelRefEvent();
+        this._cancelTimeout();
+      }
+      _cancelRefEvent() {
+        if (!this.refEvent) {
+          return;
+        }
+        this.channel._off(this.refEvent, {});
+      }
+      _cancelTimeout() {
+        clearTimeout(this.timeoutTimer);
+        this.timeoutTimer = void 0;
+      }
+      _matchReceive({ status, response }) {
+        this.recHooks.filter((h) => h.status === status).forEach((h) => h.callback(response));
+      }
+      _hasReceived(status) {
+        return this.receivedResp && this.receivedResp.status === status;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimePresence.js
+var REALTIME_PRESENCE_LISTEN_EVENTS, RealtimePresence;
+var init_RealtimePresence = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimePresence.js"() {
+    (function(REALTIME_PRESENCE_LISTEN_EVENTS2) {
+      REALTIME_PRESENCE_LISTEN_EVENTS2["SYNC"] = "sync";
+      REALTIME_PRESENCE_LISTEN_EVENTS2["JOIN"] = "join";
+      REALTIME_PRESENCE_LISTEN_EVENTS2["LEAVE"] = "leave";
+    })(REALTIME_PRESENCE_LISTEN_EVENTS || (REALTIME_PRESENCE_LISTEN_EVENTS = {}));
+    RealtimePresence = class _RealtimePresence {
+      /**
+       * Initializes the Presence.
+       *
+       * @param channel - The RealtimeChannel
+       * @param opts - The options,
+       *        for example `{events: {state: 'state', diff: 'diff'}}`
+       */
+      constructor(channel, opts) {
+        this.channel = channel;
+        this.state = {};
+        this.pendingDiffs = [];
+        this.joinRef = null;
+        this.caller = {
+          onJoin: () => {
+          },
+          onLeave: () => {
+          },
+          onSync: () => {
+          }
+        };
+        const events = (opts === null || opts === void 0 ? void 0 : opts.events) || {
+          state: "presence_state",
+          diff: "presence_diff"
+        };
+        this.channel._on(events.state, {}, (newState) => {
+          const { onJoin, onLeave, onSync } = this.caller;
+          this.joinRef = this.channel._joinRef();
+          this.state = _RealtimePresence.syncState(this.state, newState, onJoin, onLeave);
+          this.pendingDiffs.forEach((diff) => {
+            this.state = _RealtimePresence.syncDiff(this.state, diff, onJoin, onLeave);
+          });
+          this.pendingDiffs = [];
+          onSync();
+        });
+        this.channel._on(events.diff, {}, (diff) => {
+          const { onJoin, onLeave, onSync } = this.caller;
+          if (this.inPendingSyncState()) {
+            this.pendingDiffs.push(diff);
+          } else {
+            this.state = _RealtimePresence.syncDiff(this.state, diff, onJoin, onLeave);
+            onSync();
+          }
+        });
+        this.onJoin((key2, currentPresences, newPresences) => {
+          this.channel._trigger("presence", {
+            event: "join",
+            key: key2,
+            currentPresences,
+            newPresences
+          });
+        });
+        this.onLeave((key2, currentPresences, leftPresences) => {
+          this.channel._trigger("presence", {
+            event: "leave",
+            key: key2,
+            currentPresences,
+            leftPresences
+          });
+        });
+        this.onSync(() => {
+          this.channel._trigger("presence", { event: "sync" });
+        });
+      }
+      /**
+       * Used to sync the list of presences on the server with the
+       * client's state.
+       *
+       * An optional `onJoin` and `onLeave` callback can be provided to
+       * react to changes in the client's local presences across
+       * disconnects and reconnects with the server.
+       *
+       * @internal
+       */
+      static syncState(currentState, newState, onJoin, onLeave) {
+        const state = this.cloneDeep(currentState);
+        const transformedState = this.transformState(newState);
+        const joins = {};
+        const leaves = {};
+        this.map(state, (key2, presences) => {
+          if (!transformedState[key2]) {
+            leaves[key2] = presences;
+          }
+        });
+        this.map(transformedState, (key2, newPresences) => {
+          const currentPresences = state[key2];
+          if (currentPresences) {
+            const newPresenceRefs = newPresences.map((m) => m.presence_ref);
+            const curPresenceRefs = currentPresences.map((m) => m.presence_ref);
+            const joinedPresences = newPresences.filter((m) => curPresenceRefs.indexOf(m.presence_ref) < 0);
+            const leftPresences = currentPresences.filter((m) => newPresenceRefs.indexOf(m.presence_ref) < 0);
+            if (joinedPresences.length > 0) {
+              joins[key2] = joinedPresences;
+            }
+            if (leftPresences.length > 0) {
+              leaves[key2] = leftPresences;
+            }
+          } else {
+            joins[key2] = newPresences;
+          }
+        });
+        return this.syncDiff(state, { joins, leaves }, onJoin, onLeave);
+      }
+      /**
+       * Used to sync a diff of presence join and leave events from the
+       * server, as they happen.
+       *
+       * Like `syncState`, `syncDiff` accepts optional `onJoin` and
+       * `onLeave` callbacks to react to a user joining or leaving from a
+       * device.
+       *
+       * @internal
+       */
+      static syncDiff(state, diff, onJoin, onLeave) {
+        const { joins, leaves } = {
+          joins: this.transformState(diff.joins),
+          leaves: this.transformState(diff.leaves)
+        };
+        if (!onJoin) {
+          onJoin = () => {
+          };
+        }
+        if (!onLeave) {
+          onLeave = () => {
+          };
+        }
+        this.map(joins, (key2, newPresences) => {
+          var _a;
+          const currentPresences = (_a = state[key2]) !== null && _a !== void 0 ? _a : [];
+          state[key2] = this.cloneDeep(newPresences);
+          if (currentPresences.length > 0) {
+            const joinedPresenceRefs = state[key2].map((m) => m.presence_ref);
+            const curPresences = currentPresences.filter((m) => joinedPresenceRefs.indexOf(m.presence_ref) < 0);
+            state[key2].unshift(...curPresences);
+          }
+          onJoin(key2, currentPresences, newPresences);
+        });
+        this.map(leaves, (key2, leftPresences) => {
+          let currentPresences = state[key2];
+          if (!currentPresences)
+            return;
+          const presenceRefsToRemove = leftPresences.map((m) => m.presence_ref);
+          currentPresences = currentPresences.filter((m) => presenceRefsToRemove.indexOf(m.presence_ref) < 0);
+          state[key2] = currentPresences;
+          onLeave(key2, currentPresences, leftPresences);
+          if (currentPresences.length === 0)
+            delete state[key2];
+        });
+        return state;
+      }
+      /** @internal */
+      static map(obj, func) {
+        return Object.getOwnPropertyNames(obj).map((key2) => func(key2, obj[key2]));
+      }
+      /**
+       * Remove 'metas' key
+       * Change 'phx_ref' to 'presence_ref'
+       * Remove 'phx_ref' and 'phx_ref_prev'
+       *
+       * @example
+       * // returns {
+       *  abc123: [
+       *    { presence_ref: '2', user_id: 1 },
+       *    { presence_ref: '3', user_id: 2 }
+       *  ]
+       * }
+       * RealtimePresence.transformState({
+       *  abc123: {
+       *    metas: [
+       *      { phx_ref: '2', phx_ref_prev: '1' user_id: 1 },
+       *      { phx_ref: '3', user_id: 2 }
+       *    ]
+       *  }
+       * })
+       *
+       * @internal
+       */
+      static transformState(state) {
+        state = this.cloneDeep(state);
+        return Object.getOwnPropertyNames(state).reduce((newState, key2) => {
+          const presences = state[key2];
+          if ("metas" in presences) {
+            newState[key2] = presences.metas.map((presence) => {
+              presence["presence_ref"] = presence["phx_ref"];
+              delete presence["phx_ref"];
+              delete presence["phx_ref_prev"];
+              return presence;
+            });
+          } else {
+            newState[key2] = presences;
+          }
+          return newState;
+        }, {});
+      }
+      /** @internal */
+      static cloneDeep(obj) {
+        return JSON.parse(JSON.stringify(obj));
+      }
+      /** @internal */
+      onJoin(callback) {
+        this.caller.onJoin = callback;
+      }
+      /** @internal */
+      onLeave(callback) {
+        this.caller.onLeave = callback;
+      }
+      /** @internal */
+      onSync(callback) {
+        this.caller.onSync = callback;
+      }
+      /** @internal */
+      inPendingSyncState() {
+        return !this.joinRef || this.joinRef !== this.channel._joinRef();
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/transformers.js
+var PostgresTypes, convertChangeData, convertColumn, convertCell, noop2, toBoolean, toNumber, toJson, toArray, toTimestampString;
+var init_transformers = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/transformers.js"() {
+    (function(PostgresTypes2) {
+      PostgresTypes2["abstime"] = "abstime";
+      PostgresTypes2["bool"] = "bool";
+      PostgresTypes2["date"] = "date";
+      PostgresTypes2["daterange"] = "daterange";
+      PostgresTypes2["float4"] = "float4";
+      PostgresTypes2["float8"] = "float8";
+      PostgresTypes2["int2"] = "int2";
+      PostgresTypes2["int4"] = "int4";
+      PostgresTypes2["int4range"] = "int4range";
+      PostgresTypes2["int8"] = "int8";
+      PostgresTypes2["int8range"] = "int8range";
+      PostgresTypes2["json"] = "json";
+      PostgresTypes2["jsonb"] = "jsonb";
+      PostgresTypes2["money"] = "money";
+      PostgresTypes2["numeric"] = "numeric";
+      PostgresTypes2["oid"] = "oid";
+      PostgresTypes2["reltime"] = "reltime";
+      PostgresTypes2["text"] = "text";
+      PostgresTypes2["time"] = "time";
+      PostgresTypes2["timestamp"] = "timestamp";
+      PostgresTypes2["timestamptz"] = "timestamptz";
+      PostgresTypes2["timetz"] = "timetz";
+      PostgresTypes2["tsrange"] = "tsrange";
+      PostgresTypes2["tstzrange"] = "tstzrange";
+    })(PostgresTypes || (PostgresTypes = {}));
+    convertChangeData = (columns, record, options2 = {}) => {
+      var _a;
+      const skipTypes = (_a = options2.skipTypes) !== null && _a !== void 0 ? _a : [];
+      return Object.keys(record).reduce((acc, rec_key) => {
+        acc[rec_key] = convertColumn(rec_key, columns, record, skipTypes);
+        return acc;
+      }, {});
+    };
+    convertColumn = (columnName, columns, record, skipTypes) => {
+      const column = columns.find((x) => x.name === columnName);
+      const colType = column === null || column === void 0 ? void 0 : column.type;
+      const value = record[columnName];
+      if (colType && !skipTypes.includes(colType)) {
+        return convertCell(colType, value);
+      }
+      return noop2(value);
+    };
+    convertCell = (type, value) => {
+      if (type.charAt(0) === "_") {
+        const dataType = type.slice(1, type.length);
+        return toArray(value, dataType);
+      }
+      switch (type) {
+        case PostgresTypes.bool:
+          return toBoolean(value);
+        case PostgresTypes.float4:
+        case PostgresTypes.float8:
+        case PostgresTypes.int2:
+        case PostgresTypes.int4:
+        case PostgresTypes.int8:
+        case PostgresTypes.numeric:
+        case PostgresTypes.oid:
+          return toNumber(value);
+        case PostgresTypes.json:
+        case PostgresTypes.jsonb:
+          return toJson(value);
+        case PostgresTypes.timestamp:
+          return toTimestampString(value);
+        case PostgresTypes.abstime:
+        case PostgresTypes.date:
+        case PostgresTypes.daterange:
+        case PostgresTypes.int4range:
+        case PostgresTypes.int8range:
+        case PostgresTypes.money:
+        case PostgresTypes.reltime:
+        case PostgresTypes.text:
+        case PostgresTypes.time:
+        case PostgresTypes.timestamptz:
+        case PostgresTypes.timetz:
+        case PostgresTypes.tsrange:
+        case PostgresTypes.tstzrange:
+          return noop2(value);
+        default:
+          return noop2(value);
+      }
+    };
+    noop2 = (value) => {
+      return value;
+    };
+    toBoolean = (value) => {
+      switch (value) {
+        case "t":
+          return true;
+        case "f":
+          return false;
+        default:
+          return value;
+      }
+    };
+    toNumber = (value) => {
+      if (typeof value === "string") {
+        const parsedValue = parseFloat(value);
+        if (!Number.isNaN(parsedValue)) {
+          return parsedValue;
+        }
+      }
+      return value;
+    };
+    toJson = (value) => {
+      if (typeof value === "string") {
+        try {
+          return JSON.parse(value);
+        } catch (error) {
+          console.log(`JSON parse error: ${error}`);
+          return value;
+        }
+      }
+      return value;
+    };
+    toArray = (value, type) => {
+      if (typeof value !== "string") {
+        return value;
+      }
+      const lastIdx = value.length - 1;
+      const closeBrace = value[lastIdx];
+      const openBrace = value[0];
+      if (openBrace === "{" && closeBrace === "}") {
+        let arr;
+        const valTrim = value.slice(1, lastIdx);
+        try {
+          arr = JSON.parse("[" + valTrim + "]");
+        } catch (_) {
+          arr = valTrim ? valTrim.split(",") : [];
+        }
+        return arr.map((val) => convertCell(type, val));
+      }
+      return value;
+    };
+    toTimestampString = (value) => {
+      if (typeof value === "string") {
+        return value.replace(" ", "T");
+      }
+      return value;
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimeChannel.js
+var REALTIME_POSTGRES_CHANGES_LISTEN_EVENT, REALTIME_LISTEN_TYPES, REALTIME_SUBSCRIBE_STATES, RealtimeChannel;
+var init_RealtimeChannel = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimeChannel.js"() {
+    init_constants2();
+    init_push();
+    init_timer();
+    init_RealtimePresence();
+    init_transformers();
+    (function(REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2) {
+      REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["ALL"] = "*";
+      REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["INSERT"] = "INSERT";
+      REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["UPDATE"] = "UPDATE";
+      REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["DELETE"] = "DELETE";
+    })(REALTIME_POSTGRES_CHANGES_LISTEN_EVENT || (REALTIME_POSTGRES_CHANGES_LISTEN_EVENT = {}));
+    (function(REALTIME_LISTEN_TYPES2) {
+      REALTIME_LISTEN_TYPES2["BROADCAST"] = "broadcast";
+      REALTIME_LISTEN_TYPES2["PRESENCE"] = "presence";
+      REALTIME_LISTEN_TYPES2["POSTGRES_CHANGES"] = "postgres_changes";
+    })(REALTIME_LISTEN_TYPES || (REALTIME_LISTEN_TYPES = {}));
+    (function(REALTIME_SUBSCRIBE_STATES2) {
+      REALTIME_SUBSCRIBE_STATES2["SUBSCRIBED"] = "SUBSCRIBED";
+      REALTIME_SUBSCRIBE_STATES2["TIMED_OUT"] = "TIMED_OUT";
+      REALTIME_SUBSCRIBE_STATES2["CLOSED"] = "CLOSED";
+      REALTIME_SUBSCRIBE_STATES2["CHANNEL_ERROR"] = "CHANNEL_ERROR";
+    })(REALTIME_SUBSCRIBE_STATES || (REALTIME_SUBSCRIBE_STATES = {}));
+    RealtimeChannel = class _RealtimeChannel {
+      constructor(topic, params = { config: {} }, socket) {
+        this.topic = topic;
+        this.params = params;
+        this.socket = socket;
+        this.bindings = {};
+        this.state = CHANNEL_STATES.closed;
+        this.joinedOnce = false;
+        this.pushBuffer = [];
+        this.subTopic = topic.replace(/^realtime:/i, "");
+        this.params.config = Object.assign({
+          broadcast: { ack: false, self: false },
+          presence: { key: "" }
+        }, params.config);
+        this.timeout = this.socket.timeout;
+        this.joinPush = new Push(this, CHANNEL_EVENTS.join, this.params, this.timeout);
+        this.rejoinTimer = new Timer(() => this._rejoinUntilConnected(), this.socket.reconnectAfterMs);
+        this.joinPush.receive("ok", () => {
+          this.state = CHANNEL_STATES.joined;
+          this.rejoinTimer.reset();
+          this.pushBuffer.forEach((pushEvent) => pushEvent.send());
+          this.pushBuffer = [];
+        });
+        this._onClose(() => {
+          this.rejoinTimer.reset();
+          this.socket.log("channel", `close ${this.topic} ${this._joinRef()}`);
+          this.state = CHANNEL_STATES.closed;
+          this.socket._remove(this);
+        });
+        this._onError((reason) => {
+          if (this._isLeaving() || this._isClosed()) {
+            return;
+          }
+          this.socket.log("channel", `error ${this.topic}`, reason);
+          this.state = CHANNEL_STATES.errored;
+          this.rejoinTimer.scheduleTimeout();
+        });
+        this.joinPush.receive("timeout", () => {
+          if (!this._isJoining()) {
+            return;
+          }
+          this.socket.log("channel", `timeout ${this.topic}`, this.joinPush.timeout);
+          this.state = CHANNEL_STATES.errored;
+          this.rejoinTimer.scheduleTimeout();
+        });
+        this._on(CHANNEL_EVENTS.reply, {}, (payload, ref) => {
+          this._trigger(this._replyEventName(ref), payload);
+        });
+        this.presence = new RealtimePresence(this);
+        this.broadcastEndpointURL = this._broadcastEndpointURL();
+      }
+      /** Subscribe registers your client with the server */
+      subscribe(callback, timeout = this.timeout) {
+        var _a, _b;
+        if (!this.socket.isConnected()) {
+          this.socket.connect();
+        }
+        if (this.joinedOnce) {
+          throw `tried to subscribe multiple times. 'subscribe' can only be called a single time per channel instance`;
+        } else {
+          const { config: { broadcast, presence } } = this.params;
+          this._onError((e) => callback && callback("CHANNEL_ERROR", e));
+          this._onClose(() => callback && callback("CLOSED"));
+          const accessTokenPayload = {};
+          const config3 = {
+            broadcast,
+            presence,
+            postgres_changes: (_b = (_a = this.bindings.postgres_changes) === null || _a === void 0 ? void 0 : _a.map((r) => r.filter)) !== null && _b !== void 0 ? _b : []
+          };
+          if (this.socket.accessToken) {
+            accessTokenPayload.access_token = this.socket.accessToken;
+          }
+          this.updateJoinPayload(Object.assign({ config: config3 }, accessTokenPayload));
+          this.joinedOnce = true;
+          this._rejoin(timeout);
+          this.joinPush.receive("ok", ({ postgres_changes: serverPostgresFilters }) => {
+            var _a2;
+            this.socket.accessToken && this.socket.setAuth(this.socket.accessToken);
+            if (serverPostgresFilters === void 0) {
+              callback && callback("SUBSCRIBED");
+              return;
+            } else {
+              const clientPostgresBindings = this.bindings.postgres_changes;
+              const bindingsLen = (_a2 = clientPostgresBindings === null || clientPostgresBindings === void 0 ? void 0 : clientPostgresBindings.length) !== null && _a2 !== void 0 ? _a2 : 0;
+              const newPostgresBindings = [];
+              for (let i = 0; i < bindingsLen; i++) {
+                const clientPostgresBinding = clientPostgresBindings[i];
+                const { filter: { event, schema, table, filter } } = clientPostgresBinding;
+                const serverPostgresFilter = serverPostgresFilters && serverPostgresFilters[i];
+                if (serverPostgresFilter && serverPostgresFilter.event === event && serverPostgresFilter.schema === schema && serverPostgresFilter.table === table && serverPostgresFilter.filter === filter) {
+                  newPostgresBindings.push(Object.assign(Object.assign({}, clientPostgresBinding), { id: serverPostgresFilter.id }));
+                } else {
+                  this.unsubscribe();
+                  callback && callback("CHANNEL_ERROR", new Error("mismatch between server and client bindings for postgres changes"));
+                  return;
+                }
+              }
+              this.bindings.postgres_changes = newPostgresBindings;
+              callback && callback("SUBSCRIBED");
+              return;
+            }
+          }).receive("error", (error) => {
+            callback && callback("CHANNEL_ERROR", new Error(JSON.stringify(Object.values(error).join(", ") || "error")));
+            return;
+          }).receive("timeout", () => {
+            callback && callback("TIMED_OUT");
+            return;
+          });
+        }
+        return this;
+      }
+      presenceState() {
+        return this.presence.state;
+      }
+      async track(payload, opts = {}) {
+        return await this.send({
+          type: "presence",
+          event: "track",
+          payload
+        }, opts.timeout || this.timeout);
+      }
+      async untrack(opts = {}) {
+        return await this.send({
+          type: "presence",
+          event: "untrack"
+        }, opts);
+      }
+      on(type, filter, callback) {
+        return this._on(type, filter, callback);
+      }
+      /**
+       * Sends a message into the channel.
+       *
+       * @param args Arguments to send to channel
+       * @param args.type The type of event to send
+       * @param args.event The name of the event being sent
+       * @param args.payload Payload to be sent
+       * @param opts Options to be used during the send process
+       */
+      async send(args, opts = {}) {
+        var _a, _b;
+        if (!this._canPush() && args.type === "broadcast") {
+          const { event, payload: endpoint_payload } = args;
+          const options2 = {
+            method: "POST",
+            headers: {
+              apikey: (_a = this.socket.apiKey) !== null && _a !== void 0 ? _a : "",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              messages: [
+                { topic: this.subTopic, event, payload: endpoint_payload }
+              ]
+            })
+          };
+          try {
+            const response = await this._fetchWithTimeout(this.broadcastEndpointURL, options2, (_b = opts.timeout) !== null && _b !== void 0 ? _b : this.timeout);
+            if (response.ok) {
+              return "ok";
+            } else {
+              return "error";
+            }
+          } catch (error) {
+            if (error.name === "AbortError") {
+              return "timed out";
+            } else {
+              return "error";
+            }
+          }
+        } else {
+          return new Promise((resolve2) => {
+            var _a2, _b2, _c;
+            const push = this._push(args.type, args, opts.timeout || this.timeout);
+            if (args.type === "broadcast" && !((_c = (_b2 = (_a2 = this.params) === null || _a2 === void 0 ? void 0 : _a2.config) === null || _b2 === void 0 ? void 0 : _b2.broadcast) === null || _c === void 0 ? void 0 : _c.ack)) {
+              resolve2("ok");
+            }
+            push.receive("ok", () => resolve2("ok"));
+            push.receive("timeout", () => resolve2("timed out"));
+          });
+        }
+      }
+      updateJoinPayload(payload) {
+        this.joinPush.updatePayload(payload);
+      }
+      /**
+       * Leaves the channel.
+       *
+       * Unsubscribes from server events, and instructs channel to terminate on server.
+       * Triggers onClose() hooks.
+       *
+       * To receive leave acknowledgements, use the a `receive` hook to bind to the server ack, ie:
+       * channel.unsubscribe().receive("ok", () => alert("left!") )
+       */
+      unsubscribe(timeout = this.timeout) {
+        this.state = CHANNEL_STATES.leaving;
+        const onClose = () => {
+          this.socket.log("channel", `leave ${this.topic}`);
+          this._trigger(CHANNEL_EVENTS.close, "leave", this._joinRef());
+        };
+        this.rejoinTimer.reset();
+        this.joinPush.destroy();
+        return new Promise((resolve2) => {
+          const leavePush = new Push(this, CHANNEL_EVENTS.leave, {}, timeout);
+          leavePush.receive("ok", () => {
+            onClose();
+            resolve2("ok");
+          }).receive("timeout", () => {
+            onClose();
+            resolve2("timed out");
+          }).receive("error", () => {
+            resolve2("error");
+          });
+          leavePush.send();
+          if (!this._canPush()) {
+            leavePush.trigger("ok", {});
+          }
+        });
+      }
+      /** @internal */
+      _broadcastEndpointURL() {
+        let url = this.socket.endPoint;
+        url = url.replace(/^ws/i, "http");
+        url = url.replace(/(\/socket\/websocket|\/socket|\/websocket)\/?$/i, "");
+        return url.replace(/\/+$/, "") + "/api/broadcast";
+      }
+      async _fetchWithTimeout(url, options2, timeout) {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+        const response = await this.socket.fetch(url, Object.assign(Object.assign({}, options2), { signal: controller.signal }));
+        clearTimeout(id);
+        return response;
+      }
+      /** @internal */
+      _push(event, payload, timeout = this.timeout) {
+        if (!this.joinedOnce) {
+          throw `tried to push '${event}' to '${this.topic}' before joining. Use channel.subscribe() before pushing events`;
+        }
+        let pushEvent = new Push(this, event, payload, timeout);
+        if (this._canPush()) {
+          pushEvent.send();
+        } else {
+          pushEvent.startTimeout();
+          this.pushBuffer.push(pushEvent);
+        }
+        return pushEvent;
+      }
+      /**
+       * Overridable message hook
+       *
+       * Receives all events for specialized message handling before dispatching to the channel callbacks.
+       * Must return the payload, modified or unmodified.
+       *
+       * @internal
+       */
+      _onMessage(_event, payload, _ref) {
+        return payload;
+      }
+      /** @internal */
+      _isMember(topic) {
+        return this.topic === topic;
+      }
+      /** @internal */
+      _joinRef() {
+        return this.joinPush.ref;
+      }
+      /** @internal */
+      _trigger(type, payload, ref) {
+        var _a, _b;
+        const typeLower = type.toLocaleLowerCase();
+        const { close, error, leave, join } = CHANNEL_EVENTS;
+        const events = [close, error, leave, join];
+        if (ref && events.indexOf(typeLower) >= 0 && ref !== this._joinRef()) {
+          return;
+        }
+        let handledPayload = this._onMessage(typeLower, payload, ref);
+        if (payload && !handledPayload) {
+          throw "channel onMessage callbacks must return the payload, modified or unmodified";
+        }
+        if (["insert", "update", "delete"].includes(typeLower)) {
+          (_a = this.bindings.postgres_changes) === null || _a === void 0 ? void 0 : _a.filter((bind) => {
+            var _a2, _b2, _c;
+            return ((_a2 = bind.filter) === null || _a2 === void 0 ? void 0 : _a2.event) === "*" || ((_c = (_b2 = bind.filter) === null || _b2 === void 0 ? void 0 : _b2.event) === null || _c === void 0 ? void 0 : _c.toLocaleLowerCase()) === typeLower;
+          }).map((bind) => bind.callback(handledPayload, ref));
+        } else {
+          (_b = this.bindings[typeLower]) === null || _b === void 0 ? void 0 : _b.filter((bind) => {
+            var _a2, _b2, _c, _d, _e, _f;
+            if (["broadcast", "presence", "postgres_changes"].includes(typeLower)) {
+              if ("id" in bind) {
+                const bindId = bind.id;
+                const bindEvent = (_a2 = bind.filter) === null || _a2 === void 0 ? void 0 : _a2.event;
+                return bindId && ((_b2 = payload.ids) === null || _b2 === void 0 ? void 0 : _b2.includes(bindId)) && (bindEvent === "*" || (bindEvent === null || bindEvent === void 0 ? void 0 : bindEvent.toLocaleLowerCase()) === ((_c = payload.data) === null || _c === void 0 ? void 0 : _c.type.toLocaleLowerCase()));
+              } else {
+                const bindEvent = (_e = (_d = bind === null || bind === void 0 ? void 0 : bind.filter) === null || _d === void 0 ? void 0 : _d.event) === null || _e === void 0 ? void 0 : _e.toLocaleLowerCase();
+                return bindEvent === "*" || bindEvent === ((_f = payload === null || payload === void 0 ? void 0 : payload.event) === null || _f === void 0 ? void 0 : _f.toLocaleLowerCase());
+              }
+            } else {
+              return bind.type.toLocaleLowerCase() === typeLower;
+            }
+          }).map((bind) => {
+            if (typeof handledPayload === "object" && "ids" in handledPayload) {
+              const postgresChanges = handledPayload.data;
+              const { schema, table, commit_timestamp, type: type2, errors } = postgresChanges;
+              const enrichedPayload = {
+                schema,
+                table,
+                commit_timestamp,
+                eventType: type2,
+                new: {},
+                old: {},
+                errors
+              };
+              handledPayload = Object.assign(Object.assign({}, enrichedPayload), this._getPayloadRecords(postgresChanges));
+            }
+            bind.callback(handledPayload, ref);
+          });
+        }
+      }
+      /** @internal */
+      _isClosed() {
+        return this.state === CHANNEL_STATES.closed;
+      }
+      /** @internal */
+      _isJoined() {
+        return this.state === CHANNEL_STATES.joined;
+      }
+      /** @internal */
+      _isJoining() {
+        return this.state === CHANNEL_STATES.joining;
+      }
+      /** @internal */
+      _isLeaving() {
+        return this.state === CHANNEL_STATES.leaving;
+      }
+      /** @internal */
+      _replyEventName(ref) {
+        return `chan_reply_${ref}`;
+      }
+      /** @internal */
+      _on(type, filter, callback) {
+        const typeLower = type.toLocaleLowerCase();
+        const binding = {
+          type: typeLower,
+          filter,
+          callback
+        };
+        if (this.bindings[typeLower]) {
+          this.bindings[typeLower].push(binding);
+        } else {
+          this.bindings[typeLower] = [binding];
+        }
+        return this;
+      }
+      /** @internal */
+      _off(type, filter) {
+        const typeLower = type.toLocaleLowerCase();
+        this.bindings[typeLower] = this.bindings[typeLower].filter((bind) => {
+          var _a;
+          return !(((_a = bind.type) === null || _a === void 0 ? void 0 : _a.toLocaleLowerCase()) === typeLower && _RealtimeChannel.isEqual(bind.filter, filter));
+        });
+        return this;
+      }
+      /** @internal */
+      static isEqual(obj1, obj2) {
+        if (Object.keys(obj1).length !== Object.keys(obj2).length) {
+          return false;
+        }
+        for (const k in obj1) {
+          if (obj1[k] !== obj2[k]) {
+            return false;
+          }
+        }
+        return true;
+      }
+      /** @internal */
+      _rejoinUntilConnected() {
+        this.rejoinTimer.scheduleTimeout();
+        if (this.socket.isConnected()) {
+          this._rejoin();
+        }
+      }
+      /**
+       * Registers a callback that will be executed when the channel closes.
+       *
+       * @internal
+       */
+      _onClose(callback) {
+        this._on(CHANNEL_EVENTS.close, {}, callback);
+      }
+      /**
+       * Registers a callback that will be executed when the channel encounteres an error.
+       *
+       * @internal
+       */
+      _onError(callback) {
+        this._on(CHANNEL_EVENTS.error, {}, (reason) => callback(reason));
+      }
+      /**
+       * Returns `true` if the socket is connected and the channel has been joined.
+       *
+       * @internal
+       */
+      _canPush() {
+        return this.socket.isConnected() && this._isJoined();
+      }
+      /** @internal */
+      _rejoin(timeout = this.timeout) {
+        if (this._isLeaving()) {
+          return;
+        }
+        this.socket._leaveOpenTopic(this.topic);
+        this.state = CHANNEL_STATES.joining;
+        this.joinPush.resend(timeout);
+      }
+      /** @internal */
+      _getPayloadRecords(payload) {
+        const records = {
+          new: {},
+          old: {}
+        };
+        if (payload.type === "INSERT" || payload.type === "UPDATE") {
+          records.new = convertChangeData(payload.columns, payload.record);
+        }
+        if (payload.type === "UPDATE" || payload.type === "DELETE") {
+          records.old = convertChangeData(payload.columns, payload.old_record);
+        }
+        return records;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/ws@8.16.0/node_modules/ws/browser.js
+var require_browser = __commonJS({
+  "node_modules/.pnpm/ws@8.16.0/node_modules/ws/browser.js"(exports, module) {
+    "use strict";
+    module.exports = function() {
+      throw new Error(
+        "ws does not work in the browser. Browser clients must use the native WebSocket object"
+      );
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimeClient.js
+var noop3, NATIVE_WEBSOCKET_AVAILABLE, RealtimeClient, WSWebSocketDummy;
+var init_RealtimeClient = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimeClient.js"() {
+    init_constants2();
+    init_timer();
+    init_serializer();
+    init_RealtimeChannel();
+    noop3 = () => {
+    };
+    NATIVE_WEBSOCKET_AVAILABLE = typeof WebSocket !== "undefined";
+    RealtimeClient = class {
+      /**
+       * Initializes the Socket.
+       *
+       * @param endPoint The string WebSocket endpoint, ie, "ws://example.com/socket", "wss://example.com", "/socket" (inherited host & protocol)
+       * @param options.transport The Websocket Transport, for example WebSocket.
+       * @param options.timeout The default timeout in milliseconds to trigger push timeouts.
+       * @param options.params The optional params to pass when connecting.
+       * @param options.headers The optional headers to pass when connecting.
+       * @param options.heartbeatIntervalMs The millisec interval to send a heartbeat message.
+       * @param options.logger The optional function for specialized logging, ie: logger: (kind, msg, data) => { console.log(`${kind}: ${msg}`, data) }
+       * @param options.encode The function to encode outgoing messages. Defaults to JSON: (payload, callback) => callback(JSON.stringify(payload))
+       * @param options.decode The function to decode incoming messages. Defaults to Serializer's decode.
+       * @param options.reconnectAfterMs he optional function that returns the millsec reconnect interval. Defaults to stepped backoff off.
+       */
+      constructor(endPoint, options2) {
+        var _a;
+        this.accessToken = null;
+        this.apiKey = null;
+        this.channels = [];
+        this.endPoint = "";
+        this.headers = DEFAULT_HEADERS2;
+        this.params = {};
+        this.timeout = DEFAULT_TIMEOUT;
+        this.heartbeatIntervalMs = 3e4;
+        this.heartbeatTimer = void 0;
+        this.pendingHeartbeatRef = null;
+        this.ref = 0;
+        this.logger = noop3;
+        this.conn = null;
+        this.sendBuffer = [];
+        this.serializer = new Serializer();
+        this.stateChangeCallbacks = {
+          open: [],
+          close: [],
+          error: [],
+          message: []
+        };
+        this._resolveFetch = (customFetch) => {
+          let _fetch;
+          if (customFetch) {
+            _fetch = customFetch;
+          } else if (typeof fetch === "undefined") {
+            _fetch = (...args) => Promise.resolve().then(() => (init_browser(), browser_exports)).then(({ default: fetch3 }) => fetch3(...args));
+          } else {
+            _fetch = fetch;
+          }
+          return (...args) => _fetch(...args);
+        };
+        this.endPoint = `${endPoint}/${TRANSPORTS.websocket}`;
+        if (options2 === null || options2 === void 0 ? void 0 : options2.transport) {
+          this.transport = options2.transport;
+        } else {
+          this.transport = null;
+        }
+        if (options2 === null || options2 === void 0 ? void 0 : options2.params)
+          this.params = options2.params;
+        if (options2 === null || options2 === void 0 ? void 0 : options2.headers)
+          this.headers = Object.assign(Object.assign({}, this.headers), options2.headers);
+        if (options2 === null || options2 === void 0 ? void 0 : options2.timeout)
+          this.timeout = options2.timeout;
+        if (options2 === null || options2 === void 0 ? void 0 : options2.logger)
+          this.logger = options2.logger;
+        if (options2 === null || options2 === void 0 ? void 0 : options2.heartbeatIntervalMs)
+          this.heartbeatIntervalMs = options2.heartbeatIntervalMs;
+        const accessToken = (_a = options2 === null || options2 === void 0 ? void 0 : options2.params) === null || _a === void 0 ? void 0 : _a.apikey;
+        if (accessToken) {
+          this.accessToken = accessToken;
+          this.apiKey = accessToken;
+        }
+        this.reconnectAfterMs = (options2 === null || options2 === void 0 ? void 0 : options2.reconnectAfterMs) ? options2.reconnectAfterMs : (tries) => {
+          return [1e3, 2e3, 5e3, 1e4][tries - 1] || 1e4;
+        };
+        this.encode = (options2 === null || options2 === void 0 ? void 0 : options2.encode) ? options2.encode : (payload, callback) => {
+          return callback(JSON.stringify(payload));
+        };
+        this.decode = (options2 === null || options2 === void 0 ? void 0 : options2.decode) ? options2.decode : this.serializer.decode.bind(this.serializer);
+        this.reconnectTimer = new Timer(async () => {
+          this.disconnect();
+          this.connect();
+        }, this.reconnectAfterMs);
+        this.fetch = this._resolveFetch(options2 === null || options2 === void 0 ? void 0 : options2.fetch);
+      }
+      /**
+       * Connects the socket, unless already connected.
+       */
+      connect() {
+        if (this.conn) {
+          return;
+        }
+        if (this.transport) {
+          this.conn = new this.transport(this._endPointURL(), void 0, {
+            headers: this.headers
+          });
+          return;
+        }
+        if (NATIVE_WEBSOCKET_AVAILABLE) {
+          this.conn = new WebSocket(this._endPointURL());
+          this.setupConnection();
+          return;
+        }
+        this.conn = new WSWebSocketDummy(this._endPointURL(), void 0, {
+          close: () => {
+            this.conn = null;
+          }
+        });
+        Promise.resolve().then(() => __toESM(require_browser())).then(({ default: WS }) => {
+          this.conn = new WS(this._endPointURL(), void 0, {
+            headers: this.headers
+          });
+          this.setupConnection();
+        });
+      }
+      /**
+       * Disconnects the socket.
+       *
+       * @param code A numeric status code to send on disconnect.
+       * @param reason A custom reason for the disconnect.
+       */
+      disconnect(code, reason) {
+        if (this.conn) {
+          this.conn.onclose = function() {
+          };
+          if (code) {
+            this.conn.close(code, reason !== null && reason !== void 0 ? reason : "");
+          } else {
+            this.conn.close();
+          }
+          this.conn = null;
+          this.heartbeatTimer && clearInterval(this.heartbeatTimer);
+          this.reconnectTimer.reset();
+        }
+      }
+      /**
+       * Returns all created channels
+       */
+      getChannels() {
+        return this.channels;
+      }
+      /**
+       * Unsubscribes and removes a single channel
+       * @param channel A RealtimeChannel instance
+       */
+      async removeChannel(channel) {
+        const status = await channel.unsubscribe();
+        if (this.channels.length === 0) {
+          this.disconnect();
+        }
+        return status;
+      }
+      /**
+       * Unsubscribes and removes all channels
+       */
+      async removeAllChannels() {
+        const values_1 = await Promise.all(this.channels.map((channel) => channel.unsubscribe()));
+        this.disconnect();
+        return values_1;
+      }
+      /**
+       * Logs the message.
+       *
+       * For customized logging, `this.logger` can be overridden.
+       */
+      log(kind, msg, data) {
+        this.logger(kind, msg, data);
+      }
+      /**
+       * Returns the current state of the socket.
+       */
+      connectionState() {
+        switch (this.conn && this.conn.readyState) {
+          case SOCKET_STATES.connecting:
+            return CONNECTION_STATE.Connecting;
+          case SOCKET_STATES.open:
+            return CONNECTION_STATE.Open;
+          case SOCKET_STATES.closing:
+            return CONNECTION_STATE.Closing;
+          default:
+            return CONNECTION_STATE.Closed;
+        }
+      }
+      /**
+       * Returns `true` is the connection is open.
+       */
+      isConnected() {
+        return this.connectionState() === CONNECTION_STATE.Open;
+      }
+      channel(topic, params = { config: {} }) {
+        const chan = new RealtimeChannel(`realtime:${topic}`, params, this);
+        this.channels.push(chan);
+        return chan;
+      }
+      /**
+       * Push out a message if the socket is connected.
+       *
+       * If the socket is not connected, the message gets enqueued within a local buffer, and sent out when a connection is next established.
+       */
+      push(data) {
+        const { topic, event, payload, ref } = data;
+        const callback = () => {
+          this.encode(data, (result) => {
+            var _a;
+            (_a = this.conn) === null || _a === void 0 ? void 0 : _a.send(result);
+          });
+        };
+        this.log("push", `${topic} ${event} (${ref})`, payload);
+        if (this.isConnected()) {
+          callback();
+        } else {
+          this.sendBuffer.push(callback);
+        }
+      }
+      /**
+       * Sets the JWT access token used for channel subscription authorization and Realtime RLS.
+       *
+       * @param token A JWT string.
+       */
+      setAuth(token) {
+        this.accessToken = token;
+        this.channels.forEach((channel) => {
+          token && channel.updateJoinPayload({ access_token: token });
+          if (channel.joinedOnce && channel._isJoined()) {
+            channel._push(CHANNEL_EVENTS.access_token, { access_token: token });
+          }
+        });
+      }
+      /**
+       * Return the next message ref, accounting for overflows
+       *
+       * @internal
+       */
+      _makeRef() {
+        let newRef = this.ref + 1;
+        if (newRef === this.ref) {
+          this.ref = 0;
+        } else {
+          this.ref = newRef;
+        }
+        return this.ref.toString();
+      }
+      /**
+       * Unsubscribe from channels with the specified topic.
+       *
+       * @internal
+       */
+      _leaveOpenTopic(topic) {
+        let dupChannel = this.channels.find((c) => c.topic === topic && (c._isJoined() || c._isJoining()));
+        if (dupChannel) {
+          this.log("transport", `leaving duplicate topic "${topic}"`);
+          dupChannel.unsubscribe();
+        }
+      }
+      /**
+       * Removes a subscription from the socket.
+       *
+       * @param channel An open subscription.
+       *
+       * @internal
+       */
+      _remove(channel) {
+        this.channels = this.channels.filter((c) => c._joinRef() !== channel._joinRef());
+      }
+      /**
+       * Sets up connection handlers.
+       *
+       * @internal
+       */
+      setupConnection() {
+        if (this.conn) {
+          this.conn.binaryType = "arraybuffer";
+          this.conn.onopen = () => this._onConnOpen();
+          this.conn.onerror = (error) => this._onConnError(error);
+          this.conn.onmessage = (event) => this._onConnMessage(event);
+          this.conn.onclose = (event) => this._onConnClose(event);
+        }
+      }
+      /**
+       * Returns the URL of the websocket.
+       *
+       * @internal
+       */
+      _endPointURL() {
+        return this._appendParams(this.endPoint, Object.assign({}, this.params, { vsn: VSN }));
+      }
+      /** @internal */
+      _onConnMessage(rawMessage) {
+        this.decode(rawMessage.data, (msg) => {
+          let { topic, event, payload, ref } = msg;
+          if (ref && ref === this.pendingHeartbeatRef || event === (payload === null || payload === void 0 ? void 0 : payload.type)) {
+            this.pendingHeartbeatRef = null;
+          }
+          this.log("receive", `${payload.status || ""} ${topic} ${event} ${ref && "(" + ref + ")" || ""}`, payload);
+          this.channels.filter((channel) => channel._isMember(topic)).forEach((channel) => channel._trigger(event, payload, ref));
+          this.stateChangeCallbacks.message.forEach((callback) => callback(msg));
+        });
+      }
+      /** @internal */
+      _onConnOpen() {
+        this.log("transport", `connected to ${this._endPointURL()}`);
+        this._flushSendBuffer();
+        this.reconnectTimer.reset();
+        this.heartbeatTimer && clearInterval(this.heartbeatTimer);
+        this.heartbeatTimer = setInterval(() => this._sendHeartbeat(), this.heartbeatIntervalMs);
+        this.stateChangeCallbacks.open.forEach((callback) => callback());
+      }
+      /** @internal */
+      _onConnClose(event) {
+        this.log("transport", "close", event);
+        this._triggerChanError();
+        this.heartbeatTimer && clearInterval(this.heartbeatTimer);
+        this.reconnectTimer.scheduleTimeout();
+        this.stateChangeCallbacks.close.forEach((callback) => callback(event));
+      }
+      /** @internal */
+      _onConnError(error) {
+        this.log("transport", error.message);
+        this._triggerChanError();
+        this.stateChangeCallbacks.error.forEach((callback) => callback(error));
+      }
+      /** @internal */
+      _triggerChanError() {
+        this.channels.forEach((channel) => channel._trigger(CHANNEL_EVENTS.error));
+      }
+      /** @internal */
+      _appendParams(url, params) {
+        if (Object.keys(params).length === 0) {
+          return url;
+        }
+        const prefix = url.match(/\?/) ? "&" : "?";
+        const query = new URLSearchParams(params);
+        return `${url}${prefix}${query}`;
+      }
+      /** @internal */
+      _flushSendBuffer() {
+        if (this.isConnected() && this.sendBuffer.length > 0) {
+          this.sendBuffer.forEach((callback) => callback());
+          this.sendBuffer = [];
+        }
+      }
+      /** @internal */
+      _sendHeartbeat() {
+        var _a;
+        if (!this.isConnected()) {
+          return;
+        }
+        if (this.pendingHeartbeatRef) {
+          this.pendingHeartbeatRef = null;
+          this.log("transport", "heartbeat timeout. Attempting to re-establish connection");
+          (_a = this.conn) === null || _a === void 0 ? void 0 : _a.close(WS_CLOSE_NORMAL, "hearbeat timeout");
+          return;
+        }
+        this.pendingHeartbeatRef = this._makeRef();
+        this.push({
+          topic: "phoenix",
+          event: "heartbeat",
+          payload: {},
+          ref: this.pendingHeartbeatRef
+        });
+        this.setAuth(this.accessToken);
+      }
+    };
+    WSWebSocketDummy = class {
+      constructor(address, _protocols, options2) {
+        this.binaryType = "arraybuffer";
+        this.onclose = () => {
+        };
+        this.onerror = () => {
+        };
+        this.onmessage = () => {
+        };
+        this.onopen = () => {
+        };
+        this.readyState = SOCKET_STATES.connecting;
+        this.send = () => {
+        };
+        this.url = null;
+        this.url = address;
+        this.close = options2.close;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/index.js
+var init_module3 = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/index.js"() {
+    init_RealtimeClient();
+    init_RealtimeChannel();
+    init_RealtimePresence();
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/errors.js
+function isStorageError(error) {
+  return typeof error === "object" && error !== null && "__isStorageError" in error;
+}
+var StorageError, StorageApiError, StorageUnknownError;
+var init_errors = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/errors.js"() {
+    StorageError = class extends Error {
+      constructor(message) {
+        super(message);
+        this.__isStorageError = true;
+        this.name = "StorageError";
+      }
+    };
+    StorageApiError = class extends StorageError {
+      constructor(message, status) {
+        super(message);
+        this.name = "StorageApiError";
+        this.status = status;
+      }
+      toJSON() {
+        return {
+          name: this.name,
+          message: this.message,
+          status: this.status
+        };
+      }
+    };
+    StorageUnknownError = class extends StorageError {
+      constructor(message, originalError) {
+        super(message);
+        this.name = "StorageUnknownError";
+        this.originalError = originalError;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/helpers.js
+var __awaiter2, resolveFetch2, resolveResponse;
+var init_helpers = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/helpers.js"() {
+    __awaiter2 = function(thisArg, _arguments, P2, generator) {
+      function adopt(value) {
+        return value instanceof P2 ? value : new P2(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator["throw"](value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    resolveFetch2 = (customFetch) => {
+      let _fetch;
+      if (customFetch) {
+        _fetch = customFetch;
+      } else if (typeof fetch === "undefined") {
+        _fetch = (...args) => Promise.resolve().then(() => (init_browser(), browser_exports)).then(({ default: fetch3 }) => fetch3(...args));
+      } else {
+        _fetch = fetch;
+      }
+      return (...args) => _fetch(...args);
+    };
+    resolveResponse = () => __awaiter2(void 0, void 0, void 0, function* () {
+      if (typeof Response === "undefined") {
+        return (yield Promise.resolve().then(() => (init_browser(), browser_exports))).Response;
+      }
+      return Response;
+    });
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/fetch.js
+function _handleRequest(fetcher, method, url, options2, parameters, body2) {
+  return __awaiter3(this, void 0, void 0, function* () {
+    return new Promise((resolve2, reject) => {
+      fetcher(url, _getRequestParams(method, options2, parameters, body2)).then((result) => {
+        if (!result.ok)
+          throw result;
+        if (options2 === null || options2 === void 0 ? void 0 : options2.noResolveJson)
+          return result;
+        return result.json();
+      }).then((data) => resolve2(data)).catch((error) => handleError(error, reject));
+    });
+  });
+}
+function get2(fetcher, url, options2, parameters) {
+  return __awaiter3(this, void 0, void 0, function* () {
+    return _handleRequest(fetcher, "GET", url, options2, parameters);
+  });
+}
+function post(fetcher, url, body2, options2, parameters) {
+  return __awaiter3(this, void 0, void 0, function* () {
+    return _handleRequest(fetcher, "POST", url, options2, parameters, body2);
+  });
+}
+function put(fetcher, url, body2, options2, parameters) {
+  return __awaiter3(this, void 0, void 0, function* () {
+    return _handleRequest(fetcher, "PUT", url, options2, parameters, body2);
+  });
+}
+function remove(fetcher, url, body2, options2, parameters) {
+  return __awaiter3(this, void 0, void 0, function* () {
+    return _handleRequest(fetcher, "DELETE", url, options2, parameters, body2);
+  });
+}
+var __awaiter3, _getErrorMessage, handleError, _getRequestParams;
+var init_fetch = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/fetch.js"() {
+    init_errors();
+    init_helpers();
+    __awaiter3 = function(thisArg, _arguments, P2, generator) {
+      function adopt(value) {
+        return value instanceof P2 ? value : new P2(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator["throw"](value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    _getErrorMessage = (err) => err.msg || err.message || err.error_description || err.error || JSON.stringify(err);
+    handleError = (error, reject) => __awaiter3(void 0, void 0, void 0, function* () {
+      const Res = yield resolveResponse();
+      if (error instanceof Res) {
+        error.json().then((err) => {
+          reject(new StorageApiError(_getErrorMessage(err), error.status || 500));
+        }).catch((err) => {
+          reject(new StorageUnknownError(_getErrorMessage(err), err));
+        });
+      } else {
+        reject(new StorageUnknownError(_getErrorMessage(error), error));
+      }
+    });
+    _getRequestParams = (method, options2, parameters, body2) => {
+      const params = { method, headers: (options2 === null || options2 === void 0 ? void 0 : options2.headers) || {} };
+      if (method === "GET") {
+        return params;
+      }
+      params.headers = Object.assign({ "Content-Type": "application/json" }, options2 === null || options2 === void 0 ? void 0 : options2.headers);
+      params.body = JSON.stringify(body2);
+      return Object.assign(Object.assign({}, params), parameters);
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js
+var __awaiter4, DEFAULT_SEARCH_OPTIONS, DEFAULT_FILE_OPTIONS, StorageFileApi;
+var init_StorageFileApi = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js"() {
+    init_errors();
+    init_fetch();
+    init_helpers();
+    __awaiter4 = function(thisArg, _arguments, P2, generator) {
+      function adopt(value) {
+        return value instanceof P2 ? value : new P2(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator["throw"](value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    DEFAULT_SEARCH_OPTIONS = {
+      limit: 100,
+      offset: 0,
+      sortBy: {
+        column: "name",
+        order: "asc"
+      }
+    };
+    DEFAULT_FILE_OPTIONS = {
+      cacheControl: "3600",
+      contentType: "text/plain;charset=UTF-8",
+      upsert: false
+    };
+    StorageFileApi = class {
+      constructor(url, headers2 = {}, bucketId, fetch3) {
+        this.url = url;
+        this.headers = headers2;
+        this.bucketId = bucketId;
+        this.fetch = resolveFetch2(fetch3);
+      }
+      /**
+       * Uploads a file to an existing bucket or replaces an existing file at the specified path with a new one.
+       *
+       * @param method HTTP method.
+       * @param path The relative file path. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload.
+       * @param fileBody The body of the file to be stored in the bucket.
+       */
+      uploadOrUpdate(method, path, fileBody, fileOptions) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            let body2;
+            const options2 = Object.assign(Object.assign({}, DEFAULT_FILE_OPTIONS), fileOptions);
+            const headers2 = Object.assign(Object.assign({}, this.headers), method === "POST" && { "x-upsert": String(options2.upsert) });
+            if (typeof Blob !== "undefined" && fileBody instanceof Blob) {
+              body2 = new FormData();
+              body2.append("cacheControl", options2.cacheControl);
+              body2.append("", fileBody);
+            } else if (typeof FormData !== "undefined" && fileBody instanceof FormData) {
+              body2 = fileBody;
+              body2.append("cacheControl", options2.cacheControl);
+            } else {
+              body2 = fileBody;
+              headers2["cache-control"] = `max-age=${options2.cacheControl}`;
+              headers2["content-type"] = options2.contentType;
+            }
+            const cleanPath = this._removeEmptyFolders(path);
+            const _path = this._getFinalPath(cleanPath);
+            const res = yield this.fetch(`${this.url}/object/${_path}`, Object.assign({ method, body: body2, headers: headers2 }, (options2 === null || options2 === void 0 ? void 0 : options2.duplex) ? { duplex: options2.duplex } : {}));
+            const data = yield res.json();
+            if (res.ok) {
+              return {
+                data: { path: cleanPath, id: data.Id, fullPath: data.Key },
+                error: null
+              };
+            } else {
+              const error = data;
+              return { data: null, error };
+            }
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Uploads a file to an existing bucket.
+       *
+       * @param path The file path, including the file name. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload.
+       * @param fileBody The body of the file to be stored in the bucket.
+       */
+      upload(path, fileBody, fileOptions) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          return this.uploadOrUpdate("POST", path, fileBody, fileOptions);
+        });
+      }
+      /**
+       * Upload a file with a token generated from `createSignedUploadUrl`.
+       * @param path The file path, including the file name. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload.
+       * @param token The token generated from `createSignedUploadUrl`
+       * @param fileBody The body of the file to be stored in the bucket.
+       */
+      uploadToSignedUrl(path, token, fileBody, fileOptions) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          const cleanPath = this._removeEmptyFolders(path);
+          const _path = this._getFinalPath(cleanPath);
+          const url = new URL(this.url + `/object/upload/sign/${_path}`);
+          url.searchParams.set("token", token);
+          try {
+            let body2;
+            const options2 = Object.assign({ upsert: DEFAULT_FILE_OPTIONS.upsert }, fileOptions);
+            const headers2 = Object.assign(Object.assign({}, this.headers), { "x-upsert": String(options2.upsert) });
+            if (typeof Blob !== "undefined" && fileBody instanceof Blob) {
+              body2 = new FormData();
+              body2.append("cacheControl", options2.cacheControl);
+              body2.append("", fileBody);
+            } else if (typeof FormData !== "undefined" && fileBody instanceof FormData) {
+              body2 = fileBody;
+              body2.append("cacheControl", options2.cacheControl);
+            } else {
+              body2 = fileBody;
+              headers2["cache-control"] = `max-age=${options2.cacheControl}`;
+              headers2["content-type"] = options2.contentType;
+            }
+            const res = yield this.fetch(url.toString(), {
+              method: "PUT",
+              body: body2,
+              headers: headers2
+            });
+            const data = yield res.json();
+            if (res.ok) {
+              return {
+                data: { path: cleanPath, fullPath: data.Key },
+                error: null
+              };
+            } else {
+              const error = data;
+              return { data: null, error };
+            }
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Creates a signed upload URL.
+       * Signed upload URLs can be used to upload files to the bucket without further authentication.
+       * They are valid for 2 hours.
+       * @param path The file path, including the current file name. For example `folder/image.png`.
+       */
+      createSignedUploadUrl(path) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            let _path = this._getFinalPath(path);
+            const data = yield post(this.fetch, `${this.url}/object/upload/sign/${_path}`, {}, { headers: this.headers });
+            const url = new URL(this.url + data.url);
+            const token = url.searchParams.get("token");
+            if (!token) {
+              throw new StorageError("No token returned by API");
+            }
+            return { data: { signedUrl: url.toString(), path, token }, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Replaces an existing file at the specified path with a new one.
+       *
+       * @param path The relative file path. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to update.
+       * @param fileBody The body of the file to be stored in the bucket.
+       */
+      update(path, fileBody, fileOptions) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          return this.uploadOrUpdate("PUT", path, fileBody, fileOptions);
+        });
+      }
+      /**
+       * Moves an existing file to a new path in the same bucket.
+       *
+       * @param fromPath The original file path, including the current file name. For example `folder/image.png`.
+       * @param toPath The new file path, including the new file name. For example `folder/image-new.png`.
+       */
+      move(fromPath, toPath) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            const data = yield post(this.fetch, `${this.url}/object/move`, { bucketId: this.bucketId, sourceKey: fromPath, destinationKey: toPath }, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Copies an existing file to a new path in the same bucket.
+       *
+       * @param fromPath The original file path, including the current file name. For example `folder/image.png`.
+       * @param toPath The new file path, including the new file name. For example `folder/image-copy.png`.
+       */
+      copy(fromPath, toPath) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            const data = yield post(this.fetch, `${this.url}/object/copy`, { bucketId: this.bucketId, sourceKey: fromPath, destinationKey: toPath }, { headers: this.headers });
+            return { data: { path: data.Key }, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Creates a signed URL. Use a signed URL to share a file for a fixed amount of time.
+       *
+       * @param path The file path, including the current file name. For example `folder/image.png`.
+       * @param expiresIn The number of seconds until the signed URL expires. For example, `60` for a URL which is valid for one minute.
+       * @param options.download triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
+       * @param options.transform Transform the asset before serving it to the client.
+       */
+      createSignedUrl(path, expiresIn, options2) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            let _path = this._getFinalPath(path);
+            let data = yield post(this.fetch, `${this.url}/object/sign/${_path}`, Object.assign({ expiresIn }, (options2 === null || options2 === void 0 ? void 0 : options2.transform) ? { transform: options2.transform } : {}), { headers: this.headers });
+            const downloadQueryParam = (options2 === null || options2 === void 0 ? void 0 : options2.download) ? `&download=${options2.download === true ? "" : options2.download}` : "";
+            const signedUrl = encodeURI(`${this.url}${data.signedURL}${downloadQueryParam}`);
+            data = { signedUrl };
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Creates multiple signed URLs. Use a signed URL to share a file for a fixed amount of time.
+       *
+       * @param paths The file paths to be downloaded, including the current file names. For example `['folder/image.png', 'folder2/image2.png']`.
+       * @param expiresIn The number of seconds until the signed URLs expire. For example, `60` for URLs which are valid for one minute.
+       * @param options.download triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
+       */
+      createSignedUrls(paths, expiresIn, options2) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            const data = yield post(this.fetch, `${this.url}/object/sign/${this.bucketId}`, { expiresIn, paths }, { headers: this.headers });
+            const downloadQueryParam = (options2 === null || options2 === void 0 ? void 0 : options2.download) ? `&download=${options2.download === true ? "" : options2.download}` : "";
+            return {
+              data: data.map((datum) => Object.assign(Object.assign({}, datum), { signedUrl: datum.signedURL ? encodeURI(`${this.url}${datum.signedURL}${downloadQueryParam}`) : null })),
+              error: null
+            };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Downloads a file from a private bucket. For public buckets, make a request to the URL returned from `getPublicUrl` instead.
+       *
+       * @param path The full path and file name of the file to be downloaded. For example `folder/image.png`.
+       * @param options.transform Transform the asset before serving it to the client.
+       */
+      download(path, options2) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          const wantsTransformation = typeof (options2 === null || options2 === void 0 ? void 0 : options2.transform) !== "undefined";
+          const renderPath = wantsTransformation ? "render/image/authenticated" : "object";
+          const transformationQuery = this.transformOptsToQueryString((options2 === null || options2 === void 0 ? void 0 : options2.transform) || {});
+          const queryString = transformationQuery ? `?${transformationQuery}` : "";
+          try {
+            const _path = this._getFinalPath(path);
+            const res = yield get2(this.fetch, `${this.url}/${renderPath}/${_path}${queryString}`, {
+              headers: this.headers,
+              noResolveJson: true
+            });
+            const data = yield res.blob();
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * A simple convenience function to get the URL for an asset in a public bucket. If you do not want to use this function, you can construct the public URL by concatenating the bucket URL with the path to the asset.
+       * This function does not verify if the bucket is public. If a public URL is created for a bucket which is not public, you will not be able to download the asset.
+       *
+       * @param path The path and name of the file to generate the public URL for. For example `folder/image.png`.
+       * @param options.download Triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
+       * @param options.transform Transform the asset before serving it to the client.
+       */
+      getPublicUrl(path, options2) {
+        const _path = this._getFinalPath(path);
+        const _queryString = [];
+        const downloadQueryParam = (options2 === null || options2 === void 0 ? void 0 : options2.download) ? `download=${options2.download === true ? "" : options2.download}` : "";
+        if (downloadQueryParam !== "") {
+          _queryString.push(downloadQueryParam);
+        }
+        const wantsTransformation = typeof (options2 === null || options2 === void 0 ? void 0 : options2.transform) !== "undefined";
+        const renderPath = wantsTransformation ? "render/image" : "object";
+        const transformationQuery = this.transformOptsToQueryString((options2 === null || options2 === void 0 ? void 0 : options2.transform) || {});
+        if (transformationQuery !== "") {
+          _queryString.push(transformationQuery);
+        }
+        let queryString = _queryString.join("&");
+        if (queryString !== "") {
+          queryString = `?${queryString}`;
+        }
+        return {
+          data: { publicUrl: encodeURI(`${this.url}/${renderPath}/public/${_path}${queryString}`) }
+        };
+      }
+      /**
+       * Deletes files within the same bucket
+       *
+       * @param paths An array of files to delete, including the path and file name. For example [`'folder/image.png'`].
+       */
+      remove(paths) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            const data = yield remove(this.fetch, `${this.url}/object/${this.bucketId}`, { prefixes: paths }, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Get file metadata
+       * @param id the file id to retrieve metadata
+       */
+      // async getMetadata(
+      //   id: string
+      // ): Promise<
+      //   | {
+      //       data: Metadata
+      //       error: null
+      //     }
+      //   | {
+      //       data: null
+      //       error: StorageError
+      //     }
+      // > {
+      //   try {
+      //     const data = await get(this.fetch, `${this.url}/metadata/${id}`, { headers: this.headers })
+      //     return { data, error: null }
+      //   } catch (error) {
+      //     if (isStorageError(error)) {
+      //       return { data: null, error }
+      //     }
+      //     throw error
+      //   }
+      // }
+      /**
+       * Update file metadata
+       * @param id the file id to update metadata
+       * @param meta the new file metadata
+       */
+      // async updateMetadata(
+      //   id: string,
+      //   meta: Metadata
+      // ): Promise<
+      //   | {
+      //       data: Metadata
+      //       error: null
+      //     }
+      //   | {
+      //       data: null
+      //       error: StorageError
+      //     }
+      // > {
+      //   try {
+      //     const data = await post(
+      //       this.fetch,
+      //       `${this.url}/metadata/${id}`,
+      //       { ...meta },
+      //       { headers: this.headers }
+      //     )
+      //     return { data, error: null }
+      //   } catch (error) {
+      //     if (isStorageError(error)) {
+      //       return { data: null, error }
+      //     }
+      //     throw error
+      //   }
+      // }
+      /**
+       * Lists all the files within a bucket.
+       * @param path The folder path.
+       */
+      list(path, options2, parameters) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            const body2 = Object.assign(Object.assign(Object.assign({}, DEFAULT_SEARCH_OPTIONS), options2), { prefix: path || "" });
+            const data = yield post(this.fetch, `${this.url}/object/list/${this.bucketId}`, body2, { headers: this.headers }, parameters);
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      _getFinalPath(path) {
+        return `${this.bucketId}/${path}`;
+      }
+      _removeEmptyFolders(path) {
+        return path.replace(/^\/|\/$/g, "").replace(/\/+/g, "/");
+      }
+      transformOptsToQueryString(transform) {
+        const params = [];
+        if (transform.width) {
+          params.push(`width=${transform.width}`);
+        }
+        if (transform.height) {
+          params.push(`height=${transform.height}`);
+        }
+        if (transform.resize) {
+          params.push(`resize=${transform.resize}`);
+        }
+        if (transform.format) {
+          params.push(`format=${transform.format}`);
+        }
+        if (transform.quality) {
+          params.push(`quality=${transform.quality}`);
+        }
+        return params.join("&");
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/version.js
+var version4;
+var init_version3 = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/version.js"() {
+    version4 = "2.5.5";
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/constants.js
+var DEFAULT_HEADERS3;
+var init_constants3 = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/constants.js"() {
+    init_version3();
+    DEFAULT_HEADERS3 = { "X-Client-Info": `storage-js/${version4}` };
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/packages/StorageBucketApi.js
+var __awaiter5, StorageBucketApi;
+var init_StorageBucketApi = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/packages/StorageBucketApi.js"() {
+    init_constants3();
+    init_errors();
+    init_fetch();
+    init_helpers();
+    __awaiter5 = function(thisArg, _arguments, P2, generator) {
+      function adopt(value) {
+        return value instanceof P2 ? value : new P2(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator["throw"](value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    StorageBucketApi = class {
+      constructor(url, headers2 = {}, fetch3) {
+        this.url = url;
+        this.headers = Object.assign(Object.assign({}, DEFAULT_HEADERS3), headers2);
+        this.fetch = resolveFetch2(fetch3);
+      }
+      /**
+       * Retrieves the details of all Storage buckets within an existing project.
+       */
+      listBuckets() {
+        return __awaiter5(this, void 0, void 0, function* () {
+          try {
+            const data = yield get2(this.fetch, `${this.url}/bucket`, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Retrieves the details of an existing Storage bucket.
+       *
+       * @param id The unique identifier of the bucket you would like to retrieve.
+       */
+      getBucket(id) {
+        return __awaiter5(this, void 0, void 0, function* () {
+          try {
+            const data = yield get2(this.fetch, `${this.url}/bucket/${id}`, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Creates a new Storage bucket
+       *
+       * @param id A unique identifier for the bucket you are creating.
+       * @param options.public The visibility of the bucket. Public buckets don't require an authorization token to download objects, but still require a valid token for all other operations. By default, buckets are private.
+       * @param options.fileSizeLimit specifies the max file size in bytes that can be uploaded to this bucket.
+       * The global file size limit takes precedence over this value.
+       * The default value is null, which doesn't set a per bucket file size limit.
+       * @param options.allowedMimeTypes specifies the allowed mime types that this bucket can accept during upload.
+       * The default value is null, which allows files with all mime types to be uploaded.
+       * Each mime type specified can be a wildcard, e.g. image/*, or a specific mime type, e.g. image/png.
+       * @returns newly created bucket id
+       */
+      createBucket(id, options2 = {
+        public: false
+      }) {
+        return __awaiter5(this, void 0, void 0, function* () {
+          try {
+            const data = yield post(this.fetch, `${this.url}/bucket`, {
+              id,
+              name: id,
+              public: options2.public,
+              file_size_limit: options2.fileSizeLimit,
+              allowed_mime_types: options2.allowedMimeTypes
+            }, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Updates a Storage bucket
+       *
+       * @param id A unique identifier for the bucket you are updating.
+       * @param options.public The visibility of the bucket. Public buckets don't require an authorization token to download objects, but still require a valid token for all other operations.
+       * @param options.fileSizeLimit specifies the max file size in bytes that can be uploaded to this bucket.
+       * The global file size limit takes precedence over this value.
+       * The default value is null, which doesn't set a per bucket file size limit.
+       * @param options.allowedMimeTypes specifies the allowed mime types that this bucket can accept during upload.
+       * The default value is null, which allows files with all mime types to be uploaded.
+       * Each mime type specified can be a wildcard, e.g. image/*, or a specific mime type, e.g. image/png.
+       */
+      updateBucket(id, options2) {
+        return __awaiter5(this, void 0, void 0, function* () {
+          try {
+            const data = yield put(this.fetch, `${this.url}/bucket/${id}`, {
+              id,
+              name: id,
+              public: options2.public,
+              file_size_limit: options2.fileSizeLimit,
+              allowed_mime_types: options2.allowedMimeTypes
+            }, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Removes all objects inside a single bucket.
+       *
+       * @param id The unique identifier of the bucket you would like to empty.
+       */
+      emptyBucket(id) {
+        return __awaiter5(this, void 0, void 0, function* () {
+          try {
+            const data = yield post(this.fetch, `${this.url}/bucket/${id}/empty`, {}, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Deletes an existing bucket. A bucket can't be deleted with existing objects inside it.
+       * You must first `empty()` the bucket.
+       *
+       * @param id The unique identifier of the bucket you would like to delete.
+       */
+      deleteBucket(id) {
+        return __awaiter5(this, void 0, void 0, function* () {
+          try {
+            const data = yield remove(this.fetch, `${this.url}/bucket/${id}`, {}, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/StorageClient.js
+var StorageClient;
+var init_StorageClient = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/StorageClient.js"() {
+    init_StorageFileApi();
+    init_StorageBucketApi();
+    StorageClient = class extends StorageBucketApi {
+      constructor(url, headers2 = {}, fetch3) {
+        super(url, headers2, fetch3);
+      }
+      /**
+       * Perform file operation in a bucket.
+       *
+       * @param id The bucket id to operate on.
+       */
+      from(id) {
+        return new StorageFileApi(this.url, this.headers, id, this.fetch);
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/types.js
+var init_types2 = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/types.js"() {
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/index.js
+var init_module4 = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/index.js"() {
+    init_StorageClient();
+    init_types2();
+    init_errors();
+  }
+});
+
+// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/version.js
+var version5;
+var init_version4 = __esm({
+  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/version.js"() {
+    version5 = "2.39.8";
+  }
+});
+
+// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/constants.js
+var JS_ENV, DEFAULT_HEADERS4, DEFAULT_GLOBAL_OPTIONS, DEFAULT_DB_OPTIONS, DEFAULT_AUTH_OPTIONS, DEFAULT_REALTIME_OPTIONS;
+var init_constants4 = __esm({
+  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/constants.js"() {
+    init_version4();
+    JS_ENV = "";
+    if (typeof Deno !== "undefined") {
+      JS_ENV = "deno";
+    } else if (typeof document !== "undefined") {
+      JS_ENV = "web";
+    } else if (typeof navigator !== "undefined" && navigator.product === "ReactNative") {
+      JS_ENV = "react-native";
+    } else {
+      JS_ENV = "node";
+    }
+    DEFAULT_HEADERS4 = { "X-Client-Info": `supabase-js-${JS_ENV}/${version5}` };
+    DEFAULT_GLOBAL_OPTIONS = {
+      headers: DEFAULT_HEADERS4
+    };
+    DEFAULT_DB_OPTIONS = {
+      schema: "public"
+    };
+    DEFAULT_AUTH_OPTIONS = {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+      flowType: "implicit"
+    };
+    DEFAULT_REALTIME_OPTIONS = {};
+  }
+});
+
+// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/fetch.js
+var __awaiter6, resolveFetch3, resolveHeadersConstructor, fetchWithAuth;
+var init_fetch2 = __esm({
+  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/fetch.js"() {
+    init_browser();
+    __awaiter6 = function(thisArg, _arguments, P2, generator) {
+      function adopt(value) {
+        return value instanceof P2 ? value : new P2(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator["throw"](value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    resolveFetch3 = (customFetch) => {
+      let _fetch;
+      if (customFetch) {
+        _fetch = customFetch;
+      } else if (typeof fetch === "undefined") {
+        _fetch = browser_default;
+      } else {
+        _fetch = fetch;
+      }
+      return (...args) => _fetch(...args);
+    };
+    resolveHeadersConstructor = () => {
+      if (typeof Headers === "undefined") {
+        return Headers2;
+      }
+      return Headers;
+    };
+    fetchWithAuth = (supabaseKey, getAccessToken, customFetch) => {
+      const fetch3 = resolveFetch3(customFetch);
+      const HeadersConstructor = resolveHeadersConstructor();
+      return (input, init2) => __awaiter6(void 0, void 0, void 0, function* () {
+        var _a;
+        const accessToken = (_a = yield getAccessToken()) !== null && _a !== void 0 ? _a : supabaseKey;
+        let headers2 = new HeadersConstructor(init2 === null || init2 === void 0 ? void 0 : init2.headers);
+        if (!headers2.has("apikey")) {
+          headers2.set("apikey", supabaseKey);
+        }
+        if (!headers2.has("Authorization")) {
+          headers2.set("Authorization", `Bearer ${accessToken}`);
+        }
+        return fetch3(input, Object.assign(Object.assign({}, init2), { headers: headers2 }));
+      });
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/helpers.js
+function stripTrailingSlash(url) {
+  return url.replace(/\/$/, "");
+}
+function applySettingDefaults(options2, defaults) {
+  const { db: dbOptions, auth: authOptions, realtime: realtimeOptions, global: globalOptions } = options2;
+  const { db: DEFAULT_DB_OPTIONS2, auth: DEFAULT_AUTH_OPTIONS2, realtime: DEFAULT_REALTIME_OPTIONS2, global: DEFAULT_GLOBAL_OPTIONS2 } = defaults;
+  return {
+    db: Object.assign(Object.assign({}, DEFAULT_DB_OPTIONS2), dbOptions),
+    auth: Object.assign(Object.assign({}, DEFAULT_AUTH_OPTIONS2), authOptions),
+    realtime: Object.assign(Object.assign({}, DEFAULT_REALTIME_OPTIONS2), realtimeOptions),
+    global: Object.assign(Object.assign({}, DEFAULT_GLOBAL_OPTIONS2), globalOptions)
+  };
+}
+var init_helpers2 = __esm({
+  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/helpers.js"() {
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/helpers.js
+function expiresAt(expiresIn) {
+  const timeNow = Math.round(Date.now() / 1e3);
+  return timeNow + expiresIn;
+}
+function uuid() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0, v = c == "x" ? r : r & 3 | 8;
+    return v.toString(16);
+  });
+}
+function parseParametersFromURL(href) {
+  const result = {};
+  const url = new URL(href);
+  if (url.hash && url.hash[0] === "#") {
+    try {
+      const hashSearchParams = new URLSearchParams(url.hash.substring(1));
+      hashSearchParams.forEach((value, key2) => {
+        result[key2] = value;
+      });
+    } catch (e) {
+    }
+  }
+  url.searchParams.forEach((value, key2) => {
+    result[key2] = value;
+  });
+  return result;
+}
+function decodeBase64URL(value) {
+  const key2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+  let base642 = "";
+  let chr1, chr2, chr3;
+  let enc1, enc2, enc3, enc4;
+  let i = 0;
+  value = value.replace("-", "+").replace("_", "/");
+  while (i < value.length) {
+    enc1 = key2.indexOf(value.charAt(i++));
+    enc2 = key2.indexOf(value.charAt(i++));
+    enc3 = key2.indexOf(value.charAt(i++));
+    enc4 = key2.indexOf(value.charAt(i++));
+    chr1 = enc1 << 2 | enc2 >> 4;
+    chr2 = (enc2 & 15) << 4 | enc3 >> 2;
+    chr3 = (enc3 & 3) << 6 | enc4;
+    base642 = base642 + String.fromCharCode(chr1);
+    if (enc3 != 64 && chr2 != 0) {
+      base642 = base642 + String.fromCharCode(chr2);
+    }
+    if (enc4 != 64 && chr3 != 0) {
+      base642 = base642 + String.fromCharCode(chr3);
+    }
+  }
+  return base642;
+}
+function decodeJWTPayload(token) {
+  const base64UrlRegex = /^([a-z0-9_-]{4})*($|[a-z0-9_-]{3}=?$|[a-z0-9_-]{2}(==)?$)$/i;
+  const parts = token.split(".");
+  if (parts.length !== 3) {
+    throw new Error("JWT is not valid: not a JWT structure");
+  }
+  if (!base64UrlRegex.test(parts[1])) {
+    throw new Error("JWT is not valid: payload is not in base64url format");
+  }
+  const base64Url = parts[1];
+  return JSON.parse(decodeBase64URL(base64Url));
+}
+async function sleep(time) {
+  return await new Promise((accept) => {
+    setTimeout(() => accept(null), time);
+  });
+}
+function retryable(fn, isRetryable) {
+  const promise = new Promise((accept, reject) => {
+    ;
+    (async () => {
+      for (let attempt = 0; attempt < Infinity; attempt++) {
+        try {
+          const result = await fn(attempt);
+          if (!isRetryable(attempt, null, result)) {
+            accept(result);
+            return;
+          }
+        } catch (e) {
+          if (!isRetryable(attempt, e)) {
+            reject(e);
+            return;
+          }
+        }
+      }
+    })();
+  });
+  return promise;
+}
+function dec2hex(dec) {
+  return ("0" + dec.toString(16)).substr(-2);
+}
+function generatePKCEVerifier() {
+  const verifierLength = 56;
+  const array2 = new Uint32Array(verifierLength);
+  if (typeof crypto === "undefined") {
+    const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
+    const charSetLen = charSet.length;
+    let verifier = "";
+    for (let i = 0; i < verifierLength; i++) {
+      verifier += charSet.charAt(Math.floor(Math.random() * charSetLen));
+    }
+    return verifier;
+  }
+  crypto.getRandomValues(array2);
+  return Array.from(array2, dec2hex).join("");
+}
+async function sha2562(randomString) {
+  const encoder2 = new TextEncoder();
+  const encodedData = encoder2.encode(randomString);
+  const hash2 = await crypto.subtle.digest("SHA-256", encodedData);
+  const bytes = new Uint8Array(hash2);
+  return Array.from(bytes).map((c) => String.fromCharCode(c)).join("");
+}
+function base64urlencode(str) {
+  return btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+async function generatePKCEChallenge(verifier) {
+  const hasCryptoSupport = typeof crypto !== "undefined" && typeof crypto.subtle !== "undefined" && typeof TextEncoder !== "undefined";
+  if (!hasCryptoSupport) {
+    console.warn("WebCrypto API is not supported. Code challenge method will default to use plain instead of sha256.");
+    return verifier;
+  }
+  const hashed = await sha2562(verifier);
+  return base64urlencode(hashed);
+}
+var isBrowser2, localStorageWriteTests, supportsLocalStorage, resolveFetch4, looksLikeFetchResponse, setItemAsync, getItemAsync, removeItemAsync, Deferred;
+var init_helpers3 = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/helpers.js"() {
+    isBrowser2 = () => typeof document !== "undefined";
+    localStorageWriteTests = {
+      tested: false,
+      writable: false
+    };
+    supportsLocalStorage = () => {
+      if (!isBrowser2()) {
+        return false;
+      }
+      try {
+        if (typeof globalThis.localStorage !== "object") {
+          return false;
+        }
+      } catch (e) {
+        return false;
+      }
+      if (localStorageWriteTests.tested) {
+        return localStorageWriteTests.writable;
+      }
+      const randomKey = `lswt-${Math.random()}${Math.random()}`;
+      try {
+        globalThis.localStorage.setItem(randomKey, randomKey);
+        globalThis.localStorage.removeItem(randomKey);
+        localStorageWriteTests.tested = true;
+        localStorageWriteTests.writable = true;
+      } catch (e) {
+        localStorageWriteTests.tested = true;
+        localStorageWriteTests.writable = false;
+      }
+      return localStorageWriteTests.writable;
+    };
+    resolveFetch4 = (customFetch) => {
+      let _fetch;
+      if (customFetch) {
+        _fetch = customFetch;
+      } else if (typeof fetch === "undefined") {
+        _fetch = (...args) => Promise.resolve().then(() => (init_browser(), browser_exports)).then(({ default: fetch3 }) => fetch3(...args));
+      } else {
+        _fetch = fetch;
+      }
+      return (...args) => _fetch(...args);
+    };
+    looksLikeFetchResponse = (maybeResponse) => {
+      return typeof maybeResponse === "object" && maybeResponse !== null && "status" in maybeResponse && "ok" in maybeResponse && "json" in maybeResponse && typeof maybeResponse.json === "function";
+    };
+    setItemAsync = async (storage2, key2, data) => {
+      await storage2.setItem(key2, JSON.stringify(data));
+    };
+    getItemAsync = async (storage2, key2) => {
+      const value = await storage2.getItem(key2);
+      if (!value) {
+        return null;
+      }
+      try {
+        return JSON.parse(value);
+      } catch (_a) {
+        return value;
+      }
+    };
+    removeItemAsync = async (storage2, key2) => {
+      await storage2.removeItem(key2);
+    };
+    Deferred = class _Deferred {
+      constructor() {
+        ;
+        this.promise = new _Deferred.promiseConstructor((res, rej) => {
+          ;
+          this.resolve = res;
+          this.reject = rej;
+        });
+      }
+    };
+    Deferred.promiseConstructor = Promise;
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/errors.js
+function isAuthError(error) {
+  return typeof error === "object" && error !== null && "__isAuthError" in error;
+}
+function isAuthApiError(error) {
+  return isAuthError(error) && error.name === "AuthApiError";
+}
+function isAuthRetryableFetchError(error) {
+  return isAuthError(error) && error.name === "AuthRetryableFetchError";
+}
+var AuthError, AuthApiError, AuthUnknownError, CustomAuthError, AuthSessionMissingError, AuthInvalidTokenResponseError, AuthInvalidCredentialsError, AuthImplicitGrantRedirectError, AuthPKCEGrantCodeExchangeError, AuthRetryableFetchError, AuthWeakPasswordError;
+var init_errors2 = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/errors.js"() {
+    AuthError = class extends Error {
+      constructor(message, status) {
+        super(message);
+        this.__isAuthError = true;
+        this.name = "AuthError";
+        this.status = status;
+      }
+    };
+    AuthApiError = class extends AuthError {
+      constructor(message, status) {
+        super(message, status);
+        this.name = "AuthApiError";
+        this.status = status;
+      }
+      toJSON() {
+        return {
+          name: this.name,
+          message: this.message,
+          status: this.status
+        };
+      }
+    };
+    AuthUnknownError = class extends AuthError {
+      constructor(message, originalError) {
+        super(message);
+        this.name = "AuthUnknownError";
+        this.originalError = originalError;
+      }
+    };
+    CustomAuthError = class extends AuthError {
+      constructor(message, name2, status) {
+        super(message);
+        this.name = name2;
+        this.status = status;
+      }
+      toJSON() {
+        return {
+          name: this.name,
+          message: this.message,
+          status: this.status
+        };
+      }
+    };
+    AuthSessionMissingError = class extends CustomAuthError {
+      constructor() {
+        super("Auth session missing!", "AuthSessionMissingError", 400);
+      }
+    };
+    AuthInvalidTokenResponseError = class extends CustomAuthError {
+      constructor() {
+        super("Auth session or user missing", "AuthInvalidTokenResponseError", 500);
+      }
+    };
+    AuthInvalidCredentialsError = class extends CustomAuthError {
+      constructor(message) {
+        super(message, "AuthInvalidCredentialsError", 400);
+      }
+    };
+    AuthImplicitGrantRedirectError = class extends CustomAuthError {
+      constructor(message, details = null) {
+        super(message, "AuthImplicitGrantRedirectError", 500);
+        this.details = null;
+        this.details = details;
+      }
+      toJSON() {
+        return {
+          name: this.name,
+          message: this.message,
+          status: this.status,
+          details: this.details
+        };
+      }
+    };
+    AuthPKCEGrantCodeExchangeError = class extends CustomAuthError {
+      constructor(message, details = null) {
+        super(message, "AuthPKCEGrantCodeExchangeError", 500);
+        this.details = null;
+        this.details = details;
+      }
+      toJSON() {
+        return {
+          name: this.name,
+          message: this.message,
+          status: this.status,
+          details: this.details
+        };
+      }
+    };
+    AuthRetryableFetchError = class extends CustomAuthError {
+      constructor(message, status) {
+        super(message, "AuthRetryableFetchError", status);
+      }
+    };
+    AuthWeakPasswordError = class extends CustomAuthError {
+      constructor(message, status, reasons) {
+        super(message, "AuthWeakPasswordError", status);
+        this.reasons = reasons;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/fetch.js
+async function handleError2(error) {
+  if (!looksLikeFetchResponse(error)) {
+    throw new AuthRetryableFetchError(_getErrorMessage2(error), 0);
+  }
+  if (NETWORK_ERROR_CODES.includes(error.status)) {
+    throw new AuthRetryableFetchError(_getErrorMessage2(error), error.status);
+  }
+  let data;
+  try {
+    data = await error.json();
+  } catch (e) {
+    throw new AuthUnknownError(_getErrorMessage2(e), e);
+  }
+  if (typeof data === "object" && data && typeof data.weak_password === "object" && data.weak_password && Array.isArray(data.weak_password.reasons) && data.weak_password.reasons.length && data.weak_password.reasons.reduce((a, i) => a && typeof i === "string", true)) {
+    throw new AuthWeakPasswordError(_getErrorMessage2(data), error.status, data.weak_password.reasons);
+  }
+  throw new AuthApiError(_getErrorMessage2(data), error.status || 500);
+}
+async function _request(fetcher, method, url, options2) {
+  var _a;
+  const headers2 = Object.assign({}, options2 === null || options2 === void 0 ? void 0 : options2.headers);
+  if (options2 === null || options2 === void 0 ? void 0 : options2.jwt) {
+    headers2["Authorization"] = `Bearer ${options2.jwt}`;
+  }
+  const qs = (_a = options2 === null || options2 === void 0 ? void 0 : options2.query) !== null && _a !== void 0 ? _a : {};
+  if (options2 === null || options2 === void 0 ? void 0 : options2.redirectTo) {
+    qs["redirect_to"] = options2.redirectTo;
+  }
+  const queryString = Object.keys(qs).length ? "?" + new URLSearchParams(qs).toString() : "";
+  const data = await _handleRequest2(fetcher, method, url + queryString, { headers: headers2, noResolveJson: options2 === null || options2 === void 0 ? void 0 : options2.noResolveJson }, {}, options2 === null || options2 === void 0 ? void 0 : options2.body);
+  return (options2 === null || options2 === void 0 ? void 0 : options2.xform) ? options2 === null || options2 === void 0 ? void 0 : options2.xform(data) : { data: Object.assign({}, data), error: null };
+}
+async function _handleRequest2(fetcher, method, url, options2, parameters, body2) {
+  const requestParams = _getRequestParams2(method, options2, parameters, body2);
+  let result;
+  try {
+    result = await fetcher(url, requestParams);
+  } catch (e) {
+    console.error(e);
+    throw new AuthRetryableFetchError(_getErrorMessage2(e), 0);
+  }
+  if (!result.ok) {
+    await handleError2(result);
+  }
+  if (options2 === null || options2 === void 0 ? void 0 : options2.noResolveJson) {
+    return result;
+  }
+  try {
+    return await result.json();
+  } catch (e) {
+    await handleError2(e);
+  }
+}
+function _sessionResponse(data) {
+  var _a;
+  let session = null;
+  if (hasSession(data)) {
+    session = Object.assign({}, data);
+    if (!data.expires_at) {
+      session.expires_at = expiresAt(data.expires_in);
+    }
+  }
+  const user = (_a = data.user) !== null && _a !== void 0 ? _a : data;
+  return { data: { session, user }, error: null };
+}
+function _sessionResponsePassword(data) {
+  const response = _sessionResponse(data);
+  if (!response.error && data.weak_password && typeof data.weak_password === "object" && Array.isArray(data.weak_password.reasons) && data.weak_password.reasons.length && data.weak_password.message && typeof data.weak_password.message === "string" && data.weak_password.reasons.reduce((a, i) => a && typeof i === "string", true)) {
+    response.data.weak_password = data.weak_password;
+  }
+  return response;
+}
+function _userResponse(data) {
+  var _a;
+  const user = (_a = data.user) !== null && _a !== void 0 ? _a : data;
+  return { data: { user }, error: null };
+}
+function _ssoResponse(data) {
+  return { data, error: null };
+}
+function _generateLinkResponse(data) {
+  const { action_link, email_otp, hashed_token, redirect_to, verification_type } = data, rest = __rest(data, ["action_link", "email_otp", "hashed_token", "redirect_to", "verification_type"]);
+  const properties = {
+    action_link,
+    email_otp,
+    hashed_token,
+    redirect_to,
+    verification_type
+  };
+  const user = Object.assign({}, rest);
+  return {
+    data: {
+      properties,
+      user
+    },
+    error: null
+  };
+}
+function _noResolveJsonResponse(data) {
+  return data;
+}
+function hasSession(data) {
+  return data.access_token && data.refresh_token && data.expires_in;
+}
+var __rest, _getErrorMessage2, NETWORK_ERROR_CODES, _getRequestParams2;
+var init_fetch3 = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/fetch.js"() {
+    init_helpers3();
+    init_errors2();
+    __rest = function(s2, e) {
+      var t = {};
+      for (var p in s2)
+        if (Object.prototype.hasOwnProperty.call(s2, p) && e.indexOf(p) < 0)
+          t[p] = s2[p];
+      if (s2 != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s2); i < p.length; i++) {
+          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s2, p[i]))
+            t[p[i]] = s2[p[i]];
+        }
+      return t;
+    };
+    _getErrorMessage2 = (err) => err.msg || err.message || err.error_description || err.error || JSON.stringify(err);
+    NETWORK_ERROR_CODES = [502, 503, 504];
+    _getRequestParams2 = (method, options2, parameters, body2) => {
+      const params = { method, headers: (options2 === null || options2 === void 0 ? void 0 : options2.headers) || {} };
+      if (method === "GET") {
+        return params;
+      }
+      params.headers = Object.assign({ "Content-Type": "application/json;charset=UTF-8" }, options2 === null || options2 === void 0 ? void 0 : options2.headers);
+      params.body = JSON.stringify(body2);
+      return Object.assign(Object.assign({}, params), parameters);
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/GoTrueAdminApi.js
+var __rest2, GoTrueAdminApi;
+var init_GoTrueAdminApi = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/GoTrueAdminApi.js"() {
+    init_fetch3();
+    init_helpers3();
+    init_errors2();
+    __rest2 = function(s2, e) {
+      var t = {};
+      for (var p in s2)
+        if (Object.prototype.hasOwnProperty.call(s2, p) && e.indexOf(p) < 0)
+          t[p] = s2[p];
+      if (s2 != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s2); i < p.length; i++) {
+          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s2, p[i]))
+            t[p[i]] = s2[p[i]];
+        }
+      return t;
+    };
+    GoTrueAdminApi = class {
+      constructor({ url = "", headers: headers2 = {}, fetch: fetch3 }) {
+        this.url = url;
+        this.headers = headers2;
+        this.fetch = resolveFetch4(fetch3);
+        this.mfa = {
+          listFactors: this._listFactors.bind(this),
+          deleteFactor: this._deleteFactor.bind(this)
+        };
+      }
+      /**
+       * Removes a logged-in session.
+       * @param jwt A valid, logged-in JWT.
+       * @param scope The logout sope.
+       */
+      async signOut(jwt, scope = "global") {
+        try {
+          await _request(this.fetch, "POST", `${this.url}/logout?scope=${scope}`, {
+            headers: this.headers,
+            jwt,
+            noResolveJson: true
+          });
+          return { data: null, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Sends an invite link to an email address.
+       * @param email The email address of the user.
+       * @param options Additional options to be included when inviting.
+       */
+      async inviteUserByEmail(email, options2 = {}) {
+        try {
+          return await _request(this.fetch, "POST", `${this.url}/invite`, {
+            body: { email, data: options2.data },
+            headers: this.headers,
+            redirectTo: options2.redirectTo,
+            xform: _userResponse
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Generates email links and OTPs to be sent via a custom email provider.
+       * @param email The user's email.
+       * @param options.password User password. For signup only.
+       * @param options.data Optional user metadata. For signup only.
+       * @param options.redirectTo The redirect url which should be appended to the generated link
+       */
+      async generateLink(params) {
+        try {
+          const { options: options2 } = params, rest = __rest2(params, ["options"]);
+          const body2 = Object.assign(Object.assign({}, rest), options2);
+          if ("newEmail" in rest) {
+            body2.new_email = rest === null || rest === void 0 ? void 0 : rest.newEmail;
+            delete body2["newEmail"];
+          }
+          return await _request(this.fetch, "POST", `${this.url}/admin/generate_link`, {
+            body: body2,
+            headers: this.headers,
+            xform: _generateLinkResponse,
+            redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.redirectTo
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return {
+              data: {
+                properties: null,
+                user: null
+              },
+              error
+            };
+          }
+          throw error;
+        }
+      }
+      // User Admin API
+      /**
+       * Creates a new user.
+       * This function should only be called on a server. Never expose your `service_role` key in the browser.
+       */
+      async createUser(attributes) {
+        try {
+          return await _request(this.fetch, "POST", `${this.url}/admin/users`, {
+            body: attributes,
+            headers: this.headers,
+            xform: _userResponse
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Get a list of users.
+       *
+       * This function should only be called on a server. Never expose your `service_role` key in the browser.
+       * @param params An object which supports `page` and `perPage` as numbers, to alter the paginated results.
+       */
+      async listUsers(params) {
+        var _a, _b, _c, _d, _e, _f, _g;
+        try {
+          const pagination = { nextPage: null, lastPage: 0, total: 0 };
+          const response = await _request(this.fetch, "GET", `${this.url}/admin/users`, {
+            headers: this.headers,
+            noResolveJson: true,
+            query: {
+              page: (_b = (_a = params === null || params === void 0 ? void 0 : params.page) === null || _a === void 0 ? void 0 : _a.toString()) !== null && _b !== void 0 ? _b : "",
+              per_page: (_d = (_c = params === null || params === void 0 ? void 0 : params.perPage) === null || _c === void 0 ? void 0 : _c.toString()) !== null && _d !== void 0 ? _d : ""
+            },
+            xform: _noResolveJsonResponse
+          });
+          if (response.error)
+            throw response.error;
+          const users = await response.json();
+          const total = (_e = response.headers.get("x-total-count")) !== null && _e !== void 0 ? _e : 0;
+          const links = (_g = (_f = response.headers.get("link")) === null || _f === void 0 ? void 0 : _f.split(",")) !== null && _g !== void 0 ? _g : [];
+          if (links.length > 0) {
+            links.forEach((link) => {
+              const page2 = parseInt(link.split(";")[0].split("=")[1].substring(0, 1));
+              const rel = JSON.parse(link.split(";")[1].split("=")[1]);
+              pagination[`${rel}Page`] = page2;
+            });
+            pagination.total = parseInt(total);
+          }
+          return { data: Object.assign(Object.assign({}, users), pagination), error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { users: [] }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Get user by id.
+       *
+       * @param uid The user's unique identifier
+       *
+       * This function should only be called on a server. Never expose your `service_role` key in the browser.
+       */
+      async getUserById(uid) {
+        try {
+          return await _request(this.fetch, "GET", `${this.url}/admin/users/${uid}`, {
+            headers: this.headers,
+            xform: _userResponse
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Updates the user data.
+       *
+       * @param attributes The data you want to update.
+       *
+       * This function should only be called on a server. Never expose your `service_role` key in the browser.
+       */
+      async updateUserById(uid, attributes) {
+        try {
+          return await _request(this.fetch, "PUT", `${this.url}/admin/users/${uid}`, {
+            body: attributes,
+            headers: this.headers,
+            xform: _userResponse
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Delete a user. Requires a `service_role` key.
+       *
+       * @param id The user id you want to remove.
+       * @param shouldSoftDelete If true, then the user will be soft-deleted (setting `deleted_at` to the current timestamp and disabling their account while preserving their data) from the auth schema.
+       * Defaults to false for backward compatibility.
+       *
+       * This function should only be called on a server. Never expose your `service_role` key in the browser.
+       */
+      async deleteUser(id, shouldSoftDelete = false) {
+        try {
+          return await _request(this.fetch, "DELETE", `${this.url}/admin/users/${id}`, {
+            headers: this.headers,
+            body: {
+              should_soft_delete: shouldSoftDelete
+            },
+            xform: _userResponse
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null }, error };
+          }
+          throw error;
+        }
+      }
+      async _listFactors(params) {
+        try {
+          const { data, error } = await _request(this.fetch, "GET", `${this.url}/admin/users/${params.userId}/factors`, {
+            headers: this.headers,
+            xform: (factors) => {
+              return { data: { factors }, error: null };
+            }
+          });
+          return { data, error };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      async _deleteFactor(params) {
+        try {
+          const data = await _request(this.fetch, "DELETE", `${this.url}/admin/users/${params.userId}/factors/${params.id}`, {
+            headers: this.headers
+          });
+          return { data, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/version.js
+var version6;
+var init_version5 = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/version.js"() {
+    version6 = "0.0.0";
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/constants.js
+var GOTRUE_URL, STORAGE_KEY, DEFAULT_HEADERS5, EXPIRY_MARGIN;
+var init_constants5 = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/constants.js"() {
+    init_version5();
+    GOTRUE_URL = "http://localhost:9999";
+    STORAGE_KEY = "supabase.auth.token";
+    DEFAULT_HEADERS5 = { "X-Client-Info": `gotrue-js/${version6}` };
+    EXPIRY_MARGIN = 10;
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/local-storage.js
+function memoryLocalStorageAdapter(store = {}) {
+  return {
+    getItem: (key2) => {
+      return store[key2] || null;
+    },
+    setItem: (key2, value) => {
+      store[key2] = value;
+    },
+    removeItem: (key2) => {
+      delete store[key2];
+    }
+  };
+}
+var localStorageAdapter;
+var init_local_storage = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/local-storage.js"() {
+    init_helpers3();
+    localStorageAdapter = {
+      getItem: (key2) => {
+        if (!supportsLocalStorage()) {
+          return null;
+        }
+        return globalThis.localStorage.getItem(key2);
+      },
+      setItem: (key2, value) => {
+        if (!supportsLocalStorage()) {
+          return;
+        }
+        globalThis.localStorage.setItem(key2, value);
+      },
+      removeItem: (key2) => {
+        if (!supportsLocalStorage()) {
+          return;
+        }
+        globalThis.localStorage.removeItem(key2);
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/polyfills.js
+function polyfillGlobalThis() {
+  if (typeof globalThis === "object")
+    return;
+  try {
+    Object.defineProperty(Object.prototype, "__magic__", {
+      get: function() {
+        return this;
+      },
+      configurable: true
+    });
+    __magic__.globalThis = __magic__;
+    delete Object.prototype.__magic__;
+  } catch (e) {
+    if (typeof self !== "undefined") {
+      self.globalThis = self;
+    }
+  }
+}
+var init_polyfills = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/polyfills.js"() {
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/locks.js
+async function navigatorLock(name2, acquireTimeout, fn) {
+  if (internals.debug) {
+    console.log("@supabase/gotrue-js: navigatorLock: acquire lock", name2, acquireTimeout);
+  }
+  const abortController = new globalThis.AbortController();
+  if (acquireTimeout > 0) {
+    setTimeout(() => {
+      abortController.abort();
+      if (internals.debug) {
+        console.log("@supabase/gotrue-js: navigatorLock acquire timed out", name2);
+      }
+    }, acquireTimeout);
+  }
+  return await globalThis.navigator.locks.request(name2, acquireTimeout === 0 ? {
+    mode: "exclusive",
+    ifAvailable: true
+  } : {
+    mode: "exclusive",
+    signal: abortController.signal
+  }, async (lock) => {
+    if (lock) {
+      if (internals.debug) {
+        console.log("@supabase/gotrue-js: navigatorLock: acquired", name2, lock.name);
+      }
+      try {
+        return await fn();
+      } finally {
+        if (internals.debug) {
+          console.log("@supabase/gotrue-js: navigatorLock: released", name2, lock.name);
+        }
+      }
+    } else {
+      if (acquireTimeout === 0) {
+        if (internals.debug) {
+          console.log("@supabase/gotrue-js: navigatorLock: not immediately available", name2);
+        }
+        throw new NavigatorLockAcquireTimeoutError(`Acquiring an exclusive Navigator LockManager lock "${name2}" immediately failed`);
+      } else {
+        if (internals.debug) {
+          try {
+            const result = await globalThis.navigator.locks.query();
+            console.log("@supabase/gotrue-js: Navigator LockManager state", JSON.stringify(result, null, "  "));
+          } catch (e) {
+            console.warn("@supabase/gotrue-js: Error when querying Navigator LockManager state", e);
+          }
+        }
+        console.warn("@supabase/gotrue-js: Navigator LockManager returned a null lock when using #request without ifAvailable set to true, it appears this browser is not following the LockManager spec https://developer.mozilla.org/en-US/docs/Web/API/LockManager/request");
+        return await fn();
+      }
+    }
+  });
+}
+var internals, LockAcquireTimeoutError, NavigatorLockAcquireTimeoutError;
+var init_locks = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/locks.js"() {
+    init_helpers3();
+    internals = {
+      /**
+       * @experimental
+       */
+      debug: !!(globalThis && supportsLocalStorage() && globalThis.localStorage && globalThis.localStorage.getItem("supabase.gotrue-js.locks.debug") === "true")
+    };
+    LockAcquireTimeoutError = class extends Error {
+      constructor(message) {
+        super(message);
+        this.isAcquireTimeout = true;
+      }
+    };
+    NavigatorLockAcquireTimeoutError = class extends LockAcquireTimeoutError {
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/GoTrueClient.js
+async function lockNoOp(name2, acquireTimeout, fn) {
+  return await fn();
+}
+var DEFAULT_OPTIONS, AUTO_REFRESH_TICK_DURATION, AUTO_REFRESH_TICK_THRESHOLD, GoTrueClient;
+var init_GoTrueClient = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/GoTrueClient.js"() {
+    init_GoTrueAdminApi();
+    init_constants5();
+    init_errors2();
+    init_fetch3();
+    init_helpers3();
+    init_local_storage();
+    init_polyfills();
+    init_version5();
+    init_locks();
+    polyfillGlobalThis();
+    DEFAULT_OPTIONS = {
+      url: GOTRUE_URL,
+      storageKey: STORAGE_KEY,
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+      headers: DEFAULT_HEADERS5,
+      flowType: "implicit",
+      debug: false
+    };
+    AUTO_REFRESH_TICK_DURATION = 30 * 1e3;
+    AUTO_REFRESH_TICK_THRESHOLD = 3;
+    GoTrueClient = class _GoTrueClient {
+      /**
+       * Create a new client for use in the browser.
+       */
+      constructor(options2) {
+        var _a, _b;
+        this.memoryStorage = null;
+        this.stateChangeEmitters = /* @__PURE__ */ new Map();
+        this.autoRefreshTicker = null;
+        this.visibilityChangedCallback = null;
+        this.refreshingDeferred = null;
+        this.initializePromise = null;
+        this.detectSessionInUrl = true;
+        this.lockAcquired = false;
+        this.pendingInLock = [];
+        this.broadcastChannel = null;
+        this.logger = console.log;
+        this.instanceID = _GoTrueClient.nextInstanceID;
+        _GoTrueClient.nextInstanceID += 1;
+        if (this.instanceID > 0 && isBrowser2()) {
+          console.warn("Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.");
+        }
+        const settings = Object.assign(Object.assign({}, DEFAULT_OPTIONS), options2);
+        this.logDebugMessages = !!settings.debug;
+        if (typeof settings.debug === "function") {
+          this.logger = settings.debug;
+        }
+        this.persistSession = settings.persistSession;
+        this.storageKey = settings.storageKey;
+        this.autoRefreshToken = settings.autoRefreshToken;
+        this.admin = new GoTrueAdminApi({
+          url: settings.url,
+          headers: settings.headers,
+          fetch: settings.fetch
+        });
+        this.url = settings.url;
+        this.headers = settings.headers;
+        this.fetch = resolveFetch4(settings.fetch);
+        this.lock = settings.lock || lockNoOp;
+        this.detectSessionInUrl = settings.detectSessionInUrl;
+        this.flowType = settings.flowType;
+        if (settings.lock) {
+          this.lock = settings.lock;
+        } else if (isBrowser2() && ((_a = globalThis === null || globalThis === void 0 ? void 0 : globalThis.navigator) === null || _a === void 0 ? void 0 : _a.locks)) {
+          this.lock = navigatorLock;
+        } else {
+          this.lock = lockNoOp;
+        }
+        this.mfa = {
+          verify: this._verify.bind(this),
+          enroll: this._enroll.bind(this),
+          unenroll: this._unenroll.bind(this),
+          challenge: this._challenge.bind(this),
+          listFactors: this._listFactors.bind(this),
+          challengeAndVerify: this._challengeAndVerify.bind(this),
+          getAuthenticatorAssuranceLevel: this._getAuthenticatorAssuranceLevel.bind(this)
+        };
+        if (this.persistSession) {
+          if (settings.storage) {
+            this.storage = settings.storage;
+          } else {
+            if (supportsLocalStorage()) {
+              this.storage = localStorageAdapter;
+            } else {
+              this.memoryStorage = {};
+              this.storage = memoryLocalStorageAdapter(this.memoryStorage);
+            }
+          }
+        } else {
+          this.memoryStorage = {};
+          this.storage = memoryLocalStorageAdapter(this.memoryStorage);
+        }
+        if (isBrowser2() && globalThis.BroadcastChannel && this.persistSession && this.storageKey) {
+          try {
+            this.broadcastChannel = new globalThis.BroadcastChannel(this.storageKey);
+          } catch (e) {
+            console.error("Failed to create a new BroadcastChannel, multi-tab state changes will not be available", e);
+          }
+          (_b = this.broadcastChannel) === null || _b === void 0 ? void 0 : _b.addEventListener("message", async (event) => {
+            this._debug("received broadcast notification from other tab or client", event);
+            await this._notifyAllSubscribers(event.data.event, event.data.session, false);
+          });
+        }
+        this.initialize();
+      }
+      _debug(...args) {
+        if (this.logDebugMessages) {
+          this.logger(`GoTrueClient@${this.instanceID} (${version6}) ${(/* @__PURE__ */ new Date()).toISOString()}`, ...args);
+        }
+        return this;
+      }
+      /**
+       * Initializes the client session either from the url or from storage.
+       * This method is automatically called when instantiating the client, but should also be called
+       * manually when checking for an error from an auth redirect (oauth, magiclink, password recovery, etc).
+       */
+      async initialize() {
+        if (this.initializePromise) {
+          return await this.initializePromise;
+        }
+        this.initializePromise = (async () => {
+          return await this._acquireLock(-1, async () => {
+            return await this._initialize();
+          });
+        })();
+        return await this.initializePromise;
+      }
+      /**
+       * IMPORTANT:
+       * 1. Never throw in this method, as it is called from the constructor
+       * 2. Never return a session from this method as it would be cached over
+       *    the whole lifetime of the client
+       */
+      async _initialize() {
+        try {
+          const isPKCEFlow = isBrowser2() ? await this._isPKCEFlow() : false;
+          this._debug("#_initialize()", "begin", "is PKCE flow", isPKCEFlow);
+          if (isPKCEFlow || this.detectSessionInUrl && this._isImplicitGrantFlow()) {
+            const { data, error } = await this._getSessionFromURL(isPKCEFlow);
+            if (error) {
+              this._debug("#_initialize()", "error detecting session from URL", error);
+              if ((error === null || error === void 0 ? void 0 : error.message) === "Identity is already linked" || (error === null || error === void 0 ? void 0 : error.message) === "Identity is already linked to another user") {
+                return { error };
+              }
+              await this._removeSession();
+              return { error };
+            }
+            const { session, redirectType } = data;
+            this._debug("#_initialize()", "detected session in URL", session, "redirect type", redirectType);
+            await this._saveSession(session);
+            setTimeout(async () => {
+              if (redirectType === "recovery") {
+                await this._notifyAllSubscribers("PASSWORD_RECOVERY", session);
+              } else {
+                await this._notifyAllSubscribers("SIGNED_IN", session);
+              }
+            }, 0);
+            return { error: null };
+          }
+          await this._recoverAndRefresh();
+          return { error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { error };
+          }
+          return {
+            error: new AuthUnknownError("Unexpected error during initialization", error)
+          };
+        } finally {
+          await this._handleVisibilityChange();
+          this._debug("#_initialize()", "end");
+        }
+      }
+      /**
+       * Creates a new user.
+       *
+       * Be aware that if a user account exists in the system you may get back an
+       * error message that attempts to hide this information from the user.
+       * This method has support for PKCE via email signups. The PKCE flow cannot be used when autoconfirm is enabled.
+       *
+       * @returns A logged-in session if the server has "autoconfirm" ON
+       * @returns A user if the server has "autoconfirm" OFF
+       */
+      async signUp(credentials) {
+        var _a, _b, _c;
+        try {
+          await this._removeSession();
+          let res;
+          if ("email" in credentials) {
+            const { email, password, options: options2 } = credentials;
+            let codeChallenge = null;
+            let codeChallengeMethod = null;
+            if (this.flowType === "pkce") {
+              const codeVerifier = generatePKCEVerifier();
+              await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, codeVerifier);
+              codeChallenge = await generatePKCEChallenge(codeVerifier);
+              codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
+            }
+            res = await _request(this.fetch, "POST", `${this.url}/signup`, {
+              headers: this.headers,
+              redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.emailRedirectTo,
+              body: {
+                email,
+                password,
+                data: (_a = options2 === null || options2 === void 0 ? void 0 : options2.data) !== null && _a !== void 0 ? _a : {},
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken },
+                code_challenge: codeChallenge,
+                code_challenge_method: codeChallengeMethod
+              },
+              xform: _sessionResponse
+            });
+          } else if ("phone" in credentials) {
+            const { phone, password, options: options2 } = credentials;
+            res = await _request(this.fetch, "POST", `${this.url}/signup`, {
+              headers: this.headers,
+              body: {
+                phone,
+                password,
+                data: (_b = options2 === null || options2 === void 0 ? void 0 : options2.data) !== null && _b !== void 0 ? _b : {},
+                channel: (_c = options2 === null || options2 === void 0 ? void 0 : options2.channel) !== null && _c !== void 0 ? _c : "sms",
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
+              },
+              xform: _sessionResponse
+            });
+          } else {
+            throw new AuthInvalidCredentialsError("You must provide either an email or phone number and a password");
+          }
+          const { data, error } = res;
+          if (error || !data) {
+            return { data: { user: null, session: null }, error };
+          }
+          const session = data.session;
+          const user = data.user;
+          if (data.session) {
+            await this._saveSession(data.session);
+            await this._notifyAllSubscribers("SIGNED_IN", session);
+          }
+          return { data: { user, session }, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Log in an existing user with an email and password or phone and password.
+       *
+       * Be aware that you may get back an error message that will not distinguish
+       * between the cases where the account does not exist or that the
+       * email/phone and password combination is wrong or that the account can only
+       * be accessed via social login.
+       */
+      async signInWithPassword(credentials) {
+        try {
+          await this._removeSession();
+          let res;
+          if ("email" in credentials) {
+            const { email, password, options: options2 } = credentials;
+            res = await _request(this.fetch, "POST", `${this.url}/token?grant_type=password`, {
+              headers: this.headers,
+              body: {
+                email,
+                password,
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
+              },
+              xform: _sessionResponsePassword
+            });
+          } else if ("phone" in credentials) {
+            const { phone, password, options: options2 } = credentials;
+            res = await _request(this.fetch, "POST", `${this.url}/token?grant_type=password`, {
+              headers: this.headers,
+              body: {
+                phone,
+                password,
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
+              },
+              xform: _sessionResponsePassword
+            });
+          } else {
+            throw new AuthInvalidCredentialsError("You must provide either an email or phone number and a password");
+          }
+          const { data, error } = res;
+          if (error) {
+            return { data: { user: null, session: null }, error };
+          } else if (!data || !data.session || !data.user) {
+            return { data: { user: null, session: null }, error: new AuthInvalidTokenResponseError() };
+          }
+          if (data.session) {
+            await this._saveSession(data.session);
+            await this._notifyAllSubscribers("SIGNED_IN", data.session);
+          }
+          return {
+            data: Object.assign({ user: data.user, session: data.session }, data.weak_password ? { weakPassword: data.weak_password } : null),
+            error
+          };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Log in an existing user via a third-party provider.
+       * This method supports the PKCE flow.
+       */
+      async signInWithOAuth(credentials) {
+        var _a, _b, _c, _d;
+        await this._removeSession();
+        return await this._handleProviderSignIn(credentials.provider, {
+          redirectTo: (_a = credentials.options) === null || _a === void 0 ? void 0 : _a.redirectTo,
+          scopes: (_b = credentials.options) === null || _b === void 0 ? void 0 : _b.scopes,
+          queryParams: (_c = credentials.options) === null || _c === void 0 ? void 0 : _c.queryParams,
+          skipBrowserRedirect: (_d = credentials.options) === null || _d === void 0 ? void 0 : _d.skipBrowserRedirect
+        });
+      }
+      /**
+       * Log in an existing user by exchanging an Auth Code issued during the PKCE flow.
+       */
+      async exchangeCodeForSession(authCode) {
+        await this.initializePromise;
+        return this._acquireLock(-1, async () => {
+          return this._exchangeCodeForSession(authCode);
+        });
+      }
+      async _exchangeCodeForSession(authCode) {
+        const storageItem = await getItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+        const [codeVerifier, redirectType] = (storageItem !== null && storageItem !== void 0 ? storageItem : "").split("/");
+        const { data, error } = await _request(this.fetch, "POST", `${this.url}/token?grant_type=pkce`, {
+          headers: this.headers,
+          body: {
+            auth_code: authCode,
+            code_verifier: codeVerifier
+          },
+          xform: _sessionResponse
+        });
+        await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+        if (error) {
+          return { data: { user: null, session: null, redirectType: null }, error };
+        } else if (!data || !data.session || !data.user) {
+          return {
+            data: { user: null, session: null, redirectType: null },
+            error: new AuthInvalidTokenResponseError()
+          };
+        }
+        if (data.session) {
+          await this._saveSession(data.session);
+          await this._notifyAllSubscribers("SIGNED_IN", data.session);
+        }
+        return { data: Object.assign(Object.assign({}, data), { redirectType: redirectType !== null && redirectType !== void 0 ? redirectType : null }), error };
+      }
+      /**
+       * Allows signing in with an OIDC ID token. The authentication provider used
+       * should be enabled and configured.
+       */
+      async signInWithIdToken(credentials) {
+        await this._removeSession();
+        try {
+          const { options: options2, provider, token, access_token, nonce } = credentials;
+          const res = await _request(this.fetch, "POST", `${this.url}/token?grant_type=id_token`, {
+            headers: this.headers,
+            body: {
+              provider,
+              id_token: token,
+              access_token,
+              nonce,
+              gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
+            },
+            xform: _sessionResponse
+          });
+          const { data, error } = res;
+          if (error) {
+            return { data: { user: null, session: null }, error };
+          } else if (!data || !data.session || !data.user) {
+            return {
+              data: { user: null, session: null },
+              error: new AuthInvalidTokenResponseError()
+            };
+          }
+          if (data.session) {
+            await this._saveSession(data.session);
+            await this._notifyAllSubscribers("SIGNED_IN", data.session);
+          }
+          return { data, error };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Log in a user using magiclink or a one-time password (OTP).
+       *
+       * If the `{{ .ConfirmationURL }}` variable is specified in the email template, a magiclink will be sent.
+       * If the `{{ .Token }}` variable is specified in the email template, an OTP will be sent.
+       * If you're using phone sign-ins, only an OTP will be sent. You won't be able to send a magiclink for phone sign-ins.
+       *
+       * Be aware that you may get back an error message that will not distinguish
+       * between the cases where the account does not exist or, that the account
+       * can only be accessed via social login.
+       *
+       * Do note that you will need to configure a Whatsapp sender on Twilio
+       * if you are using phone sign in with the 'whatsapp' channel. The whatsapp
+       * channel is not supported on other providers
+       * at this time.
+       * This method supports PKCE when an email is passed.
+       */
+      async signInWithOtp(credentials) {
+        var _a, _b, _c, _d, _e;
+        try {
+          await this._removeSession();
+          if ("email" in credentials) {
+            const { email, options: options2 } = credentials;
+            let codeChallenge = null;
+            let codeChallengeMethod = null;
+            if (this.flowType === "pkce") {
+              const codeVerifier = generatePKCEVerifier();
+              await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, codeVerifier);
+              codeChallenge = await generatePKCEChallenge(codeVerifier);
+              codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
+            }
+            const { error } = await _request(this.fetch, "POST", `${this.url}/otp`, {
+              headers: this.headers,
+              body: {
+                email,
+                data: (_a = options2 === null || options2 === void 0 ? void 0 : options2.data) !== null && _a !== void 0 ? _a : {},
+                create_user: (_b = options2 === null || options2 === void 0 ? void 0 : options2.shouldCreateUser) !== null && _b !== void 0 ? _b : true,
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken },
+                code_challenge: codeChallenge,
+                code_challenge_method: codeChallengeMethod
+              },
+              redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.emailRedirectTo
+            });
+            return { data: { user: null, session: null }, error };
+          }
+          if ("phone" in credentials) {
+            const { phone, options: options2 } = credentials;
+            const { data, error } = await _request(this.fetch, "POST", `${this.url}/otp`, {
+              headers: this.headers,
+              body: {
+                phone,
+                data: (_c = options2 === null || options2 === void 0 ? void 0 : options2.data) !== null && _c !== void 0 ? _c : {},
+                create_user: (_d = options2 === null || options2 === void 0 ? void 0 : options2.shouldCreateUser) !== null && _d !== void 0 ? _d : true,
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken },
+                channel: (_e = options2 === null || options2 === void 0 ? void 0 : options2.channel) !== null && _e !== void 0 ? _e : "sms"
+              }
+            });
+            return { data: { user: null, session: null, messageId: data === null || data === void 0 ? void 0 : data.message_id }, error };
+          }
+          throw new AuthInvalidCredentialsError("You must provide either an email or phone number.");
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Log in a user given a User supplied OTP or TokenHash received through mobile or email.
+       */
+      async verifyOtp(params) {
+        var _a, _b;
+        try {
+          if (params.type !== "email_change" && params.type !== "phone_change") {
+            await this._removeSession();
+          }
+          let redirectTo = void 0;
+          let captchaToken = void 0;
+          if ("options" in params) {
+            redirectTo = (_a = params.options) === null || _a === void 0 ? void 0 : _a.redirectTo;
+            captchaToken = (_b = params.options) === null || _b === void 0 ? void 0 : _b.captchaToken;
+          }
+          const { data, error } = await _request(this.fetch, "POST", `${this.url}/verify`, {
+            headers: this.headers,
+            body: Object.assign(Object.assign({}, params), { gotrue_meta_security: { captcha_token: captchaToken } }),
+            redirectTo,
+            xform: _sessionResponse
+          });
+          if (error) {
+            throw error;
+          }
+          if (!data) {
+            throw new Error("An error occurred on token verification.");
+          }
+          const session = data.session;
+          const user = data.user;
+          if (session === null || session === void 0 ? void 0 : session.access_token) {
+            await this._saveSession(session);
+            await this._notifyAllSubscribers(params.type == "recovery" ? "PASSWORD_RECOVERY" : "SIGNED_IN", session);
+          }
+          return { data: { user, session }, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Attempts a single-sign on using an enterprise Identity Provider. A
+       * successful SSO attempt will redirect the current page to the identity
+       * provider authorization page. The redirect URL is implementation and SSO
+       * protocol specific.
+       *
+       * You can use it by providing a SSO domain. Typically you can extract this
+       * domain by asking users for their email address. If this domain is
+       * registered on the Auth instance the redirect will use that organization's
+       * currently active SSO Identity Provider for the login.
+       *
+       * If you have built an organization-specific login page, you can use the
+       * organization's SSO Identity Provider UUID directly instead.
+       */
+      async signInWithSSO(params) {
+        var _a, _b, _c;
+        try {
+          await this._removeSession();
+          let codeChallenge = null;
+          let codeChallengeMethod = null;
+          if (this.flowType === "pkce") {
+            const codeVerifier = generatePKCEVerifier();
+            await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, codeVerifier);
+            codeChallenge = await generatePKCEChallenge(codeVerifier);
+            codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
+          }
+          return await _request(this.fetch, "POST", `${this.url}/sso`, {
+            body: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, "providerId" in params ? { provider_id: params.providerId } : null), "domain" in params ? { domain: params.domain } : null), { redirect_to: (_b = (_a = params.options) === null || _a === void 0 ? void 0 : _a.redirectTo) !== null && _b !== void 0 ? _b : void 0 }), ((_c = params === null || params === void 0 ? void 0 : params.options) === null || _c === void 0 ? void 0 : _c.captchaToken) ? { gotrue_meta_security: { captcha_token: params.options.captchaToken } } : null), { skip_http_redirect: true, code_challenge: codeChallenge, code_challenge_method: codeChallengeMethod }),
+            headers: this.headers,
+            xform: _ssoResponse
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Sends a reauthentication OTP to the user's email or phone number.
+       * Requires the user to be signed-in.
+       */
+      async reauthenticate() {
+        await this.initializePromise;
+        return await this._acquireLock(-1, async () => {
+          return await this._reauthenticate();
+        });
+      }
+      async _reauthenticate() {
+        try {
+          return await this._useSession(async (result) => {
+            const { data: { session }, error: sessionError } = result;
+            if (sessionError)
+              throw sessionError;
+            if (!session)
+              throw new AuthSessionMissingError();
+            const { error } = await _request(this.fetch, "GET", `${this.url}/reauthenticate`, {
+              headers: this.headers,
+              jwt: session.access_token
+            });
+            return { data: { user: null, session: null }, error };
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Resends an existing signup confirmation email, email change email, SMS OTP or phone change OTP.
+       */
+      async resend(credentials) {
+        try {
+          if (credentials.type != "email_change" && credentials.type != "phone_change") {
+            await this._removeSession();
+          }
+          const endpoint = `${this.url}/resend`;
+          if ("email" in credentials) {
+            const { email, type, options: options2 } = credentials;
+            const { error } = await _request(this.fetch, "POST", endpoint, {
+              headers: this.headers,
+              body: {
+                email,
+                type,
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
+              },
+              redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.emailRedirectTo
+            });
+            return { data: { user: null, session: null }, error };
+          } else if ("phone" in credentials) {
+            const { phone, type, options: options2 } = credentials;
+            const { data, error } = await _request(this.fetch, "POST", endpoint, {
+              headers: this.headers,
+              body: {
+                phone,
+                type,
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
+              }
+            });
+            return { data: { user: null, session: null, messageId: data === null || data === void 0 ? void 0 : data.message_id }, error };
+          }
+          throw new AuthInvalidCredentialsError("You must provide either an email or phone number and a type");
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Returns the session, refreshing it if necessary.
+       * The session returned can be null if the session is not detected which can happen in the event a user is not signed-in or has logged out.
+       */
+      async getSession() {
+        await this.initializePromise;
+        return this._acquireLock(-1, async () => {
+          return this._useSession(async (result) => {
+            return result;
+          });
+        });
+      }
+      /**
+       * Acquires a global lock based on the storage key.
+       */
+      async _acquireLock(acquireTimeout, fn) {
+        this._debug("#_acquireLock", "begin", acquireTimeout);
+        try {
+          if (this.lockAcquired) {
+            const last = this.pendingInLock.length ? this.pendingInLock[this.pendingInLock.length - 1] : Promise.resolve();
+            const result = (async () => {
+              await last;
+              return await fn();
+            })();
+            this.pendingInLock.push((async () => {
+              try {
+                await result;
+              } catch (e) {
+              }
+            })());
+            return result;
+          }
+          return await this.lock(`lock:${this.storageKey}`, acquireTimeout, async () => {
+            this._debug("#_acquireLock", "lock acquired for storage key", this.storageKey);
+            try {
+              this.lockAcquired = true;
+              const result = fn();
+              this.pendingInLock.push((async () => {
+                try {
+                  await result;
+                } catch (e) {
+                }
+              })());
+              await result;
+              while (this.pendingInLock.length) {
+                const waitOn = [...this.pendingInLock];
+                await Promise.all(waitOn);
+                this.pendingInLock.splice(0, waitOn.length);
+              }
+              return await result;
+            } finally {
+              this._debug("#_acquireLock", "lock released for storage key", this.storageKey);
+              this.lockAcquired = false;
+            }
+          });
+        } finally {
+          this._debug("#_acquireLock", "end");
+        }
+      }
+      /**
+       * Use instead of {@link #getSession} inside the library. It is
+       * semantically usually what you want, as getting a session involves some
+       * processing afterwards that requires only one client operating on the
+       * session at once across multiple tabs or processes.
+       */
+      async _useSession(fn) {
+        this._debug("#_useSession", "begin");
+        try {
+          const result = await this.__loadSession();
+          return await fn(result);
+        } finally {
+          this._debug("#_useSession", "end");
+        }
+      }
+      /**
+       * NEVER USE DIRECTLY!
+       *
+       * Always use {@link #_useSession}.
+       */
+      async __loadSession() {
+        this._debug("#__loadSession()", "begin");
+        if (!this.lockAcquired) {
+          this._debug("#__loadSession()", "used outside of an acquired lock!", new Error().stack);
+        }
+        try {
+          let currentSession = null;
+          const maybeSession = await getItemAsync(this.storage, this.storageKey);
+          this._debug("#getSession()", "session from storage", maybeSession);
+          if (maybeSession !== null) {
+            if (this._isValidSession(maybeSession)) {
+              currentSession = maybeSession;
+            } else {
+              this._debug("#getSession()", "session from storage is not valid");
+              await this._removeSession();
+            }
+          }
+          if (!currentSession) {
+            return { data: { session: null }, error: null };
+          }
+          const hasExpired = currentSession.expires_at ? currentSession.expires_at <= Date.now() / 1e3 : false;
+          this._debug("#__loadSession()", `session has${hasExpired ? "" : " not"} expired`, "expires_at", currentSession.expires_at);
+          if (!hasExpired) {
+            return { data: { session: currentSession }, error: null };
+          }
+          const { session, error } = await this._callRefreshToken(currentSession.refresh_token);
+          if (error) {
+            return { data: { session: null }, error };
+          }
+          return { data: { session }, error: null };
+        } finally {
+          this._debug("#__loadSession()", "end");
+        }
+      }
+      /**
+       * Gets the current user details if there is an existing session.
+       * @param jwt Takes in an optional access token jwt. If no jwt is provided, getUser() will attempt to get the jwt from the current session.
+       */
+      async getUser(jwt) {
+        if (jwt) {
+          return await this._getUser(jwt);
+        }
+        await this.initializePromise;
+        return this._acquireLock(-1, async () => {
+          return await this._getUser();
+        });
+      }
+      async _getUser(jwt) {
+        try {
+          if (jwt) {
+            return await _request(this.fetch, "GET", `${this.url}/user`, {
+              headers: this.headers,
+              jwt,
+              xform: _userResponse
+            });
+          }
+          return await this._useSession(async (result) => {
+            var _a, _b;
+            const { data, error } = result;
+            if (error) {
+              throw error;
+            }
+            return await _request(this.fetch, "GET", `${this.url}/user`, {
+              headers: this.headers,
+              jwt: (_b = (_a = data.session) === null || _a === void 0 ? void 0 : _a.access_token) !== null && _b !== void 0 ? _b : void 0,
+              xform: _userResponse
+            });
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Updates user data for a logged in user.
+       */
+      async updateUser(attributes, options2 = {}) {
+        await this.initializePromise;
+        return await this._acquireLock(-1, async () => {
+          return await this._updateUser(attributes, options2);
+        });
+      }
+      async _updateUser(attributes, options2 = {}) {
+        try {
+          return await this._useSession(async (result) => {
+            const { data: sessionData, error: sessionError } = result;
+            if (sessionError) {
+              throw sessionError;
+            }
+            if (!sessionData.session) {
+              throw new AuthSessionMissingError();
+            }
+            const session = sessionData.session;
+            let codeChallenge = null;
+            let codeChallengeMethod = null;
+            if (this.flowType === "pkce" && attributes.email != null) {
+              const codeVerifier = generatePKCEVerifier();
+              await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, codeVerifier);
+              codeChallenge = await generatePKCEChallenge(codeVerifier);
+              codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
+            }
+            const { data, error: userError } = await _request(this.fetch, "PUT", `${this.url}/user`, {
+              headers: this.headers,
+              redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.emailRedirectTo,
+              body: Object.assign(Object.assign({}, attributes), { code_challenge: codeChallenge, code_challenge_method: codeChallengeMethod }),
+              jwt: session.access_token,
+              xform: _userResponse
+            });
+            if (userError)
+              throw userError;
+            session.user = data.user;
+            await this._saveSession(session);
+            await this._notifyAllSubscribers("USER_UPDATED", session);
+            return { data: { user: session.user }, error: null };
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Decodes a JWT (without performing any validation).
+       */
+      _decodeJWT(jwt) {
+        return decodeJWTPayload(jwt);
+      }
+      /**
+       * Sets the session data from the current session. If the current session is expired, setSession will take care of refreshing it to obtain a new session.
+       * If the refresh token or access token in the current session is invalid, an error will be thrown.
+       * @param currentSession The current session that minimally contains an access token and refresh token.
+       */
+      async setSession(currentSession) {
+        await this.initializePromise;
+        return await this._acquireLock(-1, async () => {
+          return await this._setSession(currentSession);
+        });
+      }
+      async _setSession(currentSession) {
+        try {
+          if (!currentSession.access_token || !currentSession.refresh_token) {
+            throw new AuthSessionMissingError();
+          }
+          const timeNow = Date.now() / 1e3;
+          let expiresAt2 = timeNow;
+          let hasExpired = true;
+          let session = null;
+          const payload = decodeJWTPayload(currentSession.access_token);
+          if (payload.exp) {
+            expiresAt2 = payload.exp;
+            hasExpired = expiresAt2 <= timeNow;
+          }
+          if (hasExpired) {
+            const { session: refreshedSession, error } = await this._callRefreshToken(currentSession.refresh_token);
+            if (error) {
+              return { data: { user: null, session: null }, error };
+            }
+            if (!refreshedSession) {
+              return { data: { user: null, session: null }, error: null };
+            }
+            session = refreshedSession;
+          } else {
+            const { data, error } = await this._getUser(currentSession.access_token);
+            if (error) {
+              throw error;
+            }
+            session = {
+              access_token: currentSession.access_token,
+              refresh_token: currentSession.refresh_token,
+              user: data.user,
+              token_type: "bearer",
+              expires_in: expiresAt2 - timeNow,
+              expires_at: expiresAt2
+            };
+            await this._saveSession(session);
+            await this._notifyAllSubscribers("SIGNED_IN", session);
+          }
+          return { data: { user: session.user, session }, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { session: null, user: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Returns a new session, regardless of expiry status.
+       * Takes in an optional current session. If not passed in, then refreshSession() will attempt to retrieve it from getSession().
+       * If the current session's refresh token is invalid, an error will be thrown.
+       * @param currentSession The current session. If passed in, it must contain a refresh token.
+       */
+      async refreshSession(currentSession) {
+        await this.initializePromise;
+        return await this._acquireLock(-1, async () => {
+          return await this._refreshSession(currentSession);
+        });
+      }
+      async _refreshSession(currentSession) {
+        try {
+          return await this._useSession(async (result) => {
+            var _a;
+            if (!currentSession) {
+              const { data, error: error2 } = result;
+              if (error2) {
+                throw error2;
+              }
+              currentSession = (_a = data.session) !== null && _a !== void 0 ? _a : void 0;
+            }
+            if (!(currentSession === null || currentSession === void 0 ? void 0 : currentSession.refresh_token)) {
+              throw new AuthSessionMissingError();
+            }
+            const { session, error } = await this._callRefreshToken(currentSession.refresh_token);
+            if (error) {
+              return { data: { user: null, session: null }, error };
+            }
+            if (!session) {
+              return { data: { user: null, session: null }, error: null };
+            }
+            return { data: { user: session.user, session }, error: null };
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Gets the session data from a URL string
+       */
+      async _getSessionFromURL(isPKCEFlow) {
+        try {
+          if (!isBrowser2())
+            throw new AuthImplicitGrantRedirectError("No browser detected.");
+          if (this.flowType === "implicit" && !this._isImplicitGrantFlow()) {
+            throw new AuthImplicitGrantRedirectError("Not a valid implicit grant flow url.");
+          } else if (this.flowType == "pkce" && !isPKCEFlow) {
+            throw new AuthPKCEGrantCodeExchangeError("Not a valid PKCE flow url.");
+          }
+          const params = parseParametersFromURL(window.location.href);
+          if (isPKCEFlow) {
+            if (!params.code)
+              throw new AuthPKCEGrantCodeExchangeError("No code detected.");
+            const { data: data2, error: error2 } = await this._exchangeCodeForSession(params.code);
+            if (error2)
+              throw error2;
+            const url = new URL(window.location.href);
+            url.searchParams.delete("code");
+            window.history.replaceState(window.history.state, "", url.toString());
+            return { data: { session: data2.session, redirectType: null }, error: null };
+          }
+          if (params.error || params.error_description || params.error_code) {
+            throw new AuthImplicitGrantRedirectError(params.error_description || "Error in URL with unspecified error_description", {
+              error: params.error || "unspecified_error",
+              code: params.error_code || "unspecified_code"
+            });
+          }
+          const { provider_token, provider_refresh_token, access_token, refresh_token, expires_in, expires_at, token_type } = params;
+          if (!access_token || !expires_in || !refresh_token || !token_type) {
+            throw new AuthImplicitGrantRedirectError("No session defined in URL");
+          }
+          const timeNow = Math.round(Date.now() / 1e3);
+          const expiresIn = parseInt(expires_in);
+          let expiresAt2 = timeNow + expiresIn;
+          if (expires_at) {
+            expiresAt2 = parseInt(expires_at);
+          }
+          const actuallyExpiresIn = expiresAt2 - timeNow;
+          if (actuallyExpiresIn * 1e3 <= AUTO_REFRESH_TICK_DURATION) {
+            console.warn(`@supabase/gotrue-js: Session as retrieved from URL expires in ${actuallyExpiresIn}s, should have been closer to ${expiresIn}s`);
+          }
+          const issuedAt = expiresAt2 - expiresIn;
+          if (timeNow - issuedAt >= 120) {
+            console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued over 120s ago, URL could be stale", issuedAt, expiresAt2, timeNow);
+          } else if (timeNow - issuedAt < 0) {
+            console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued in the future? Check the device clok for skew", issuedAt, expiresAt2, timeNow);
+          }
+          const { data, error } = await this._getUser(access_token);
+          if (error)
+            throw error;
+          const session = {
+            provider_token,
+            provider_refresh_token,
+            access_token,
+            expires_in: expiresIn,
+            expires_at: expiresAt2,
+            refresh_token,
+            token_type,
+            user: data.user
+          };
+          window.location.hash = "";
+          this._debug("#_getSessionFromURL()", "clearing window.location.hash");
+          return { data: { session, redirectType: params.type }, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { session: null, redirectType: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Checks if the current URL contains parameters given by an implicit oauth grant flow (https://www.rfc-editor.org/rfc/rfc6749.html#section-4.2)
+       */
+      _isImplicitGrantFlow() {
+        const params = parseParametersFromURL(window.location.href);
+        return !!(isBrowser2() && (params.access_token || params.error_description));
+      }
+      /**
+       * Checks if the current URL and backing storage contain parameters given by a PKCE flow
+       */
+      async _isPKCEFlow() {
+        const params = parseParametersFromURL(window.location.href);
+        const currentStorageContent = await getItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+        return !!(params.code && currentStorageContent);
+      }
+      /**
+       * Inside a browser context, `signOut()` will remove the logged in user from the browser session and log them out - removing all items from localstorage and then trigger a `"SIGNED_OUT"` event.
+       *
+       * For server-side management, you can revoke all refresh tokens for a user by passing a user's JWT through to `auth.api.signOut(JWT: string)`.
+       * There is no way to revoke a user's access token jwt until it expires. It is recommended to set a shorter expiry on the jwt for this reason.
+       *
+       * If using `others` scope, no `SIGNED_OUT` event is fired!
+       */
+      async signOut(options2 = { scope: "global" }) {
+        await this.initializePromise;
+        return await this._acquireLock(-1, async () => {
+          return await this._signOut(options2);
+        });
+      }
+      async _signOut({ scope } = { scope: "global" }) {
+        return await this._useSession(async (result) => {
+          var _a;
+          const { data, error: sessionError } = result;
+          if (sessionError) {
+            return { error: sessionError };
+          }
+          const accessToken = (_a = data.session) === null || _a === void 0 ? void 0 : _a.access_token;
+          if (accessToken) {
+            const { error } = await this.admin.signOut(accessToken, scope);
+            if (error) {
+              if (!(isAuthApiError(error) && (error.status === 404 || error.status === 401))) {
+                return { error };
+              }
+            }
+          }
+          if (scope !== "others") {
+            await this._removeSession();
+            await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+            await this._notifyAllSubscribers("SIGNED_OUT", null);
+          }
+          return { error: null };
+        });
+      }
+      /**
+       * Receive a notification every time an auth event happens.
+       * @param callback A callback function to be invoked when an auth event happens.
+       */
+      onAuthStateChange(callback) {
+        const id = uuid();
+        const subscription = {
+          id,
+          callback,
+          unsubscribe: () => {
+            this._debug("#unsubscribe()", "state change callback with id removed", id);
+            this.stateChangeEmitters.delete(id);
+          }
+        };
+        this._debug("#onAuthStateChange()", "registered callback with id", id);
+        this.stateChangeEmitters.set(id, subscription);
+        (async () => {
+          await this.initializePromise;
+          await this._acquireLock(-1, async () => {
+            this._emitInitialSession(id);
+          });
+        })();
+        return { data: { subscription } };
+      }
+      async _emitInitialSession(id) {
+        return await this._useSession(async (result) => {
+          var _a, _b;
+          try {
+            const { data: { session }, error } = result;
+            if (error)
+              throw error;
+            await ((_a = this.stateChangeEmitters.get(id)) === null || _a === void 0 ? void 0 : _a.callback("INITIAL_SESSION", session));
+            this._debug("INITIAL_SESSION", "callback id", id, "session", session);
+          } catch (err) {
+            await ((_b = this.stateChangeEmitters.get(id)) === null || _b === void 0 ? void 0 : _b.callback("INITIAL_SESSION", null));
+            this._debug("INITIAL_SESSION", "callback id", id, "error", err);
+            console.error(err);
+          }
+        });
+      }
+      /**
+       * Sends a password reset request to an email address. This method supports the PKCE flow.
+       *
+       * @param email The email address of the user.
+       * @param options.redirectTo The URL to send the user to after they click the password reset link.
+       * @param options.captchaToken Verification token received when the user completes the captcha on the site.
+       */
+      async resetPasswordForEmail(email, options2 = {}) {
+        let codeChallenge = null;
+        let codeChallengeMethod = null;
+        if (this.flowType === "pkce") {
+          const codeVerifier = generatePKCEVerifier();
+          await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, `${codeVerifier}/PASSWORD_RECOVERY`);
+          codeChallenge = await generatePKCEChallenge(codeVerifier);
+          codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
+        }
+        try {
+          return await _request(this.fetch, "POST", `${this.url}/recover`, {
+            body: {
+              email,
+              code_challenge: codeChallenge,
+              code_challenge_method: codeChallengeMethod,
+              gotrue_meta_security: { captcha_token: options2.captchaToken }
+            },
+            headers: this.headers,
+            redirectTo: options2.redirectTo
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Gets all the identities linked to a user.
+       */
+      async getUserIdentities() {
+        var _a;
+        try {
+          const { data, error } = await this.getUser();
+          if (error)
+            throw error;
+          return { data: { identities: (_a = data.user.identities) !== null && _a !== void 0 ? _a : [] }, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Links an oauth identity to an existing user.
+       * This method supports the PKCE flow.
+       */
+      async linkIdentity(credentials) {
+        var _a;
+        try {
+          const { data, error } = await this._useSession(async (result) => {
+            var _a2, _b, _c, _d, _e;
+            const { data: data2, error: error2 } = result;
+            if (error2)
+              throw error2;
+            const url = await this._getUrlForProvider(`${this.url}/user/identities/authorize`, credentials.provider, {
+              redirectTo: (_a2 = credentials.options) === null || _a2 === void 0 ? void 0 : _a2.redirectTo,
+              scopes: (_b = credentials.options) === null || _b === void 0 ? void 0 : _b.scopes,
+              queryParams: (_c = credentials.options) === null || _c === void 0 ? void 0 : _c.queryParams,
+              skipBrowserRedirect: true
+            });
+            return await _request(this.fetch, "GET", url, {
+              headers: this.headers,
+              jwt: (_e = (_d = data2.session) === null || _d === void 0 ? void 0 : _d.access_token) !== null && _e !== void 0 ? _e : void 0
+            });
+          });
+          if (error)
+            throw error;
+          if (isBrowser2() && !((_a = credentials.options) === null || _a === void 0 ? void 0 : _a.skipBrowserRedirect)) {
+            window.location.assign(data === null || data === void 0 ? void 0 : data.url);
+          }
+          return { data: { provider: credentials.provider, url: data === null || data === void 0 ? void 0 : data.url }, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { provider: credentials.provider, url: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Unlinks an identity from a user by deleting it. The user will no longer be able to sign in with that identity once it's unlinked.
+       */
+      async unlinkIdentity(identity2) {
+        try {
+          return await this._useSession(async (result) => {
+            var _a, _b;
+            const { data, error } = result;
+            if (error) {
+              throw error;
+            }
+            return await _request(this.fetch, "DELETE", `${this.url}/user/identities/${identity2.identity_id}`, {
+              headers: this.headers,
+              jwt: (_b = (_a = data.session) === null || _a === void 0 ? void 0 : _a.access_token) !== null && _b !== void 0 ? _b : void 0
+            });
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Generates a new JWT.
+       * @param refreshToken A valid refresh token that was returned on login.
+       */
+      async _refreshAccessToken(refreshToken) {
+        const debugName = `#_refreshAccessToken(${refreshToken.substring(0, 5)}...)`;
+        this._debug(debugName, "begin");
+        try {
+          const startedAt = Date.now();
+          return await retryable(async (attempt) => {
+            await sleep(attempt * 200);
+            this._debug(debugName, "refreshing attempt", attempt);
+            return await _request(this.fetch, "POST", `${this.url}/token?grant_type=refresh_token`, {
+              body: { refresh_token: refreshToken },
+              headers: this.headers,
+              xform: _sessionResponse
+            });
+          }, (attempt, _, result) => result && result.error && isAuthRetryableFetchError(result.error) && // retryable only if the request can be sent before the backoff overflows the tick duration
+          Date.now() + (attempt + 1) * 200 - startedAt < AUTO_REFRESH_TICK_DURATION);
+        } catch (error) {
+          this._debug(debugName, "error", error);
+          if (isAuthError(error)) {
+            return { data: { session: null, user: null }, error };
+          }
+          throw error;
+        } finally {
+          this._debug(debugName, "end");
+        }
+      }
+      _isValidSession(maybeSession) {
+        const isValidSession = typeof maybeSession === "object" && maybeSession !== null && "access_token" in maybeSession && "refresh_token" in maybeSession && "expires_at" in maybeSession;
+        return isValidSession;
+      }
+      async _handleProviderSignIn(provider, options2) {
+        const url = await this._getUrlForProvider(`${this.url}/authorize`, provider, {
+          redirectTo: options2.redirectTo,
+          scopes: options2.scopes,
+          queryParams: options2.queryParams
+        });
+        this._debug("#_handleProviderSignIn()", "provider", provider, "options", options2, "url", url);
+        if (isBrowser2() && !options2.skipBrowserRedirect) {
+          window.location.assign(url);
+        }
+        return { data: { provider, url }, error: null };
+      }
+      /**
+       * Recovers the session from LocalStorage and refreshes
+       * Note: this method is async to accommodate for AsyncStorage e.g. in React native.
+       */
+      async _recoverAndRefresh() {
+        var _a;
+        const debugName = "#_recoverAndRefresh()";
+        this._debug(debugName, "begin");
+        try {
+          const currentSession = await getItemAsync(this.storage, this.storageKey);
+          this._debug(debugName, "session from storage", currentSession);
+          if (!this._isValidSession(currentSession)) {
+            this._debug(debugName, "session is not valid");
+            if (currentSession !== null) {
+              await this._removeSession();
+            }
+            return;
+          }
+          const timeNow = Math.round(Date.now() / 1e3);
+          const expiresWithMargin = ((_a = currentSession.expires_at) !== null && _a !== void 0 ? _a : Infinity) < timeNow + EXPIRY_MARGIN;
+          this._debug(debugName, `session has${expiresWithMargin ? "" : " not"} expired with margin of ${EXPIRY_MARGIN}s`);
+          if (expiresWithMargin) {
+            if (this.autoRefreshToken && currentSession.refresh_token) {
+              const { error } = await this._callRefreshToken(currentSession.refresh_token);
+              if (error) {
+                console.error(error);
+                if (!isAuthRetryableFetchError(error)) {
+                  this._debug(debugName, "refresh failed with a non-retryable error, removing the session", error);
+                  await this._removeSession();
+                }
+              }
+            }
+          } else {
+            await this._notifyAllSubscribers("SIGNED_IN", currentSession);
+          }
+        } catch (err) {
+          this._debug(debugName, "error", err);
+          console.error(err);
+          return;
+        } finally {
+          this._debug(debugName, "end");
+        }
+      }
+      async _callRefreshToken(refreshToken) {
+        var _a, _b;
+        if (!refreshToken) {
+          throw new AuthSessionMissingError();
+        }
+        if (this.refreshingDeferred) {
+          return this.refreshingDeferred.promise;
+        }
+        const debugName = `#_callRefreshToken(${refreshToken.substring(0, 5)}...)`;
+        this._debug(debugName, "begin");
+        try {
+          this.refreshingDeferred = new Deferred();
+          const { data, error } = await this._refreshAccessToken(refreshToken);
+          if (error)
+            throw error;
+          if (!data.session)
+            throw new AuthSessionMissingError();
+          await this._saveSession(data.session);
+          await this._notifyAllSubscribers("TOKEN_REFRESHED", data.session);
+          const result = { session: data.session, error: null };
+          this.refreshingDeferred.resolve(result);
+          return result;
+        } catch (error) {
+          this._debug(debugName, "error", error);
+          if (isAuthError(error)) {
+            const result = { session: null, error };
+            if (!isAuthRetryableFetchError(error)) {
+              await this._removeSession();
+              await this._notifyAllSubscribers("SIGNED_OUT", null);
+            }
+            (_a = this.refreshingDeferred) === null || _a === void 0 ? void 0 : _a.resolve(result);
+            return result;
+          }
+          (_b = this.refreshingDeferred) === null || _b === void 0 ? void 0 : _b.reject(error);
+          throw error;
+        } finally {
+          this.refreshingDeferred = null;
+          this._debug(debugName, "end");
+        }
+      }
+      async _notifyAllSubscribers(event, session, broadcast = true) {
+        const debugName = `#_notifyAllSubscribers(${event})`;
+        this._debug(debugName, "begin", session, `broadcast = ${broadcast}`);
+        try {
+          if (this.broadcastChannel && broadcast) {
+            this.broadcastChannel.postMessage({ event, session });
+          }
+          const errors = [];
+          const promises = Array.from(this.stateChangeEmitters.values()).map(async (x) => {
+            try {
+              await x.callback(event, session);
+            } catch (e) {
+              errors.push(e);
+            }
+          });
+          await Promise.all(promises);
+          if (errors.length > 0) {
+            for (let i = 0; i < errors.length; i += 1) {
+              console.error(errors[i]);
+            }
+            throw errors[0];
+          }
+        } finally {
+          this._debug(debugName, "end");
+        }
+      }
+      /**
+       * set currentSession and currentUser
+       * process to _startAutoRefreshToken if possible
+       */
+      async _saveSession(session) {
+        this._debug("#_saveSession()", session);
+        await setItemAsync(this.storage, this.storageKey, session);
+      }
+      async _removeSession() {
+        this._debug("#_removeSession()");
+        await removeItemAsync(this.storage, this.storageKey);
+      }
+      /**
+       * Removes any registered visibilitychange callback.
+       *
+       * {@see #startAutoRefresh}
+       * {@see #stopAutoRefresh}
+       */
+      _removeVisibilityChangedCallback() {
+        this._debug("#_removeVisibilityChangedCallback()");
+        const callback = this.visibilityChangedCallback;
+        this.visibilityChangedCallback = null;
+        try {
+          if (callback && isBrowser2() && (window === null || window === void 0 ? void 0 : window.removeEventListener)) {
+            window.removeEventListener("visibilitychange", callback);
+          }
+        } catch (e) {
+          console.error("removing visibilitychange callback failed", e);
+        }
+      }
+      /**
+       * This is the private implementation of {@link #startAutoRefresh}. Use this
+       * within the library.
+       */
+      async _startAutoRefresh() {
+        await this._stopAutoRefresh();
+        this._debug("#_startAutoRefresh()");
+        const ticker = setInterval(() => this._autoRefreshTokenTick(), AUTO_REFRESH_TICK_DURATION);
+        this.autoRefreshTicker = ticker;
+        if (ticker && typeof ticker === "object" && typeof ticker.unref === "function") {
+          ticker.unref();
+        } else if (typeof Deno !== "undefined" && typeof Deno.unrefTimer === "function") {
+          Deno.unrefTimer(ticker);
+        }
+        setTimeout(async () => {
+          await this.initializePromise;
+          await this._autoRefreshTokenTick();
+        }, 0);
+      }
+      /**
+       * This is the private implementation of {@link #stopAutoRefresh}. Use this
+       * within the library.
+       */
+      async _stopAutoRefresh() {
+        this._debug("#_stopAutoRefresh()");
+        const ticker = this.autoRefreshTicker;
+        this.autoRefreshTicker = null;
+        if (ticker) {
+          clearInterval(ticker);
+        }
+      }
+      /**
+       * Starts an auto-refresh process in the background. The session is checked
+       * every few seconds. Close to the time of expiration a process is started to
+       * refresh the session. If refreshing fails it will be retried for as long as
+       * necessary.
+       *
+       * If you set the {@link GoTrueClientOptions#autoRefreshToken} you don't need
+       * to call this function, it will be called for you.
+       *
+       * On browsers the refresh process works only when the tab/window is in the
+       * foreground to conserve resources as well as prevent race conditions and
+       * flooding auth with requests. If you call this method any managed
+       * visibility change callback will be removed and you must manage visibility
+       * changes on your own.
+       *
+       * On non-browser platforms the refresh process works *continuously* in the
+       * background, which may not be desirable. You should hook into your
+       * platform's foreground indication mechanism and call these methods
+       * appropriately to conserve resources.
+       *
+       * {@see #stopAutoRefresh}
+       */
+      async startAutoRefresh() {
+        this._removeVisibilityChangedCallback();
+        await this._startAutoRefresh();
+      }
+      /**
+       * Stops an active auto refresh process running in the background (if any).
+       *
+       * If you call this method any managed visibility change callback will be
+       * removed and you must manage visibility changes on your own.
+       *
+       * See {@link #startAutoRefresh} for more details.
+       */
+      async stopAutoRefresh() {
+        this._removeVisibilityChangedCallback();
+        await this._stopAutoRefresh();
+      }
+      /**
+       * Runs the auto refresh token tick.
+       */
+      async _autoRefreshTokenTick() {
+        this._debug("#_autoRefreshTokenTick()", "begin");
+        try {
+          await this._acquireLock(0, async () => {
+            try {
+              const now = Date.now();
+              try {
+                return await this._useSession(async (result) => {
+                  const { data: { session } } = result;
+                  if (!session || !session.refresh_token || !session.expires_at) {
+                    this._debug("#_autoRefreshTokenTick()", "no session");
+                    return;
+                  }
+                  const expiresInTicks = Math.floor((session.expires_at * 1e3 - now) / AUTO_REFRESH_TICK_DURATION);
+                  this._debug("#_autoRefreshTokenTick()", `access token expires in ${expiresInTicks} ticks, a tick lasts ${AUTO_REFRESH_TICK_DURATION}ms, refresh threshold is ${AUTO_REFRESH_TICK_THRESHOLD} ticks`);
+                  if (expiresInTicks <= AUTO_REFRESH_TICK_THRESHOLD) {
+                    await this._callRefreshToken(session.refresh_token);
+                  }
+                });
+              } catch (e) {
+                console.error("Auto refresh tick failed with error. This is likely a transient error.", e);
+              }
+            } finally {
+              this._debug("#_autoRefreshTokenTick()", "end");
+            }
+          });
+        } catch (e) {
+          if (e.isAcquireTimeout || e instanceof LockAcquireTimeoutError) {
+            this._debug("auto refresh token tick lock not available");
+          } else {
+            throw e;
+          }
+        }
+      }
+      /**
+       * Registers callbacks on the browser / platform, which in-turn run
+       * algorithms when the browser window/tab are in foreground. On non-browser
+       * platforms it assumes always foreground.
+       */
+      async _handleVisibilityChange() {
+        this._debug("#_handleVisibilityChange()");
+        if (!isBrowser2() || !(window === null || window === void 0 ? void 0 : window.addEventListener)) {
+          if (this.autoRefreshToken) {
+            this.startAutoRefresh();
+          }
+          return false;
+        }
+        try {
+          this.visibilityChangedCallback = async () => await this._onVisibilityChanged(false);
+          window === null || window === void 0 ? void 0 : window.addEventListener("visibilitychange", this.visibilityChangedCallback);
+          await this._onVisibilityChanged(true);
+        } catch (error) {
+          console.error("_handleVisibilityChange", error);
+        }
+      }
+      /**
+       * Callback registered with `window.addEventListener('visibilitychange')`.
+       */
+      async _onVisibilityChanged(calledFromInitialize) {
+        const methodName = `#_onVisibilityChanged(${calledFromInitialize})`;
+        this._debug(methodName, "visibilityState", document.visibilityState);
+        if (document.visibilityState === "visible") {
+          if (this.autoRefreshToken) {
+            this._startAutoRefresh();
+          }
+          if (!calledFromInitialize) {
+            await this.initializePromise;
+            await this._acquireLock(-1, async () => {
+              if (document.visibilityState !== "visible") {
+                this._debug(methodName, "acquired the lock to recover the session, but the browser visibilityState is no longer visible, aborting");
+                return;
+              }
+              await this._recoverAndRefresh();
+            });
+          }
+        } else if (document.visibilityState === "hidden") {
+          if (this.autoRefreshToken) {
+            this._stopAutoRefresh();
+          }
+        }
+      }
+      /**
+       * Generates the relevant login URL for a third-party provider.
+       * @param options.redirectTo A URL or mobile address to send the user to after they are confirmed.
+       * @param options.scopes A space-separated list of scopes granted to the OAuth application.
+       * @param options.queryParams An object of key-value pairs containing query parameters granted to the OAuth application.
+       */
+      async _getUrlForProvider(url, provider, options2) {
+        const urlParams = [`provider=${encodeURIComponent(provider)}`];
+        if (options2 === null || options2 === void 0 ? void 0 : options2.redirectTo) {
+          urlParams.push(`redirect_to=${encodeURIComponent(options2.redirectTo)}`);
+        }
+        if (options2 === null || options2 === void 0 ? void 0 : options2.scopes) {
+          urlParams.push(`scopes=${encodeURIComponent(options2.scopes)}`);
+        }
+        if (this.flowType === "pkce") {
+          const codeVerifier = generatePKCEVerifier();
+          await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, codeVerifier);
+          const codeChallenge = await generatePKCEChallenge(codeVerifier);
+          const codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
+          this._debug("PKCE", "code verifier", `${codeVerifier.substring(0, 5)}...`, "code challenge", codeChallenge, "method", codeChallengeMethod);
+          const flowParams = new URLSearchParams({
+            code_challenge: `${encodeURIComponent(codeChallenge)}`,
+            code_challenge_method: `${encodeURIComponent(codeChallengeMethod)}`
+          });
+          urlParams.push(flowParams.toString());
+        }
+        if (options2 === null || options2 === void 0 ? void 0 : options2.queryParams) {
+          const query = new URLSearchParams(options2.queryParams);
+          urlParams.push(query.toString());
+        }
+        if (options2 === null || options2 === void 0 ? void 0 : options2.skipBrowserRedirect) {
+          urlParams.push(`skip_http_redirect=${options2.skipBrowserRedirect}`);
+        }
+        return `${url}?${urlParams.join("&")}`;
+      }
+      async _unenroll(params) {
+        try {
+          return await this._useSession(async (result) => {
+            var _a;
+            const { data: sessionData, error: sessionError } = result;
+            if (sessionError) {
+              return { data: null, error: sessionError };
+            }
+            return await _request(this.fetch, "DELETE", `${this.url}/factors/${params.factorId}`, {
+              headers: this.headers,
+              jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
+            });
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * {@see GoTrueMFAApi#enroll}
+       */
+      async _enroll(params) {
+        try {
+          return await this._useSession(async (result) => {
+            var _a, _b;
+            const { data: sessionData, error: sessionError } = result;
+            if (sessionError) {
+              return { data: null, error: sessionError };
+            }
+            const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors`, {
+              body: {
+                friendly_name: params.friendlyName,
+                factor_type: params.factorType,
+                issuer: params.issuer
+              },
+              headers: this.headers,
+              jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
+            });
+            if (error) {
+              return { data: null, error };
+            }
+            if ((_b = data === null || data === void 0 ? void 0 : data.totp) === null || _b === void 0 ? void 0 : _b.qr_code) {
+              data.totp.qr_code = `data:image/svg+xml;utf-8,${data.totp.qr_code}`;
+            }
+            return { data, error: null };
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * {@see GoTrueMFAApi#verify}
+       */
+      async _verify(params) {
+        return this._acquireLock(-1, async () => {
+          try {
+            return await this._useSession(async (result) => {
+              var _a;
+              const { data: sessionData, error: sessionError } = result;
+              if (sessionError) {
+                return { data: null, error: sessionError };
+              }
+              const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors/${params.factorId}/verify`, {
+                body: { code: params.code, challenge_id: params.challengeId },
+                headers: this.headers,
+                jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
+              });
+              if (error) {
+                return { data: null, error };
+              }
+              await this._saveSession(Object.assign({ expires_at: Math.round(Date.now() / 1e3) + data.expires_in }, data));
+              await this._notifyAllSubscribers("MFA_CHALLENGE_VERIFIED", data);
+              return { data, error };
+            });
+          } catch (error) {
+            if (isAuthError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * {@see GoTrueMFAApi#challenge}
+       */
+      async _challenge(params) {
+        return this._acquireLock(-1, async () => {
+          try {
+            return await this._useSession(async (result) => {
+              var _a;
+              const { data: sessionData, error: sessionError } = result;
+              if (sessionError) {
+                return { data: null, error: sessionError };
+              }
+              return await _request(this.fetch, "POST", `${this.url}/factors/${params.factorId}/challenge`, {
+                headers: this.headers,
+                jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
+              });
+            });
+          } catch (error) {
+            if (isAuthError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * {@see GoTrueMFAApi#challengeAndVerify}
+       */
+      async _challengeAndVerify(params) {
+        const { data: challengeData, error: challengeError } = await this._challenge({
+          factorId: params.factorId
+        });
+        if (challengeError) {
+          return { data: null, error: challengeError };
+        }
+        return await this._verify({
+          factorId: params.factorId,
+          challengeId: challengeData.id,
+          code: params.code
+        });
+      }
+      /**
+       * {@see GoTrueMFAApi#listFactors}
+       */
+      async _listFactors() {
+        const { data: { user }, error: userError } = await this.getUser();
+        if (userError) {
+          return { data: null, error: userError };
+        }
+        const factors = (user === null || user === void 0 ? void 0 : user.factors) || [];
+        const totp = factors.filter((factor) => factor.factor_type === "totp" && factor.status === "verified");
+        return {
+          data: {
+            all: factors,
+            totp
+          },
+          error: null
+        };
+      }
+      /**
+       * {@see GoTrueMFAApi#getAuthenticatorAssuranceLevel}
+       */
+      async _getAuthenticatorAssuranceLevel() {
+        return this._acquireLock(-1, async () => {
+          return await this._useSession(async (result) => {
+            var _a, _b;
+            const { data: { session }, error: sessionError } = result;
+            if (sessionError) {
+              return { data: null, error: sessionError };
+            }
+            if (!session) {
+              return {
+                data: { currentLevel: null, nextLevel: null, currentAuthenticationMethods: [] },
+                error: null
+              };
+            }
+            const payload = this._decodeJWT(session.access_token);
+            let currentLevel = null;
+            if (payload.aal) {
+              currentLevel = payload.aal;
+            }
+            let nextLevel = currentLevel;
+            const verifiedFactors = (_b = (_a = session.user.factors) === null || _a === void 0 ? void 0 : _a.filter((factor) => factor.status === "verified")) !== null && _b !== void 0 ? _b : [];
+            if (verifiedFactors.length > 0) {
+              nextLevel = "aal2";
+            }
+            const currentAuthenticationMethods = payload.amr || [];
+            return { data: { currentLevel, nextLevel, currentAuthenticationMethods }, error: null };
+          });
+        });
+      }
+    };
+    GoTrueClient.nextInstanceID = 0;
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/AuthAdminApi.js
+var init_AuthAdminApi = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/AuthAdminApi.js"() {
+    init_GoTrueAdminApi();
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/AuthClient.js
+var init_AuthClient = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/AuthClient.js"() {
+    init_GoTrueClient();
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/types.js
+var init_types3 = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/types.js"() {
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/index.js
+var init_module5 = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/index.js"() {
+    init_GoTrueAdminApi();
+    init_GoTrueClient();
+    init_AuthAdminApi();
+    init_AuthClient();
+    init_types3();
+    init_errors2();
+    init_locks();
+  }
+});
+
+// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/SupabaseAuthClient.js
+var SupabaseAuthClient;
+var init_SupabaseAuthClient = __esm({
+  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/SupabaseAuthClient.js"() {
+    init_module5();
+    SupabaseAuthClient = class extends GoTrueClient {
+      constructor(options2) {
+        super(options2);
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js
+var __awaiter7, SupabaseClient;
+var init_SupabaseClient = __esm({
+  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js"() {
+    init_module();
+    init_module2();
+    init_module3();
+    init_module4();
+    init_constants4();
+    init_fetch2();
+    init_helpers2();
+    init_SupabaseAuthClient();
+    __awaiter7 = function(thisArg, _arguments, P2, generator) {
+      function adopt(value) {
+        return value instanceof P2 ? value : new P2(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator["throw"](value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    SupabaseClient = class {
+      /**
+       * Create a new client for use in the browser.
+       * @param supabaseUrl The unique Supabase URL which is supplied when you create a new project in your project dashboard.
+       * @param supabaseKey The unique Supabase Key which is supplied when you create a new project in your project dashboard.
+       * @param options.db.schema You can switch in between schemas. The schema needs to be on the list of exposed schemas inside Supabase.
+       * @param options.auth.autoRefreshToken Set to "true" if you want to automatically refresh the token before expiring.
+       * @param options.auth.persistSession Set to "true" if you want to automatically save the user session into local storage.
+       * @param options.auth.detectSessionInUrl Set to "true" if you want to automatically detects OAuth grants in the URL and signs in the user.
+       * @param options.realtime Options passed along to realtime-js constructor.
+       * @param options.global.fetch A custom fetch implementation.
+       * @param options.global.headers Any additional headers to send with each network request.
+       */
+      constructor(supabaseUrl, supabaseKey, options2) {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
+        this.supabaseUrl = supabaseUrl;
+        this.supabaseKey = supabaseKey;
+        if (!supabaseUrl)
+          throw new Error("supabaseUrl is required.");
+        if (!supabaseKey)
+          throw new Error("supabaseKey is required.");
+        const _supabaseUrl = stripTrailingSlash(supabaseUrl);
+        this.realtimeUrl = `${_supabaseUrl}/realtime/v1`.replace(/^http/i, "ws");
+        this.authUrl = `${_supabaseUrl}/auth/v1`;
+        this.storageUrl = `${_supabaseUrl}/storage/v1`;
+        this.functionsUrl = `${_supabaseUrl}/functions/v1`;
+        const defaultStorageKey = `sb-${new URL(this.authUrl).hostname.split(".")[0]}-auth-token`;
+        const DEFAULTS = {
+          db: DEFAULT_DB_OPTIONS,
+          realtime: DEFAULT_REALTIME_OPTIONS,
+          auth: Object.assign(Object.assign({}, DEFAULT_AUTH_OPTIONS), { storageKey: defaultStorageKey }),
+          global: DEFAULT_GLOBAL_OPTIONS
+        };
+        const settings = applySettingDefaults(options2 !== null && options2 !== void 0 ? options2 : {}, DEFAULTS);
+        this.storageKey = (_b = (_a = settings.auth) === null || _a === void 0 ? void 0 : _a.storageKey) !== null && _b !== void 0 ? _b : "";
+        this.headers = (_d = (_c = settings.global) === null || _c === void 0 ? void 0 : _c.headers) !== null && _d !== void 0 ? _d : {};
+        this.auth = this._initSupabaseAuthClient((_e = settings.auth) !== null && _e !== void 0 ? _e : {}, this.headers, (_f = settings.global) === null || _f === void 0 ? void 0 : _f.fetch);
+        this.fetch = fetchWithAuth(supabaseKey, this._getAccessToken.bind(this), (_g = settings.global) === null || _g === void 0 ? void 0 : _g.fetch);
+        this.realtime = this._initRealtimeClient(Object.assign({ headers: this.headers }, settings.realtime));
+        this.rest = new PostgrestClient(`${_supabaseUrl}/rest/v1`, {
+          headers: this.headers,
+          schema: (_h = settings.db) === null || _h === void 0 ? void 0 : _h.schema,
+          fetch: this.fetch
+        });
+        this._listenForAuthEvents();
+      }
+      /**
+       * Supabase Functions allows you to deploy and invoke edge functions.
+       */
+      get functions() {
+        return new FunctionsClient(this.functionsUrl, {
+          headers: this.headers,
+          customFetch: this.fetch
+        });
+      }
+      /**
+       * Supabase Storage allows you to manage user-generated content, such as photos or videos.
+       */
+      get storage() {
+        return new StorageClient(this.storageUrl, this.headers, this.fetch);
+      }
+      /**
+       * Perform a query on a table or a view.
+       *
+       * @param relation - The table or view name to query
+       */
+      from(relation) {
+        return this.rest.from(relation);
+      }
+      // NOTE: signatures must be kept in sync with PostgrestClient.schema
+      /**
+       * Select a schema to query or perform an function (rpc) call.
+       *
+       * The schema needs to be on the list of exposed schemas inside Supabase.
+       *
+       * @param schema - The schema to query
+       */
+      schema(schema) {
+        return this.rest.schema(schema);
+      }
+      // NOTE: signatures must be kept in sync with PostgrestClient.rpc
+      /**
+       * Perform a function call.
+       *
+       * @param fn - The function name to call
+       * @param args - The arguments to pass to the function call
+       * @param options - Named parameters
+       * @param options.head - When set to `true`, `data` will not be returned.
+       * Useful if you only need the count.
+       * @param options.count - Count algorithm to use to count rows returned by the
+       * function. Only applicable for [set-returning
+       * functions](https://www.postgresql.org/docs/current/functions-srf.html).
+       *
+       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+       * hood.
+       *
+       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+       * statistics under the hood.
+       *
+       * `"estimated"`: Uses exact count for low numbers and planned count for high
+       * numbers.
+       */
+      rpc(fn, args = {}, options2 = {}) {
+        return this.rest.rpc(fn, args, options2);
+      }
+      /**
+       * Creates a Realtime channel with Broadcast, Presence, and Postgres Changes.
+       *
+       * @param {string} name - The name of the Realtime channel.
+       * @param {Object} opts - The options to pass to the Realtime channel.
+       *
+       */
+      channel(name2, opts = { config: {} }) {
+        return this.realtime.channel(name2, opts);
+      }
+      /**
+       * Returns all Realtime channels.
+       */
+      getChannels() {
+        return this.realtime.getChannels();
+      }
+      /**
+       * Unsubscribes and removes Realtime channel from Realtime client.
+       *
+       * @param {RealtimeChannel} channel - The name of the Realtime channel.
+       *
+       */
+      removeChannel(channel) {
+        return this.realtime.removeChannel(channel);
+      }
+      /**
+       * Unsubscribes and removes all Realtime channels from Realtime client.
+       */
+      removeAllChannels() {
+        return this.realtime.removeAllChannels();
+      }
+      _getAccessToken() {
+        var _a, _b;
+        return __awaiter7(this, void 0, void 0, function* () {
+          const { data } = yield this.auth.getSession();
+          return (_b = (_a = data.session) === null || _a === void 0 ? void 0 : _a.access_token) !== null && _b !== void 0 ? _b : null;
+        });
+      }
+      _initSupabaseAuthClient({ autoRefreshToken, persistSession, detectSessionInUrl, storage: storage2, storageKey, flowType, debug }, headers2, fetch3) {
+        const authHeaders = {
+          Authorization: `Bearer ${this.supabaseKey}`,
+          apikey: `${this.supabaseKey}`
+        };
+        return new SupabaseAuthClient({
+          url: this.authUrl,
+          headers: Object.assign(Object.assign({}, authHeaders), headers2),
+          storageKey,
+          autoRefreshToken,
+          persistSession,
+          detectSessionInUrl,
+          storage: storage2,
+          flowType,
+          debug,
+          fetch: fetch3
+        });
+      }
+      _initRealtimeClient(options2) {
+        return new RealtimeClient(this.realtimeUrl, Object.assign(Object.assign({}, options2), { params: Object.assign({ apikey: this.supabaseKey }, options2 === null || options2 === void 0 ? void 0 : options2.params) }));
+      }
+      _listenForAuthEvents() {
+        let data = this.auth.onAuthStateChange((event, session) => {
+          this._handleTokenChanged(event, "CLIENT", session === null || session === void 0 ? void 0 : session.access_token);
+        });
+        return data;
+      }
+      _handleTokenChanged(event, source, token) {
+        if ((event === "TOKEN_REFRESHED" || event === "SIGNED_IN") && this.changedAccessToken !== token) {
+          this.realtime.setAuth(token !== null && token !== void 0 ? token : null);
+          this.changedAccessToken = token;
+        } else if (event === "SIGNED_OUT") {
+          this.realtime.setAuth(this.supabaseKey);
+          if (source == "STORAGE")
+            this.auth.signOut();
+          this.changedAccessToken = void 0;
+        }
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/index.js
+var createClient;
+var init_module6 = __esm({
+  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/index.js"() {
+    init_SupabaseClient();
+    init_module5();
+    init_module3();
+    createClient = (supabaseUrl, supabaseKey, options2) => {
+      return new SupabaseClient(supabaseUrl, supabaseKey, options2);
+    };
+  }
+});
+
+// .svelte-kit/output/server/chunks/supabaseClient.js
+var supabase, supabase$1;
+var init_supabaseClient = __esm({
+  ".svelte-kit/output/server/chunks/supabaseClient.js"() {
+    init_module6();
+    if (false) {
+      console.log("using production env");
+      supabase = createClient(
+        "https://noejjknzqcfnwzgrpfdi.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vZWpqa256cWNmbnd6Z3JwZmRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc0ODMyNDQsImV4cCI6MjAyMzA1OTI0NH0.pEqKPgopedqGbawDnrNssT_RjZBhr-IJoUx_9uWWv1c"
+      );
+    } else {
+      console.log("using dev env");
+      supabase = createClient(
+        "http://127.0.0.1:54321",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0"
+      );
+    }
+    supabase$1 = supabase;
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/produkte/_layout.ts.js
+var layout_ts_exports2 = {};
+__export(layout_ts_exports2, {
+  load: () => load2
+});
+async function fetchCategories() {
+  if (!cachedCategories) {
+    console.log("getting Categories from supabase");
+    const { data: categories2 } = await supabase$1.from("productcategories").select("*").order("name");
+    console.log("speichere Katgorien im Cache um zuk\xFCnftige Anfragen zu beschleunigen");
+    cachedCategories = categories2;
+    return categories2;
+  }
+  console.log("Getting Categories from Cache");
+  return cachedCategories;
+}
+async function load2() {
+  const { count } = await supabase$1.from("products").select("*", { count: "exact", head: true });
+  const categories2 = await fetchCategories();
+  return {
+    count,
+    categories: categories2
+  };
+}
+var cachedCategories;
+var init_layout_ts2 = __esm({
+  ".svelte-kit/output/server/entries/pages/produkte/_layout.ts.js"() {
+    init_supabaseClient();
+    cachedCategories = null;
+    console.log("Produkt Layout wird initialisiert...");
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/produkte/_layout.svelte.js
+var layout_svelte_exports3 = {};
+__export(layout_svelte_exports3, {
+  default: () => Layout3
+});
+var Hashtags, Layout3;
+var init_layout_svelte3 = __esm({
+  ".svelte-kit/output/server/entries/pages/produkte/_layout.svelte.js"() {
+    init_ssr();
+    init_supabaseClient();
+    Hashtags = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let topHashTags = [];
+      return `<div class="bg-red-200 mt-10 p-3"><h2 data-svelte-h="svelte-1dglh44">Nicht das passende Produkt gefunden? W\xE4hle einen der folgenden beliebten Hashtags:</h2> <div class="col columns-3 md:columns-6 text-xs">${each(topHashTags, ({ tag, anzahl, hashtag_id }) => {
+        return `<a href="${"/produkte/hashtag/" + escape(hashtag_id, true)}"><div class="border-2 mt-1 md:p-1 md:m-1 bg-red-50 border-red-300">${escape(tag)} (${escape(anzahl)})</div> </a>`;
+      })}</div></div>`;
+    });
+    Layout3 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let { data } = $$props;
+      if ($$props.data === void 0 && $$bindings.data && data !== void 0)
+        $$bindings.data(data);
+      return `<div class="w-full p-3 text-xs bg-yellow-200 hover:bg-lime-300">${escape(data.count)} Produkte in der Datenbank gefunden. Bitte w\xE4hlen Sie eine Kategorie aus um Ihr Produkt schneller zu finden.</div> <div class="mb-5"><div><nav><div class="grid grid-cols-4 md:grid-cols-6 m-5 gap-3 ">${each(data.categories, (category) => {
+        return `<a href="${"/produkte/cat/" + escape(category.category_id, true)}"><div class="w-full p-1 text-xs bg-green-100 hover:bg-yellow-300">${category.name === "Oele" ? `\xD6le` : `${escape(category.name)}`}</div> </a>`;
+      })}</div></nav></div> ${slots.default ? slots.default({}) : ``} ${validate_component(Hashtags, "Hashtags").$$render($$result, {}, {}, {})}</div>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/3.js
+var __exports4 = {};
+__export(__exports4, {
+  component: () => component4,
+  fonts: () => fonts4,
+  imports: () => imports4,
+  index: () => index4,
+  stylesheets: () => stylesheets4,
+  universal: () => layout_ts_exports2,
+  universal_id: () => universal_id3
+});
+var index4, component_cache4, component4, universal_id3, imports4, stylesheets4, fonts4;
+var init__4 = __esm({
+  ".svelte-kit/output/server/nodes/3.js"() {
+    init_layout_ts2();
+    index4 = 3;
+    component4 = async () => component_cache4 ?? (component_cache4 = (await Promise.resolve().then(() => (init_layout_svelte3(), layout_svelte_exports3))).default);
+    universal_id3 = "src/routes/produkte/+layout.ts";
+    imports4 = ["_app/immutable/nodes/3.B99SOute.js", "_app/immutable/chunks/supabaseClient.CItD8zm_.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/getHashtags.BLyjUpLK.js"];
+    stylesheets4 = [];
+    fonts4 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/_page.svelte.js
+var page_svelte_exports = {};
+__export(page_svelte_exports, {
+  default: () => Page
+});
+var Button2, Page;
+var init_page_svelte = __esm({
+  ".svelte-kit/output/server/entries/pages/_page.svelte.js"() {
+    init_ssr();
+    Button2 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let { text: text2 = "text" } = $$props;
+      let { href = "#" } = $$props;
+      if ($$props.text === void 0 && $$bindings.text && text2 !== void 0)
+        $$bindings.text(text2);
+      if ($$props.href === void 0 && $$bindings.href && href !== void 0)
+        $$bindings.href(href);
+      return `<a${add_attribute("href", href, 0)} class="hover:no-underline"><div class="bg-cyan-700 text-teal-200 rounded-lg w-48 h-16 p-1 m-1 md:p-2 md:m-2 text-center justify-center items-center hover:bg-teal-200 hover:text-cyan-700 font-semibold shadow">${escape(text2)}</div> </a>`;
+    });
+    Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      return `<div class="p-3 space-y-5"><h1 class="" data-svelte-h="svelte-9q72nw">Willkommen auf cdl-protokolle.com</h1> <h2 data-svelte-h="svelte-f7aopr">Ihrer Quelle f\xFCr hochwertige Gesundheitsinformationen und wertvolle Tipps f\xFCr ein gesundes Leben!</h2> <div data-svelte-h="svelte-1uk3885">Wir freuen uns, Sie auf unserer Website begr\xFC\xDFen zu d\xFCrfen, wo wir Ihnen kostenlosen Zugang zu Leseproben aus einer Vielzahl erstklassiger Gesundheitsb\xFCcher bieten. Bei uns finden Sie zahlreiche Ratschl\xE4ge und Informationen, wie Sie Ihre Gesundheit verbessern und erhalten k\xF6nnen \u2013 und das alles ohne den Einsatz von Pharma-Medizin.</div> <div data-svelte-h="svelte-1cx01e6">Die Idee zu dieser Website entstand aus der gleichnamigen <a href="https://t.me/cdl_protokolle">Telegram-Gruppe</a>, in der wir zahlreiche Informationen sammeln und diskutieren. Unser Ziel ist es, diese Informationen noch besser zu organisieren und aufzubereiten, um sie Ihnen leicht zug\xE4nglich zu machen. Wir laden Sie herzlich ein, auch Mitglied unserer Telegram-Gruppe zu werden, um sich aktiv mit Gleichgesinnten auszutauschen und von weiteren Informationen zu profitieren. Sie k\xF6nnen der Gruppe unter folgendem Link beitreten: https://t.me/cdl_protokolle.</div> <div data-svelte-h="svelte-co2pvt">Tauchen Sie ein in die Welt der ganzheitlichen Gesundheit und entdecken Sie, wie Sie Ihr Wohlbefinden auf nat\xFCrliche Weise f\xF6rdern k\xF6nnen. Unsere Website bietet Ihnen eine F\xFClle von Ressourcen, um Ihnen auf Ihrem Weg zu einem ges\xFCnderen Lebensstil zu helfen. Viel Spa\xDF beim Lesen und Entdecken!</div> <div class="flex flex-col md:flex-row justify-center pl-20 md:pl-0">${validate_component(Button2, "Button").$$render(
+        $$result,
+        {
+          text: "CDL Protokolle Telegram",
+          href: "https://t.me/cdl_protokolle"
+        },
+        {},
+        {}
+      )} ${validate_component(Button2, "Button").$$render(
+        $$result,
+        {
+          text: "B\xFCcher der alternativen Medizin",
+          href: "/buecher/"
+        },
+        {},
+        {}
+      )}</div></div>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/4.js
+var __exports5 = {};
+__export(__exports5, {
+  component: () => component5,
+  fonts: () => fonts5,
+  imports: () => imports5,
+  index: () => index5,
+  stylesheets: () => stylesheets5
+});
+var index5, component_cache5, component5, imports5, stylesheets5, fonts5;
+var init__5 = __esm({
+  ".svelte-kit/output/server/nodes/4.js"() {
+    index5 = 4;
+    component5 = async () => component_cache5 ?? (component_cache5 = (await Promise.resolve().then(() => (init_page_svelte(), page_svelte_exports))).default);
+    imports5 = ["_app/immutable/nodes/4.BBtCh7Uo.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.BnyCCVNm.js"];
+    stylesheets5 = [];
+    fonts5 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/buecher/_page.server.js
+var page_server_exports = {};
+__export(page_server_exports, {
+  load: () => load3
+});
+async function load3() {
+  const title = "Buchempfehlungen. W\xE4hle eine der Kategorien um schneller das passende Buch zu finden. ";
+  const { data } = await supabase$1.from("books").select().eq("active", true);
+  return {
+    title,
+    streamed: {
+      books: data
+    }
+  };
+}
+var init_page_server = __esm({
+  ".svelte-kit/output/server/entries/pages/buecher/_page.server.js"() {
+    init_supabaseClient();
+  }
+});
+
+// .svelte-kit/output/server/chunks/book.js
+function getImg(filename, id, folder) {
+  let img = "";
+  const path = `/images/${folder}/`;
+  if (!filename)
+    img = path + "no_cover.jpeg";
+  else
+    img = path + id + "/" + filename;
+  return img;
+}
+var Book;
+var init_book = __esm({
+  ".svelte-kit/output/server/chunks/book.js"() {
+    init_ssr();
+    Book = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let { book = { id: 0, img: "", title: "" } } = $$props;
+      if ($$props.book === void 0 && $$bindings.book && book !== void 0)
+        $$bindings.book(book);
+      return `<div class="w-full h-[300px] "><div class="pt-2 overflow-auto"><a${add_attribute("href", `/buecher/${book.id}`, 0)}><img class="mx-auto" width="150"${add_attribute("src", getImg(book.img, book.id, "books"), 0)}${add_attribute("alt", book.title, 0)}></a> <div class="p-3"><a${add_attribute("href", `/buecher/${book.id}`, 0)}>${escape(book.title)}</a></div></div></div>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/chunks/Spinner.js
+var Spinner;
+var init_Spinner = __esm({
+  ".svelte-kit/output/server/chunks/Spinner.js"() {
+    init_ssr();
+    init_bundle_mjs();
+    Spinner = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let $$restProps = compute_rest_props($$props, ["color", "bg", "customColor", "size", "currentFill", "currentColor"]);
+      let { color = "primary" } = $$props;
+      let { bg = "text-gray-300" } = $$props;
+      let { customColor = "" } = $$props;
+      let { size = "8" } = $$props;
+      let { currentFill = "currentFill" } = $$props;
+      let { currentColor = "currentColor" } = $$props;
+      let iconsize = `w-${size} h-${size}`;
+      if (currentFill !== "currentFill") {
+        color = void 0;
+      }
+      const fillColorClasses = {
+        primary: "fill-primary-600",
+        blue: "fill-blue-600",
+        gray: "fill-gray-600 dark:fill-gray-300",
+        green: "fill-green-500",
+        red: "fill-red-600",
+        yellow: "fill-yellow-400",
+        pink: "fill-pink-600",
+        purple: "fill-purple-600",
+        white: "fill-white",
+        custom: customColor
+      };
+      let fillColorClass = color === void 0 ? "" : fillColorClasses[color] ?? fillColorClasses.blue;
+      if ($$props.color === void 0 && $$bindings.color && color !== void 0)
+        $$bindings.color(color);
+      if ($$props.bg === void 0 && $$bindings.bg && bg !== void 0)
+        $$bindings.bg(bg);
+      if ($$props.customColor === void 0 && $$bindings.customColor && customColor !== void 0)
+        $$bindings.customColor(customColor);
+      if ($$props.size === void 0 && $$bindings.size && size !== void 0)
+        $$bindings.size(size);
+      if ($$props.currentFill === void 0 && $$bindings.currentFill && currentFill !== void 0)
+        $$bindings.currentFill(currentFill);
+      if ($$props.currentColor === void 0 && $$bindings.currentColor && currentColor !== void 0)
+        $$bindings.currentColor(currentColor);
+      return `<svg${spread(
+        [
+          escape_object($$restProps),
+          { role: "status" },
+          {
+            class: escape_attribute_value(twMerge("inline -mt-px animate-spin dark:text-gray-600", iconsize, bg, fillColorClass, $$props.class))
+          },
+          { viewBox: "0 0 100 101" },
+          { fill: "none" },
+          { xmlns: "http://www.w3.org/2000/svg" }
+        ],
+        {}
+      )}><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"${add_attribute("fill", currentColor, 0)}></path><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"${add_attribute("fill", currentFill, 0)}></path></svg> `;
+    });
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/buecher/_page.svelte.js
+var page_svelte_exports2 = {};
+__export(page_svelte_exports2, {
+  default: () => Page2
+});
+var Page2;
+var init_page_svelte2 = __esm({
+  ".svelte-kit/output/server/entries/pages/buecher/_page.svelte.js"() {
+    init_ssr();
+    init_book();
+    init_Spinner();
+    Page2 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let { data } = $$props;
+      if ($$props.data === void 0 && $$bindings.data && data !== void 0)
+        $$bindings.data(data);
+      return `<div class="px-2 m-2 border-2 "><h2>${escape(data.title)}</h2></div> <ul class="grid grid-cols-2 md:grid-cols-3">${function(__value) {
+        if (is_promise(__value)) {
+          __value.then(null, noop);
+          return ` ${validate_component(Spinner, "Spinner").$$render($$result, {}, {}, {})} loading books ...
+      `;
+        }
+        return function(books) {
+          return ` ${each(books, (book) => {
+            return `<li class="my-2">${validate_component(Book, "Book").$$render(
+              $$result,
+              {
+                book: {
+                  id: book.id,
+                  title: book.title,
+                  img: book.img
+                }
+              },
+              {},
+              {}
+            )}</li>`;
+          })} `;
+        }(__value);
+      }(data.streamed.books)}</ul>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/5.js
+var __exports6 = {};
+__export(__exports6, {
+  component: () => component6,
+  fonts: () => fonts6,
+  imports: () => imports6,
+  index: () => index6,
+  server: () => page_server_exports,
+  server_id: () => server_id,
+  stylesheets: () => stylesheets6
+});
+var index6, component_cache6, component6, server_id, imports6, stylesheets6, fonts6;
+var init__6 = __esm({
+  ".svelte-kit/output/server/nodes/5.js"() {
+    init_page_server();
+    index6 = 5;
+    component6 = async () => component_cache6 ?? (component_cache6 = (await Promise.resolve().then(() => (init_page_svelte2(), page_svelte_exports2))).default);
+    server_id = "src/routes/buecher/+page.server.js";
+    imports6 = ["_app/immutable/nodes/5.DvrSRW0m.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/await_block.b95zegdE.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/book.DozPUM9A.js", "_app/immutable/chunks/Spinner.BMfSgHGW.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
+    stylesheets6 = [];
+    fonts6 = [];
+  }
+});
+
+// .svelte-kit/output/server/chunks/books.js
+async function getBookIdsFromHashtagIds(hashtagIds) {
+  let similarBooksIds = [];
+  const { data: bookIds, error } = await supabase$1.from("books_hashtags").select("book_id").in("hashtag_id", hashtagIds);
+  if (error)
+    ;
+  else {
+    similarBooksIds = [...new Set(bookIds.map((row) => row.book_id))];
+  }
+  return similarBooksIds;
+}
+async function getBookIdsFromCatId(catId) {
+  let catBookIds = [];
+  const { data: bookIds, error } = await supabase$1.from("books_categories").select("book_id").eq("category_id", catId);
+  if (error) {
+    console.log("Fehler beim Abrufen der BookIds(catId)");
+  } else {
+    console.log("Keine Fehler");
+    catBookIds = [...new Set(bookIds.map((row) => row.book_id))];
+  }
+  return catBookIds;
+}
+async function getCategoryNameById(catId) {
+  console.log("funktion call getCategoryNameById");
+  const { data } = await supabase$1.from("categories").select("name").eq("id", catId);
+  console.log("data ", data);
+  return data[0].name;
+}
+async function getBooksFromIds(ids) {
+  const { data, error: books_err } = await supabase$1.from("books").select().in("id", ids);
+  if (books_err) {
+    return null;
+  } else {
+    return data;
+  }
+}
+async function getBookCategories() {
+  const { data, error: categories_err } = await supabase$1.from("categories").select();
+  if (categories_err) {
+    console.log("Fehler in der Abfrage");
+    return null;
+  } else {
+    return data;
+  }
+}
+var init_books = __esm({
+  ".svelte-kit/output/server/chunks/books.js"() {
+    init_supabaseClient();
+  }
+});
+
+// .svelte-kit/output/server/chunks/getHashtags.js
+async function getHashtag(id) {
+  const { data, error } = await supabase$1.from("hashtags").select("tag").eq("id", id).limit(1).single();
+  if (error) {
+    throw new Error("Fehler beim Abrufen des Hashtag Namens: " + error.message);
+  }
+  return data;
+}
+async function getHashtagIds(bookId) {
+  const { data: hashtagsData, error } = await supabase$1.from("books_hashtags").select("hashtag_id").eq("book_id", bookId);
+  if (error) {
+    throw new Error("Fehler beim Abrufen der Hashtags: " + error.message);
+  }
+  const hashtagIds = hashtagsData.map((row) => row.hashtag_id);
+  return hashtagIds;
+}
+async function hashtagIdsToText(hashtagIds) {
+  const { data: hashtags, error: hashtagError } = await supabase$1.from("hashtags").select("tag").in("id", hashtagIds);
+  if (hashtagError) {
+    throw new Error("Fehler beim Abrufen der Hashtags: " + hashtagError.message);
+  }
+  return hashtags;
+}
+var init_getHashtags = __esm({
+  ".svelte-kit/output/server/chunks/getHashtags.js"() {
+    init_supabaseClient();
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/buecher/_bookId_/_page.js
+var page_exports = {};
+__export(page_exports, {
+  load: () => load4
+});
+async function getBookDetails(bookId) {
+  try {
+    const { data } = await supabase$1.from("books").select("*").eq("id", bookId).limit(1).single();
+    return { data };
+  } catch (error) {
+    return {};
+  }
+}
+async function getBooklinks(bookid) {
+  try {
+    const { data } = await supabase$1.from("booklinks").select("label, link").eq("book_id", bookid);
+    return data;
+  } catch (error) {
+    return {};
+  }
+}
+async function load4({ params }) {
+  let buchid = parseInt(params.bookId);
+  let { data } = await getBookDetails(buchid);
+  let hashtagIds = await getHashtagIds(buchid);
+  let booklist = await getBookIdsFromHashtagIds(hashtagIds);
+  return {
+    data,
+    streamed: {
+      links: getBooklinks(buchid),
+      similarBooks: getBooksFromIds(booklist),
+      hashtags: hashtagIdsToText(hashtagIds)
+    }
+  };
+}
+var init_page = __esm({
+  ".svelte-kit/output/server/entries/pages/buecher/_bookId_/_page.js"() {
+    init_supabaseClient();
+    init_books();
+    init_getHashtags();
+  }
+});
+
 // .svelte-kit/output/server/chunks/Frame.js
 var Frame;
 var init_Frame = __esm({
@@ -5056,7 +12507,7 @@ var init_Frame = __esm({
     init_bundle_mjs();
     Frame = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let $$restProps = compute_rest_props($$props, ["tag", "color", "rounded", "border", "shadow", "node", "use", "options", "role"]);
-      const noop2 = () => {
+      const noop4 = () => {
       };
       setContext("background", true);
       let { tag = $$restProps.href ? "a" : "div" } = $$props;
@@ -5065,7 +12516,7 @@ var init_Frame = __esm({
       let { border = false } = $$props;
       let { shadow = false } = $$props;
       let { node = void 0 } = $$props;
-      let { use = noop2 } = $$props;
+      let { use = noop4 } = $$props;
       let { options: options2 = {} } = $$props;
       let { role = void 0 } = $$props;
       const bgColors = {
@@ -5166,13 +12617,441 @@ var init_Frame = __esm({
   }
 });
 
-// .svelte-kit/output/server/entries/pages/cdl-protokolle/_page.svelte.js
-var page_svelte_exports = {};
-__export(page_svelte_exports, {
-  default: () => Page
+// .svelte-kit/output/server/entries/pages/buecher/_bookId_/_page.svelte.js
+var page_svelte_exports3 = {};
+__export(page_svelte_exports3, {
+  default: () => Page3
 });
-var Accordion, AccordionItem, telegram, Fraguns, css$r, A, css$q, Ai, css$p, B, css$o, C, css$n, D, css$m, E, css$l, F, css$k, G, css$j, H, css$i, I, css$h, J, css$g, K, css$f, L, css$e, M, css$d, N, css$c, O, css$b, P, css$a, Pzwei, css$9, Q, css$8, R, css$7, S, css$6, T, css$5, U, css$4, V, css$3, W, css$2, X, css$1, Y, css2, Z, Page;
-var init_page_svelte = __esm({
+function fade(node, { delay = 0, duration = 400, easing = identity } = {}) {
+  const o = +getComputedStyle(node).opacity;
+  return {
+    delay,
+    duration,
+    easing,
+    css: (t) => `opacity: ${t * o}`
+  };
+}
+var TransitionFrame, ToolbarButton, CloseButton, baseClass, Badge, Page3;
+var init_page_svelte3 = __esm({
+  ".svelte-kit/output/server/entries/pages/buecher/_bookId_/_page.svelte.js"() {
+    init_ssr();
+    init_Frame();
+    init_bundle_mjs();
+    init_Button();
+    init_Spinner();
+    init_book();
+    TransitionFrame = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let $$restProps = compute_rest_props($$props, ["transition", "params", "open", "dismissable"]);
+      let { transition = fade } = $$props;
+      let { params = {} } = $$props;
+      let { open = true } = $$props;
+      let { dismissable = false } = $$props;
+      const dispatch = createEventDispatcher();
+      function close(ev) {
+        if (ev?.stopPropagation)
+          ev.stopPropagation();
+        open = false;
+      }
+      if ($$props.transition === void 0 && $$bindings.transition && transition !== void 0)
+        $$bindings.transition(transition);
+      if ($$props.params === void 0 && $$bindings.params && params !== void 0)
+        $$bindings.params(params);
+      if ($$props.open === void 0 && $$bindings.open && open !== void 0)
+        $$bindings.open(open);
+      if ($$props.dismissable === void 0 && $$bindings.dismissable && dismissable !== void 0)
+        $$bindings.dismissable(dismissable);
+      {
+        dispatch(open ? "open" : "close");
+      }
+      return `${dismissable ? `${open ? `<div>${validate_component(Frame, "Frame").$$render($$result, Object.assign({}, $$restProps), {}, {
+        default: () => {
+          return `${slots.default ? slots.default({ close }) : ``}`;
+        }
+      })}</div>` : ``}` : `${open ? `${validate_component(Frame, "Frame").$$render($$result, Object.assign({}, $$restProps), {}, {
+        default: () => {
+          return `${slots.default ? slots.default({}) : ``}`;
+        }
+      })}` : ``}`} `;
+    });
+    ToolbarButton = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let $$restProps = compute_rest_props($$props, ["color", "name", "ariaLabel", "size", "href"]);
+      const background = getContext("background");
+      let { color = "default" } = $$props;
+      let { name: name2 = void 0 } = $$props;
+      let { ariaLabel = void 0 } = $$props;
+      let { size = "md" } = $$props;
+      let { href = void 0 } = $$props;
+      const colors = {
+        dark: "text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600",
+        gray: "text-gray-500 focus:ring-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800 dark:hover:text-gray-300",
+        red: "text-red-500 focus:ring-red-400 hover:bg-red-200 dark:hover:bg-red-800 dark:hover:text-red-300",
+        yellow: "text-yellow-500 focus:ring-yellow-400 hover:bg-yellow-200 dark:hover:bg-yellow-800 dark:hover:text-yellow-300",
+        green: "text-green-500 focus:ring-green-400 hover:bg-green-200 dark:hover:bg-green-800 dark:hover:text-green-300",
+        indigo: "text-indigo-500 focus:ring-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-800 dark:hover:text-indigo-300",
+        purple: "text-purple-500 focus:ring-purple-400 hover:bg-purple-200 dark:hover:bg-purple-800 dark:hover:text-purple-300",
+        pink: "text-pink-500 focus:ring-pink-400 hover:bg-pink-200 dark:hover:bg-pink-800 dark:hover:text-pink-300",
+        blue: "text-blue-500 focus:ring-blue-400 hover:bg-blue-200 dark:hover:bg-blue-800 dark:hover:text-blue-300",
+        primary: "text-primary-500 focus:ring-primary-400 hover:bg-primary-200 dark:hover:bg-primary-800 dark:hover:text-primary-300",
+        default: "focus:ring-gray-400"
+      };
+      const sizing = {
+        xs: "m-0.5 rounded-sm focus:ring-1 p-0.5",
+        sm: "m-0.5 rounded focus:ring-1 p-0.5",
+        md: "m-0.5 rounded-lg focus:ring-2 p-1.5",
+        lg: "m-0.5 rounded-lg focus:ring-2 p-2.5"
+      };
+      let buttonClass;
+      const svgSizes = {
+        xs: "w-3 h-3",
+        sm: "w-3.5 h-3.5",
+        md: "w-5 h-5",
+        lg: "w-5 h-5"
+      };
+      if ($$props.color === void 0 && $$bindings.color && color !== void 0)
+        $$bindings.color(color);
+      if ($$props.name === void 0 && $$bindings.name && name2 !== void 0)
+        $$bindings.name(name2);
+      if ($$props.ariaLabel === void 0 && $$bindings.ariaLabel && ariaLabel !== void 0)
+        $$bindings.ariaLabel(ariaLabel);
+      if ($$props.size === void 0 && $$bindings.size && size !== void 0)
+        $$bindings.size(size);
+      if ($$props.href === void 0 && $$bindings.href && href !== void 0)
+        $$bindings.href(href);
+      buttonClass = twMerge(
+        "focus:outline-none whitespace-normal",
+        sizing[size],
+        colors[color],
+        color === "default" && (background ? "hover:bg-gray-100 dark:hover:bg-gray-600" : "hover:bg-gray-100 dark:hover:bg-gray-700"),
+        $$props.class
+      );
+      return `${href ? `<a${spread(
+        [
+          { href: escape_attribute_value(href) },
+          escape_object($$restProps),
+          {
+            class: escape_attribute_value(buttonClass)
+          },
+          {
+            "aria-label": escape_attribute_value(ariaLabel ?? name2)
+          }
+        ],
+        {}
+      )}>${name2 ? `<span class="sr-only">${escape(name2)}</span>` : ``} ${slots.default ? slots.default({ svgSize: svgSizes[size] }) : ``}</a>` : `<button${spread(
+        [
+          { type: "button" },
+          escape_object($$restProps),
+          {
+            class: escape_attribute_value(buttonClass)
+          },
+          {
+            "aria-label": escape_attribute_value(ariaLabel ?? name2)
+          }
+        ],
+        {}
+      )}>${name2 ? `<span class="sr-only">${escape(name2)}</span>` : ``} ${slots.default ? slots.default({ svgSize: svgSizes[size] }) : ``}</button>`} `;
+    });
+    CloseButton = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let $$restProps = compute_rest_props($$props, ["name"]);
+      let { name: name2 = "Close" } = $$props;
+      if ($$props.name === void 0 && $$bindings.name && name2 !== void 0)
+        $$bindings.name(name2);
+      return `${validate_component(ToolbarButton, "ToolbarButton").$$render($$result, Object.assign({}, { name: name2 }, $$restProps, { class: twMerge("ms-auto", $$props.class) }), {}, {
+        default: ({ svgSize }) => {
+          return `<svg${add_attribute("class", svgSize, 0)} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>`;
+        }
+      })} `;
+    });
+    baseClass = "font-medium inline-flex items-center justify-center px-2.5 py-0.5";
+    Badge = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let $$restProps = compute_rest_props($$props, ["color", "large", "dismissable"]);
+      let { color = "primary" } = $$props;
+      let { large = false } = $$props;
+      let { dismissable = false } = $$props;
+      const colors = {
+        primary: "bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300",
+        blue: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
+        dark: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300",
+        gray: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300",
+        red: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
+        green: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
+        yellow: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
+        indigo: "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300",
+        purple: "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300",
+        pink: "bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300",
+        none: ""
+      };
+      const borderedColors = {
+        primary: "bg-primary-100 text-primary-800 dark:bg-gray-700 dark:text-primary-400 border-primary-400 dark:border-primary-400",
+        blue: "bg-blue-100 text-blue-800 dark:bg-gray-700 dark:text-blue-400 border-blue-400 dark:border-blue-400",
+        dark: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-400 border-gray-500 dark:border-gray-500",
+        red: "bg-red-100 text-red-800 dark:bg-gray-700 dark:text-red-400 border-red-400 dark:border-red-400",
+        green: "bg-green-100 text-green-800 dark:bg-gray-700 dark:text-green-400 border-green-400 dark:border-green-400",
+        yellow: "bg-yellow-100 text-yellow-800 dark:bg-gray-700 dark:text-yellow-300 border-yellow-300 dark:border-yellow-300",
+        indigo: "bg-indigo-100 text-indigo-800 dark:bg-gray-700 dark:text-indigo-400 border-indigo-400 dark:border-indigo-400",
+        purple: "bg-purple-100 text-purple-800 dark:bg-gray-700 dark:text-purple-400 border-purple-400 dark:border-purple-400",
+        pink: "bg-pink-100 text-pink-800 dark:bg-gray-700 dark:text-pink-400 border-pink-400 dark:border-pink-400",
+        none: ""
+      };
+      const hoverColors = {
+        primary: "hover:bg-primary-200",
+        blue: "hover:bg-blue-200",
+        dark: "hover:bg-gray-200",
+        red: "hover:bg-red-200",
+        green: "hover:bg-green-200",
+        yellow: "hover:bg-yellow-200",
+        indigo: "hover:bg-indigo-200",
+        purple: "hover:bg-purple-200",
+        pink: "hover:bg-pink-200",
+        none: ""
+      };
+      let badgeClass;
+      if ($$props.color === void 0 && $$bindings.color && color !== void 0)
+        $$bindings.color(color);
+      if ($$props.large === void 0 && $$bindings.large && large !== void 0)
+        $$bindings.large(large);
+      if ($$props.dismissable === void 0 && $$bindings.dismissable && dismissable !== void 0)
+        $$bindings.dismissable(dismissable);
+      badgeClass = twMerge(
+        baseClass,
+        large ? "text-sm" : "text-xs",
+        $$restProps.border ? `border ${borderedColors[color]}` : colors[color],
+        $$restProps.href && hoverColors[color],
+        $$restProps.rounded ? "rounded-full" : "rounded",
+        $$props.class
+      );
+      return `${validate_component(TransitionFrame, "TransitionFrame").$$render($$result, Object.assign({}, { dismissable }, $$restProps, { class: badgeClass }), {}, {
+        default: ({ close }) => {
+          return `${slots.default ? slots.default({}) : ``} ${dismissable ? `${slots["close-button"] ? slots["close-button"]({ close }) : ` ${validate_component(CloseButton, "CloseButton").$$render(
+            $$result,
+            {
+              color,
+              size: large ? "sm" : "xs",
+              name: "Remove badge",
+              class: "ms-1.5 -me-1.5"
+            },
+            {},
+            {}
+          )} `}` : ``}`;
+        }
+      })} `;
+    });
+    Page3 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let book;
+      let title;
+      let img;
+      let desc;
+      let { data } = $$props;
+      if ($$props.data === void 0 && $$bindings.data && data !== void 0)
+        $$bindings.data(data);
+      book = data.data;
+      title = book.title;
+      img = getImg(book.img[0], book.id, "books");
+      desc = book.desc;
+      return `<div class="w-full flex flex-row bg-gray-100 justify-center"><img class="py-10" width="400"${add_attribute("alt", title, 0)}${add_attribute("src", img, 0)}></div> <div class="bg-yellow-100"><h2 class="bg-yellow-300 p-2">${escape(title)}</h2> <div class="p-5"><!-- HTML_TAG_START -->${desc}<!-- HTML_TAG_END --></div> <div class="my-5 pb-10 flex flex-col items-center ">${function(__value) {
+        if (is_promise(__value)) {
+          __value.then(null, noop);
+          return ` <div class="loading">${validate_component(Spinner, "Spinner").$$render($$result, {}, {}, {})}
+                Loading Shops ...</div> `;
+        }
+        return function(links) {
+          return ` ${each(links, (link) => {
+            return `<a${add_attribute("href", link.link, 0)} target="_blank">${validate_component(Button, "Button").$$render($$result, { class: "text-lg mt-3", color: "green" }, {}, {
+              default: () => {
+                return `${escape(link.label)} \u{1F6D2}`;
+              }
+            })} </a>`;
+          })} `;
+        }(__value);
+      }(data.streamed.links)} <a href="${"https://www.amazon.de/gp/search?ie=UTF8&tag=jumex_online-21&linkCode=ur2&linkId=470bf27aa1feb315de9cb5f18b114f2f&camp=1638&creative=6742&index=books&keywords=" + escape(title, true)}" target="_blank"><img width="100" alt="Amazon Logo" src="/images/logos/Amazon.de-Logo.svg.png"></a> <a href="${"https://www.ebay.de/sch/i.html?_from=R40&_trksid=p4432023.m570.l1313&_nkw=" + escape(title, true) + "&_sacat=0"}" target="_blank"><img width="100" alt="Ebay Logo" src="/images/logos/EBay_logo.png"></a></div></div> <div class="bg-teal-100"><div class="p-2 w-full mt-5 bg-teal-300 text-lg font-bold text-center" data-svelte-h="svelte-ooggy2">Stichw\xF6rter:</div> <div class="p-5 flex flex-row justify-center ">${function(__value) {
+        if (is_promise(__value)) {
+          __value.then(null, noop);
+          return ` <div class="loading">${validate_component(Spinner, "Spinner").$$render($$result, {}, {}, {})}
+                    Loading hashtags ...</div> `;
+        }
+        return function(hashtags) {
+          return ` ${each(hashtags, (hashtag) => {
+            return `${validate_component(Badge, "Badge").$$render(
+              $$result,
+              {
+                class: "mx-3",
+                border: true,
+                color: "yellow"
+              },
+              {},
+              {
+                default: () => {
+                  return `#${escape(hashtag.tag)}`;
+                }
+              }
+            )}`;
+          })} `;
+        }(__value);
+      }(data.streamed.hashtags)}</div></div> <div class="bg-lime-100"><div class="w-full my-5 bg-lime-300 p-3 text-lg font-bold text-center" data-svelte-h="svelte-nfoxyh">\xC4hnliche B\xFCcher:</div> <ul class="grid grid-cols-2 md:grid-cols-3">${function(__value) {
+        if (is_promise(__value)) {
+          __value.then(null, noop);
+          return ` <div class="loading">${validate_component(Spinner, "Spinner").$$render($$result, {}, {}, {})}
+            Loading similar books ...</div> `;
+        }
+        return function(similarBooks) {
+          return ` ${each(similarBooks, (similarbook) => {
+            return `<li class="my-2">${validate_component(Book, "Book").$$render(
+              $$result,
+              {
+                book: {
+                  id: similarbook.id,
+                  title: similarbook.title,
+                  img: similarbook.img
+                }
+              },
+              {},
+              {}
+            )}</li>`;
+          })} `;
+        }(__value);
+      }(data.streamed.similarBooks)}</ul></div>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/6.js
+var __exports7 = {};
+__export(__exports7, {
+  component: () => component7,
+  fonts: () => fonts7,
+  imports: () => imports7,
+  index: () => index7,
+  stylesheets: () => stylesheets7,
+  universal: () => page_exports,
+  universal_id: () => universal_id4
+});
+var index7, component_cache7, component7, universal_id4, imports7, stylesheets7, fonts7;
+var init__7 = __esm({
+  ".svelte-kit/output/server/nodes/6.js"() {
+    init_page();
+    index7 = 6;
+    component7 = async () => component_cache7 ?? (component_cache7 = (await Promise.resolve().then(() => (init_page_svelte3(), page_svelte_exports3))).default);
+    universal_id4 = "src/routes/buecher/[bookId]/+page.js";
+    imports7 = ["_app/immutable/nodes/6.DPli3mkC.js", "_app/immutable/chunks/supabaseClient.CItD8zm_.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/books.CGIvvIdN.js", "_app/immutable/chunks/getHashtags.BLyjUpLK.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/await_block.b95zegdE.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/index.DrucrQ_l.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js", "_app/immutable/chunks/Button.BWb8FycM.js", "_app/immutable/chunks/Spinner.BMfSgHGW.js", "_app/immutable/chunks/book.DozPUM9A.js"];
+    stylesheets7 = [];
+    fonts7 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/buecher/cat/_catid_/_page.ts.js
+var page_ts_exports = {};
+__export(page_ts_exports, {
+  load: () => load5
+});
+async function load5({ params }) {
+  const catid = params.catid;
+  const bookIds = await getBookIdsFromCatId(parseInt(catid));
+  const catname = await getCategoryNameById(parseInt(catid));
+  const bookcategories = getBookCategories();
+  const title = catname + " B\xFCcher | cdl-protokolle.com";
+  const metaDescription = `Entdecken Sie eine Vielzahl von B\xFCchern auf cdl-protokolle.com`;
+  const data = { catid, catname, bookcategories, title, metaDescription };
+  return {
+    data,
+    streamed: {
+      books: getBooksFromIds(bookIds)
+    }
+  };
+}
+var init_page_ts = __esm({
+  ".svelte-kit/output/server/entries/pages/buecher/cat/_catid_/_page.ts.js"() {
+    init_books();
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/buecher/cat/_catid_/_page.svelte.js
+var page_svelte_exports4 = {};
+__export(page_svelte_exports4, {
+  default: () => Page4
+});
+var Page4;
+var init_page_svelte4 = __esm({
+  ".svelte-kit/output/server/entries/pages/buecher/cat/_catid_/_page.svelte.js"() {
+    init_ssr();
+    init_book();
+    init_Spinner();
+    Page4 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let catid;
+      let { data } = $$props;
+      if ($$props.data === void 0 && $$bindings.data && data !== void 0)
+        $$bindings.data(data);
+      catid = parseInt(data.data.catid) - 1;
+      return `<div class="px-2 m-2 border-2 "><h2>B\xFCcher der Kategorie  ${escape(data.categories[catid].name)}</h2></div> <ul class="grid grid-cols-2 md:grid-cols-3 bg-gray-100">${function(__value) {
+        if (is_promise(__value)) {
+          __value.then(null, noop);
+          return ` <div class="loading">${validate_component(Spinner, "Spinner").$$render($$result, {}, {}, {})}
+            Loading Books ...</div> `;
+        }
+        return function(books) {
+          return ` ${each(books, (book) => {
+            return `<li class="my-2">${validate_component(Book, "Book").$$render(
+              $$result,
+              {
+                book: {
+                  id: book.id,
+                  title: book.title,
+                  img: book.img
+                }
+              },
+              {},
+              {}
+            )}</li>`;
+          })} `;
+        }(__value);
+      }(data.streamed.books)}</ul>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/7.js
+var __exports8 = {};
+__export(__exports8, {
+  component: () => component8,
+  fonts: () => fonts8,
+  imports: () => imports8,
+  index: () => index8,
+  stylesheets: () => stylesheets8,
+  universal: () => page_ts_exports,
+  universal_id: () => universal_id5
+});
+var index8, component_cache8, component8, universal_id5, imports8, stylesheets8, fonts8;
+var init__8 = __esm({
+  ".svelte-kit/output/server/nodes/7.js"() {
+    init_page_ts();
+    index8 = 7;
+    component8 = async () => component_cache8 ?? (component_cache8 = (await Promise.resolve().then(() => (init_page_svelte4(), page_svelte_exports4))).default);
+    universal_id5 = "src/routes/buecher/cat/[catid]/+page.ts";
+    imports8 = ["_app/immutable/nodes/7.B6HLoSRw.js", "_app/immutable/chunks/books.CGIvvIdN.js", "_app/immutable/chunks/supabaseClient.CItD8zm_.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/await_block.b95zegdE.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/book.DozPUM9A.js", "_app/immutable/chunks/Spinner.BMfSgHGW.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
+    stylesheets8 = [];
+    fonts8 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/cdl-protokolle/_page.js
+var page_exports2 = {};
+__export(page_exports2, {
+  config: () => config2
+});
+var config2;
+var init_page2 = __esm({
+  ".svelte-kit/output/server/entries/pages/cdl-protokolle/_page.js"() {
+    config2 = {
+      runtime: "edge"
+    };
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/cdl-protokolle/_page.svelte.js
+var page_svelte_exports5 = {};
+__export(page_svelte_exports5, {
+  default: () => Page5
+});
+var Accordion, AccordionItem, telegram, Fraguns, css$r, A, css$q, Ai, css$p, B, css$o, C, css$n, D, css$m, E, css$l, F, css$k, G, css$j, H, css$i, I, css$h, J, css$g, K, css$f, L, css$e, M, css$d, N, css$c, O, css$b, P, css$a, Pzwei, css$9, Q, css$8, R, css$7, S, css$6, T, css$5, U, css$4, V, css$3, W, css$2, X, css$1, Y, css2, Z, Page5;
+var init_page_svelte5 = __esm({
   ".svelte-kit/output/server/entries/pages/cdl-protokolle/_page.svelte.js"() {
     init_ssr();
     init_chunks();
@@ -5573,7 +13452,7 @@ Sie finden dieses und viele andere wertvolle Informationen in seinem Buch <a hre
 
 </div>`;
     });
-    Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page5 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `${validate_component(Accordion, "Accordion").$$render($$result, { activeClass: "bg-white" }, {}, {
         default: () => {
           return `${validate_component(AccordionItem, "AccordionItem").$$render($$result, {}, {}, {
@@ -5780,26 +13659,667 @@ Sie finden dieses und viele andere wertvolle Informationen in seinem Buch <a hre
 });
 
 // .svelte-kit/output/server/nodes/8.js
-var __exports3 = {};
-__export(__exports3, {
-  component: () => component3,
-  fonts: () => fonts3,
-  imports: () => imports3,
-  index: () => index3,
-  stylesheets: () => stylesheets3,
-  universal: () => page_exports,
-  universal_id: () => universal_id2
+var __exports9 = {};
+__export(__exports9, {
+  component: () => component9,
+  fonts: () => fonts9,
+  imports: () => imports9,
+  index: () => index9,
+  stylesheets: () => stylesheets9,
+  universal: () => page_exports2,
+  universal_id: () => universal_id6
 });
-var index3, component_cache3, component3, universal_id2, imports3, stylesheets3, fonts3;
-var init__3 = __esm({
+var index9, component_cache9, component9, universal_id6, imports9, stylesheets9, fonts9;
+var init__9 = __esm({
   ".svelte-kit/output/server/nodes/8.js"() {
-    init_page();
-    index3 = 8;
-    component3 = async () => component_cache3 ?? (component_cache3 = (await Promise.resolve().then(() => (init_page_svelte(), page_svelte_exports))).default);
-    universal_id2 = "src/routes/cdl-protokolle/+page.js";
-    imports3 = ["_app/immutable/nodes/8.BxSWBl81.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/index.DEpSfGhY.js", "_app/immutable/chunks/index.DrucrQ_l.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
-    stylesheets3 = ["_app/immutable/assets/8.CVKeBncW.css"];
-    fonts3 = [];
+    init_page2();
+    index9 = 8;
+    component9 = async () => component_cache9 ?? (component_cache9 = (await Promise.resolve().then(() => (init_page_svelte5(), page_svelte_exports5))).default);
+    universal_id6 = "src/routes/cdl-protokolle/+page.js";
+    imports9 = ["_app/immutable/nodes/8.BxSWBl81.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/index.DEpSfGhY.js", "_app/immutable/chunks/index.DrucrQ_l.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
+    stylesheets9 = ["_app/immutable/assets/8.CVKeBncW.css"];
+    fonts9 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/produkte/_page.server.js
+var page_server_exports2 = {};
+__export(page_server_exports2, {
+  load: () => load6
+});
+async function load6() {
+  const title = "Produktempfehlungen. W\xE4hle eine der Kategorien um schneller das passende Produkt zu finden. ";
+  const { data } = await supabase$1.from("products").select().limit(12);
+  return {
+    title,
+    streamed: {
+      products: data
+    }
+  };
+}
+var init_page_server2 = __esm({
+  ".svelte-kit/output/server/entries/pages/produkte/_page.server.js"() {
+    init_supabaseClient();
+  }
+});
+
+// .svelte-kit/output/server/chunks/shops.js
+function getProductImg(filename) {
+  let img = "";
+  const path = `/images/products`;
+  if (!filename)
+    img = path + "no_cover.jpeg";
+  else
+    img = path + filename;
+  return img;
+}
+function getBadge(id) {
+  let shopid = id.split("-")[0];
+  let shop = "";
+  let bgcolor = "";
+  switch (shopid) {
+    case "gvk":
+      shop = "Kronenberg";
+      bgcolor = "bg-amber-500";
+      break;
+    case "wk":
+      shop = "Waldkraft";
+      bgcolor = "bg-green-700";
+      break;
+    case "cw":
+      shop = "Cellavita";
+      bgcolor = "bg-lime-500";
+      break;
+    case "cv":
+      shop = "Cellavita";
+      bgcolor = "bg-lime-500";
+      break;
+    case "be":
+      shop = "Bedrop";
+      bgcolor = "bg-orange-200";
+      break;
+    default:
+      shop = "Unknown";
+  }
+  const badge = '<div class="border-2 absolute right-2 text-black rounded-md text-s p-1 text-center top-5 w-24 ' + bgcolor + ' opacity-65" large color="green">' + shop + "</div>";
+  return badge;
+}
+var Product;
+var init_shops = __esm({
+  ".svelte-kit/output/server/chunks/shops.js"() {
+    init_ssr();
+    Product = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let { product = { id: 0, img: "", name: "" } } = $$props;
+      if ($$props.product === void 0 && $$bindings.product && product !== void 0)
+        $$bindings.product(product);
+      return `<div class="w-full h-[300px] "><div class="pt-2 overflow-auto"><a${add_attribute("href", `/produkte/${product.id}`, 0)}><img class="mx-auto" width="150"${add_attribute("src", getProductImg(product.img), 0)}${add_attribute("alt", product.name, 0)}></a> <div class="p-3 text-sm"><a${add_attribute("href", `/produkte/${product.id}`, 0)}>${escape(product.name)}</a></div></div></div>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/produkte/_page.svelte.js
+var page_svelte_exports6 = {};
+__export(page_svelte_exports6, {
+  default: () => Page6
+});
+var Page6;
+var init_page_svelte6 = __esm({
+  ".svelte-kit/output/server/entries/pages/produkte/_page.svelte.js"() {
+    init_ssr();
+    init_shops();
+    Page6 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let { data } = $$props;
+      if ($$props.data === void 0 && $$bindings.data && data !== void 0)
+        $$bindings.data(data);
+      return `<div class="px-2 m-2 border-2 " data-svelte-h="svelte-1abrevb"><h2>Produkte f\xFCr die alternative Heilung</h2></div> <ul class="grid grid-cols-2 md:grid-cols-3">${function(__value) {
+        if (is_promise(__value)) {
+          __value.then(null, noop);
+          return `
+      Loading Products ...
+      `;
+        }
+        return function(products) {
+          return ` ${each(products, (product) => {
+            return `<li class="my-2 relative"><!-- HTML_TAG_START -->${getBadge(product.id)}<!-- HTML_TAG_END --> ${validate_component(Product, "Product").$$render(
+              $$result,
+              {
+                product: {
+                  id: product.id,
+                  name: product.name,
+                  img: product.image
+                }
+              },
+              {},
+              {}
+            )} </li>`;
+          })} `;
+        }(__value);
+      }(data.streamed.products)}</ul>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/9.js
+var __exports10 = {};
+__export(__exports10, {
+  component: () => component10,
+  fonts: () => fonts10,
+  imports: () => imports10,
+  index: () => index10,
+  server: () => page_server_exports2,
+  server_id: () => server_id2,
+  stylesheets: () => stylesheets10
+});
+var index10, component_cache10, component10, server_id2, imports10, stylesheets10, fonts10;
+var init__10 = __esm({
+  ".svelte-kit/output/server/nodes/9.js"() {
+    init_page_server2();
+    index10 = 9;
+    component10 = async () => component_cache10 ?? (component_cache10 = (await Promise.resolve().then(() => (init_page_svelte6(), page_svelte_exports6))).default);
+    server_id2 = "src/routes/produkte/+page.server.js";
+    imports10 = ["_app/immutable/nodes/9.CPxE_gkf.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/await_block.b95zegdE.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Dfb--GkT.js"];
+    stylesheets10 = [];
+    fonts10 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/produkte/_productid_/_page.js
+var page_exports3 = {};
+__export(page_exports3, {
+  load: () => load7
+});
+async function load7({ params }) {
+  let pid = params.productid;
+  let select = `id, name, image, description, link, products_categories(category_id)`;
+  let { data } = await supabase$1.from("products").select(select).eq("id", pid).limit(1).single();
+  let name2 = data.name;
+  console.log("product: ", name2, "id: ", pid);
+  data.description || `Entdecken Sie eine Vielzahl von Produkten auf cdl-protokolle.com`;
+  async function getSearchTerm(name22) {
+    let tempArray = name22.split(" ");
+    tempArray = tempArray.slice(0, 3);
+    let searchTerm = tempArray.join(" ");
+    return searchTerm;
+  }
+  let searchterm = await getSearchTerm(name2);
+  let kid = data.products_categories[0].category_id;
+  async function getSimilarProductIds(kid2, pid2) {
+    let { data: data2 } = await supabase$1.from("products_categories").select("product_id").eq("category_id", kid2).range(0, 9);
+    let similarProducts = data2.map((obj) => obj.product_id);
+    similarProducts = similarProducts.filter((product) => product != pid2);
+    return similarProducts;
+  }
+  async function getProductsFromIds(spids2) {
+    let { data: data2 } = await supabase$1.from("products").select().in("id", spids2);
+    return data2;
+  }
+  let spids = await getSimilarProductIds(kid, pid);
+  return {
+    data,
+    searchterm,
+    streamed: {
+      similarProducts: getProductsFromIds(spids)
+    }
+  };
+}
+var init_page3 = __esm({
+  ".svelte-kit/output/server/entries/pages/produkte/_productid_/_page.js"() {
+    init_supabaseClient();
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/produkte/_productid_/_page.svelte.js
+var page_svelte_exports7 = {};
+__export(page_svelte_exports7, {
+  default: () => Page7
+});
+var Page7;
+var init_page_svelte7 = __esm({
+  ".svelte-kit/output/server/entries/pages/produkte/_productid_/_page.svelte.js"() {
+    init_ssr();
+    init_Button();
+    init_Spinner();
+    init_shops();
+    Page7 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let img;
+      let name2;
+      let id;
+      let desc;
+      let link;
+      let searchterm;
+      let { data } = $$props;
+      if ($$props.data === void 0 && $$bindings.data && data !== void 0)
+        $$bindings.data(data);
+      img = getProductImg(data.data.image);
+      name2 = data.data.name;
+      id = data.data.id;
+      desc = data.data.description;
+      link = data.data.link;
+      searchterm = data.searchterm;
+      return `<div class="w-full flex flex-row bg-gray-100 justify-center relative"><!-- HTML_TAG_START -->${getBadge(id)}<!-- HTML_TAG_END --> <img class="py-10" width="400"${add_attribute("alt", name2, 0)}${add_attribute("src", img, 0)}></div> <div class="my-5 pb-10 flex flex-col items-center top-0 sticky z-10"><a${add_attribute("href", link, 0)} target="_blank">${validate_component(Button, "Button").$$render($$result, { class: "text-lg mt-3", color: "green" }, {}, {
+        default: () => {
+          return `${escape(name2)} \u{1F6D2}`;
+        }
+      })}</a></div> <div class="bg-yellow-100"><h2 class="bg-yellow-300 p-2">${escape(name2)}</h2> <div id="desc" class="p-5"><!-- HTML_TAG_START -->${desc}<!-- HTML_TAG_END --></div> <div id="links" class="w-5/6 m-auto bg-zinc-50 border-zinc-200 border-2 p-5"><div class="my-5 pb-10 flex flex-col items-center space-y-5"><a${add_attribute("href", link, 0)} target="_blank">${validate_component(Button, "Button").$$render($$result, { class: "text-lg mt-3", color: "green" }, {}, {
+        default: () => {
+          return `${escape(name2)} \u{1F6D2}`;
+        }
+      })}</a> <a href="${"https://www.amazon.de/gp/search?ie=UTF8&tag=jumex_online-21&linkCode=ur2&linkId=470bf27aa1feb315de9cb5f18b114f2f&camp=1638&creative=6742&index=books&keywords=" + escape(searchterm, true)}" target="_blank">${validate_component(Button, "Button").$$render($$result, { class: "text-lg mt-3", color: "light" }, {}, {
+        default: () => {
+          return `<img alt="amazon logo" width="100" src="/images/logos/Amazon.de-Logo.svg.png">`;
+        }
+      })}</a> <a href="${"https://www.ebay.de/sch/i.html?_from=R40&_trksid=p4432023.m570.l1313&_nkw=" + escape(searchterm, true) + "&_sacat=0"}" target="_blank">${validate_component(Button, "Button").$$render($$result, { class: "text-lg mt-3", color: "light" }, {}, {
+        default: () => {
+          return `<img alt="ebay logo" width="100" src="/images/logos/EBay_logo.png">`;
+        }
+      })}</a></div></div> <div id="abstand" class="h-5"></div></div> <div class="bg-lime-100"><div class="w-full my-5 bg-lime-300 p-3 text-lg font-bold text-center" data-svelte-h="svelte-g4vgml">\xC4hnliche Produkte:</div> <ul class="grid grid-cols-2 md:grid-cols-3">${function(__value) {
+        if (is_promise(__value)) {
+          __value.then(null, noop);
+          return ` <div class="loading">${validate_component(Spinner, "Spinner").$$render($$result, {}, {}, {})}
+                Loading similar Products ...</div> `;
+        }
+        return function(similarProducts) {
+          return ` ${each(similarProducts, (similarProduct) => {
+            return `<li class="my-2 relative"><!-- HTML_TAG_START -->${getBadge(similarProduct.id)}<!-- HTML_TAG_END --> ${validate_component(Product, "Product").$$render(
+              $$result,
+              {
+                product: {
+                  id: similarProduct.id,
+                  name: similarProduct.name,
+                  img: similarProduct.image
+                }
+              },
+              {},
+              {}
+            )} </li>`;
+          })} `;
+        }(__value);
+      }(data.streamed.similarProducts)}</ul></div>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/10.js
+var __exports11 = {};
+__export(__exports11, {
+  component: () => component11,
+  fonts: () => fonts11,
+  imports: () => imports11,
+  index: () => index11,
+  stylesheets: () => stylesheets11,
+  universal: () => page_exports3,
+  universal_id: () => universal_id7
+});
+var index11, component_cache11, component11, universal_id7, imports11, stylesheets11, fonts11;
+var init__11 = __esm({
+  ".svelte-kit/output/server/nodes/10.js"() {
+    init_page3();
+    index11 = 10;
+    component11 = async () => component_cache11 ?? (component_cache11 = (await Promise.resolve().then(() => (init_page_svelte7(), page_svelte_exports7))).default);
+    universal_id7 = "src/routes/produkte/[productid]/+page.js";
+    imports11 = ["_app/immutable/nodes/10.BkAM3hMq.js", "_app/immutable/chunks/supabaseClient.CItD8zm_.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/await_block.b95zegdE.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/Button.BWb8FycM.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js", "_app/immutable/chunks/Spinner.BMfSgHGW.js", "_app/immutable/chunks/shops.Dfb--GkT.js"];
+    stylesheets11 = [];
+    fonts11 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/produkte/cat/_catid_/_page.ts.js
+var page_ts_exports2 = {};
+__export(page_ts_exports2, {
+  load: () => load8,
+  prerender: () => prerender
+});
+async function getCategoryNameById2(catid) {
+  console.log("getCategoryNameById: ", catid);
+  const { data, error } = await supabase$1.from("categories").select("name").eq("id", catid).single();
+  return data?.name;
+}
+async function getCategoryDescription(catid) {
+  const { data, error } = await supabase$1.from("categories").select("description").eq("id", catid).single();
+  try {
+    if (data && data.description) {
+      return data.description;
+    } else {
+      return null;
+    }
+  } catch (error2) {
+    return null;
+  }
+}
+async function load8({ params }) {
+  const catid = params.catid;
+  console.log("Lade Cat Parameter ...", catid);
+  const category = await getCategoryNameById2(parseInt(catid));
+  const description = await getCategoryDescription(parseInt(catid));
+  console.log("desc", description);
+  const { data: products, error } = await supabase$1.from("productswithcategory").select().eq("category_id", catid).order("name");
+  const length = products?.length;
+  return {
+    catid,
+    length,
+    category,
+    description,
+    products
+  };
+}
+var prerender;
+var init_page_ts2 = __esm({
+  ".svelte-kit/output/server/entries/pages/produkte/cat/_catid_/_page.ts.js"() {
+    init_supabaseClient();
+    prerender = "false";
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/produkte/cat/_catid_/_page.svelte.js
+var page_svelte_exports8 = {};
+__export(page_svelte_exports8, {
+  default: () => Page8
+});
+var css3, maxProductsPerPage, Page8;
+var init_page_svelte8 = __esm({
+  ".svelte-kit/output/server/entries/pages/produkte/cat/_catid_/_page.svelte.js"() {
+    init_ssr();
+    init_shops();
+    css3 = {
+      code: ".page-selector.svelte-71d3gi{margin-top:2.5rem;margin-bottom:2.5rem;display:flex;justify-content:center\n}.page-number.svelte-71d3gi{margin-left:1.25rem;cursor:pointer;border-width:2px;padding:0.5rem\n}.page-number.svelte-71d3gi:hover{--tw-bg-opacity:1;background-color:rgb(31 41 55 / var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity));text-decoration-line:underline\n}.current-page.svelte-71d3gi{--tw-bg-opacity:1;background-color:rgb(59 130 246 / var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))\n}",
+      map: null
+    };
+    maxProductsPerPage = 50;
+    Page8 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let pageproducts;
+      let length;
+      let category;
+      let description;
+      let totalPages;
+      let { data } = $$props;
+      console.log("catid: ", data.catid);
+      function getPageProducts() {
+        pageproducts = data.products.slice(0, 10);
+        return pageproducts;
+      }
+      pageproducts = getPageProducts();
+      let currentPage = 1;
+      async function goToPage(page2) {
+        currentPage = page2;
+        const startIndex = (currentPage - 1) * maxProductsPerPage;
+        const endIndex = startIndex + maxProductsPerPage;
+        pageproducts = await data.products.slice(startIndex, endIndex);
+        return pageproducts;
+      }
+      pageproducts = goToPage(1);
+      if ($$props.data === void 0 && $$bindings.data && data !== void 0)
+        $$bindings.data(data);
+      $$result.css.add(css3);
+      pageproducts = data.products.slice(0, 10);
+      length = data.products.length;
+      category = data.category;
+      description = data.description;
+      totalPages = () => Math.ceil(length / maxProductsPerPage);
+      return `<div class="w-full"><h2 class="text-center my-5 p-2">${escape(length)} Produkte in der Kategorie ${escape(category)} gefunden.</h2></div>  ${description ? `<div class="border-2 p-2 bg-slate-100"><!-- HTML_TAG_START -->${description}<!-- HTML_TAG_END --></div>` : ``}  <ul class="grid grid-cols-2 md:grid-cols-3">${each(pageproducts, (product) => {
+        return `<div class="lazy-load"><li class="my-2 relative"> <!-- HTML_TAG_START -->${getBadge(product.id)}<!-- HTML_TAG_END --> ${validate_component(Product, "Product").$$render(
+          $$result,
+          {
+            product: {
+              id: product.id,
+              name: product.name,
+              img: product.image
+            }
+          },
+          {},
+          {}
+        )}</li> </div>`;
+      })}</ul>  ${totalPages() > 1 ? `<div class="page-selector svelte-71d3gi">${each(Array.from({ length: totalPages() }).map((_, index15) => index15 + 1), (page2) => {
+        return `${page2 == currentPage ? `<span class="page-number current-page svelte-71d3gi">${escape(page2)}</span>` : `<a class="page-number svelte-71d3gi">${escape(page2)}</a>`}`;
+      })}</div>` : ``}`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/11.js
+var __exports12 = {};
+__export(__exports12, {
+  component: () => component12,
+  fonts: () => fonts12,
+  imports: () => imports12,
+  index: () => index12,
+  stylesheets: () => stylesheets12,
+  universal: () => page_ts_exports2,
+  universal_id: () => universal_id8
+});
+var index12, component_cache12, component12, universal_id8, imports12, stylesheets12, fonts12;
+var init__12 = __esm({
+  ".svelte-kit/output/server/nodes/11.js"() {
+    init_page_ts2();
+    index12 = 11;
+    component12 = async () => component_cache12 ?? (component_cache12 = (await Promise.resolve().then(() => (init_page_svelte8(), page_svelte_exports8))).default);
+    universal_id8 = "src/routes/produkte/cat/[catid]/+page.ts";
+    imports12 = ["_app/immutable/nodes/11.CXL6kglb.js", "_app/immutable/chunks/supabaseClient.CItD8zm_.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Dfb--GkT.js"];
+    stylesheets12 = ["_app/immutable/assets/11.DzNugBr1.css"];
+    fonts12 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/produkte/hashtag/_tag_/_page.ts.js
+var page_ts_exports3 = {};
+__export(page_ts_exports3, {
+  load: () => load9
+});
+async function getProductsByName(name2) {
+  console.log("getProductsByName", name2);
+  const { data, error } = await supabase$1.from("products").select("*").ilike("name", "%" + name2 + "%").order("name");
+  if (error) {
+    console.log("Fehler beim Abrufen getProductsByName");
+  } else
+    return data;
+}
+async function load9({ params }) {
+  console.log("hashtags:");
+  let products = [];
+  const hashtagid = params.tag;
+  const { tag: hashtag } = await getHashtag(hashtagid);
+  products = await getProductsByName(hashtag);
+  const length = products?.length;
+  return {
+    hashtag,
+    length,
+    products
+  };
+}
+var init_page_ts3 = __esm({
+  ".svelte-kit/output/server/entries/pages/produkte/hashtag/_tag_/_page.ts.js"() {
+    init_supabaseClient();
+    init_getHashtags();
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/produkte/hashtag/_tag_/_page.svelte.js
+var page_svelte_exports9 = {};
+__export(page_svelte_exports9, {
+  default: () => Page9
+});
+var Page9;
+var init_page_svelte9 = __esm({
+  ".svelte-kit/output/server/entries/pages/produkte/hashtag/_tag_/_page.svelte.js"() {
+    init_ssr();
+    init_shops();
+    Page9 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let hashtag;
+      let products;
+      let { data } = $$props;
+      if ($$props.data === void 0 && $$bindings.data && data !== void 0)
+        $$bindings.data(data);
+      hashtag = data.hashtag;
+      products = data.products;
+      return `<div class="w-full"><h2 class="text-center my-5 p-2">Produkte mit dem Hashtag ${escape(hashtag)} gefunden.</h2></div>  <div class="grid grid-cols-2 md:grid-cols-3">${each(products, (product) => {
+        return `<div class="my-2 relative"> <!-- HTML_TAG_START -->${getBadge(product.id)}<!-- HTML_TAG_END --> ${validate_component(Product, "Product").$$render(
+          $$result,
+          {
+            product: {
+              id: product.id,
+              name: product.name,
+              img: product.image
+            }
+          },
+          {},
+          {}
+        )} </div>`;
+      })}</div>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/12.js
+var __exports13 = {};
+__export(__exports13, {
+  component: () => component13,
+  fonts: () => fonts13,
+  imports: () => imports13,
+  index: () => index13,
+  stylesheets: () => stylesheets13,
+  universal: () => page_ts_exports3,
+  universal_id: () => universal_id9
+});
+var index13, component_cache13, component13, universal_id9, imports13, stylesheets13, fonts13;
+var init__13 = __esm({
+  ".svelte-kit/output/server/nodes/12.js"() {
+    init_page_ts3();
+    index13 = 12;
+    component13 = async () => component_cache13 ?? (component_cache13 = (await Promise.resolve().then(() => (init_page_svelte9(), page_svelte_exports9))).default);
+    universal_id9 = "src/routes/produkte/hashtag/[tag]/+page.ts";
+    imports13 = ["_app/immutable/nodes/12.Dp4bZEpE.js", "_app/immutable/chunks/supabaseClient.CItD8zm_.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/getHashtags.BLyjUpLK.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Dfb--GkT.js"];
+    stylesheets13 = [];
+    fonts13 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/search/_page.server.ts.js
+var page_server_ts_exports = {};
+__export(page_server_ts_exports, {
+  load: () => load10,
+  prerender: () => prerender2
+});
+async function getBooks(q) {
+  let anzahl = q.split(" ").length;
+  if (anzahl > 1)
+    q = q.split(" ").join(" & ");
+  const { data } = await supabase$1.from("books").select().textSearch("fts", q, { config: "german" }).limit(30);
+  if (data !== null && typeof data !== "undefined") {
+    return data;
+  } else {
+    console.log("Die Buchsuche ergab kein Ergebnis.");
+    return [];
+  }
+}
+async function getProducts(q) {
+  let anzahl = q.split(" ").length;
+  if (anzahl > 1)
+    q = q.split(" ").join(" & ");
+  const { data } = await supabase$1.from("products").select().textSearch("fts", q, { config: "german" }).limit(30);
+  if (data !== null && typeof data !== "undefined") {
+    return data;
+  } else {
+    console.log("Die Produktsuche ergab kein Ergebnis.");
+    return [];
+  }
+}
+async function load10({ params, url }) {
+  let q = url.searchParams.get("q");
+  const books = await getBooks(q);
+  const products = await getProducts(q);
+  return { q, books, products };
+}
+var prerender2;
+var init_page_server_ts = __esm({
+  ".svelte-kit/output/server/entries/pages/search/_page.server.ts.js"() {
+    init_supabaseClient();
+    prerender2 = false;
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/search/_page.svelte.js
+var page_svelte_exports10 = {};
+__export(page_svelte_exports10, {
+  default: () => Page10
+});
+var Page10;
+var init_page_svelte10 = __esm({
+  ".svelte-kit/output/server/entries/pages/search/_page.svelte.js"() {
+    init_ssr();
+    init_shops();
+    init_book();
+    Page10 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let books;
+      let qtyBooks;
+      let products;
+      let qtyProducts;
+      let q;
+      let { data } = $$props;
+      if ($$props.data === void 0 && $$bindings.data && data !== void 0)
+        $$bindings.data(data);
+      books = data.books;
+      qtyBooks = data.books.length;
+      products = data.products;
+      qtyProducts = data.products.length;
+      q = data.q;
+      return `<div class="p-5 mt-5 border-2 "><div class="">Zu Ihrer Suche nach 
+    <span class="bg-yellow-300 px-2">${escape(q)}</span>
+    
+    wurden 
+    <span class="bg-yellow-300 px-2">${escape(qtyBooks)} B\xFCcher</span>
+    und 
+    <span class="bg-yellow-300 px-2">${escape(qtyProducts)} Produkte</span>
+    gefunden.</div> ${qtyProducts == 30 ? `<div class="bg-green-100" data-svelte-h="svelte-nvrfyp">Hinweis: Aus Performance Gr\xFCnden werden Suchergebnisse auf 30 Produkte limitiert. Falls Sie Ihr Produkt nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.</div>` : ``} ${qtyBooks == 30 ? `<div class="bg-red-100" data-svelte-h="svelte-ynsik0">Hinweis: Aus Performance Gr\xFCnden werden Suchergebnisse auf 30 B\xFCcher limitiert. Falls Sie Ihr Buch nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.</div>` : ``} <ul class="grid grid-cols-2 md:grid-cols-3">${each(books, (book) => {
+        return `<li class="my-2">${validate_component(Book, "Book").$$render(
+          $$result,
+          {
+            book: {
+              id: book.id,
+              title: book.title,
+              img: book.img
+            }
+          },
+          {},
+          {}
+        )}</li>`;
+      })}</ul> <ul class="grid grid-cols-2 md:grid-cols-3">${each(products, (product) => {
+        return `<div class=""><li class="my-2 relative"><!-- HTML_TAG_START -->${getBadge(product.id)}<!-- HTML_TAG_END --> ${validate_component(Product, "Product").$$render(
+          $$result,
+          {
+            product: {
+              id: product.id,
+              name: product.name,
+              img: product.image
+            }
+          },
+          {},
+          {}
+        )}</li> </div>`;
+      })}</ul> <div class="mt-10"><h2 data-svelte-h="svelte-1f5j7l5">Nicht das passende hier gefunden? Versuchen Sie es mit Amazon oder Ebay</h2> <p data-svelte-h="svelte-iclnsj">Ihren Suchtext haben wir bereits f\xFCr Sie im Link eingebaut.</p> <div class="my-5 pb-10 flex flex-col items-center space-y-5"><a href="${"https://www.amazon.de/gp/search?ie=UTF8&tag=jumex_online-21&linkCode=ur2&linkId=470bf27aa1feb315de9cb5f18b114f2f&camp=1638&creative=6742&index=books&keywords=" + escape(q, true)}" target="_blank"><div class="text-lg mt-3" color="light" data-svelte-h="svelte-1ov1sdi"><img alt="amazon logo" width="100" src="/images/logos/Amazon.de-Logo.svg.png"></div></a> <a href="${"https://www.ebay.de/sch/i.html?_from=R40&_trksid=p4432023.m570.l1313&_nkw=" + escape(q, true) + "&_sacat=0"}" target="_blank"><div class="text-lg mt-3" color="light" data-svelte-h="svelte-17b32z5"><img alt="ebay logo" width="100" src="/images/logos/EBay_logo.png"></div></a></div></div></div>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/13.js
+var __exports14 = {};
+__export(__exports14, {
+  component: () => component14,
+  fonts: () => fonts14,
+  imports: () => imports14,
+  index: () => index14,
+  server: () => page_server_ts_exports,
+  server_id: () => server_id3,
+  stylesheets: () => stylesheets14
+});
+var index14, component_cache14, component14, server_id3, imports14, stylesheets14, fonts14;
+var init__14 = __esm({
+  ".svelte-kit/output/server/nodes/13.js"() {
+    init_page_server_ts();
+    index14 = 13;
+    component14 = async () => component_cache14 ?? (component_cache14 = (await Promise.resolve().then(() => (init_page_svelte10(), page_svelte_exports10))).default);
+    server_id3 = "src/routes/search/+page.server.ts";
+    imports14 = ["_app/immutable/nodes/13.Cyn8ahnp.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.BnyCCVNm.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Dfb--GkT.js", "_app/immutable/chunks/book.DozPUM9A.js"];
+    stylesheets14 = [];
+    fonts14 = [];
   }
 });
 
@@ -6015,7 +14535,7 @@ var options = {
 		<div class="error">
 			<span class="status">` + status + '</span>\n			<div class="message">\n				<h1>' + message + "</h1>\n			</div>\n		</div>\n	</body>\n</html>\n"
   },
-  version_hash: "c1f3pt"
+  version_hash: "19sd1cp"
 };
 async function get_hooks() {
   return {};
@@ -6269,11 +14789,11 @@ async function render_endpoint(event, mod, state) {
   if (!handler) {
     return method_not_allowed(mod, method);
   }
-  const prerender = mod.prerender ?? state.prerender_default;
-  if (prerender && (mod.POST || mod.PATCH || mod.PUT || mod.DELETE)) {
+  const prerender3 = mod.prerender ?? state.prerender_default;
+  if (prerender3 && (mod.POST || mod.PATCH || mod.PUT || mod.DELETE)) {
     throw new Error("Cannot prerender endpoints that have mutative methods");
   }
-  if (state.prerendering && !prerender) {
+  if (state.prerendering && !prerender3) {
     if (state.depth > 0) {
       throw new Error(`${event.route.id} is not prerenderable`);
     } else {
@@ -6296,7 +14816,7 @@ async function render_endpoint(event, mod, state) {
         statusText: response.statusText,
         headers: new Headers(response.headers)
       });
-      response.headers.set("x-sveltekit-prerender", String(prerender));
+      response.headers.set("x-sveltekit-prerender", String(prerender3));
     }
     return response;
   } catch (e) {
@@ -6753,9 +15273,9 @@ function stringify(value, reducers) {
     stringified[index22] = str;
     return index22;
   }
-  const index4 = flatten(value);
-  if (index4 < 0)
-    return `${index4}`;
+  const index15 = flatten(value);
+  if (index15 < 0)
+    return `${index15}`;
   return `[${stringified.join(",")}]`;
 }
 function stringify_primitive(thing) {
@@ -7185,10 +15705,10 @@ function create_universal_fetch(event, state, fetched, csr, resolve_opts) {
       }
     });
     if (csr) {
-      const get2 = response.headers.get;
+      const get3 = response.headers.get;
       response.headers.get = (key2) => {
         const lower = key2.toLowerCase();
-        const value = get2.call(response.headers, lower);
+        const value = get3.call(response.headers, lower);
         if (value && !lower.startsWith("x-sveltekit-")) {
           const included = resolve_opts.filterSerializedResponseHeaders(lower, value);
           if (!included) {
@@ -7659,14 +16179,14 @@ var Csp = class {
    * @param {import('./types.js').CspConfig} config
    * @param {import('./types.js').CspOpts} opts
    */
-  constructor({ mode, directives, reportOnly }, { prerender }) {
+  constructor({ mode, directives, reportOnly }, { prerender: prerender3 }) {
     /** @readonly */
     __publicField(this, "nonce", generate_nonce());
     /** @type {CspProvider} */
     __publicField(this, "csp_provider");
     /** @type {CspReportOnlyProvider} */
     __publicField(this, "report_only_provider");
-    const use_hashes = mode === "hash" || mode === "auto" && prerender;
+    const use_hashes = mode === "hash" || mode === "auto" && prerender3;
     this.csp_provider = new CspProvider(use_hashes, directives, this.nonce);
     this.report_only_provider = new CspReportOnlyProvider(use_hashes, reportOnly, this.nonce);
   }
@@ -7751,8 +16271,8 @@ async function render_response({
   }
   const { client } = manifest2._;
   const modulepreloads = new Set(client.imports);
-  const stylesheets4 = new Set(client.stylesheets);
-  const fonts4 = new Set(client.fonts);
+  const stylesheets15 = new Set(client.stylesheets);
+  const fonts15 = new Set(client.fonts);
   const link_header_preloads = /* @__PURE__ */ new Set();
   const inline_styles = /* @__PURE__ */ new Map();
   let rendered;
@@ -7808,9 +16328,9 @@ async function render_response({
       for (const url of node.imports)
         modulepreloads.add(url);
       for (const url of node.stylesheets)
-        stylesheets4.add(url);
+        stylesheets15.add(url);
       for (const url of node.fonts)
-        fonts4.add(url);
+        fonts15.add(url);
       if (node.inline_styles) {
         Object.entries(await node.inline_styles()).forEach(([k, v]) => inline_styles.set(k, v));
       }
@@ -7838,7 +16358,7 @@ async function render_response({
     head += `
 	<style${attributes.join("")}>${content}</style>`;
   }
-  for (const dep of stylesheets4) {
+  for (const dep of stylesheets15) {
     const path = prefixed(dep);
     const attributes = ['rel="stylesheet"'];
     if (inline_styles.has(dep)) {
@@ -7852,7 +16372,7 @@ async function render_response({
     head += `
 		<link href="${path}" ${attributes.join(" ")}>`;
   }
-  for (const dep of fonts4) {
+  for (const dep of fonts15) {
     const path = prefixed(dep);
     if (resolve_opts.preload({ type: "font", path })) {
       const ext = dep.slice(dep.lastIndexOf(".") + 1);
@@ -7867,12 +16387,12 @@ async function render_response({
 		<link ${attributes.join(" ")}>`;
     }
   }
-  const global = `__sveltekit_${options2.version_hash}`;
+  const global2 = `__sveltekit_${options2.version_hash}`;
   const { data, chunks } = get_data(
     event,
     options2,
     branch.map((b) => b.server_data),
-    global
+    global2
   );
   if (page_config.ssr && page_config.csr) {
     body2 += `
@@ -7919,7 +16439,7 @@ async function render_response({
 							else fulfil(data);
 						}`);
     }
-    blocks.push(`${global} = {
+    blocks.push(`${global2} = {
 						${properties.join(",\n						")}
 					};`);
     const args = ["app", "element"];
@@ -7957,7 +16477,7 @@ ${indent}}`);
     }
     if (load_env_eagerly) {
       blocks.push(`import(${s(`${base$1}/${options2.app_dir}/env.js`)}).then(({ env }) => {
-						${global}.env = env;
+						${global2}.env = env;
 
 						Promise.all([
 							import(${s(prefixed(client.start))}),
@@ -8060,7 +16580,7 @@ ${indent}}`);
     }
   );
 }
-function get_data(event, options2, nodes, global) {
+function get_data(event, options2, nodes, global2) {
   let promise_id = 1;
   let count = 0;
   const { iterator, push, done } = create_async_iterator();
@@ -8094,13 +16614,13 @@ function get_data(event, options2, nodes, global) {
             data = void 0;
             str = uneval({ id, data, error }, replacer);
           }
-          push(`<script>${global}.resolve(${str})<\/script>
+          push(`<script>${global2}.resolve(${str})<\/script>
 `);
           if (count === 0)
             done();
         }
       );
-      return `${global}.defer(${id})`;
+      return `${global2}.defer(${id})`;
     }
   }
   try {
@@ -8589,11 +17109,11 @@ async function render_page(event, page2, options2, manifest2, state, resolve_opt
           const error = await handle_error_and_jsonify(event, options2, err);
           while (i--) {
             if (page2.errors[i]) {
-              const index4 = (
+              const index15 = (
                 /** @type {number} */
                 page2.errors[i]
               );
-              const node2 = await manifest2._.nodes[index4]();
+              const node2 = await manifest2._.nodes[index15]();
               let j = i;
               while (!branch[j])
                 j -= 1;
@@ -8716,20 +17236,20 @@ function parse$1(str, options2) {
   var obj = {};
   var opt = options2 || {};
   var dec = opt.decode || decode;
-  var index4 = 0;
-  while (index4 < str.length) {
-    var eqIdx = str.indexOf("=", index4);
+  var index15 = 0;
+  while (index15 < str.length) {
+    var eqIdx = str.indexOf("=", index15);
     if (eqIdx === -1) {
       break;
     }
-    var endIdx = str.indexOf(";", index4);
+    var endIdx = str.indexOf(";", index15);
     if (endIdx === -1) {
       endIdx = str.length;
     } else if (endIdx < eqIdx) {
-      index4 = str.lastIndexOf(";", eqIdx - 1) + 1;
+      index15 = str.lastIndexOf(";", eqIdx - 1) + 1;
       continue;
     }
-    var key2 = str.slice(index4, eqIdx).trim();
+    var key2 = str.slice(index15, eqIdx).trim();
     if (void 0 === obj[key2]) {
       var val = str.slice(eqIdx + 1, endIdx).trim();
       if (val.charCodeAt(0) === 34) {
@@ -8737,7 +17257,7 @@ function parse$1(str, options2) {
       }
       obj[key2] = tryDecode(val, dec);
     }
-    index4 = endIdx + 1;
+    index15 = endIdx + 1;
   }
   return obj;
 }
@@ -9415,21 +17935,21 @@ async function respond(request, options2, manifest2, state) {
       }
       if (state.before_handle || state.emulator?.platform) {
         let config3 = {};
-        let prerender = false;
+        let prerender3 = false;
         if (route.endpoint) {
           const node = await route.endpoint();
           config3 = node.config ?? config3;
-          prerender = node.prerender ?? prerender;
+          prerender3 = node.prerender ?? prerender3;
         } else if (route.page) {
           const nodes = await load_page_nodes(route.page, manifest2);
           config3 = get_page_config(nodes) ?? config3;
-          prerender = get_option(nodes, "prerender") ?? false;
+          prerender3 = get_option(nodes, "prerender") ?? false;
         }
         if (state.before_handle) {
-          state.before_handle(event, config3, prerender);
+          state.before_handle(event, config3, prerender3);
         }
         if (state.emulator?.platform) {
-          event.platform = await state.emulator.platform({ config: config3, prerender });
+          event.platform = await state.emulator.platform({ config: config3, prerender: prerender3 });
         }
       }
     }
@@ -9698,7 +18218,7 @@ var Server = class {
         __privateGet(this, _options).hooks = {
           handle: module.handle || (({ event, resolve: resolve2 }) => resolve2(event)),
           handleError: module.handleError || (({ error }) => console.error(error)),
-          handleFetch: module.handleFetch || (({ request, fetch: fetch2 }) => fetch2(request)),
+          handleFetch: module.handleFetch || (({ request, fetch: fetch22 }) => fetch22(request)),
           reroute: module.reroute || (() => {
           })
         };
@@ -9724,7 +18244,7 @@ var Server = class {
 _options = new WeakMap();
 _manifest = new WeakMap();
 
-// .svelte-kit/vercel-tmp/fn-1/manifest.js
+// .svelte-kit/vercel-tmp/fn/manifest.js
 var manifest = (() => {
   function __memo(fn) {
     let value;
@@ -9736,18 +18256,92 @@ var manifest = (() => {
     assets: /* @__PURE__ */ new Set(["favicon.png", "images/Intentional Health Color Palette - color-hex.com.png", "images/books/11/Download (1).jpeg", "images/books/12/41HNtcZrJIL._AC_SY780_.jpg", "images/books/13/vitaminum_buch-adipositas.jpg", "images/books/14/Download.jpeg", "images/books/15/61ttNVVSNGL._SL1200_.jpg", "images/books/16/615bfp88qmL._AC_UF1000,1000_QL80_.jpg", "images/books/19/81PGdHerZ7L._AC_UF1000,1000_QL80_.jpg", "images/books/20/61IZVC4ae7L._AC_UF894,1000_QL80_.jpg", "images/books/21/130877.jpg", "images/books/22/9783384006486.jpg", "images/books/23/LP_Desktop_Der-grosse-Cholesterin-Schwindel_968200.jpg", "images/books/24/134140.jpg", "images/books/25/Byebye-covid-2-1-1_600x600.png", "images/books/26/handbuch-der-kolloidalen-metalle_600x600.jpg", "images/books/27/Klinikhandbuch-Aromatherapie_600x600.png", "images/books/28/Arthrose_ist_heilbar_mockup_web-jpg_600x600.jpg", "images/books/29/Manuka_Buch_webshop-jpg_600x600.jpg", "images/books/3/Codex-Humanus_Band-400x400.png.webp", "images/books/30/em-eine-chance-fuer-unsere-erde-anne-lorch_600x600.jpg", "images/books/31/buch-borreliose-natuerlich-heilen-wolf-dieter-storl_600x600.jpg", "images/books/32/buch-pflanzliche-antibiotika-richtig-anwenden_600x600.jpg", "images/books/33/buch-die-leber-natuerlich-reinigen_600x600.jpg", "images/books/34/Borax_600x600.jpg", "images/books/35/CDL-Handbuch-LUBZ_600x600.jpg", "images/books/36/buch-cannabis-und-cannabidiol-cbd-richtig-anwenden_600x600.jpg", "images/books/37/DMSO-Handbuch_600x600.jpg", "images/books/38/9783742305466.jpg", "images/books/39/9783442136940.jpg", "images/books/4/48311634z.jpg", "images/books/6/csm_Bluthochdruck_sf_739bfc2751.png", "images/books/7/vitaminum_buch-alzheimer.png", "images/books/8/Download.jpeg", "images/books/9/61-3sI2vGcL.jpg", "images/books/no_cover.jpeg", "images/hai.jpg", "images/health color palette hex code.png", "images/logos/Amazon.de-Logo.svg.png", "images/logos/EBay_logo.png", "images/products/bedrop/propolis/be-pp-1.webp", "images/products/bedrop/propolis/be-pp-10.webp", "images/products/bedrop/propolis/be-pp-11.webp", "images/products/bedrop/propolis/be-pp-12.webp", "images/products/bedrop/propolis/be-pp-13.webp", "images/products/bedrop/propolis/be-pp-14.webp", "images/products/bedrop/propolis/be-pp-15.webp", "images/products/bedrop/propolis/be-pp-16.webp", "images/products/bedrop/propolis/be-pp-17.webp", "images/products/bedrop/propolis/be-pp-18.webp", "images/products/bedrop/propolis/be-pp-19.webp", "images/products/bedrop/propolis/be-pp-2.webp", "images/products/bedrop/propolis/be-pp-20.webp", "images/products/bedrop/propolis/be-pp-21.webp", "images/products/bedrop/propolis/be-pp-22.webp", "images/products/bedrop/propolis/be-pp-23.webp", "images/products/bedrop/propolis/be-pp-24.webp", "images/products/bedrop/propolis/be-pp-3.webp", "images/products/bedrop/propolis/be-pp-4.webp", "images/products/bedrop/propolis/be-pp-5.webp", "images/products/bedrop/propolis/be-pp-6.webp", "images/products/bedrop/propolis/be-pp-7.webp", "images/products/bedrop/propolis/be-pp-8.webp", "images/products/bedrop/propolis/be-pp-9.webp", "images/products/cellavita/bio-lebensmittel/1-maca-rot-beutel-einzeln_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/1-maca-schwarzbeutel-einzeln_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/1-produktfoto-maca-rot-glas_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/1-produktfoto-maca-schwarz8ivHrtJaMogPC_600x600.jpg", "images/products/cellavita/bio-lebensmittel/beutel-einzeln_300-kapseln_25_600x600.jpg", "images/products/cellavita/bio-lebensmittel/beutel-einzeln_300-kapseln_26_600x600.jpg", "images/products/cellavita/bio-lebensmittel/beutel-einzeln__11_600x600.jpg", "images/products/cellavita/bio-lebensmittel/beutel-einzeln_acerola_300-kapseln_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/beutel-einzeln_maca-500-kapseln_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/bio-gerstengras-pulver_flasche-kopie_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/bio-gerstengrassaft-pulver_flasche_frei-kopie_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/bio-weizengras-pulver_flasche_frei-kopie_7_600x600.jpg", "images/products/cellavita/bio-lebensmittel/bratlinge-5-1-setSq74FWw0X6KAD_600x600.jpg", "images/products/cellavita/bio-lebensmittel/dinkelbild_neu_ohne_banner_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/flasche-acerola-180-kapseln-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/flasche-acerola-90g-neu-shop_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/flasche-tiere-acerola-90g-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-acerola-1-kg-beutel-shop_10_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-acerola-500g-beutel-shop_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-aufbau-gold-700g-beutel-shop_5_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-chlorella-spirulina-pferd-5kg-shop_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-cordyceps-500-kps-shop_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-curcuma-500-g-shop_15_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-curcuma-pferde-5kg-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-etikett-1kg-shop_10_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-flohsamenschalen-500-g-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-gerstengras-500-g-shop_7_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-gerstengrassaft-etikett-400-g-shop_14_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-hagebutte-500-g-shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-hagebutte-pferde-5kg-shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-heidelberger-7-krai-uter-350-g-beutel-shopGBZSSiCEdh2hA_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-leinmehl-tiere-5kg-shop_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-ling-zhi-bio-250g-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/gelee-royale-kapsen-frontal_1024x1024-2x_4_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-aufbau-gold-100g-shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-cordyceps-150k-shop_4_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-curcuma-100g-shop_10_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-curcuma-180k-shop_4_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-curcuma-tiere-180-kps-shop_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-flohsamenschalenpulver-150g-shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-granatapfel-extrakt-vita-150-kps-shop_9_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-hagebutte-vita-100g-shop_4_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-heidelberger-7-krai-uter-80g-shopLOjXAiJy6fMpD_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-ling-zhi-bio-120k-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-ling-zhi-bio-70g-shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-spirulina-pur-tabs-100g-shop_8_600x600.jpg", "images/products/cellavita/bio-lebensmittel/ksm66_glas_14_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto-maca-rot-180kapseln-glas_7_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto-maca-schwarz-glas_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_aprikosenkerne_250g_shop_7_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_bio-leinsamenmehl_500g_shop_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_buchweizenflocken_500g_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_cashewkerne_250g_shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_glas_kokos__l__2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_haferflocken_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_hanfsamen_250g_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_haseln__sse_250g_shop_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_k__rbiskerne_500g_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_leinsamen_500g_4_600x600.jpg", "images/products/cellavita/bio-lebensmittel/teezeit-20beutel_5_600x600.png", "images/products/cellavita/geraete/01_manschetten_zusammen_gebunden_3_600x600.jpg", "images/products/cellavita/geraete/02-mwo-antennen_18_600x600.jpg", "images/products/cellavita/geraete/094_klangwelten_gold_24_600x600.jpg", "images/products/cellavita/geraete/095_klangwelten_silver_25_600x600.jpg", "images/products/cellavita/geraete/099_koerpergleiter_2_600x600.jpg", "images/products/cellavita/geraete/1-geraet_27_600x600.jpg", "images/products/cellavita/geraete/100_eifix-260x260_600x600.jpg", "images/products/cellavita/geraete/10_5_600x600.jpg", "images/products/cellavita/geraete/11_5_600x600.jpg", "images/products/cellavita/geraete/20210119_114415_28_600x600.jpg", "images/products/cellavita/geraete/20220830_094145-shop_12_600x600.jpg", "images/products/cellavita/geraete/20220831_125727-shop_3_600x600.jpg", "images/products/cellavita/geraete/20230403_151119_28_600x600.jpg", "images/products/cellavita/geraete/20230403_151119_29_600x600.jpg", "images/products/cellavita/geraete/20230403_151119_30_600x600.jpg", "images/products/cellavita/geraete/2_26_600x600.jpg", "images/products/cellavita/geraete/3_40_600x600.jpg", "images/products/cellavita/geraete/ag-blanc_1_600x600.jpg", "images/products/cellavita/geraete/ag-cristal_1_600x600.jpg", "images/products/cellavita/geraete/ag-noir_1_600x600.jpg", "images/products/cellavita/geraete/ag_-_platin_600x600.jpg", "images/products/cellavita/geraete/airnergy-little-atmos-im-schlafzimmer-1030x1030_4_600x600.jpg", "images/products/cellavita/geraete/amfedilgpclmemgl_1_600x600.png", "images/products/cellavita/geraete/anschlusskabel-liegend_600x600.jpg", "images/products/cellavita/geraete/aromamischung_2500x2500_web_600x600.jpg", "images/products/cellavita/geraete/aromaset2shop_1_600x600.jpg", "images/products/cellavita/geraete/aromaset_1_2500x2500_web_600x600.jpg", "images/products/cellavita/geraete/aromaset_3_2500x2500thdgdybek5yqj_1_600x600.jpg", "images/products/cellavita/geraete/aromaset_4_2500x2500web_1_600x600.jpg", "images/products/cellavita/geraete/bild-1_27_600x600.png", "images/products/cellavita/geraete/bild-1_29_600x600.png", "images/products/cellavita/geraete/bild-1_32_600x600.png", "images/products/cellavita/geraete/bild-1_33_600x600.png", "images/products/cellavita/geraete/bild-winkelruten-4-1xHrOqHG9lLCsa_600x600.jpg", "images/products/cellavita/geraete/bp_4_600x600.jpg", "images/products/cellavita/geraete/cellalux-pulser-front-shop_2_600x600.jpg", "images/products/cellavita/geraete/eesm-elite-sleep-mat_10_600x600.jpeg", "images/products/cellavita/geraete/feinstrom_01_hr_7_600x600.jpg", "images/products/cellavita/geraete/filter_v2_2500x2500_2_600x600.jpg", "images/products/cellavita/geraete/filterset-k_11_600x600.jpg", "images/products/cellavita/geraete/filterset-k_12_600x600.jpg", "images/products/cellavita/geraete/filterset-k_13_600x600.jpg", "images/products/cellavita/geraete/frequenzen_shop_1_600x600.jpg", "images/products/cellavita/geraete/front-kapselhuellen-750-kps-shop_5_600x600.jpg", "images/products/cellavita/geraete/geno-neu_5_600x600.jpg", "images/products/cellavita/geraete/img_7988_3_600x600.jpg", "images/products/cellavita/geraete/kapselfuellmaschine-mit-beutel-shop_5_600x600.jpg", "images/products/cellavita/geraete/kornquetsche_nussbaum_9_600x600.png", "images/products/cellavita/geraete/kuechenfilter-k_3_600x600.jpg", "images/products/cellavita/geraete/kw_coverts_1280x1280_5_600x600.jpg", "images/products/cellavita/geraete/lr1_3_600x600.jpg", "images/products/cellavita/geraete/lrk4_4_600x600.jpg", "images/products/cellavita/geraete/luftreiniger-kueche-lrk2-ii_3_600x600.jpg", "images/products/cellavita/geraete/luftreiniger-lr4_52_0_2zbtmw1YVq9CZP_600x600.jpeg", "images/products/cellavita/geraete/luftreiniger-p-lr2-4_50_2_4_600x600.jpg", "images/products/cellavita/geraete/matresscover-calking-1_17_600x600.jpeg", "images/products/cellavita/geraete/matresscover-calking-1_18_600x600.jpeg", "images/products/cellavita/geraete/neowake_chromawatch_seitlich_aus_9_600x600.jpg", "images/products/cellavita/geraete/nfs4_8-schwarz_5_600x600.jpg", "images/products/cellavita/geraete/nfs4_8-weiss_7_600x600.jpg", "images/products/cellavita/geraete/nfs8-meile-119-22-300x217_14_600x600.jpg", "images/products/cellavita/geraete/nfs8-meile-1191-2-1-210x300_16_600x600.jpg", "images/products/cellavita/geraete/optimiererseitlichklein_7_600x600.jpg", "images/products/cellavita/geraete/piano-front_1_600x600.jpg", "images/products/cellavita/geraete/ppcynezllbjunybp_5_600x600.jpg", "images/products/cellavita/geraete/rute2_2_600x600.jpg", "images/products/cellavita/geraete/sativ-front-shop_2_600x600.jpg", "images/products/cellavita/geraete/saugnapf_1_600x600.jpg", "images/products/cellavita/geraete/set-basic_3_600x600.jpg", "images/products/cellavita/geraete/set-premium-freisteller_4_600x600.jpg", "images/products/cellavita/geraete/shop_0046-600x600_13_600x600.jpg", "images/products/cellavita/geraete/shop_0047_21_600x600.jpg", "images/products/cellavita/geraete/shop_brille_3_600x600.jpg", "images/products/cellavita/geraete/shop_nest_img_1306_2_600x600.jpg", "images/products/cellavita/geraete/shop_sd_cover_trilax_front_2_600x600.jpg", "images/products/cellavita/geraete/shop_vom-sandkorn-bis-zum-riesenstern_600x600.jpg", "images/products/cellavita/geraete/shop_wdr_front_600x600.jpg", "images/products/cellavita/geraete/smart_breathe_3_600x600.jpg", "images/products/cellavita/geraete/somnia-cover_600x600.jpg", "images/products/cellavita/geraete/stoffwechelprofis-flasche-blau-2_2_600x600.jpg", "images/products/cellavita/geraete/stoffwechelprofis-flasche-orange-2_2_600x600.jpg", "images/products/cellavita/geraete/stoffwechelprofis-flasche-silber-2_3_600x600.jpg", "images/products/cellavita/geraete/technik_12_4_600x600.jpg", "images/products/cellavita/geraete/tester-leitfaehigkeit_7_600x600.jpeg", "images/products/cellavita/geraete/therapiemagnet-2_600x600.jpg", "images/products/cellavita/geraete/um-universal-matte-2_16_600x600.jpg", "images/products/cellavita/geraete/v1_gold-1-600x600_17_600x600.jpg", "images/products/cellavita/geraete/v1_platin-600x600_27_600x600.jpg", "images/products/cellavita/geraete/voltmeter_einzeln_5_600x600.jpg", "images/products/cellavita/geraete/web_ms-foto_20221017_klangei_next_110_1_600x600.jpg", "images/products/cellavita/kinder/front-multi-c-kids-1250-t-shop_5_600x600.jpg", "images/products/cellavita/kinder/glas-calcium-kids-120g-neu-shop_6_600x600.jpg", "images/products/cellavita/kinder/glas-magnesium-kids-90g-shop_6_600x600.jpg", "images/products/cellavita/kinder/glas-multi-c-kids-180-ta-shop_3_600x600.jpg", "images/products/cellavita/kinder/nec_standard_NeutralTEHH9WAL8dwBy_600x600.png", "images/products/cellavita/kinder/vitamin-d3-kids_2_600x600.jpg", "images/products/cellavita/koerperpflege/01_bluetenfrische_glas_shop_10_600x600.jpg", "images/products/cellavita/koerperpflege/01_deocreme_vorteilspaket_10_600x600.jpg", "images/products/cellavita/koerperpflege/01_gingkolimette_glas_shop_10_600x600.jpg", "images/products/cellavita/koerperpflege/01_greentea_glas_shop_6_600x600.jpg", "images/products/cellavita/koerperpflege/01_mysticman_glas_shop_6_600x600.jpg", "images/products/cellavita/koerperpflege/Citovis-1_600x600.jpg", "images/products/cellavita/koerperpflege/Dermozym-2_600x600.jpg", "images/products/cellavita/koerperpflege/atheltic-fresh-2_1_600x600.jpg", "images/products/cellavita/koerperpflege/badeutensilien_mit_seife2_3_600x600.jpg", "images/products/cellavita/koerperpflege/beebalm_6_600x600.jpg", "images/products/cellavita/koerperpflege/beutel-einzeln__7_600x600.jpg", "images/products/cellavita/koerperpflege/bild6_kopie_1_600x600.jpg", "images/products/cellavita/koerperpflege/cellapure_haarseife_alge_01_7_600x600.jpg", "images/products/cellavita/koerperpflege/cellapure_haarseife_aloe_01_6_600x600.jpg", "images/products/cellavita/koerperpflege/cellapure_haarseife_brennnessel_01_8_600x600.jpg", "images/products/cellavita/koerperpflege/cellapure_haarseife_mango_01_5_600x600.jpg", "images/products/cellavita/koerperpflege/cellapure_haarseife_weizenkeim_01_3_600x600.jpg", "images/products/cellavita/koerperpflege/cellavita_artisan_rose_01_600x600.jpg", "images/products/cellavita/koerperpflege/cellavita_artisan_verveine_01_600x600.jpg", "images/products/cellavita/koerperpflege/front-basenbad-1kg-shop_5_600x600.jpg", "images/products/cellavita/koerperpflege/front-basenbad-5kg-shop_3_600x600.jpg", "images/products/cellavita/koerperpflege/glas-ohne-aufdruck_8_600x600.jpg", "images/products/cellavita/koerperpflege/haarseife_bier_front_5_600x600.jpg", "images/products/cellavita/koerperpflege/haarseife_bundle_v2_9_600x600.jpg", "images/products/cellavita/koerperpflege/image1_2_600x600.jpg", "images/products/cellavita/koerperpflege/jiaogulan-beutel-vorne_8_600x600.jpg", "images/products/cellavita/koerperpflege/jiaogulan-glas__9_600x600.jpg", "images/products/cellavita/koerperpflege/mineralgel_produktfoto_2_600x600.jpg", "images/products/cellavita/koerperpflege/mineralgel_produktfotos_vorrat_9_600x600.jpg", "images/products/cellavita/koerperpflege/nailserum-2_600x600.jpg", "images/products/cellavita/koerperpflege/produktfoto-teststreifen_6_600x600.jpg", "images/products/cellavita/koerperpflege/propolis-seife-1_3_600x600.jpg", "images/products/cellavita/koerperpflege/propolisdeo_1_600x600.jpg", "images/products/cellavita/kolloide/bild-kolloidales-germanium-50-ppm-200-ml_7_600x600.jpg", "images/products/cellavita/kolloide/bild-kolloidales-gold-30-ppm-200-ml_8_600x600.jpg", "images/products/cellavita/kolloide/nanosit-kolloidales-germanium-50-ppm-1000-ml_6_600x600.jpg", "images/products/cellavita/kolloide/nanosit-kolloidales-gold-30-ppm-1000-ml_1280x1280_6_600x600.jpg", "images/products/cellavita/kolloide/nanosit-kolloidales-kupfer-40-ppm-1000-ml_1280x1280_4_600x600.jpg", "images/products/cellavita/kolloide/nanosit-kolloidales-silber-100-ppm-1000-ml_1280x1280_7_600x600.jpg", "images/products/cellavita/kolloide/nanosit-kolloidales-zink-40-ppm-1000-ml_1280x1280_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/1-maca-rot-beutel-einzeln_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/1-maca-schwarzbeutel-einzeln_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/1-produktfoto-maca-rot-glas_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/1-produktfoto-maca-schwarz8ivHrtJaMogPC_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/1000x1000px_setsxlmefn7bmef1h_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/200mlikmv3cvyktayi_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/Brlauch200ml4er_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/Kardenwurzel200ml4er_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/Shaker_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/amino_beutel-einzeln__1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/ausleitungsprotokoll-klein-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beecreamnew_16_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_17_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_21_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_22_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_25_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_26_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln_12_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln_15_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__17_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__24_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__28_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__30_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__32_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln__11_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln__15_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_acerola_300-kapseln_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_maca-500-kapseln_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_nac_300_kapseln_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/bio-gerstengras-pulver_flasche-kopie_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/bio-gerstengrassaft-pulver_flasche_frei-kopie_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/bio-weizengras-pulver_flasche_frei-kopie_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/brlauch100ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/brlauch200ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/calcium-1kg-beutel-einzeln__9_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/calcium-natur-glas-ohne-aufdruck_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/cilantrokoriander100ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/cilantrokoriander200ml4er3378_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/cilantrokoriander200ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/citexivir-3_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/citoethyl-gro-3_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/citovet-1_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/citovigor-1_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/citozym-1_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/d-tagatose_beutel-500g_einzelnuz0Tu8k97iZzK_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/d-tagatose_glas-160g_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/ducolzym-1_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/ergozym-1_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/ergozym-plus-3_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/flasche-acerola-180-kapseln-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/flasche-acerola-90g-neu-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/flasche-ackerschachtelhalm-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/flasche-alpha-liponsaeure-neu-180-kapseln_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-acerola-1-kg-beutel-shop_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-acerola-500g-beutel-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-ackerschachtelhalm-etikett-500-g-beutel-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-alpha-liponsaeure-500-neu-kps-beutel_13_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-aufbau-gold-700g-beutel-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-coenzym-q10-500-kps-beutel-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-cordyceps-500-kps-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-curcuma-500-g-shop_15_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-d-galactose-1kg-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-d-galactose-500g-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-d-mannose-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-d-ribose-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-etikett-1kg-shop_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-gehirn-1kg-shopFdlmIRv3V673C_600x600.jpeg", "images/products/cellavita/nahrungsergaenzung/front-gehirn-500-g-shop015MnnAAFSqhI_600x600.jpeg", "images/products/cellavita/nahrungsergaenzung/front-gerstengras-500-g-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-gerstengrassaft-etikett-400-g-shop_14_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-haut-haare-500-kps-beutel-shop8WYrJHTbKgiuu_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-kalium-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-kalium-500-kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-l-arginin-500-g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-l-carnitin-500-kps-shop_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-lein-protein-900-g-beutel-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-ling-zhi-bio-250g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-lithothamnium-1-kg-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-magnesium-classic-1-kg-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-magnesium-mild-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-msm-1-kg-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-msm-500-kps-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-msm-spezial-1-kg-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-multi-c-kids-1250-t-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-multi-c-kids-1250-t-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-opc-500-g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-pro-colon-420-g-2er-set-shaker-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-pro-colon-420-g-3er-set-shaker-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-pro-colon-420-g-set-shaker-shop_11_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-pro-immun-500-kps-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-sangokoralle-1kg-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-sangokoralle-500g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-superfood-365-500g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-superfood-triphala-500-g-kopie_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-vitamin-b-12-500-g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-vitamin-b-komplex-500-g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-weihrauch-myrrhe-vita-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-weihrauch-vita-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-weizengras-500-g-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-zink-selen-500-kps-shop_6_600x600.jpeg", "images/products/cellavita/nahrungsergaenzung/glas-astaxanthin-60-kaps-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-aufbau-gold-100g-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-bambus-extrakt-50g-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-bor-150-kapseln-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-calcium-kids-120g-neu-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-cellavita-forte-150k-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-coenzym-q10-180k-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-cordyceps-150k-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-curcuma-100g-shop_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-curcuma-180k-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-d-galactose-200g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-d-mannose-110g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-d-ribose-160g-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-eisen-mangan-kupfer-60kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-eisen-vitamin-c-90-kps-shopQsEfqPn0LOmjj_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-gehirn-200g-shopkqOL76y5F5cQA_600x600.jpeg", "images/products/cellavita/nahrungsergaenzung/glas-granatapfel-extrakt-vita-150-kps-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-griffonia-120k-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-haut-haare-150-kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-hyaluronsaeure-180k-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-jod-natur-120-kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-kalium-vita-120-kps-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-kalium-vita-250g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-knochen-bewegung-74g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-l-arginin-150g-shopK8mLU9bdEaZLX_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-l-carnitin-120-kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-ling-zhi-bio-120k-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-ling-zhi-bio-70g-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-lithothamnium-120g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-magnesium-120g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-magnesium-kids-90g-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-magnesium-mild-180-kps-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-magnesium-mild-90-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-mariendistel-120kps-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-melatonin-60-kps-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-msm-spezial-200g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-msm-vita-100g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-msm-vita-150-kps-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-multi-c-kids-180-ta-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-nattokinase-90-kps-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-ohne-aufdruck_9_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-olivenblattextrakt-90-kps-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-opc-100-g-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-opc-60kps-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-pro-immun-90-kps-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-sangokoralle-120g-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-spirulina-pur-tabs-100g-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-superfood-365-150-kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-vitamin-b-komplex-100g-shop_9_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-vitamin-b12-60-kps-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-weihrauch-120-g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-weihrauch-extrakt-150-kps-shop_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-weihrauch-extrakt-50-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-weihrauch-myrrhe-120-g-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-wild-yam-150-kps-shop_20_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/kardanwurzel200ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/kardenwurzel100ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/l-lysin_glas_11_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/mineral-p450-1_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/nec_standard_NeutralTEHH9WAL8dwBy_600x600.png", "images/products/cellavita/nahrungsergaenzung/omega-3-100ml-shop_13_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/omega-kapseln-algen_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/probiotic-p450-1_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktbildems_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktbildemsvorsorgepaketnawlmitbuvkw2_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-glas-multi-c-180-tbl_11_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-granatapfel-vita_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-maca-rot-180kapseln-glas_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-maca-schwarz-glas_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-para-ex-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-vir-ex-vita_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-vitamin-a_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-vitamin-e_16_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-weihrauch-myrrhe-gold_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_d3_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_d3_vorrat_5er_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_glas_nac_kapseln_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_glas_zink_selen_90_kps_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_kiefernadelextrakt_1IR40HOZA3ONcP_600x600.jpeg", "images/products/cellavita/nahrungsergaenzung/produktfoto_lo__wenzahnextrakt_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_milchs__ure_500ml_shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_olivenblattextrakt_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_rosenwurz_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_vitamin_k2_shop_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfotomilchsure500ml5xvorsorgeshopkye8zvyqecidj_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/propoliscream_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/propolisdeo_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/propulzym-2_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/royallotion100ml-kopie_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/spruehflasche_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/vitamin-d3-hochdosiert_12_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/vitamin-d3-kids-vorsorge_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/vitamin-d3-kids_2_600x600.jpg", "images/products/cellavita/natur/1-bottle-with-box-propolis-10aOfyOkhZ3AgZq_600x600.jpg", "images/products/cellavita/natur/1-bottle-with-box-propolis-mundspray_600x600.jpg", "images/products/cellavita/natur/1500ml-Sprossenglas_600x600.jpg", "images/products/cellavita/natur/1500mlglas_600x600.jpg", "images/products/cellavita/natur/20220321_hempamed_de_cbd_premiumoel_10ml_rz_10-_box_bottle_4000px_3_600x600.png", "images/products/cellavita/natur/20220321_hempamed_de_cbd_premiumoel_10ml_rz_20-_box-bottle_4000px_1_600x600.png", "images/products/cellavita/natur/20220321_hempamed_de_cbd_premiumoel_10ml_rz_5-_box-bottle_4000px_1_600x600.png", "images/products/cellavita/natur/20_-tinktur-frontal_1024x1024-2x_3_600x600.jpg", "images/products/cellavita/natur/Bluetenpollenpulver_600x600.jpg", "images/products/cellavita/natur/Deckel_gross_600x600.jpg", "images/products/cellavita/natur/Deckel_klein_600x600.jpg", "images/products/cellavita/natur/SG_1000ml_600x600.jpg", "images/products/cellavita/natur/SG_750_800x800_600x600.jpg", "images/products/cellavita/natur/Set_I_1000_800x800_600x600.jpg", "images/products/cellavita/natur/Set__750_800x800_600x600.jpg", "images/products/cellavita/natur/beebalm_6_600x600.jpg", "images/products/cellavita/natur/beecreamnew_16_600x600.jpg", "images/products/cellavita/natur/blau1_8_600x600.jpg", "images/products/cellavita/natur/brlauch100ml_1_600x600.jpg", "images/products/cellavita/natur/brlauch200ml_1_600x600.jpg", "images/products/cellavita/natur/cilantrokoriander100ml_1_600x600.jpg", "images/products/cellavita/natur/cilantrokoriander200ml_1_600x600.jpg", "images/products/cellavita/natur/front-apfelpektin-600g-shop_8_600x600.jpg", "images/products/cellavita/natur/front-bentonit-1-kg-beutel-shopiFkZHdcBVh1F2_600x600.jpg", "images/products/cellavita/natur/front-flohsamenschalen-500-g-shop_3_600x600.jpg", "images/products/cellavita/natur/front-heidelberger-7-krai-uter-350-g-beutel-shopGBZSSiCEdh2hA_600x600.jpg", "images/products/cellavita/natur/front-zeolith-1-kg-shop_4_600x600.jpg", "images/products/cellavita/natur/front-zeolith-500g-shop_5_600x600.jpg", "images/products/cellavita/natur/front-zeolith-bentonit-1-kg-shop9HoGn1LZqtoRD_600x600.jpg", "images/products/cellavita/natur/gelee-royale-kapsen-frontal_1024x1024-2x_4_600x600.jpg", "images/products/cellavita/natur/glas-bentonit-140g-shop_3_600x600.jpg", "images/products/cellavita/natur/glas-flohsamenschalenpulver-150g-shop_2_600x600.jpg", "images/products/cellavita/natur/glas-heidelberger-7-krai-uter-80g-shopLOjXAiJy6fMpD_600x600.jpg", "images/products/cellavita/natur/glas-zeolith-bentonit-140-g-shopFBo1AXfCVDvww_600x600.jpg", "images/products/cellavita/natur/h-loesung_kl-600x906_7_600x600.jpg", "images/products/cellavita/natur/kardanwurzel200ml_1_600x600.jpg", "images/products/cellavita/natur/kardenwurzel100ml_1_600x600.jpg", "images/products/cellavita/natur/keimkiste-gross_3_600x600.jpg", "images/products/cellavita/natur/keimkiste_klein_2_600x600.png", "images/products/cellavita/natur/manuka-honigwithhoneyspoon_bigger_new_8_600x600.jpg", "images/products/cellavita/natur/manuka_loffel_deckeloffen_2kopie_1024x1024-2x_7_600x600.jpg", "images/products/cellavita/natur/nec_standard_NeutralTEHH9WAL8dwBy_600x600.png", "images/products/cellavita/natur/ortho-2_5_600x600.jpg", "images/products/cellavita/natur/p3299231-quer-freigestellt_5_600x600.png", "images/products/cellavita/natur/produktfoto-granatapfel-vita_4_600x600.jpg", "images/products/cellavita/natur/produktfoto-para-ex-shop_2_600x600.jpg", "images/products/cellavita/natur/produktfoto_aprikosenkerne_250g_shop_7_600x600.jpg", "images/products/cellavita/natur/produktfoto_glas_kokos__l__2_600x600.jpg", "images/products/cellavita/natur/produktfoto_kiefernadelextrakt_1IR40HOZA3ONcP_600x600.jpeg", "images/products/cellavita/natur/produktfoto_lo__wenzahnextrakt_3_600x600.jpg", "images/products/cellavita/natur/produktfoto_olivenblattextrakt_2_600x600.jpg", "images/products/cellavita/natur/produktfoto_rosenwurz_3_600x600.jpg", "images/products/cellavita/natur/propolis-kapseln-frontal_1024x1024-2x_4_600x600.jpg", "images/products/cellavita/natur/propolis-seife-1_3_600x600.jpg", "images/products/cellavita/natur/propoliscream_4_600x600.jpg", "images/products/cellavita/natur/propolisdeo_1_600x600.jpg", "images/products/cellavita/natur/royallotion100ml-kopie_10_600x600.jpg", "images/products/cellavita/natur/sprossen_set_1500ml_600x600.jpg", "images/products/cellavita/natur/system_ii_1000_wei___800x800_600x600.jpg", "images/products/cellavita/natur/system_ii_750_wei___800x800_600x600.jpg", "images/products/cellavita/reinigung/allzweckreiniger-flasche-frei-2s98PTSdeOAk9O_600x600.png", "images/products/cellavita/reinigung/allzweckreiniger-set-frei-2ev5nfOTfhcA22_600x600.png", "images/products/cellavita/reinigung/atme-durch_5_600x600.png", "images/products/cellavita/reinigung/bewegungsfreude_5_600x600.png", "images/products/cellavita/reinigung/bild-cdl-100-ml-weiss-neu9YkuYw16AezcZ_600x600.jpg", "images/products/cellavita/reinigung/borellisan_5_600x600.png", "images/products/cellavita/reinigung/denkfit_6_600x600.png", "images/products/cellavita/reinigung/herzensbluete_16_600x600.png", "images/products/cellavita/reinigung/immuzauber_7_600x600.png", "images/products/cellavita/reinigung/magdasan_6_600x600.png", "images/products/cellavita/reinigung/p1033209_7_600x600.jpg", "images/products/cellavita/reinigung/produktfoto-c60-100ml_3_600x600.jpg", "images/products/cellavita/reinigung/produktfoto-cio-2-500ml_6_600x600.jpg", "images/products/cellavita/reinigung/produktfoto-dmso-500-ml_2_600x600.jpg", "images/products/cellavita/reinigung/produktfoto-dmso_600x600.jpg", "images/products/cellavita/reinigung/ruhepol_6_600x600.png", "images/products/kronenberg/Nahrungsergaenzung/agaricus-blazei-murrill-mandelpilz-120g.png", "images/products/kronenberg/Nahrungsergaenzung/aloe-vera-frischpflanzensaft-mit-honig-plus-vitamin-c.png", "images/products/kronenberg/Nahrungsergaenzung/amalaki-ayurveda-pulver-organisch.png", "images/products/kronenberg/Nahrungsergaenzung/amino-komplex-17-17-essentielle-aminosaeuren.png", "images/products/kronenberg/Nahrungsergaenzung/anorganischer-schwefel-min-999-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-einjaehriger-beifuss-pulver-das-echte.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-kapseln-einjaehriger-beifuss.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-oxymel-compositum-alkoholfrei.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-plus-rosmarin-vitamin-c.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-samen-qing-hao-gvk-spezial.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-ultraschall-extraktion-mit-schungitwasser.png", "images/products/kronenberg/Nahrungsergaenzung/bernsteinsaeure-hpmc-kapseln-plus-vitamin-c.png", "images/products/kronenberg/Nahrungsergaenzung/bio-camu-camu-pulver-viel-vitamin-c.png", "images/products/kronenberg/Nahrungsergaenzung/biota-em-effektive-mikroorganismen-500ml.png", "images/products/kronenberg/Nahrungsergaenzung/bockshornklee-extrakt-ein-vielseitiges-kraut.png", "images/products/kronenberg/Nahrungsergaenzung/bockshornklee-kur-diffuser-haarausfall-kapseln-tee-tinktur.png", "images/products/kronenberg/Nahrungsergaenzung/bockshornklee-tee-samen-200g.png", "images/products/kronenberg/Nahrungsergaenzung/braunalge-knotentang-ascophyllum-nodosum.png", "images/products/kronenberg/Nahrungsergaenzung/calcium-kalium-magnesium-kombination.png", "images/products/kronenberg/Nahrungsergaenzung/catuaba-erythroxylum-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/catuaba-tee-der-tupi-indianer-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/Nahrungsergaenzung/catumupu-catuaba-muira-puama-tinktur.png", "images/products/kronenberg/Nahrungsergaenzung/chaga-pilz-tee-bio-qualitaet-wildsammlung.png", "images/products/kronenberg/Nahrungsergaenzung/chanca-piedra-steinbrecher.png", "images/products/kronenberg/Nahrungsergaenzung/coenzym-q10-vegan-90-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/copaiba-oel-100-natuerlich.png", "images/products/kronenberg/Nahrungsergaenzung/cordyceps-cordycepin-all-in-one-schmelzpastillen.png", "images/products/kronenberg/Nahrungsergaenzung/cordyceps-cordycepin-lyophilized-schmelzpastille-10mgpastille.png", "images/products/kronenberg/Nahrungsergaenzung/eisen-frucht-muttersaft-supermix-330-ml.png", "images/products/kronenberg/Nahrungsergaenzung/eisenbisglycinat-eisen-pulver-100g.png", "images/products/kronenberg/Nahrungsergaenzung/extase-aphrodisiakum-catuaba-muira-puama-rinden-tee.png", "images/products/kronenberg/Nahrungsergaenzung/goldene-milch-paste-kurkuma-power.png", "images/products/kronenberg/Nahrungsergaenzung/graviola-annona-muricata-blaetter-wildsammlung.png", "images/products/kronenberg/Nahrungsergaenzung/graviola-extrakt-annona-muricata-superfood.png", "images/products/kronenberg/Nahrungsergaenzung/gruenes-wunder-chlorella-gerstengras-spirulina-weizengras-.png", "images/products/kronenberg/Nahrungsergaenzung/hacheney-hyperwasser-mit-kolloidalem-silizium.png", "images/products/kronenberg/Nahrungsergaenzung/hagebutten-extrakt-100-natur.png", "images/products/kronenberg/Nahrungsergaenzung/hair-power-kur-bockshornklee-kapseln-60-stk.png", "images/products/kronenberg/Nahrungsergaenzung/holunder-beeren-extrakt-antioxidans.png", "images/products/kronenberg/Nahrungsergaenzung/hyaluronsaeure-plus-glucosamin-und-chondroitin-60-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/juglandis-kur-nach-dr-hulda-clark-kraeuter-tee-aperitif.png", "images/products/kronenberg/Nahrungsergaenzung/katzenkralle-sangre-de-grado-100g-tee-amazonas-regenwald-.png", "images/products/kronenberg/Nahrungsergaenzung/kiefernnadel-und-sprossen-wuerzeextrakt-ultraschall-extraktion.png", "images/products/kronenberg/Nahrungsergaenzung/koriander-co-schwermetall-ausleitung-im-sparpaket.png", "images/products/kronenberg/Nahrungsergaenzung/koriander-extrakt-ultraschall-extraktion-100ml.png", "images/products/kronenberg/Nahrungsergaenzung/kraeutertee-aperitif-lymphe-abies.png", "images/products/kronenberg/Nahrungsergaenzung/kraeutertee-aperitif-niere-ren.png", "images/products/kronenberg/Nahrungsergaenzung/l-arginin-base-pulver-vegan.png", "images/products/kronenberg/Nahrungsergaenzung/l-carnitin-base-pulver-100.png", "images/products/kronenberg/Nahrungsergaenzung/l-tryptophan-mit-b-vitaminen-und-folsaeure-60-hpmc-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/l-tryptophan-pulver-aus-fermentation.png", "images/products/kronenberg/Nahrungsergaenzung/lapacho-rinden-tee-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/Nahrungsergaenzung/licht-edel-schungit-wasser-energetikum.png", "images/products/kronenberg/Nahrungsergaenzung/liposomale-artemisia-annua-ultraschall-extraktion-50ml.png", "images/products/kronenberg/Nahrungsergaenzung/liposomale-moringa-morisana-ultraschall-extraktion.png", "images/products/kronenberg/Nahrungsergaenzung/loewenzahnkraut-wuerze-extrakt-ultraschall-extraktion.png", "images/products/kronenberg/Nahrungsergaenzung/magnesium-plus-b-vitamine-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/meerrettich-extract-ultraschall-extraktion.png", "images/products/kronenberg/Nahrungsergaenzung/meerwasser-agua-de-mar-mit-schungit-wasser.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-miracle-suppe-20-portionen-gmo-frei.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-morisana-gesundheit-spar-paket.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-morisana-plus-artemisia-annua-kombi-paket.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-morisana-premium-mit-vitamin-b12.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-morisana-premium-pulver-300g-monatspackung.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-samen-in-kapsel-100-pures-samenpulver.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-samenpulver-100-fein-gemahlen-20g.png", "images/products/kronenberg/Nahrungsergaenzung/msm-organischer-schwefel-reinheitsgrad-999.png", "images/products/kronenberg/Nahrungsergaenzung/muira-puama-pulver-potenzbaum-im-amazonas-regenwald.png", "images/products/kronenberg/Nahrungsergaenzung/muira-puama-tee-aphrodisiakum-amazonas-regenwald.png", "images/products/kronenberg/Nahrungsergaenzung/multivitamin-mineral-60-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/mulungu-das-schlaf-elixier-der-indianer-90-stk.png", "images/products/kronenberg/Nahrungsergaenzung/natriumhydrogencarbonat-pharm-qualitaet.png", "images/products/kronenberg/Nahrungsergaenzung/noni-100-direktsaft.png", "images/products/kronenberg/Nahrungsergaenzung/nopal-kapseln-feigenkaktus-opuntia-ficus-indica-vegan.png", "images/products/kronenberg/Nahrungsergaenzung/omega-3-lachsoelkapseln-mit-vitamin-e.png", "images/products/kronenberg/Nahrungsergaenzung/oregano-oel-wilder-majoran-carvacrol-80.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-agnimantha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-ashwagandha-ayurveda-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-brahmi-ayurveda-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-giloy-ayurveda-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-patadi-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-shatavari-ayurveda-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-swastha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-trivala-ayurveda-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/original-urs-surbeck-energetisches-wasser-gesunde-balance.png", "images/products/kronenberg/Nahrungsergaenzung/pure-formula-stoffwechsel-90-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/safran-extrakt-mit-curcumin-gueteklasse-1-15ml.png", "images/products/kronenberg/Nahrungsergaenzung/sango-meeres-korallen-pures-pulver-original-aus-okinawa.png", "images/products/kronenberg/Nahrungsergaenzung/sangre-de-drago-100-aus-wildsammlung.png", "images/products/kronenberg/Nahrungsergaenzung/schamblumenblueten-blau-clitoria-ternatea-flores-100g.png", "images/products/kronenberg/Nahrungsergaenzung/schatz-der-inkas-trunk-der-goetter-amazonas-regenwald-tee.png", "images/products/kronenberg/Nahrungsergaenzung/schwarzkuemmel-oel-kaltpressung-gefiltert-100ml.png", "images/products/kronenberg/Nahrungsergaenzung/schwarzkuemmel-pulver-nigella-sativa-premiumqualitaet.png", "images/products/kronenberg/Nahrungsergaenzung/spirulina-tropfenextrakt-100-ml.png", "images/products/kronenberg/Nahrungsergaenzung/stauden-sellerie-pulver-inspiriert-durch-medical-food-monatskur.png", "images/products/kronenberg/Nahrungsergaenzung/strophanthus-kombe-saatgut-strophanthin.png", "images/products/kronenberg/Nahrungsergaenzung/suessholzwurzel-natur-gemahlen-lakritzpulver.png", "images/products/kronenberg/Nahrungsergaenzung/traubenkern-opc-ultraschall-extrakt-mit-schungit-wasser.png", "images/products/kronenberg/Nahrungsergaenzung/tri-magnesiumdicitrat-zaehne-knochen-muskeln.png", "images/products/kronenberg/Nahrungsergaenzung/urs-surbeck-energetisches-wasser-wohlfuehlflasche-50ml.png", "images/products/kronenberg/Nahrungsergaenzung/vitalpilze-6-fach-pilzkomplex-extrakt.png", "images/products/kronenberg/Nahrungsergaenzung/vitamin-b12-pure-power-plus-l-carnitin-vitamin-d-und-c.png", "images/products/kronenberg/Nahrungsergaenzung/vitamin-k2-plus-vitamin-d3-plus-calcium.png", "images/products/kronenberg/Nahrungsergaenzung/weidenrinde-purpurweide-geschnitten-mit-nat-salicin.png", "images/products/kronenberg/Nahrungsergaenzung/weidenrinden-purpurweide-ultraschall-extrakt.png", "images/products/kronenberg/Nahrungsergaenzung/weidenroeschen-kleinbluetig-ultraschall-extraktion.png", "images/products/kronenberg/Nahrungsergaenzung/weih-muri-weihrauch-und-myrrhe-extrakt.png", "images/products/kronenberg/Nahrungsergaenzung/zimtblaetteroel-100-reines-aetherisches-oel-10ml.png", "images/products/kronenberg/TeeKr\xE4uterPulver/988-pures-artemisiaartemisinin-90-vegi-kapseln.png", "images/products/kronenberg/TeeKr\xE4uterPulver/agaricus-blazei-murrill-mandelpilz-120g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/amalaki-ayurveda-pulver-organisch.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-100-reine-blaetter-100g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-einjaehriger-beifuss-pulver-das-echte.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-kapseln-einjaehriger-beifuss.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-oxymel-compositum-alkoholfrei.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-salbe-moringa-samen-pulver-dmso.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-samen-qing-hao-gvk-spezial.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-ultraschall-extraktion-mit-schungitwasser.png", "images/products/kronenberg/TeeKr\xE4uterPulver/ayurveda-tee-mischung-harmonie.png", "images/products/kronenberg/TeeKr\xE4uterPulver/bio-camu-camu-pulver-viel-vitamin-c.png", "images/products/kronenberg/TeeKr\xE4uterPulver/bockshornklee-extrakt-ein-vielseitiges-kraut.png", "images/products/kronenberg/TeeKr\xE4uterPulver/bockshornklee-tee-samen-200g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/brennnesselblaetter-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/TeeKr\xE4uterPulver/brennnesselwurzel-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/TeeKr\xE4uterPulver/catuaba-erythroxylum-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/catuaba-tee-der-tupi-indianer-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/TeeKr\xE4uterPulver/catumupu-catuaba-muira-puama-tinktur.png", "images/products/kronenberg/TeeKr\xE4uterPulver/chaga-pilz-tee-bio-qualitaet-wildsammlung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/chanca-piedra-steinbrecher.png", "images/products/kronenberg/TeeKr\xE4uterPulver/cistus-incanus-zistrosenkraut.png", "images/products/kronenberg/TeeKr\xE4uterPulver/der-weltberuehmte-tee-der-ojibwa-indianer-essiac-blend.png", "images/products/kronenberg/TeeKr\xE4uterPulver/ebv-pulver-mixtur-30-tage-kur.png", "images/products/kronenberg/TeeKr\xE4uterPulver/eisenbisglycinat-eisen-pulver-100g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/extase-aphrodisiakum-catuaba-muira-puama-rinden-tee.png", "images/products/kronenberg/TeeKr\xE4uterPulver/graviola-annona-muricata-blaetter-wildsammlung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/gruenes-wunder-chlorella-gerstengras-spirulina-weizengras-.png", "images/products/kronenberg/TeeKr\xE4uterPulver/indioclean-100g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/jiaogulan-kraut-kraut-der-unsterblichkeit-kraeuterpotpourri.png", "images/products/kronenberg/TeeKr\xE4uterPulver/juglandis-kur-nach-dr-hulda-clark-kraeuter-tee-aperitif.png", "images/products/kronenberg/TeeKr\xE4uterPulver/katzenkralle-sangre-de-grado-100g-tee-amazonas-regenwald-.png", "images/products/kronenberg/TeeKr\xE4uterPulver/koriander-co-schwermetall-ausleitung-im-sparpaket.png", "images/products/kronenberg/TeeKr\xE4uterPulver/kraeutertee-aperitif-leber-lecur.png", "images/products/kronenberg/TeeKr\xE4uterPulver/kraeutertee-aperitif-lymphe-abies.png", "images/products/kronenberg/TeeKr\xE4uterPulver/kraeutertee-aperitif-niere-ren.png", "images/products/kronenberg/TeeKr\xE4uterPulver/kur-paket-premium-4-entgiftungreinigungverdauung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/l-arginin-base-pulver-vegan.png", "images/products/kronenberg/TeeKr\xE4uterPulver/l-carnitin-base-pulver-100.png", "images/products/kronenberg/TeeKr\xE4uterPulver/l-tryptophan-pulver-aus-fermentation.png", "images/products/kronenberg/TeeKr\xE4uterPulver/lapacho-rinden-tee-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/TeeKr\xE4uterPulver/lapacho-tinktur-ultraschall-extraktion-amazonas-regenwald.png", "images/products/kronenberg/TeeKr\xE4uterPulver/leinsamenextrakt-pulver-vegi-kapseln-90-stueck.png", "images/products/kronenberg/TeeKr\xE4uterPulver/liposomale-artemisia-annua-ultraschall-extraktion-50ml.png", "images/products/kronenberg/TeeKr\xE4uterPulver/loewenzahnblaetter-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/TeeKr\xE4uterPulver/loewenzahnwurzel-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/TeeKr\xE4uterPulver/lungenkraut-wuerzeextrakt-ultraschall-extraktion.png", "images/products/kronenberg/TeeKr\xE4uterPulver/moringa-morisana-plus-artemisia-annua-kombi-paket.png", "images/products/kronenberg/TeeKr\xE4uterPulver/moringa-morisana-premium-pulver-300g-monatspackung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/moringa-samenpulver-100-fein-gemahlen-20g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/moringa-spicy-gewuerz-mit-kalahari-wuesten-salz.png", "images/products/kronenberg/TeeKr\xE4uterPulver/muira-puama-pulver-potenzbaum-im-amazonas-regenwald.png", "images/products/kronenberg/TeeKr\xE4uterPulver/muira-puama-tee-aphrodisiakum-amazonas-regenwald.png", "images/products/kronenberg/TeeKr\xE4uterPulver/mulungu-das-schlaf-elixier-der-indianer-90-stk.png", "images/products/kronenberg/TeeKr\xE4uterPulver/natriumhydrogencarbonat-pharm-qualitaet.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-agnimantha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-ashwagandha-ayurveda-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-brahmi-ayurveda-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-giloy-ayurveda-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-patadi-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-shatavari-ayurveda-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-swastha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-trivala-ayurveda-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/papaya-blaetter-und-staengel-grob-100g-superfood.png", "images/products/kronenberg/TeeKr\xE4uterPulver/pure-formula-stoffwechsel-90-kapseln.png", "images/products/kronenberg/TeeKr\xE4uterPulver/schamblumenblueten-blau-clitoria-ternatea-flores-100g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/schatz-der-inkas-trunk-der-goetter-amazonas-regenwald-tee.png", "images/products/kronenberg/TeeKr\xE4uterPulver/schilddruesen-kraeuter-mischung-pulver-inspiriert-durch-medical-food.png", "images/products/kronenberg/TeeKr\xE4uterPulver/schwarzkuemmel-pulver-nigella-sativa-premiumqualitaet.png", "images/products/kronenberg/TeeKr\xE4uterPulver/stauden-sellerie-pulver-inspiriert-durch-medical-food-monatskur.png", "images/products/kronenberg/TeeKr\xE4uterPulver/suessholzwurzel-natur-gemahlen-lakritzpulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/tantum-1-nierentee-reinigung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/tantum-2-lebertee-zur-leberreinigung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/tantum-3-darm-sanierung-kur.png", "images/products/kronenberg/TeeKr\xE4uterPulver/tantum-6-tee-entgiftung-reinigung-verdauung-und-rheuma.png", "images/products/kronenberg/TeeKr\xE4uterPulver/teetox-stoffwechsel-tee-inspiriert-durch-medical-food.png", "images/products/kronenberg/TeeKr\xE4uterPulver/tri-magnesiumdicitrat-zaehne-knochen-muskeln.png", "images/products/kronenberg/TeeKr\xE4uterPulver/typ-2-pulver-bioaktive-verbindungen.png", "images/products/kronenberg/TeeKr\xE4uterPulver/vitalpilze-6-fach-pilzkomplex-extrakt.png", "images/products/kronenberg/TeeKr\xE4uterPulver/weidenrinde-purpurweide-geschnitten-mit-nat-salicin.png", "images/products/kronenberg/TeeKr\xE4uterPulver/weidenrinden-purpurweide-ultraschall-extrakt.png", "images/products/kronenberg/TeeKr\xE4uterPulver/zistrosenkraut-gemahlen-fuer-hunde-katzen-100-natur.png", "images/products/kronenberg/Therapeuteninfos/adsadhs-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/artemisia-annua-einjaehriger-beifuss-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/bockshornklee-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/catuaba-teetinktur-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/chaga-pilz-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/chlordioxid-loesung-chlorine-dioxide-solution-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/chlorellagerstengrasspirullina-und-weizengras-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/cinderella-das-moringa-oleifera-kindermalbuch-25-seiten.png", "images/products/kronenberg/Therapeuteninfos/cistrose-cistus-incanus-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/copaiba-copaifera-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/darmgesundheit-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/darmparasiten-therapeuteninfo-.png", "images/products/kronenberg/Therapeuteninfos/das-dmso-handbuch-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/das-ultimative-gesundungsprogramm.png", "images/products/kronenberg/Therapeuteninfos/der-weltberuehmte-tee-der-ojibwa-indianer-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/detaillierter-produktkatalog-der-graf-von-kronenberg-group.png", "images/products/kronenberg/Therapeuteninfos/detox-kraeuter-tee-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/e-book-organisches-germanium-raetselhaftes-elixier.png", "images/products/kronenberg/Therapeuteninfos/epstein-barr-virus-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/graviola-stachelannone-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/indo-green-kratom-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/kiefer-als-heilmittel-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/kleinbluetiges-weidenroeschen-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/knotentang-braunalge-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/kompendium-beruehmter-und-seltenervergessener-heilmittel.png", "images/products/kronenberg/Therapeuteninfos/koriander-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/l-arginin-base-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/l-carnitin-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/lapacho-teetinktur-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/liposomal-und-die-besondere-wirkung.png", "images/products/kronenberg/Therapeuteninfos/loewenzahn-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/lotus-bluete-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/lungenkraut-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/moringa-morisana-premium-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/msm-dimethylsulfon-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/muira-puama-teetinktur-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/multiple-sklerose-ms-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/mulungu-therapeuteninfo-14-seiten.png", "images/products/kronenberg/Therapeuteninfos/mumiyo-shilajit-maumasil-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/ozonisiertes-olivenoel-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/rote-wurzel-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/safran-das-besondere-heilmittel-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/sango-meeres-koralle-aus-okinawa-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/sangre-de-drago-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/schatz-der-inkas-tee-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/schungit-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/schwarzkuemmel-pulver-nigella-sativa-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/schwefel-kur-nach-dr-karl-j-probst-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/sellerie-saft-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/stachybotrys-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/strophanthin-schach-matt-dem-herzinfarkt.png", "images/products/kronenberg/Therapeuteninfos/strophanthin-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/superfood-cordyceps-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/superfood-meerrettich-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/vitamin-d3-cholecalciferol-ist-gar-kein-vitamin-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/vitamin-e-der-grosse-betrug-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/weidenrinde-therapeutheninfo.png", "images/products/kronenberg/Therapeuteninfos/zuordnung-der-heilkraeuter-zu-krankheiten-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/zytamin-bio-regulator-komplex-therapeuteninfo.png", "images/products/kronenberg/Vitalpilze/agaricus-blazei-murrill-mandelpilz-120g.png", "images/products/kronenberg/Vitalpilze/vitalpilze-6-fach-pilzkomplex-extrakt.png", "images/products/kronenberg/Zubeh\xF6r/100ml-braune-medizinflasche-mit-zerstaeuber.png", "images/products/kronenberg/Zubeh\xF6r/100ml-leere-braune-medizinflasche-mit-pipette.png", "images/products/kronenberg/Zubeh\xF6r/aktivierungssalz-fuer-elektrolyse-fussbad.png", "images/products/kronenberg/Zubeh\xF6r/bioenergiser-ionen-detox-fusselektrolysebad-kpl-set.png", "images/products/kronenberg/Zubeh\xF6r/blasenspritze-100-ml-sterile-einmalspritze.png", "images/products/kronenberg/Zubeh\xF6r/din-18-pipettenverschluss-fuer-100ml-tropfflaschen.png", "images/products/kronenberg/Zubeh\xF6r/nagelfeile-aus-glas-fuer-mani-und-pedikuere-die-revolution.png", "images/products/kronenberg/Zubeh\xF6r/spruehflasche-50-ml-braunes-glas-kompl-mit-zerstaeuber.png", "images/products/kronenberg/aphrodisiaka/catuaba-erythroxylum-pulver.png", "images/products/kronenberg/aphrodisiaka/catumupu-catuaba-muira-puama-tinktur.png", "images/products/kronenberg/aphrodisiaka/extase-aphrodisiakum-catuaba-muira-puama-rinden-tee.png", "images/products/kronenberg/aphrodisiaka/muira-puama-pulver-potenzbaum-im-amazonas-regenwald.png", "images/products/kronenberg/aphrodisiaka/muira-puama-tee-aphrodisiakum-amazonas-regenwald.png", "images/products/kronenberg/ayurveda/amalaki-ayurveda-pulver-organisch.png", "images/products/kronenberg/ayurveda/ayurveda-tee-mischung-harmonie.png", "images/products/kronenberg/ayurveda/organisches-agnimantha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/ayurveda/organisches-ashwagandha-ayurveda-pulver.png", "images/products/kronenberg/ayurveda/organisches-brahmi-ayurveda-pulver.png", "images/products/kronenberg/ayurveda/organisches-giloy-ayurveda-pulver.png", "images/products/kronenberg/ayurveda/organisches-patadi-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/ayurveda/organisches-shatavari-ayurveda-pulver.png", "images/products/kronenberg/ayurveda/organisches-swastha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/ayurveda/organisches-trivala-ayurveda-pulver.png", "images/products/kronenberg/ayurveda/schamblumenblueten-blau-clitoria-ternatea-flores-100g.png", "images/products/kronenberg/bestseller/artemisia-annua-100-reine-blaetter-100g.png", "images/products/kronenberg/bestseller/artemisia-annua-samen-qing-hao-gvk-spezial.png", "images/products/kronenberg/bestseller/biota-em-effektive-mikroorganismen-500ml.png", "images/products/kronenberg/bestseller/camu-camu-extrakt.png", "images/products/kronenberg/bestseller/chanca-piedra-steinbrecher.png", "images/products/kronenberg/bestseller/corona-hygiene-aroma-spray-200ml.png", "images/products/kronenberg/bestseller/der-weltberuehmte-tee-der-ojibwa-indianer-essiac-blend.png", "images/products/kronenberg/bestseller/dmso-60-plus-magnesium-oel-sportler-spray.png", "images/products/kronenberg/bestseller/dmso-schmerz-eukalyptus-balsam-40ml.png", "images/products/kronenberg/bestseller/dmso-schmerz-lavendel-balsam-40-ml.png", "images/products/kronenberg/bestseller/ebv-pulver-mixtur-30-tage-kur.png", "images/products/kronenberg/bestseller/l-carnitin-base-pulver-100.png", "images/products/kronenberg/bestseller/l-tryptophan-pulver-aus-fermentation.png", "images/products/kronenberg/bestseller/moringa-morisana-premium-pulver-300g-monatspackung.png", "images/products/kronenberg/bestseller/moringa-spicy-gewuerz-mit-kalahari-wuesten-salz.png", "images/products/kronenberg/bestseller/nagelfeile-aus-glas-fuer-mani-und-pedikuere-die-revolution.png", "images/products/kronenberg/bestseller/nano-glas-mani-pedikuere-die-revolution.png", "images/products/kronenberg/bestseller/pet-zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/bestseller/sangre-de-drago-100-aus-wildsammlung.png", "images/products/kronenberg/bestseller/schilddruesen-kraeuter-mischung-pulver-inspiriert-durch-medical-food.png", "images/products/kronenberg/bestseller/stauden-sellerie-pulver-inspiriert-durch-medical-food-monatskur.png", "images/products/kronenberg/bestseller/strophanthin-gratus-experimentier-set-100ml.png", "images/products/kronenberg/bestseller/strophanthin-kombe-experimentier-set-200ml.png", "images/products/kronenberg/bestseller/strophanthus-kombe-saatgut-strophanthin.png", "images/products/kronenberg/bestseller/teetox-stoffwechsel-tee-inspiriert-durch-medical-food.png", "images/products/kronenberg/bestseller/typ-2-pulver-bioaktive-verbindungen.png", "images/products/kronenberg/bestseller/zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/bioreiniger/bep-bio-enzym-power-reiniger-effizient-und-oekologisch-reinigen.png", "images/products/kronenberg/bioreiniger/corona-hygiene-aroma-spray-200ml.png", "images/products/kronenberg/chlordioxid/bake-desinfektion-fuer-189-liter-wasser-gallonen-wasserspender.png", "images/products/kronenberg/chlordioxid/cdl-cds-loesung-03-nach-dr-andreas-kalcker.png", "images/products/kronenberg/chlordioxid/cdlcds-100ml-loesung-03-clo2-mit-edel-schungit-wasser.png", "images/products/kronenberg/chlordioxid/desaircap-die-geniale-loesung-fuer-frisches-obst-und-gemuese.png", "images/products/kronenberg/chlordioxid/nagelpflege-napiad-soft-fluid-gel.png", "images/products/kronenberg/chlordioxid/nagelpflege-set-sorglos-paket.png", "images/products/kronenberg/cordyceps/cordyceps-cordycepin-all-in-one-schmelzpastillen.png", "images/products/kronenberg/cordyceps/cordyceps-cordycepin-lyophilized-schmelzpastille-10mgpastille.png", "images/products/kronenberg/darmleberniere/biota-em-effektive-mikroorganismen-500ml.png", "images/products/kronenberg/darmleberniere/juglandis-kur-nach-dr-hulda-clark-kraeuter-tee-aperitif.png", "images/products/kronenberg/darmleberniere/kraeutertee-aperitif-leber-lecur.png", "images/products/kronenberg/darmleberniere/kraeutertee-aperitif-niere-ren.png", "images/products/kronenberg/darmleberniere/tantum-1-nierentee-reinigung.png", "images/products/kronenberg/darmleberniere/tantum-2-lebertee-zur-leberreinigung.png", "images/products/kronenberg/darmleberniere/tantum-3-darm-sanierung-kur.png", "images/products/kronenberg/extrakte/artemisia-annua-oxymel-compositum-alkoholfrei.png", "images/products/kronenberg/extrakte/artemisia-annua-pures-100-oel-ultraschall-extraktion-100ml.png", "images/products/kronenberg/extrakte/artemisia-annua-ultraschall-extraktion-mit-schungitwasser.png", "images/products/kronenberg/extrakte/baerlauch-extrakt-ultraschall-extraktion-100ml.png", "images/products/kronenberg/extrakte/camu-camu-extrakt.png", "images/products/kronenberg/extrakte/catumupu-catuaba-muira-puama-tinktur.png", "images/products/kronenberg/extrakte/graviola-extrakt-annona-muricata-superfood.png", "images/products/kronenberg/extrakte/hacheney-hyperwasser-mit-kolloidalem-silizium.png", "images/products/kronenberg/extrakte/hagebutten-extrakt-100-natur.png", "images/products/kronenberg/extrakte/holunder-beeren-extrakt-antioxidans.png", "images/products/kronenberg/extrakte/kiefernnadel-und-sprossen-wuerzeextrakt-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/koriander-co-schwermetall-ausleitung-im-sparpaket.png", "images/products/kronenberg/extrakte/koriander-extrakt-ultraschall-extraktion-100ml.png", "images/products/kronenberg/extrakte/lapacho-tinktur-ultraschall-extraktion-amazonas-regenwald.png", "images/products/kronenberg/extrakte/liposomale-artemisia-annua-ultraschall-extraktion-50ml.png", "images/products/kronenberg/extrakte/liposomale-moringa-morisana-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/loewenzahnkraut-wuerze-extrakt-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/lungenkraut-wuerzeextrakt-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/meerrettich-extract-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/oregano-oel-wilder-majoran-carvacrol-80.png", "images/products/kronenberg/extrakte/parasitenkurkraeuterextrakt-100ml.png", "images/products/kronenberg/extrakte/safran-extrakt-mit-curcumin-gueteklasse-1-15ml.png", "images/products/kronenberg/extrakte/spirulina-tropfenextrakt-100-ml.png", "images/products/kronenberg/extrakte/strophanthin-gratus-experimentier-set-100ml.png", "images/products/kronenberg/extrakte/strophanthin-kombe-experimentier-set-200ml.png", "images/products/kronenberg/extrakte/traubenkern-opc-ultraschall-extrakt-mit-schungit-wasser.png", "images/products/kronenberg/extrakte/weidenrinden-purpurweide-ultraschall-extrakt.png", "images/products/kronenberg/extrakte/weidenroeschen-kleinbluetig-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/weih-muri-weihrauch-und-myrrhe-extrakt.png", "images/products/kronenberg/extrakte/wilder-chaga-pilz-ultraschall-extraktion.png", "images/products/kronenberg/h2o2/wasserstoffperoxid-h2o2-3-loesung.png", "images/products/kronenberg/haare/100-arganoel-plus-mandeloel-haut-haar-und-massage.png", "images/products/kronenberg/haare/bockshornklee-extrakt-ein-vielseitiges-kraut.png", "images/products/kronenberg/haare/bockshornklee-kur-diffuser-haarausfall-kapseln-tee-tinktur.png", "images/products/kronenberg/haare/bockshornklee-tee-samen-200g.png", "images/products/kronenberg/haare/hair-power-kur-bockshornklee-kapseln-60-stk.png", "images/products/kronenberg/innovationen/988-pures-artemisiaartemisinin-90-vegi-kapseln.png", "images/products/kronenberg/innovationen/aloe-vera-frischpflanzensaft-mit-honig-plus-vitamin-c.png", "images/products/kronenberg/innovationen/aloe-vera-hair-body-shower-gel-200-ml.png", "images/products/kronenberg/innovationen/aloe-vera-hautgel-hair-body-shower-gel-400-ml.png", "images/products/kronenberg/innovationen/aloe-vera-hautgel-natur-983-pur.png", "images/products/kronenberg/innovationen/artemisia-annua-oxymel-compositum-alkoholfrei.png", "images/products/kronenberg/innovationen/artemisia-annua-plus-rosmarin-vitamin-c.png", "images/products/kronenberg/innovationen/artemisia-annua-pures-100-oel-ultraschall-extraktion-100ml.png", "images/products/kronenberg/innovationen/artemisia-annua-salbe-moringa-samen-pulver-dmso.png", "images/products/kronenberg/innovationen/artemisia-annua-ultraschall-extraktion-mit-schungitwasser.png", "images/products/kronenberg/innovationen/ayurveda-tee-mischung-harmonie.png", "images/products/kronenberg/innovationen/baerlauch-extrakt-ultraschall-extraktion-100ml.png", "images/products/kronenberg/innovationen/bernsteinsaeure-hpmc-kapseln-plus-vitamin-c.png", "images/products/kronenberg/innovationen/bockshornklee-extrakt-ein-vielseitiges-kraut.png", "images/products/kronenberg/innovationen/bockshornklee-kur-diffuser-haarausfall-kapseln-tee-tinktur.png", "images/products/kronenberg/innovationen/bockshornklee-tee-samen-200g.png", "images/products/kronenberg/innovationen/brennnesselblaetter-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/innovationen/brennnesselwurzel-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/innovationen/calcium-kalium-magnesium-kombination.png", "images/products/kronenberg/innovationen/camu-camu-extrakt.png", "images/products/kronenberg/innovationen/catuaba-erythroxylum-pulver.png", "images/products/kronenberg/innovationen/catuaba-tee-der-tupi-indianer-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/innovationen/catumupu-catuaba-muira-puama-tinktur.png", "images/products/kronenberg/innovationen/cdl-cds-loesung-03-nach-dr-andreas-kalcker.png", "images/products/kronenberg/innovationen/cdlcds-100ml-loesung-03-clo2-mit-edel-schungit-wasser.png", "images/products/kronenberg/innovationen/chaga-pilz-tee-bio-qualitaet-wildsammlung.png", "images/products/kronenberg/innovationen/copaiba-oel-100-natuerlich.png", "images/products/kronenberg/innovationen/cordyceps-cordycepin-all-in-one-schmelzpastillen.png", "images/products/kronenberg/innovationen/cordyceps-cordycepin-lyophilized-schmelzpastille-10mgpastille.png", "images/products/kronenberg/innovationen/corona-hygiene-aroma-spray-200ml.png", "images/products/kronenberg/innovationen/dmso-60-plus-magnesium-oel-sportler-spray.png", "images/products/kronenberg/innovationen/dmso-schmerz-eukalyptus-balsam-40ml.png", "images/products/kronenberg/innovationen/dmso-schmerz-lavendel-balsam-40-ml.png", "images/products/kronenberg/innovationen/ebv-pulver-mixtur-30-tage-kur.png", "images/products/kronenberg/innovationen/extase-aphrodisiakum-catuaba-muira-puama-rinden-tee.png", "images/products/kronenberg/innovationen/goldene-milch-paste-kurkuma-power.png", "images/products/kronenberg/innovationen/graviola-extrakt-annona-muricata-superfood.png", "images/products/kronenberg/innovationen/gruenes-wunder-chlorella-gerstengras-spirulina-weizengras-.png", "images/products/kronenberg/innovationen/hagebutten-extrakt-100-natur.png", "images/products/kronenberg/innovationen/hair-power-kur-bockshornklee-kapseln-60-stk.png", "images/products/kronenberg/innovationen/holunder-beeren-extrakt-antioxidans.png", "images/products/kronenberg/innovationen/hyaluronsaeure-plus-glucosamin-und-chondroitin-60-kapseln.png", "images/products/kronenberg/innovationen/ingwer-massage-und-bade-oel-therapie-lymphdrainage.png", "images/products/kronenberg/innovationen/juglandis-kur-nach-dr-hulda-clark-kraeuter-tee-aperitif.png", "images/products/kronenberg/innovationen/katzenkralle-sangre-de-grado-100g-tee-amazonas-regenwald-.png", "images/products/kronenberg/innovationen/kiefernnadel-und-sprossen-wuerzeextrakt-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/koriander-co-schwermetall-ausleitung-im-sparpaket.png", "images/products/kronenberg/innovationen/koriander-extrakt-ultraschall-extraktion-100ml.png", "images/products/kronenberg/innovationen/kraeutertee-aperitif-leber-lecur.png", "images/products/kronenberg/innovationen/kraeutertee-aperitif-lymphe-abies.png", "images/products/kronenberg/innovationen/kraeutertee-aperitif-niere-ren.png", "images/products/kronenberg/innovationen/kur-paket-premium-4-entgiftungreinigungverdauung.png", "images/products/kronenberg/innovationen/l-tryptophan-mit-b-vitaminen-und-folsaeure-60-hpmc-kapseln.png", "images/products/kronenberg/innovationen/lapacho-rinden-tee-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/innovationen/lapacho-tinktur-ultraschall-extraktion-amazonas-regenwald.png", "images/products/kronenberg/innovationen/leinsamenextrakt-pulver-vegi-kapseln-90-stueck.png", "images/products/kronenberg/innovationen/licht-edel-schungit-wasser-energetikum.png", "images/products/kronenberg/innovationen/liposomale-artemisia-annua-ultraschall-extraktion-50ml.png", "images/products/kronenberg/innovationen/liposomale-moringa-morisana-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/loewenzahnblaetter-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/innovationen/loewenzahnkraut-wuerze-extrakt-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/loewenzahnwurzel-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/innovationen/magnesium-oel-premium-vitalspray-31-mit-edel-schungit-wasser.png", "images/products/kronenberg/innovationen/meerrettich-extract-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/meerwasser-agua-de-mar-mit-schungit-wasser.png", "images/products/kronenberg/innovationen/moringa-miracle-suppe-20-portionen-gmo-frei.png", "images/products/kronenberg/innovationen/moringa-morisana-premium-mit-vitamin-b12.png", "images/products/kronenberg/innovationen/moringa-morisana-premium-pulver-300g-monatspackung.png", "images/products/kronenberg/innovationen/moringa-samen-in-kapsel-100-pures-samenpulver.png", "images/products/kronenberg/innovationen/moringa-samenpulver-100-fein-gemahlen-20g.png", "images/products/kronenberg/innovationen/moringa-spicy-gewuerz-mit-kalahari-wuesten-salz.png", "images/products/kronenberg/innovationen/muira-puama-pulver-potenzbaum-im-amazonas-regenwald.png", "images/products/kronenberg/innovationen/muira-puama-tee-aphrodisiakum-amazonas-regenwald.png", "images/products/kronenberg/innovationen/oregano-oel-wilder-majoran-carvacrol-80.png", "images/products/kronenberg/innovationen/original-urs-surbeck-energetisches-wasser-gesunde-balance.png", "images/products/kronenberg/innovationen/ozonisiertes-hochwertiges-distel-oel.png", "images/products/kronenberg/innovationen/ozonisiertes-manzanilla-oel-balsam-980g-ozonl.png", "images/products/kronenberg/innovationen/ozonisiertes-manzanilla-olivenoel-gesunde-haut.png", "images/products/kronenberg/innovationen/parasitenkurkraeuterextrakt-100ml.png", "images/products/kronenberg/innovationen/pet-zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/innovationen/schatz-der-inkas-trunk-der-goetter-amazonas-regenwald-tee.png", "images/products/kronenberg/innovationen/schilddruesen-kraeuter-mischung-pulver-inspiriert-durch-medical-food.png", "images/products/kronenberg/innovationen/schwarzkuemmel-oel-mit-mandel-oel-haut-haar-und-massage.png", "images/products/kronenberg/innovationen/skincaregold-aloe-vera-extrakt-anti-aging.png", "images/products/kronenberg/innovationen/skincareplus-aloe-vera-extrakt-mit-collagen-und-hyaluronsaeure.png", "images/products/kronenberg/innovationen/stauden-sellerie-pulver-inspiriert-durch-medical-food-monatskur.png", "images/products/kronenberg/innovationen/strophanthin-gratus-experimentier-set-100ml.png", "images/products/kronenberg/innovationen/strophanthin-kombe-experimentier-set-200ml.png", "images/products/kronenberg/innovationen/suessholzwurzel-natur-gemahlen-lakritzpulver.png", "images/products/kronenberg/innovationen/teetox-stoffwechsel-tee-inspiriert-durch-medical-food.png", "images/products/kronenberg/innovationen/traubenkern-opc-ultraschall-extrakt-mit-schungit-wasser.png", "images/products/kronenberg/innovationen/tri-magnesiumdicitrat-zaehne-knochen-muskeln.png", "images/products/kronenberg/innovationen/twostep-manikuerepedikuere-set.png", "images/products/kronenberg/innovationen/typ-2-pulver-bioaktive-verbindungen.png", "images/products/kronenberg/innovationen/urs-surbeck-energetisches-wasser-wohlfuehlflasche-50ml.png", "images/products/kronenberg/innovationen/weidenrinden-purpurweide-ultraschall-extrakt.png", "images/products/kronenberg/innovationen/weidenroeschen-kleinbluetig-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/weih-muri-weihrauch-und-myrrhe-extrakt.png", "images/products/kronenberg/innovationen/wilder-chaga-pilz-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/innovationen/zimtblaetteroel-100-reines-aetherisches-oel-10ml.png", "images/products/kronenberg/kosmetik/100-arganoel-plus-mandeloel-haut-haar-und-massage.png", "images/products/kronenberg/kosmetik/aloe-vera-hair-body-shower-gel-200-ml.png", "images/products/kronenberg/kosmetik/aloe-vera-hautgel-hair-body-shower-gel-400-ml.png", "images/products/kronenberg/kosmetik/aloe-vera-hautgel-natur-983-pur.png", "images/products/kronenberg/kosmetik/ingwer-massage-und-bade-oel-therapie-lymphdrainage.png", "images/products/kronenberg/kosmetik/magnesium-oel-premium-vitalspray-31-mit-edel-schungit-wasser.png", "images/products/kronenberg/kosmetik/nagelfeile-aus-glas-fuer-mani-und-pedikuere-die-revolution.png", "images/products/kronenberg/kosmetik/nano-glas-mani-pedikuere-die-revolution.png", "images/products/kronenberg/kosmetik/ozonisiertes-hochwertiges-distel-oel.png", "images/products/kronenberg/kosmetik/ozonisiertes-manzanilla-oel-balsam-980g-ozonl.png", "images/products/kronenberg/kosmetik/ozonisiertes-manzanilla-olivenoel-gesunde-haut.png", "images/products/kronenberg/kosmetik/pet-zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/kosmetik/schwarzkuemmel-oel-mit-mandel-oel-haut-haar-und-massage.png", "images/products/kronenberg/kosmetik/skincaregold-aloe-vera-extrakt-anti-aging.png", "images/products/kronenberg/kosmetik/skincareplus-aloe-vera-extrakt-mit-collagen-und-hyaluronsaeure.png", "images/products/kronenberg/kosmetik/twostep-manikuerepedikuere-set.png", "images/products/kronenberg/kosmetik/twostep-nagelfeile-aus-bambus-manikuere.png", "images/products/kronenberg/kosmetik/zahncreme-mit-schwarzkuemmel-ohne-fluor-und-pfefferminz.png", "images/products/kronenberg/kosmetik/zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/kraeutertee/juglandis-kur-nach-dr-hulda-clark-kraeuter-tee-aperitif.png", "images/products/kronenberg/kraeutertee/kraeutertee-aperitif-leber-lecur.png", "images/products/kronenberg/kraeutertee/kraeutertee-aperitif-lymphe-abies.png", "images/products/kronenberg/kraeutertee/kraeutertee-aperitif-niere-ren.png", "images/products/kronenberg/no_cover.jpeg", "images/products/kronenberg/schungit/edel-schungit-set-im-organza-beutel-10-g.png", "images/products/kronenberg/schungit/edel-schungit-steine-lose-50g-sonderangebot-limitierte-auflage.png", "images/products/kronenberg/schungit/harmonisierer-aus-schungit-und-talkchlorit.png", "images/products/kronenberg/schungit/licht-edel-schungit-wasser-energetikum.png", "images/products/kronenberg/schungit/limitiertes-schungit-set-8-auserlesene-produkte.png", "images/products/kronenberg/schungit/schungit-anhaenger-beschuetzer-frau.png", "images/products/kronenberg/schungit/schungit-anhaenger-beschuetzer-mann.png", "images/products/kronenberg/schungit/schungit-anhaenger-engel-mit-haematit.png", "images/products/kronenberg/schungit/schungit-anhaenger-perle-mit-einfassung.png", "images/products/kronenberg/schungit/schungit-anhaenger-scheibe-schmuckstueck-aus-handarbeit.png", "images/products/kronenberg/schungit/schungit-energetisierungsplatte-10x12cm.png", "images/products/kronenberg/schungit/schungit-engel-in-geschnitzter-handarbeit.png", "images/products/kronenberg/schungit/schungit-handy-schutz-schuetzt-vor-schaedlicher-strahlung.png", "images/products/kronenberg/schungit/schungit-kugel-mit-untersetzer-5cm-110g.png", "images/products/kronenberg/schungit/schungit-pulver-200g-aktivkohle-detox-drink.png", "images/products/kronenberg/schungit/schungit-pyramide-5cm-hoch-278g.png", "images/products/kronenberg/schungit/schungit-pyramide-poliert-ca-20cm-hoch.png", "images/products/kronenberg/schungit/schungit-pyramide-poliert-ca-3-cm-hoch.png", "images/products/kronenberg/schungit/schungit-radiaesthesie-pendel-mit-kette.png", "images/products/kronenberg/schungit/schungit-scheibe-ca-5cm-hoch-poliert-harmonisierung-und-wohlbefinden.png", "images/products/kronenberg/schungit/schungit-schluesselanhaenger-mit-2-perlen-8g-laenge-ca-8cm.png", "images/products/kronenberg/schungit/schungit-schluesselanhaenger-silberfarbig-mit-perle.png", "images/products/kronenberg/schungit/schungit-set-im-organza-beutel-100-g.png", "images/products/kronenberg/schungit/schungit-split-1000g.png", "images/products/kronenberg/schungit/schungit-split-500g.png", "images/products/kronenberg/schungit/schungit-uhr-500g-elektrosmog-und-strahlung.png", "images/products/kronenberg/schungit/schungit-wuerfel-65g-harmonie-und-schutz-in-fester-form.png", "images/products/kronenberg/schwefelkur/anorganischer-schwefel-min-999-pulver.png", "images/products/kronenberg/schwefelkur/schwefel-kur-nach-dr-probst-darmsanierung.png", "images/products/kronenberg/\xD6le/100-arganoel-plus-mandeloel-haut-haar-und-massage.png", "images/products/kronenberg/\xD6le/artemisia-annua-pures-100-oel-ultraschall-extraktion-100ml.png", "images/products/kronenberg/\xD6le/copaiba-oel-100-natuerlich.png", "images/products/kronenberg/\xD6le/dmso-60-plus-magnesium-oel-sportler-spray.png", "images/products/kronenberg/\xD6le/dmso-ph-eur-999-100ml-hochreines-dmso.png", "images/products/kronenberg/\xD6le/dmso-schmerz-eukalyptus-balsam-40ml.png", "images/products/kronenberg/\xD6le/dmso-schmerz-lavendel-balsam-40-ml.png", "images/products/kronenberg/\xD6le/ingwer-massage-und-bade-oel-therapie-lymphdrainage.png", "images/products/kronenberg/\xD6le/magnesium-oel-premium-vitalspray-31-mit-edel-schungit-wasser.png", "images/products/kronenberg/\xD6le/omega-3-lachsoelkapseln-mit-vitamin-e.png", "images/products/kronenberg/\xD6le/oregano-oel-wilder-majoran-carvacrol-80.png", "images/products/kronenberg/\xD6le/ozonisiertes-hochwertiges-distel-oel.png", "images/products/kronenberg/\xD6le/ozonisiertes-manzanilla-oel-balsam-980g-ozonl.png", "images/products/kronenberg/\xD6le/ozonisiertes-manzanilla-olivenoel-gesunde-haut.png", "images/products/kronenberg/\xD6le/pet-zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/\xD6le/schwarzkuemmel-oel-kaltpressung-gefiltert-100ml.png", "images/products/kronenberg/\xD6le/zahnfix-revital-liposomal-40ml.png", "images/products/waldkraft/ausleitungsorgane/Borax_Tropfen_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/L-Methionin_Mockup_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/Lebende-Chlorella-Algen-Mockup-Wp3t_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/Lungenkraut_Komplex_Mockup_175x62_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/NAC-N-Acetyl-L-Cystein_Pulver_Mockup_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/Sango_Koralle_Mockup_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/Spirulina-BIO-120-Kapseln_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/Zink-Histidin-Komplex-120-Kapseln_mockup_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/chanca-piedra-pulver-150g-4098-pa10500_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/liposomales-glutathion-aus-reduziertem-l-glutathion-250ml-pa10047_600x600.jpg", "images/products/waldkraft/buecher/25/Byebye-covid-2-1-1_600x600.png", "images/products/waldkraft/buecher/26/handbuch-der-kolloidalen-metalle_600x600.jpg", "images/products/waldkraft/buecher/27/Klinikhandbuch-Aromatherapie_600x600.png", "images/products/waldkraft/buecher/28/Arthrose_ist_heilbar_mockup_web-jpg_600x600.jpg", "images/products/waldkraft/buecher/29/Manuka_Buch_webshop-jpg_600x600.jpg", "images/products/waldkraft/buecher/30/em-eine-chance-fuer-unsere-erde-anne-lorch_600x600.jpg", "images/products/waldkraft/buecher/31/buch-borreliose-natuerlich-heilen-wolf-dieter-storl_600x600.jpg", "images/products/waldkraft/buecher/32/buch-pflanzliche-antibiotika-richtig-anwenden_600x600.jpg", "images/products/waldkraft/buecher/33/buch-die-leber-natuerlich-reinigen_600x600.jpg", "images/products/waldkraft/buecher/34/Borax_600x600.jpg", "images/products/waldkraft/buecher/35/CDL-Handbuch-LUBZ_600x600.jpg", "images/products/waldkraft/buecher/36/buch-cannabis-und-cannabidiol-cbd-richtig-anwenden_600x600.jpg", "images/products/waldkraft/buecher/37/DMSO-Handbuch_600x600.jpg", "images/products/waldkraft/em-mikroorganismen/Floratur-EM-BIO_2-1_600x600.png", "images/products/waldkraft/em-mikroorganismen/Mockup-EM-Basis_600x600.png", "images/products/waldkraft/em-mikroorganismen/Mockup-Floratur-Premium-1_600x600.jpg", "images/products/waldkraft/energie/BIO-Chlorophyll-Extrakt-Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/energie/Kraftpilz-Energie-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/energie/Lungenkraut_Komplex_Mockup_175x62_600x600.jpg", "images/products/waldkraft/energie/Nattokinase_Komplex_Mockup_web-jpg_600x600.jpg", "images/products/waldkraft/energie/Nattokinase_Zink_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/energie/PEA_PUlver_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/energie/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/energie/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/energie/moor-elixier-pa10656-v_600x600.jpg", "images/products/waldkraft/energie/pea-palmitoylethanolamid-120-kapseln-4186-pa10621_600x600.jpg", "images/products/waldkraft/gehirn/B6_Wohlfu-hl_Erythrit_Drops_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/gehirn/Borax_Tropfen_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/gehirn/Kiefernnadel_Tinktur_mockup_600x600.jpg", "images/products/waldkraft/gehirn/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/gehirn/Magnesium_Komplex_Mockup_600x600.jpg", "images/products/waldkraft/gehirn/PEA_PUlver_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/gehirn/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/gehirn/Schwarzer-Maca-Extrakt-120-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/gehirn/Vitamin-B12-Komplex-Drops-Mockup_600x600.jpg", "images/products/waldkraft/gehirn/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/gutelaune/B6_Wohlfu-hl_Erythrit_Drops_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/gutelaune/Vitamin-B12-Komplex-Drops-Mockup_600x600.jpg", "images/products/waldkraft/gutelaune/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/gutelaune/melantonin-Drops-Mockup_600x600.jpg", "images/products/waldkraft/gutelaune/pea-palmitoylethanolamid-120-kapseln-4186-pa10621_600x600.jpg", "images/products/waldkraft/herz/BIO-Chlorophyll-Extrakt-Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/herz/Kraftpilz-Cordyceps-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/herz/Lungenkraut_Komplex_Mockup_175x62_600x600.jpg", "images/products/waldkraft/herz/NAC-N-Acetyl-L-Cystein_Pulver_Mockup_600x600.jpg", "images/products/waldkraft/herz/Nattokinase_Komplex_Mockup_web-jpg_600x600.jpg", "images/products/waldkraft/herz/Nattokinase_Zink_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/herz/OPC-Pycnogenol-60-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/herz/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/herz/Schwarzer-Maca-Extrakt-120-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/herz/Vitamin-B12-Komplex-Drops-Mockup_600x600.jpg", "images/products/waldkraft/herz/Weihrauch_Mockup_600x600.jpg", "images/products/waldkraft/herz/Zink-Histidin-Komplex-120-Kapseln_mockup_600x600.jpg", "images/products/waldkraft/immunsystem/30ml_Mironglas_Flasche_aktuell-Kopie_600x600.jpg", "images/products/waldkraft/immunsystem/Astaxanthin_100ml_Mopckup_600x600.jpg", "images/products/waldkraft/immunsystem/Borax_120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Borax_70g_Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Chlorella_Tabs_Mockup-Kopie_600x600.jpg", "images/products/waldkraft/immunsystem/Gerstengras-Saftpulver-BIO_mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Kelpalgen-Jod-BIO_mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Kiefernnadel_Tinktur_mockup_600x600.jpg", "images/products/waldkraft/immunsystem/L-Lysin_Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Lebende-Chlorella-Algen-Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Loewenzahn_Tinktur_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/immunsystem/Lungenkraut_Komplex_Mockup_175x62_600x600.jpg", "images/products/waldkraft/immunsystem/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/immunsystem/OPC-Pycnogenol-60-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/immunsystem/Schwarzer-Maca-Extrakt-120-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Selen-VitaminC_120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Spirulina-BIO-120-Kapseln_600x600.jpg", "images/products/waldkraft/immunsystem/Vitamin-B12-Komplex-Drops-Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/immunsystem/Zink-Histidin-Komplex-120-Kapseln_mockup_600x600.jpg", "images/products/waldkraft/immunsystem/bio-kurkuma-extrakt-mit-gingerol-und-piperin-in-oxymel-250ml-pa10317_600x600.jpg", "images/products/waldkraft/immunsystem/liposomales-glutathion-aus-reduziertem-l-glutathion-250ml-pa10047_600x600.jpg", "images/products/waldkraft/immunsystem/manuka-honig-mgo-840-250g-4467-wk10500_600x600.png", "images/products/waldkraft/innere-ruhe/B6_Wohlfu-hl_Erythrit_Drops_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/innere-ruhe/KSM-Ashwagandha-BIO_Mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/Kraftpilz-Hericium-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/Kraftpilz-Regeneration-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/PEA_PUlver_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/innere-ruhe/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/innere-ruhe/Schwarzer-Maca-Extrakt-120-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/Vitamin-B12-Komplex-Drops-Mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/Zink-Histidin-Komplex-120-Kapseln_mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/melantonin-Drops-Mockup_600x600.jpg", "images/products/waldkraft/knochen/Astaxanthin-Drops-Mockup_600x600.jpg", "images/products/waldkraft/knochen/Astaxanthin-Hyaluron-Drops-Mockup_600x600.jpg", "images/products/waldkraft/knochen/Borax_Tropfen_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/knochen/Erdling-Vitamin-K2-Mockup-Flasche-Umverpackung_600x600.png", "images/products/waldkraft/knochen/Kraftpilz-Energie-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/knochen/L-Lysin_Mockup_600x600.jpg", "images/products/waldkraft/knochen/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/knochen/OPC-Pycnogenol-60-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/knochen/Osthea_300g_Mockup_600x600.jpg", "images/products/waldkraft/knochen/Sango_Koralle_Mockup_600x600.jpg", "images/products/waldkraft/knochen/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/knochen/arthridea_250g_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/knochen/arthridea_530Kapseln_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/knochen/bio-kurkuma-extrakt-mit-gingerol-und-piperin-in-oxymel-250ml-pa10317_600x600.jpg", "images/products/waldkraft/knochen/pea-palmitoylethanolamid-120-kapseln-4186-pa10621_600x600.jpg", "images/products/waldkraft/kolloide/Kolloidales-Germanium-100-ppm-100-ml-Spr-hflasche-Mockup_600x600.png", "images/products/waldkraft/kolloide/Kolloidales-Gold-100-ppm-100-ml-Mockup_600x600.png", "images/products/waldkraft/kolloide/Kolloidales_Silber_50_ppm_100_ml_Spr-hflasche_Mockup_1_1_1_1_600x600.png", "images/products/waldkraft/kolloide/waldkraft-Kolloidales-Silber-25ppm-250ml_600x600.png", "images/products/waldkraft/kraeuter/Kiefernnadel_Tinktur_mockup_600x600.jpg", "images/products/waldkraft/kraeuter/Loewenzahn_Tinktur_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/kraeuter/Mockups-Artemisia-alkohol-100ml_600x600.jpg", "images/products/waldkraft/kraeuter/Propolis-Tinktur-Mockup-1_600x600.png", "images/products/waldkraft/kraeuter/bio-kurkuma-extrakt-mit-gingerol-und-piperin-in-oxymel-250ml-pa10317_600x600.jpg", "images/products/waldkraft/magendarm/Basicum_120-Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/magendarm/Floratur-EM-BIO_2-1_600x600.png", "images/products/waldkraft/magendarm/Floratur_EM_BIO_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/magendarm/Gerstengras-Saftpulver-BIO_mockup_600x600.jpg", "images/products/waldkraft/magendarm/Kraftpilz-Hericium-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/magendarm/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/magendarm/bio-kurkuma-extrakt-mit-gingerol-und-piperin-in-oxymel-250ml-pa10317_600x600.jpg", "images/products/waldkraft/magendarm/chanca-piedra-pulver-150g-4098-pa10500_600x600.jpg", "images/products/waldkraft/magendarm/honigglas_klein_600x600.png", "images/products/waldkraft/magendarm/manuka-honig-mgo-840-250g-4467-wk10500_600x600.png", "images/products/waldkraft/magendarm/moor-elixier-pa10656-v_600x600.jpg", "images/products/waldkraft/mineralien/Basicum_120-Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/mineralien/Gerstengras-Saftpulver-BIO_mockup_600x600.jpg", "images/products/waldkraft/mineralien/Magnesium_Komplex_Mockup_600x600.jpg", "images/products/waldkraft/mineralien/Rotalgen_Calcium_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/mineralien/Sango_Koralle_Mockup_600x600.jpg", "images/products/waldkraft/mineralien/moor-elixier-pa10656-v_600x600.jpg", "images/products/waldkraft/mundhygiene/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/mundhygiene/Wasserstoffperoxid-3-Mockup_600x600.png", "images/products/waldkraft/mundhygiene/Zahnpulver_-Zitrone-_Mockup_600x600.png", "images/products/waldkraft/mundhygiene/Zahnpulver_mit_Notoginseng_Mockup_600x600.png", "images/products/waldkraft/naturkosmetik/Mockup-Artemisia-Balsam-30ml-miron-BgBW_600x600.png", "images/products/waldkraft/naturkosmetik/Nattokinase_Komplex_Mockup_web-jpg_600x600.jpg", "images/products/waldkraft/naturkosmetik/Nattokinase_Zink_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/naturkosmetik/Zahnpulver_-Zitrone-_Mockup_600x600.png", "images/products/waldkraft/naturkosmetik/Zahnpulver_mit_Notoginseng_Mockup_600x600.png", "images/products/waldkraft/naturkosmetik/manuka-honig-mgo-840-250g-4467-wk10500_600x600.png", "images/products/waldkraft/ozon/Canna3-Mockup_600x600.png", "images/products/waldkraft/ozon/Mockup-Kokoo3-50ml-1-1_600x600.png", "images/products/waldkraft/ozon/olivio3-ozonisiertes-olivenol-250ml-257-wk10090_600x600.png", "images/products/waldkraft/parasiten/Floratur-EM-BIO_2-1_600x600.png", "images/products/waldkraft/parasiten/Floratur_EM_BIO_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/parasiten/Kraftpilz-Energie-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/parasiten/Kraftpilz-Regeneration-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/parasiten/Kraftpilze_Mensch_Abwehr_Freya_Mockup_600x600.jpg", "images/products/waldkraft/parasiten/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/schlaf/B6_Wohlfu-hl_Erythrit_Drops_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/schlaf/KSM-Ashwagandha-BIO_Mockup_600x600.jpg", "images/products/waldkraft/schlaf/Noctea_Mopckup_600x600.jpg", "images/products/waldkraft/schlaf/honigglas_klein_600x600.png", "images/products/waldkraft/schlaf/melantonin-Drops-Mockup_600x600.jpg", "images/products/waldkraft/sensibilit\xE4t/Kelpalgen-Jod-BIO_mockup_600x600.jpg", "images/products/waldkraft/sensibilit\xE4t/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/sensibilit\xE4t/OPC-Pycnogenol-60-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/stoffwechsel/BIO-Chlorophyll-Extrakt-Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/stoffwechsel/Basicum_120-Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/stoffwechsel/Floratur-EM-BIO_2-1_600x600.png", "images/products/waldkraft/stoffwechsel/Floratur_EM_BIO_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/stoffwechsel/L-Arginin_Mopckup_600x600.jpg", "images/products/waldkraft/stoffwechsel/L-Methionin_Mockup_600x600.jpg", "images/products/waldkraft/stoffwechsel/Lungenkraut_Komplex_Mockup_175x62_600x600.jpg", "images/products/waldkraft/stoffwechsel/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/stoffwechsel/Schwarzer-Maca-Extrakt-120-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/stoffwechsel/Zink-Histidin-Komplex-120-Kapseln_mockup_600x600.jpg", "images/products/waldkraft/stoffwechsel/chanca-piedra-pulver-150g-4098-pa10500_600x600.jpg", "images/products/waldkraft/stoffwechsel/pea-palmitoylethanolamid-120-kapseln-4186-pa10621_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilz-Cordyceps-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilz-Energie-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilz-Hericium-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilz-Leben-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilz-Regeneration-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilze_Mensch_Abwehr_Freya_Mockup_600x600.jpg"]),
     mimeTypes: { ".png": "image/png", ".jpeg": "image/jpeg", ".jpg": "image/jpeg", ".webp": "image/webp" },
     _: {
-      client: { "start": "_app/immutable/entry/start.BHIY74Ye.js", "app": "_app/immutable/entry/app.DNO1E6sj.js", "imports": ["_app/immutable/entry/start.BHIY74Ye.js", "_app/immutable/chunks/entry.B8L6UBeC.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.DEpSfGhY.js", "_app/immutable/entry/app.DNO1E6sj.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.BnyCCVNm.js"], "stylesheets": [], "fonts": [], "uses_env_dynamic_public": false },
+      client: { "start": "_app/immutable/entry/start.B_TvAD0m.js", "app": "_app/immutable/entry/app.CbYW5jSQ.js", "imports": ["_app/immutable/entry/start.B_TvAD0m.js", "_app/immutable/chunks/entry.BDgyxAUI.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.DEpSfGhY.js", "_app/immutable/entry/app.CbYW5jSQ.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.DfuChs2G.js", "_app/immutable/chunks/index.BnyCCVNm.js"], "stylesheets": [], "fonts": [], "uses_env_dynamic_public": false },
       nodes: [
         __memo(() => Promise.resolve().then(() => (init__(), __exports))),
         __memo(() => Promise.resolve().then(() => (init__2(), __exports2))),
-        __memo(() => Promise.resolve().then(() => (init__3(), __exports3)))
+        __memo(() => Promise.resolve().then(() => (init__3(), __exports3))),
+        __memo(() => Promise.resolve().then(() => (init__4(), __exports4))),
+        __memo(() => Promise.resolve().then(() => (init__5(), __exports5))),
+        __memo(() => Promise.resolve().then(() => (init__6(), __exports6))),
+        __memo(() => Promise.resolve().then(() => (init__7(), __exports7))),
+        __memo(() => Promise.resolve().then(() => (init__8(), __exports8))),
+        __memo(() => Promise.resolve().then(() => (init__9(), __exports9))),
+        __memo(() => Promise.resolve().then(() => (init__10(), __exports10))),
+        __memo(() => Promise.resolve().then(() => (init__11(), __exports11))),
+        __memo(() => Promise.resolve().then(() => (init__12(), __exports12))),
+        __memo(() => Promise.resolve().then(() => (init__13(), __exports13))),
+        __memo(() => Promise.resolve().then(() => (init__14(), __exports14)))
       ],
       routes: [
+        {
+          id: "/",
+          pattern: /^\/$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 4 },
+          endpoint: null
+        },
+        {
+          id: "/buecher",
+          pattern: /^\/buecher\/?$/,
+          params: [],
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 5 },
+          endpoint: null
+        },
+        {
+          id: "/buecher/cat/[catid]",
+          pattern: /^\/buecher\/cat\/([^/]+?)\/?$/,
+          params: [{ "name": "catid", "optional": false, "rest": false, "chained": false }],
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 7 },
+          endpoint: null
+        },
+        {
+          id: "/buecher/[bookId]",
+          pattern: /^\/buecher\/([^/]+?)\/?$/,
+          params: [{ "name": "bookId", "optional": false, "rest": false, "chained": false }],
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 6 },
+          endpoint: null
+        },
         {
           id: "/cdl-protokolle",
           pattern: /^\/cdl-protokolle\/?$/,
           params: [],
-          page: { layouts: [0], errors: [1], leaf: 2 },
+          page: { layouts: [0], errors: [1], leaf: 8 },
+          endpoint: null
+        },
+        {
+          id: "/produkte",
+          pattern: /^\/produkte\/?$/,
+          params: [],
+          page: { layouts: [0, 3], errors: [1, ,], leaf: 9 },
+          endpoint: null
+        },
+        {
+          id: "/produkte/cat/[catid]",
+          pattern: /^\/produkte\/cat\/([^/]+?)\/?$/,
+          params: [{ "name": "catid", "optional": false, "rest": false, "chained": false }],
+          page: { layouts: [0, 3], errors: [1, ,], leaf: 11 },
+          endpoint: null
+        },
+        {
+          id: "/produkte/hashtag/[tag]",
+          pattern: /^\/produkte\/hashtag\/([^/]+?)\/?$/,
+          params: [{ "name": "tag", "optional": false, "rest": false, "chained": false }],
+          page: { layouts: [0, 3], errors: [1, ,], leaf: 12 },
+          endpoint: null
+        },
+        {
+          id: "/produkte/[productid]",
+          pattern: /^\/produkte\/([^/]+?)\/?$/,
+          params: [{ "name": "productid", "optional": false, "rest": false, "chained": false }],
+          page: { layouts: [0, 3], errors: [1, ,], leaf: 10 },
+          endpoint: null
+        },
+        {
+          id: "/search",
+          pattern: /^\/search\/?$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 13 },
           endpoint: null
         }
       ],
@@ -9759,7 +18353,7 @@ var manifest = (() => {
   };
 })();
 
-// .svelte-kit/vercel-tmp/fn-1/edge.js
+// .svelte-kit/vercel-tmp/fn/edge.js
 var server = new Server(manifest);
 var initialized = server.init({
   env: (
