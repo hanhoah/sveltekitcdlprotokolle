@@ -34,10 +34,10 @@
 
 <!-- mobile Display -->
 <div class="bg-white max-w-screen-lg m-auto md:block justify-center items-center text-black">
-	<div class="w-full mx-auto px-">
+	<div class="w-full mx-auto px-1">
 		<!-- 1280w (800h)-->
 		<Navbar></Navbar>
-		<form class="flex border-2 justify-center items-center" method="get" action="/search">
+		<form class="flex border-2 px-2 justify-center items-center" method="get" action="/search">
 			<input
 				class="w-full border-0 border-collapse border-gray-400"
 				type="text"
