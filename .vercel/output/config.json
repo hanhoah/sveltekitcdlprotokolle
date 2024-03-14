@@ -11,6 +11,46 @@
 			"handle": "filesystem"
 		},
 		{
+			"src": "^/?(?:/__data.json)?$",
+			"dest": "/fn-0"
+		},
+		{
+			"src": "^/buecher/?(?:/__data.json)?$",
+			"dest": "/fn-0"
+		},
+		{
+			"src": "^/buecher/cat/([^/]+?)/?(?:/__data.json)?$",
+			"dest": "/fn-0"
+		},
+		{
+			"src": "^/buecher/([^/]+?)/?(?:/__data.json)?$",
+			"dest": "/fn-0"
+		},
+		{
+			"src": "^/cdl-protokolle/?(?:/__data.json)?$",
+			"dest": "/fn-1"
+		},
+		{
+			"src": "^/produkte/?(?:/__data.json)?$",
+			"dest": "/fn-0"
+		},
+		{
+			"src": "^/produkte/cat/([^/]+?)/?(?:/__data.json)?$",
+			"dest": "/fn-0"
+		},
+		{
+			"src": "^/produkte/hashtag/([^/]+?)/?(?:/__data.json)?$",
+			"dest": "/fn-0"
+		},
+		{
+			"src": "^/produkte/([^/]+?)/?(?:/__data.json)?$",
+			"dest": "/fn-0"
+		},
+		{
+			"src": "^/search/?(?:/__data.json)?$",
+			"dest": "/fn-0"
+		},
+		{
 			"src": "/.*",
 			"dest": "/fn"
 		}

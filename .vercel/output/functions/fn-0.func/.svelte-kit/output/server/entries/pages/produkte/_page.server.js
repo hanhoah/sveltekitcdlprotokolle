@@ -1,0 +1,14 @@
+import { s as supabase } from "../../../chunks/supabaseClient.js";
+async function load() {
+  const title = "Produktempfehlungen. Wähle eine der Kategorien um schneller das passende Produkt zu finden. ";
+  const { data } = await supabase.from("products").select().limit(12);
+  return {
+    title,
+    streamed: {
+      products: data
+    }
+  };
+}
+export {
+  load
+};
