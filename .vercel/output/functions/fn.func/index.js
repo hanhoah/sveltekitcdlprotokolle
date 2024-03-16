@@ -95,8 +95,8 @@ function compute_rest_props(props, keys) {
 function custom_event(type, detail, { bubbles = false, cancelable = false } = {}) {
   return new CustomEvent(type, { detail, bubbles, cancelable });
 }
-function set_current_component(component19) {
-  current_component = component19;
+function set_current_component(component21) {
+  current_component = component21;
 }
 function get_current_component() {
   if (!current_component)
@@ -107,9 +107,9 @@ function onDestroy(fn) {
   get_current_component().$$.on_destroy.push(fn);
 }
 function createEventDispatcher() {
-  const component19 = get_current_component();
+  const component21 = get_current_component();
   return (type, detail, { cancelable = false } = {}) => {
-    const callbacks = component19.$$.callbacks[type];
+    const callbacks = component21.$$.callbacks[type];
     if (callbacks) {
       const event = custom_event(
         /** @type {string} */
@@ -118,7 +118,7 @@ function createEventDispatcher() {
         { cancelable }
       );
       callbacks.slice().forEach((fn) => {
-        fn.call(component19, event);
+        fn.call(component21, event);
       });
       return !event.defaultPrevented;
     }
@@ -226,15 +226,15 @@ function each(items, fn) {
   }
   return str;
 }
-function validate_component(component19, name2) {
-  if (!component19 || !component19.$$render) {
+function validate_component(component21, name2) {
+  if (!component21 || !component21.$$render) {
     if (name2 === "svelte:component")
       name2 += " this={...}";
     throw new Error(
       `<${name2}> is not a valid SSR component. You may need to review your build config to ensure that dependencies are compiled, rather than imported as pre-compiled modules. Otherwise you may need to fix a <${name2}>.`
     );
   }
-  return component19;
+  return component21;
 }
 function create_ssr_component(fn) {
   function $$render(result, props, bindings, slots, context) {
@@ -1298,8 +1298,8 @@ var init_FunctionsClient = __esm({
               data = yield response.text();
             }
             return { data, error: null };
-          } catch (error) {
-            return { data: null, error };
+          } catch (error2) {
+            return { data: null, error: error2 };
           }
         });
       }
@@ -1383,7 +1383,7 @@ var init_PostgrestBuilder = __esm({
           signal: this.signal
         }).then(async (res2) => {
           var _a, _b, _c;
-          let error = null;
+          let error2 = null;
           let data = null;
           let count = null;
           let status = res2.status;
@@ -1407,7 +1407,7 @@ var init_PostgrestBuilder = __esm({
             }
             if (this.isMaybeSingle && this.method === "GET" && Array.isArray(data)) {
               if (data.length > 1) {
-                error = {
+                error2 = {
                   // https://github.com/PostgREST/postgrest/blob/a867d79c42419af16c18c3fb019eba8df992626f/src/PostgREST/Error.hs#L553
                   code: "PGRST116",
                   details: `Results contain ${data.length} rows, application/vnd.pgrst.object+json requires 1 row`,
@@ -1427,10 +1427,10 @@ var init_PostgrestBuilder = __esm({
           } else {
             const body2 = await res2.text();
             try {
-              error = JSON.parse(body2);
-              if (Array.isArray(error) && res2.status === 404) {
+              error2 = JSON.parse(body2);
+              if (Array.isArray(error2) && res2.status === 404) {
                 data = [];
-                error = null;
+                error2 = null;
                 status = 200;
                 statusText = "OK";
               }
@@ -1439,22 +1439,22 @@ var init_PostgrestBuilder = __esm({
                 status = 204;
                 statusText = "No Content";
               } else {
-                error = {
+                error2 = {
                   message: body2
                 };
               }
             }
-            if (error && this.isMaybeSingle && ((_c = error === null || error === void 0 ? void 0 : error.details) === null || _c === void 0 ? void 0 : _c.includes("0 rows"))) {
-              error = null;
+            if (error2 && this.isMaybeSingle && ((_c = error2 === null || error2 === void 0 ? void 0 : error2.details) === null || _c === void 0 ? void 0 : _c.includes("0 rows"))) {
+              error2 = null;
               status = 200;
               statusText = "OK";
             }
-            if (error && this.shouldThrowOnError) {
-              throw new PostgrestError(error);
+            if (error2 && this.shouldThrowOnError) {
+              throw new PostgrestError(error2);
             }
           }
           const postgrestResponse = {
-            error,
+            error: error2,
             data,
             count,
             status,
@@ -3013,8 +3013,8 @@ var init_transformers = __esm({
       if (typeof value === "string") {
         try {
           return JSON.parse(value);
-        } catch (error) {
-          console.log(`JSON parse error: ${error}`);
+        } catch (error2) {
+          console.log(`JSON parse error: ${error2}`);
           return value;
         }
       }
@@ -3175,8 +3175,8 @@ var init_RealtimeChannel = __esm({
               callback && callback("SUBSCRIBED");
               return;
             }
-          }).receive("error", (error) => {
-            callback && callback("CHANNEL_ERROR", new Error(JSON.stringify(Object.values(error).join(", ") || "error")));
+          }).receive("error", (error2) => {
+            callback && callback("CHANNEL_ERROR", new Error(JSON.stringify(Object.values(error2).join(", ") || "error")));
             return;
           }).receive("timeout", () => {
             callback && callback("TIMED_OUT");
@@ -3236,8 +3236,8 @@ var init_RealtimeChannel = __esm({
             } else {
               return "error";
             }
-          } catch (error) {
-            if (error.name === "AbortError") {
+          } catch (error2) {
+            if (error2.name === "AbortError") {
               return "timed out";
             } else {
               return "error";
@@ -3343,8 +3343,8 @@ var init_RealtimeChannel = __esm({
       _trigger(type, payload, ref) {
         var _a, _b;
         const typeLower = type.toLocaleLowerCase();
-        const { close, error, leave, join } = CHANNEL_EVENTS;
-        const events = [close, error, leave, join];
+        const { close, error: error2, leave, join } = CHANNEL_EVENTS;
+        const events = [close, error2, leave, join];
         if (ref && events.indexOf(typeLower) >= 0 && ref !== this._joinRef()) {
           return;
         }
@@ -3799,7 +3799,7 @@ var init_RealtimeClient = __esm({
         if (this.conn) {
           this.conn.binaryType = "arraybuffer";
           this.conn.onopen = () => this._onConnOpen();
-          this.conn.onerror = (error) => this._onConnError(error);
+          this.conn.onerror = (error2) => this._onConnError(error2);
           this.conn.onmessage = (event) => this._onConnMessage(event);
           this.conn.onclose = (event) => this._onConnClose(event);
         }
@@ -3842,10 +3842,10 @@ var init_RealtimeClient = __esm({
         this.stateChangeCallbacks.close.forEach((callback) => callback(event));
       }
       /** @internal */
-      _onConnError(error) {
-        this.log("transport", error.message);
+      _onConnError(error2) {
+        this.log("transport", error2.message);
         this._triggerChanError();
-        this.stateChangeCallbacks.error.forEach((callback) => callback(error));
+        this.stateChangeCallbacks.error.forEach((callback) => callback(error2));
       }
       /** @internal */
       _triggerChanError() {
@@ -3921,8 +3921,8 @@ var init_module3 = __esm({
 });
 
 // node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/errors.js
-function isStorageError(error) {
-  return typeof error === "object" && error !== null && "__isStorageError" in error;
+function isStorageError(error2) {
+  return typeof error2 === "object" && error2 !== null && "__isStorageError" in error2;
 }
 var StorageError, StorageApiError, StorageUnknownError;
 var init_errors2 = __esm({
@@ -4019,7 +4019,7 @@ function _handleRequest(fetcher, method, url, options2, parameters, body2) {
         if (options2 === null || options2 === void 0 ? void 0 : options2.noResolveJson)
           return result;
         return result.json();
-      }).then((data) => resolve2(data)).catch((error) => handleError(error, reject));
+      }).then((data) => resolve2(data)).catch((error2) => handleError(error2, reject));
     });
   });
 }
@@ -4076,16 +4076,16 @@ var init_fetch = __esm({
       });
     };
     _getErrorMessage = (err) => err.msg || err.message || err.error_description || err.error || JSON.stringify(err);
-    handleError = (error, reject) => __awaiter3(void 0, void 0, void 0, function* () {
+    handleError = (error2, reject) => __awaiter3(void 0, void 0, void 0, function* () {
       const Res = yield resolveResponse();
-      if (error instanceof Res) {
-        error.json().then((err) => {
-          reject(new StorageApiError(_getErrorMessage(err), error.status || 500));
+      if (error2 instanceof Res) {
+        error2.json().then((err) => {
+          reject(new StorageApiError(_getErrorMessage(err), error2.status || 500));
         }).catch((err) => {
           reject(new StorageUnknownError(_getErrorMessage(err), err));
         });
       } else {
-        reject(new StorageUnknownError(_getErrorMessage(error), error));
+        reject(new StorageUnknownError(_getErrorMessage(error2), error2));
       }
     });
     _getRequestParams = (method, options2, parameters, body2) => {
@@ -4189,14 +4189,14 @@ var init_StorageFileApi = __esm({
                 error: null
               };
             } else {
-              const error = data;
-              return { data: null, error };
+              const error2 = data;
+              return { data: null, error: error2 };
             }
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -4251,14 +4251,14 @@ var init_StorageFileApi = __esm({
                 error: null
               };
             } else {
-              const error = data;
-              return { data: null, error };
+              const error2 = data;
+              return { data: null, error: error2 };
             }
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -4279,11 +4279,11 @@ var init_StorageFileApi = __esm({
               throw new StorageError("No token returned by API");
             }
             return { data: { signedUrl: url.toString(), path, token }, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -4309,11 +4309,11 @@ var init_StorageFileApi = __esm({
           try {
             const data = yield post(this.fetch, `${this.url}/object/move`, { bucketId: this.bucketId, sourceKey: fromPath, destinationKey: toPath }, { headers: this.headers });
             return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -4328,11 +4328,11 @@ var init_StorageFileApi = __esm({
           try {
             const data = yield post(this.fetch, `${this.url}/object/copy`, { bucketId: this.bucketId, sourceKey: fromPath, destinationKey: toPath }, { headers: this.headers });
             return { data: { path: data.Key }, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -4353,11 +4353,11 @@ var init_StorageFileApi = __esm({
             const signedUrl = encodeURI(`${this.url}${data.signedURL}${downloadQueryParam}`);
             data = { signedUrl };
             return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -4377,11 +4377,11 @@ var init_StorageFileApi = __esm({
               data: data.map((datum) => Object.assign(Object.assign({}, datum), { signedUrl: datum.signedURL ? encodeURI(`${this.url}${datum.signedURL}${downloadQueryParam}`) : null })),
               error: null
             };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -4405,11 +4405,11 @@ var init_StorageFileApi = __esm({
             });
             const data = yield res.blob();
             return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -4452,11 +4452,11 @@ var init_StorageFileApi = __esm({
           try {
             const data = yield remove(this.fetch, `${this.url}/object/${this.bucketId}`, { prefixes: paths }, { headers: this.headers });
             return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -4529,11 +4529,11 @@ var init_StorageFileApi = __esm({
             const body2 = Object.assign(Object.assign(Object.assign({}, DEFAULT_SEARCH_OPTIONS), options2), { prefix: path || "" });
             const data = yield post(this.fetch, `${this.url}/object/list/${this.bucketId}`, body2, { headers: this.headers }, parameters);
             return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -4632,11 +4632,11 @@ var init_StorageBucketApi = __esm({
           try {
             const data = yield get(this.fetch, `${this.url}/bucket`, { headers: this.headers });
             return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -4650,11 +4650,11 @@ var init_StorageBucketApi = __esm({
           try {
             const data = yield get(this.fetch, `${this.url}/bucket/${id}`, { headers: this.headers });
             return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -4684,11 +4684,11 @@ var init_StorageBucketApi = __esm({
               allowed_mime_types: options2.allowedMimeTypes
             }, { headers: this.headers });
             return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -4715,11 +4715,11 @@ var init_StorageBucketApi = __esm({
               allowed_mime_types: options2.allowedMimeTypes
             }, { headers: this.headers });
             return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -4733,11 +4733,11 @@ var init_StorageBucketApi = __esm({
           try {
             const data = yield post(this.fetch, `${this.url}/bucket/${id}/empty`, {}, { headers: this.headers });
             return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -4752,11 +4752,11 @@ var init_StorageBucketApi = __esm({
           try {
             const data = yield remove(this.fetch, `${this.url}/bucket/${id}`, {}, { headers: this.headers });
             return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isStorageError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -5137,14 +5137,14 @@ var init_helpers3 = __esm({
 });
 
 // node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/errors.js
-function isAuthError(error) {
-  return typeof error === "object" && error !== null && "__isAuthError" in error;
+function isAuthError(error2) {
+  return typeof error2 === "object" && error2 !== null && "__isAuthError" in error2;
 }
-function isAuthApiError(error) {
-  return isAuthError(error) && error.name === "AuthApiError";
+function isAuthApiError(error2) {
+  return isAuthError(error2) && error2.name === "AuthApiError";
 }
-function isAuthRetryableFetchError(error) {
-  return isAuthError(error) && error.name === "AuthRetryableFetchError";
+function isAuthRetryableFetchError(error2) {
+  return isAuthError(error2) && error2.name === "AuthRetryableFetchError";
 }
 var AuthError, AuthApiError, AuthUnknownError, CustomAuthError, AuthSessionMissingError, AuthInvalidTokenResponseError, AuthInvalidCredentialsError, AuthImplicitGrantRedirectError, AuthPKCEGrantCodeExchangeError, AuthRetryableFetchError, AuthWeakPasswordError;
 var init_errors3 = __esm({
@@ -5252,23 +5252,23 @@ var init_errors3 = __esm({
 });
 
 // node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/fetch.js
-async function handleError2(error) {
-  if (!looksLikeFetchResponse(error)) {
-    throw new AuthRetryableFetchError(_getErrorMessage2(error), 0);
+async function handleError2(error2) {
+  if (!looksLikeFetchResponse(error2)) {
+    throw new AuthRetryableFetchError(_getErrorMessage2(error2), 0);
   }
-  if (NETWORK_ERROR_CODES.includes(error.status)) {
-    throw new AuthRetryableFetchError(_getErrorMessage2(error), error.status);
+  if (NETWORK_ERROR_CODES.includes(error2.status)) {
+    throw new AuthRetryableFetchError(_getErrorMessage2(error2), error2.status);
   }
   let data;
   try {
-    data = await error.json();
+    data = await error2.json();
   } catch (e) {
     throw new AuthUnknownError(_getErrorMessage2(e), e);
   }
   if (typeof data === "object" && data && typeof data.weak_password === "object" && data.weak_password && Array.isArray(data.weak_password.reasons) && data.weak_password.reasons.length && data.weak_password.reasons.reduce((a, i) => a && typeof i === "string", true)) {
-    throw new AuthWeakPasswordError(_getErrorMessage2(data), error.status, data.weak_password.reasons);
+    throw new AuthWeakPasswordError(_getErrorMessage2(data), error2.status, data.weak_password.reasons);
   }
-  throw new AuthApiError(_getErrorMessage2(data), error.status || 500);
+  throw new AuthApiError(_getErrorMessage2(data), error2.status || 500);
 }
 async function _request(fetcher, method, url, options2) {
   var _a;
@@ -5429,11 +5429,11 @@ var init_GoTrueAdminApi = __esm({
             noResolveJson: true
           });
           return { data: null, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: null, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -5449,11 +5449,11 @@ var init_GoTrueAdminApi = __esm({
             redirectTo: options2.redirectTo,
             xform: _userResponse
           });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { user: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -5477,17 +5477,17 @@ var init_GoTrueAdminApi = __esm({
             xform: _generateLinkResponse,
             redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.redirectTo
           });
-        } catch (error) {
-          if (isAuthError(error)) {
+        } catch (error2) {
+          if (isAuthError(error2)) {
             return {
               data: {
                 properties: null,
                 user: null
               },
-              error
+              error: error2
             };
           }
-          throw error;
+          throw error2;
         }
       }
       // User Admin API
@@ -5502,11 +5502,11 @@ var init_GoTrueAdminApi = __esm({
             headers: this.headers,
             xform: _userResponse
           });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { user: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -5542,11 +5542,11 @@ var init_GoTrueAdminApi = __esm({
             pagination.total = parseInt(total);
           }
           return { data: Object.assign(Object.assign({}, users), pagination), error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { users: [] }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { users: [] }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -5562,11 +5562,11 @@ var init_GoTrueAdminApi = __esm({
             headers: this.headers,
             xform: _userResponse
           });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { user: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -5583,11 +5583,11 @@ var init_GoTrueAdminApi = __esm({
             headers: this.headers,
             xform: _userResponse
           });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { user: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -5608,27 +5608,27 @@ var init_GoTrueAdminApi = __esm({
             },
             xform: _userResponse
           });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { user: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       async _listFactors(params) {
         try {
-          const { data, error } = await _request(this.fetch, "GET", `${this.url}/admin/users/${params.userId}/factors`, {
+          const { data, error: error2 } = await _request(this.fetch, "GET", `${this.url}/admin/users/${params.userId}/factors`, {
             headers: this.headers,
             xform: (factors) => {
               return { data: { factors }, error: null };
             }
           });
-          return { data, error };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
+          return { data, error: error2 };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: null, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       async _deleteFactor(params) {
@@ -5637,11 +5637,11 @@ var init_GoTrueAdminApi = __esm({
             headers: this.headers
           });
           return { data, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: null, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
     };
@@ -5954,14 +5954,14 @@ var init_GoTrueClient = __esm({
           const isPKCEFlow = isBrowser() ? await this._isPKCEFlow() : false;
           this._debug("#_initialize()", "begin", "is PKCE flow", isPKCEFlow);
           if (isPKCEFlow || this.detectSessionInUrl && this._isImplicitGrantFlow()) {
-            const { data, error } = await this._getSessionFromURL(isPKCEFlow);
-            if (error) {
-              this._debug("#_initialize()", "error detecting session from URL", error);
-              if ((error === null || error === void 0 ? void 0 : error.message) === "Identity is already linked" || (error === null || error === void 0 ? void 0 : error.message) === "Identity is already linked to another user") {
-                return { error };
+            const { data, error: error2 } = await this._getSessionFromURL(isPKCEFlow);
+            if (error2) {
+              this._debug("#_initialize()", "error detecting session from URL", error2);
+              if ((error2 === null || error2 === void 0 ? void 0 : error2.message) === "Identity is already linked" || (error2 === null || error2 === void 0 ? void 0 : error2.message) === "Identity is already linked to another user") {
+                return { error: error2 };
               }
               await this._removeSession();
-              return { error };
+              return { error: error2 };
             }
             const { session, redirectType } = data;
             this._debug("#_initialize()", "detected session in URL", session, "redirect type", redirectType);
@@ -5977,12 +5977,12 @@ var init_GoTrueClient = __esm({
           }
           await this._recoverAndRefresh();
           return { error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { error: error2 };
           }
           return {
-            error: new AuthUnknownError("Unexpected error during initialization", error)
+            error: new AuthUnknownError("Unexpected error during initialization", error2)
           };
         } finally {
           await this._handleVisibilityChange();
@@ -6043,9 +6043,9 @@ var init_GoTrueClient = __esm({
           } else {
             throw new AuthInvalidCredentialsError("You must provide either an email or phone number and a password");
           }
-          const { data, error } = res;
-          if (error || !data) {
-            return { data: { user: null, session: null }, error };
+          const { data, error: error2 } = res;
+          if (error2 || !data) {
+            return { data: { user: null, session: null }, error: error2 };
           }
           const session = data.session;
           const user = data.user;
@@ -6054,11 +6054,11 @@ var init_GoTrueClient = __esm({
             await this._notifyAllSubscribers("SIGNED_IN", session);
           }
           return { data: { user, session }, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { user: null, session: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6098,9 +6098,9 @@ var init_GoTrueClient = __esm({
           } else {
             throw new AuthInvalidCredentialsError("You must provide either an email or phone number and a password");
           }
-          const { data, error } = res;
-          if (error) {
-            return { data: { user: null, session: null }, error };
+          const { data, error: error2 } = res;
+          if (error2) {
+            return { data: { user: null, session: null }, error: error2 };
           } else if (!data || !data.session || !data.user) {
             return { data: { user: null, session: null }, error: new AuthInvalidTokenResponseError() };
           }
@@ -6110,13 +6110,13 @@ var init_GoTrueClient = __esm({
           }
           return {
             data: Object.assign({ user: data.user, session: data.session }, data.weak_password ? { weakPassword: data.weak_password } : null),
-            error
+            error: error2
           };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { user: null, session: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6145,7 +6145,7 @@ var init_GoTrueClient = __esm({
       async _exchangeCodeForSession(authCode) {
         const storageItem = await getItemAsync(this.storage, `${this.storageKey}-code-verifier`);
         const [codeVerifier, redirectType] = (storageItem !== null && storageItem !== void 0 ? storageItem : "").split("/");
-        const { data, error } = await _request(this.fetch, "POST", `${this.url}/token?grant_type=pkce`, {
+        const { data, error: error2 } = await _request(this.fetch, "POST", `${this.url}/token?grant_type=pkce`, {
           headers: this.headers,
           body: {
             auth_code: authCode,
@@ -6154,8 +6154,8 @@ var init_GoTrueClient = __esm({
           xform: _sessionResponse
         });
         await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
-        if (error) {
-          return { data: { user: null, session: null, redirectType: null }, error };
+        if (error2) {
+          return { data: { user: null, session: null, redirectType: null }, error: error2 };
         } else if (!data || !data.session || !data.user) {
           return {
             data: { user: null, session: null, redirectType: null },
@@ -6166,7 +6166,7 @@ var init_GoTrueClient = __esm({
           await this._saveSession(data.session);
           await this._notifyAllSubscribers("SIGNED_IN", data.session);
         }
-        return { data: Object.assign(Object.assign({}, data), { redirectType: redirectType !== null && redirectType !== void 0 ? redirectType : null }), error };
+        return { data: Object.assign(Object.assign({}, data), { redirectType: redirectType !== null && redirectType !== void 0 ? redirectType : null }), error: error2 };
       }
       /**
        * Allows signing in with an OIDC ID token. The authentication provider used
@@ -6187,9 +6187,9 @@ var init_GoTrueClient = __esm({
             },
             xform: _sessionResponse
           });
-          const { data, error } = res;
-          if (error) {
-            return { data: { user: null, session: null }, error };
+          const { data, error: error2 } = res;
+          if (error2) {
+            return { data: { user: null, session: null }, error: error2 };
           } else if (!data || !data.session || !data.user) {
             return {
               data: { user: null, session: null },
@@ -6200,12 +6200,12 @@ var init_GoTrueClient = __esm({
             await this._saveSession(data.session);
             await this._notifyAllSubscribers("SIGNED_IN", data.session);
           }
-          return { data, error };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
+          return { data, error: error2 };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { user: null, session: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6239,7 +6239,7 @@ var init_GoTrueClient = __esm({
               codeChallenge = await generatePKCEChallenge(codeVerifier);
               codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
             }
-            const { error } = await _request(this.fetch, "POST", `${this.url}/otp`, {
+            const { error: error2 } = await _request(this.fetch, "POST", `${this.url}/otp`, {
               headers: this.headers,
               body: {
                 email,
@@ -6251,11 +6251,11 @@ var init_GoTrueClient = __esm({
               },
               redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.emailRedirectTo
             });
-            return { data: { user: null, session: null }, error };
+            return { data: { user: null, session: null }, error: error2 };
           }
           if ("phone" in credentials) {
             const { phone, options: options2 } = credentials;
-            const { data, error } = await _request(this.fetch, "POST", `${this.url}/otp`, {
+            const { data, error: error2 } = await _request(this.fetch, "POST", `${this.url}/otp`, {
               headers: this.headers,
               body: {
                 phone,
@@ -6265,14 +6265,14 @@ var init_GoTrueClient = __esm({
                 channel: (_e = options2 === null || options2 === void 0 ? void 0 : options2.channel) !== null && _e !== void 0 ? _e : "sms"
               }
             });
-            return { data: { user: null, session: null, messageId: data === null || data === void 0 ? void 0 : data.message_id }, error };
+            return { data: { user: null, session: null, messageId: data === null || data === void 0 ? void 0 : data.message_id }, error: error2 };
           }
           throw new AuthInvalidCredentialsError("You must provide either an email or phone number.");
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { user: null, session: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6290,14 +6290,14 @@ var init_GoTrueClient = __esm({
             redirectTo = (_a = params.options) === null || _a === void 0 ? void 0 : _a.redirectTo;
             captchaToken = (_b = params.options) === null || _b === void 0 ? void 0 : _b.captchaToken;
           }
-          const { data, error } = await _request(this.fetch, "POST", `${this.url}/verify`, {
+          const { data, error: error2 } = await _request(this.fetch, "POST", `${this.url}/verify`, {
             headers: this.headers,
             body: Object.assign(Object.assign({}, params), { gotrue_meta_security: { captcha_token: captchaToken } }),
             redirectTo,
             xform: _sessionResponse
           });
-          if (error) {
-            throw error;
+          if (error2) {
+            throw error2;
           }
           if (!data) {
             throw new Error("An error occurred on token verification.");
@@ -6309,11 +6309,11 @@ var init_GoTrueClient = __esm({
             await this._notifyAllSubscribers(params.type == "recovery" ? "PASSWORD_RECOVERY" : "SIGNED_IN", session);
           }
           return { data: { user, session }, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { user: null, session: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6347,11 +6347,11 @@ var init_GoTrueClient = __esm({
             headers: this.headers,
             xform: _ssoResponse
           });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: null, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6372,17 +6372,17 @@ var init_GoTrueClient = __esm({
               throw sessionError;
             if (!session)
               throw new AuthSessionMissingError();
-            const { error } = await _request(this.fetch, "GET", `${this.url}/reauthenticate`, {
+            const { error: error2 } = await _request(this.fetch, "GET", `${this.url}/reauthenticate`, {
               headers: this.headers,
               jwt: session.access_token
             });
-            return { data: { user: null, session: null }, error };
+            return { data: { user: null, session: null }, error: error2 };
           });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { user: null, session: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6396,7 +6396,7 @@ var init_GoTrueClient = __esm({
           const endpoint = `${this.url}/resend`;
           if ("email" in credentials) {
             const { email, type, options: options2 } = credentials;
-            const { error } = await _request(this.fetch, "POST", endpoint, {
+            const { error: error2 } = await _request(this.fetch, "POST", endpoint, {
               headers: this.headers,
               body: {
                 email,
@@ -6405,10 +6405,10 @@ var init_GoTrueClient = __esm({
               },
               redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.emailRedirectTo
             });
-            return { data: { user: null, session: null }, error };
+            return { data: { user: null, session: null }, error: error2 };
           } else if ("phone" in credentials) {
             const { phone, type, options: options2 } = credentials;
-            const { data, error } = await _request(this.fetch, "POST", endpoint, {
+            const { data, error: error2 } = await _request(this.fetch, "POST", endpoint, {
               headers: this.headers,
               body: {
                 phone,
@@ -6416,14 +6416,14 @@ var init_GoTrueClient = __esm({
                 gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
               }
             });
-            return { data: { user: null, session: null, messageId: data === null || data === void 0 ? void 0 : data.message_id }, error };
+            return { data: { user: null, session: null, messageId: data === null || data === void 0 ? void 0 : data.message_id }, error: error2 };
           }
           throw new AuthInvalidCredentialsError("You must provide either an email or phone number and a type");
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { user: null, session: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6530,9 +6530,9 @@ var init_GoTrueClient = __esm({
           if (!hasExpired) {
             return { data: { session: currentSession }, error: null };
           }
-          const { session, error } = await this._callRefreshToken(currentSession.refresh_token);
-          if (error) {
-            return { data: { session: null }, error };
+          const { session, error: error2 } = await this._callRefreshToken(currentSession.refresh_token);
+          if (error2) {
+            return { data: { session: null }, error: error2 };
           }
           return { data: { session }, error: null };
         } finally {
@@ -6563,9 +6563,9 @@ var init_GoTrueClient = __esm({
           }
           return await this._useSession(async (result) => {
             var _a, _b;
-            const { data, error } = result;
-            if (error) {
-              throw error;
+            const { data, error: error2 } = result;
+            if (error2) {
+              throw error2;
             }
             return await _request(this.fetch, "GET", `${this.url}/user`, {
               headers: this.headers,
@@ -6573,11 +6573,11 @@ var init_GoTrueClient = __esm({
               xform: _userResponse
             });
           });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { user: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6622,11 +6622,11 @@ var init_GoTrueClient = __esm({
             await this._notifyAllSubscribers("USER_UPDATED", session);
             return { data: { user: session.user }, error: null };
           });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { user: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6661,18 +6661,18 @@ var init_GoTrueClient = __esm({
             hasExpired = expiresAt2 <= timeNow;
           }
           if (hasExpired) {
-            const { session: refreshedSession, error } = await this._callRefreshToken(currentSession.refresh_token);
-            if (error) {
-              return { data: { user: null, session: null }, error };
+            const { session: refreshedSession, error: error2 } = await this._callRefreshToken(currentSession.refresh_token);
+            if (error2) {
+              return { data: { user: null, session: null }, error: error2 };
             }
             if (!refreshedSession) {
               return { data: { user: null, session: null }, error: null };
             }
             session = refreshedSession;
           } else {
-            const { data, error } = await this._getUser(currentSession.access_token);
-            if (error) {
-              throw error;
+            const { data, error: error2 } = await this._getUser(currentSession.access_token);
+            if (error2) {
+              throw error2;
             }
             session = {
               access_token: currentSession.access_token,
@@ -6686,11 +6686,11 @@ var init_GoTrueClient = __esm({
             await this._notifyAllSubscribers("SIGNED_IN", session);
           }
           return { data: { user: session.user, session }, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { session: null, user: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { session: null, user: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6710,29 +6710,29 @@ var init_GoTrueClient = __esm({
           return await this._useSession(async (result) => {
             var _a;
             if (!currentSession) {
-              const { data, error: error2 } = result;
-              if (error2) {
-                throw error2;
+              const { data, error: error3 } = result;
+              if (error3) {
+                throw error3;
               }
               currentSession = (_a = data.session) !== null && _a !== void 0 ? _a : void 0;
             }
             if (!(currentSession === null || currentSession === void 0 ? void 0 : currentSession.refresh_token)) {
               throw new AuthSessionMissingError();
             }
-            const { session, error } = await this._callRefreshToken(currentSession.refresh_token);
-            if (error) {
-              return { data: { user: null, session: null }, error };
+            const { session, error: error2 } = await this._callRefreshToken(currentSession.refresh_token);
+            if (error2) {
+              return { data: { user: null, session: null }, error: error2 };
             }
             if (!session) {
               return { data: { user: null, session: null }, error: null };
             }
             return { data: { user: session.user, session }, error: null };
           });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { user: null, session: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6751,9 +6751,9 @@ var init_GoTrueClient = __esm({
           if (isPKCEFlow) {
             if (!params.code)
               throw new AuthPKCEGrantCodeExchangeError("No code detected.");
-            const { data: data2, error: error2 } = await this._exchangeCodeForSession(params.code);
-            if (error2)
-              throw error2;
+            const { data: data2, error: error3 } = await this._exchangeCodeForSession(params.code);
+            if (error3)
+              throw error3;
             const url = new URL(window.location.href);
             url.searchParams.delete("code");
             window.history.replaceState(window.history.state, "", url.toString());
@@ -6785,9 +6785,9 @@ var init_GoTrueClient = __esm({
           } else if (timeNow - issuedAt < 0) {
             console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued in the future? Check the device clok for skew", issuedAt, expiresAt2, timeNow);
           }
-          const { data, error } = await this._getUser(access_token);
-          if (error)
-            throw error;
+          const { data, error: error2 } = await this._getUser(access_token);
+          if (error2)
+            throw error2;
           const session = {
             provider_token,
             provider_refresh_token,
@@ -6801,11 +6801,11 @@ var init_GoTrueClient = __esm({
           window.location.hash = "";
           this._debug("#_getSessionFromURL()", "clearing window.location.hash");
           return { data: { session, redirectType: params.type }, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { session: null, redirectType: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { session: null, redirectType: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6846,10 +6846,10 @@ var init_GoTrueClient = __esm({
           }
           const accessToken = (_a = data.session) === null || _a === void 0 ? void 0 : _a.access_token;
           if (accessToken) {
-            const { error } = await this.admin.signOut(accessToken, scope);
-            if (error) {
-              if (!(isAuthApiError(error) && (error.status === 404 || error.status === 401))) {
-                return { error };
+            const { error: error2 } = await this.admin.signOut(accessToken, scope);
+            if (error2) {
+              if (!(isAuthApiError(error2) && (error2.status === 404 || error2.status === 401))) {
+                return { error: error2 };
               }
             }
           }
@@ -6889,9 +6889,9 @@ var init_GoTrueClient = __esm({
         return await this._useSession(async (result) => {
           var _a, _b;
           try {
-            const { data: { session }, error } = result;
-            if (error)
-              throw error;
+            const { data: { session }, error: error2 } = result;
+            if (error2)
+              throw error2;
             await ((_a = this.stateChangeEmitters.get(id)) === null || _a === void 0 ? void 0 : _a.callback("INITIAL_SESSION", session));
             this._debug("INITIAL_SESSION", "callback id", id, "session", session);
           } catch (err) {
@@ -6928,11 +6928,11 @@ var init_GoTrueClient = __esm({
             headers: this.headers,
             redirectTo: options2.redirectTo
           });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: null, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6941,15 +6941,15 @@ var init_GoTrueClient = __esm({
       async getUserIdentities() {
         var _a;
         try {
-          const { data, error } = await this.getUser();
-          if (error)
-            throw error;
+          const { data, error: error2 } = await this.getUser();
+          if (error2)
+            throw error2;
           return { data: { identities: (_a = data.user.identities) !== null && _a !== void 0 ? _a : [] }, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: null, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6959,11 +6959,11 @@ var init_GoTrueClient = __esm({
       async linkIdentity(credentials) {
         var _a;
         try {
-          const { data, error } = await this._useSession(async (result) => {
+          const { data, error: error2 } = await this._useSession(async (result) => {
             var _a2, _b, _c, _d, _e;
-            const { data: data2, error: error2 } = result;
-            if (error2)
-              throw error2;
+            const { data: data2, error: error3 } = result;
+            if (error3)
+              throw error3;
             const url = await this._getUrlForProvider(`${this.url}/user/identities/authorize`, credentials.provider, {
               redirectTo: (_a2 = credentials.options) === null || _a2 === void 0 ? void 0 : _a2.redirectTo,
               scopes: (_b = credentials.options) === null || _b === void 0 ? void 0 : _b.scopes,
@@ -6975,17 +6975,17 @@ var init_GoTrueClient = __esm({
               jwt: (_e = (_d = data2.session) === null || _d === void 0 ? void 0 : _d.access_token) !== null && _e !== void 0 ? _e : void 0
             });
           });
-          if (error)
-            throw error;
+          if (error2)
+            throw error2;
           if (isBrowser() && !((_a = credentials.options) === null || _a === void 0 ? void 0 : _a.skipBrowserRedirect)) {
             window.location.assign(data === null || data === void 0 ? void 0 : data.url);
           }
           return { data: { provider: credentials.provider, url: data === null || data === void 0 ? void 0 : data.url }, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { provider: credentials.provider, url: null }, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: { provider: credentials.provider, url: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -6995,20 +6995,20 @@ var init_GoTrueClient = __esm({
         try {
           return await this._useSession(async (result) => {
             var _a, _b;
-            const { data, error } = result;
-            if (error) {
-              throw error;
+            const { data, error: error2 } = result;
+            if (error2) {
+              throw error2;
             }
             return await _request(this.fetch, "DELETE", `${this.url}/user/identities/${identity2.identity_id}`, {
               headers: this.headers,
               jwt: (_b = (_a = data.session) === null || _a === void 0 ? void 0 : _a.access_token) !== null && _b !== void 0 ? _b : void 0
             });
           });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: null, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -7030,12 +7030,12 @@ var init_GoTrueClient = __esm({
             });
           }, (attempt, _, result) => result && result.error && isAuthRetryableFetchError(result.error) && // retryable only if the request can be sent before the backoff overflows the tick duration
           Date.now() + (attempt + 1) * 200 - startedAt < AUTO_REFRESH_TICK_DURATION);
-        } catch (error) {
-          this._debug(debugName, "error", error);
-          if (isAuthError(error)) {
-            return { data: { session: null, user: null }, error };
+        } catch (error2) {
+          this._debug(debugName, "error", error2);
+          if (isAuthError(error2)) {
+            return { data: { session: null, user: null }, error: error2 };
           }
-          throw error;
+          throw error2;
         } finally {
           this._debug(debugName, "end");
         }
@@ -7079,11 +7079,11 @@ var init_GoTrueClient = __esm({
           this._debug(debugName, `session has${expiresWithMargin ? "" : " not"} expired with margin of ${EXPIRY_MARGIN}s`);
           if (expiresWithMargin) {
             if (this.autoRefreshToken && currentSession.refresh_token) {
-              const { error } = await this._callRefreshToken(currentSession.refresh_token);
-              if (error) {
-                console.error(error);
-                if (!isAuthRetryableFetchError(error)) {
-                  this._debug(debugName, "refresh failed with a non-retryable error, removing the session", error);
+              const { error: error2 } = await this._callRefreshToken(currentSession.refresh_token);
+              if (error2) {
+                console.error(error2);
+                if (!isAuthRetryableFetchError(error2)) {
+                  this._debug(debugName, "refresh failed with a non-retryable error, removing the session", error2);
                   await this._removeSession();
                 }
               }
@@ -7111,9 +7111,9 @@ var init_GoTrueClient = __esm({
         this._debug(debugName, "begin");
         try {
           this.refreshingDeferred = new Deferred();
-          const { data, error } = await this._refreshAccessToken(refreshToken);
-          if (error)
-            throw error;
+          const { data, error: error2 } = await this._refreshAccessToken(refreshToken);
+          if (error2)
+            throw error2;
           if (!data.session)
             throw new AuthSessionMissingError();
           await this._saveSession(data.session);
@@ -7121,19 +7121,19 @@ var init_GoTrueClient = __esm({
           const result = { session: data.session, error: null };
           this.refreshingDeferred.resolve(result);
           return result;
-        } catch (error) {
-          this._debug(debugName, "error", error);
-          if (isAuthError(error)) {
-            const result = { session: null, error };
-            if (!isAuthRetryableFetchError(error)) {
+        } catch (error2) {
+          this._debug(debugName, "error", error2);
+          if (isAuthError(error2)) {
+            const result = { session: null, error: error2 };
+            if (!isAuthRetryableFetchError(error2)) {
               await this._removeSession();
               await this._notifyAllSubscribers("SIGNED_OUT", null);
             }
             (_a = this.refreshingDeferred) === null || _a === void 0 ? void 0 : _a.resolve(result);
             return result;
           }
-          (_b = this.refreshingDeferred) === null || _b === void 0 ? void 0 : _b.reject(error);
-          throw error;
+          (_b = this.refreshingDeferred) === null || _b === void 0 ? void 0 : _b.reject(error2);
+          throw error2;
         } finally {
           this.refreshingDeferred = null;
           this._debug(debugName, "end");
@@ -7318,8 +7318,8 @@ var init_GoTrueClient = __esm({
           this.visibilityChangedCallback = async () => await this._onVisibilityChanged(false);
           window === null || window === void 0 ? void 0 : window.addEventListener("visibilitychange", this.visibilityChangedCallback);
           await this._onVisibilityChanged(true);
-        } catch (error) {
-          console.error("_handleVisibilityChange", error);
+        } catch (error2) {
+          console.error("_handleVisibilityChange", error2);
         }
       }
       /**
@@ -7396,11 +7396,11 @@ var init_GoTrueClient = __esm({
               jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
             });
           });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: null, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -7414,7 +7414,7 @@ var init_GoTrueClient = __esm({
             if (sessionError) {
               return { data: null, error: sessionError };
             }
-            const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors`, {
+            const { data, error: error2 } = await _request(this.fetch, "POST", `${this.url}/factors`, {
               body: {
                 friendly_name: params.friendlyName,
                 factor_type: params.factorType,
@@ -7423,19 +7423,19 @@ var init_GoTrueClient = __esm({
               headers: this.headers,
               jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
             });
-            if (error) {
-              return { data: null, error };
+            if (error2) {
+              return { data: null, error: error2 };
             }
             if ((_b = data === null || data === void 0 ? void 0 : data.totp) === null || _b === void 0 ? void 0 : _b.qr_code) {
               data.totp.qr_code = `data:image/svg+xml;utf-8,${data.totp.qr_code}`;
             }
             return { data, error: null };
           });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
+        } catch (error2) {
+          if (isAuthError(error2)) {
+            return { data: null, error: error2 };
           }
-          throw error;
+          throw error2;
         }
       }
       /**
@@ -7450,23 +7450,23 @@ var init_GoTrueClient = __esm({
               if (sessionError) {
                 return { data: null, error: sessionError };
               }
-              const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors/${params.factorId}/verify`, {
+              const { data, error: error2 } = await _request(this.fetch, "POST", `${this.url}/factors/${params.factorId}/verify`, {
                 body: { code: params.code, challenge_id: params.challengeId },
                 headers: this.headers,
                 jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
               });
-              if (error) {
-                return { data: null, error };
+              if (error2) {
+                return { data: null, error: error2 };
               }
               await this._saveSession(Object.assign({ expires_at: Math.round(Date.now() / 1e3) + data.expires_in }, data));
               await this._notifyAllSubscribers("MFA_CHALLENGE_VERIFIED", data);
-              return { data, error };
+              return { data, error: error2 };
             });
-          } catch (error) {
-            if (isAuthError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isAuthError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -7487,11 +7487,11 @@ var init_GoTrueClient = __esm({
                 jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
               });
             });
-          } catch (error) {
-            if (isAuthError(error)) {
-              return { data: null, error };
+          } catch (error2) {
+            if (isAuthError(error2)) {
+              return { data: null, error: error2 };
             }
-            throw error;
+            throw error2;
           }
         });
       }
@@ -7994,20 +7994,20 @@ var init_dist = __esm({
           var obj = {};
           var opt = options2 || {};
           var dec = opt.decode || decode4;
-          var index19 = 0;
-          while (index19 < str.length) {
-            var eqIdx = str.indexOf("=", index19);
+          var index21 = 0;
+          while (index21 < str.length) {
+            var eqIdx = str.indexOf("=", index21);
             if (eqIdx === -1) {
               break;
             }
-            var endIdx = str.indexOf(";", index19);
+            var endIdx = str.indexOf(";", index21);
             if (endIdx === -1) {
               endIdx = str.length;
             } else if (endIdx < eqIdx) {
-              index19 = str.lastIndexOf(";", eqIdx - 1) + 1;
+              index21 = str.lastIndexOf(";", eqIdx - 1) + 1;
               continue;
             }
-            var key2 = str.slice(index19, eqIdx).trim();
+            var key2 = str.slice(index21, eqIdx).trim();
             if (void 0 === obj[key2]) {
               var val = str.slice(eqIdx + 1, endIdx).trim();
               if (val.charCodeAt(0) === 34) {
@@ -8015,7 +8015,7 @@ var init_dist = __esm({
               }
               obj[key2] = tryDecode2(val, dec);
             }
-            index19 = endIdx + 1;
+            index21 = endIdx + 1;
           }
           return obj;
         }
@@ -8345,37 +8345,13 @@ var init_dist2 = __esm({
   }
 });
 
-// .svelte-kit/output/server/chunks/hooks.server.js
-var hooks_server_exports = {};
-__export(hooks_server_exports, {
-  handle: () => handle
-});
-var handle;
-var init_hooks_server = __esm({
-  ".svelte-kit/output/server/chunks/hooks.server.js"() {
-    init_dist2();
-    handle = async ({ event, resolve: resolve2 }) => {
-      event.locals.supabase = createSupabaseServerClient({
-        supabaseUrl: "https://noejjknzqcfnwzgrpfdi.supabase.co",
-        supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vZWpqa256cWNmbnd6Z3JwZmRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc0ODMyNDQsImV4cCI6MjAyMzA1OTI0NH0.pEqKPgopedqGbawDnrNssT_RjZBhr-IJoUx_9uWWv1c",
-        event
-      });
-      event.locals.getSession = async () => {
-        const {
-          data: { session }
-        } = await event.locals.supabase.auth.getSession();
-        return session;
-      };
-      return resolve2(event, {
-        filterSerializedResponseHeaders(name2) {
-          return name2 === "content-range";
-        }
-      });
-    };
-  }
-});
-
 // .svelte-kit/output/server/chunks/index.js
+function error(status, body2) {
+  if (isNaN(status) || status < 400 || status > 599) {
+    throw new Error(`HTTP error status codes must be between 400 and 599 \u2014 ${status} is invalid`);
+  }
+  throw new HttpError(status, body2);
+}
 function redirect(status, location) {
   if (isNaN(status) || status < 300 || status > 308) {
     throw new Error("Invalid status code");
@@ -8473,6 +8449,85 @@ var init_chunks = __esm({
       }
     };
     encoder2 = new TextEncoder();
+  }
+});
+
+// .svelte-kit/output/server/chunks/hooks.server.js
+var hooks_server_exports = {};
+__export(hooks_server_exports, {
+  handle: () => handle
+});
+function sequence(...handlers) {
+  const length = handlers.length;
+  if (!length)
+    return ({ event, resolve: resolve2 }) => resolve2(event);
+  return ({ event, resolve: resolve2 }) => {
+    return apply_handle(0, event, {});
+    function apply_handle(i, event2, parent_options) {
+      const handle2 = handlers[i];
+      return handle2({
+        event: event2,
+        resolve: (event3, options2) => {
+          const transformPageChunk = async ({ html, done }) => {
+            if (options2?.transformPageChunk) {
+              html = await options2.transformPageChunk({ html, done }) ?? "";
+            }
+            if (parent_options?.transformPageChunk) {
+              html = await parent_options.transformPageChunk({ html, done }) ?? "";
+            }
+            return html;
+          };
+          const filterSerializedResponseHeaders = parent_options?.filterSerializedResponseHeaders ?? options2?.filterSerializedResponseHeaders;
+          const preload = parent_options?.preload ?? options2?.preload;
+          return i < length - 1 ? apply_handle(i + 1, event3, {
+            transformPageChunk,
+            filterSerializedResponseHeaders,
+            preload
+          }) : resolve2(event3, { transformPageChunk, filterSerializedResponseHeaders, preload });
+        }
+      });
+    }
+  };
+}
+async function supabase({ event, resolve: resolve2 }) {
+  event.locals.supabase = createSupabaseServerClient({
+    supabaseUrl: "https://noejjknzqcfnwzgrpfdi.supabase.co",
+    supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vZWpqa256cWNmbnd6Z3JwZmRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc0ODMyNDQsImV4cCI6MjAyMzA1OTI0NH0.pEqKPgopedqGbawDnrNssT_RjZBhr-IJoUx_9uWWv1c",
+    event
+  });
+  event.locals.getSession = async () => {
+    const {
+      data: { session }
+    } = await event.locals.supabase.auth.getSession();
+    return session;
+  };
+  return resolve2(event, {
+    filterSerializedResponseHeaders(name2) {
+      return name2 === "content-range";
+    }
+  });
+}
+async function authorization({ event, resolve: resolve2 }) {
+  if (event.url.pathname.startsWith("/admin") && event.request.method === "GET") {
+    const session = await event.locals.getSession();
+    if (!session) {
+      redirect(303, "/");
+    }
+  }
+  if (event.url.pathname.startsWith("/protected-posts") && event.request.method === "POST") {
+    const session = await event.locals.getSession();
+    if (!session) {
+      throw error(303, "/");
+    }
+  }
+  return resolve2(event);
+}
+var handle;
+var init_hooks_server = __esm({
+  ".svelte-kit/output/server/chunks/hooks.server.js"() {
+    init_dist2();
+    init_chunks();
+    handle = sequence(supabase, authorization);
   }
 });
 
@@ -8817,7 +8872,7 @@ var init_layout = __esm({
     inject({ mode: "production" });
     load = async ({ fetch: fetch3, data, depends }) => {
       depends("supabase:auth");
-      const supabase2 = createSupabaseLoadClient({
+      const supabase3 = createSupabaseLoadClient({
         supabaseUrl: "https://noejjknzqcfnwzgrpfdi.supabase.co",
         supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vZWpqa256cWNmbnd6Z3JwZmRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc0ODMyNDQsImV4cCI6MjAyMzA1OTI0NH0.pEqKPgopedqGbawDnrNssT_RjZBhr-IJoUx_9uWWv1c",
         event: { fetch: fetch3 },
@@ -8825,8 +8880,8 @@ var init_layout = __esm({
       });
       const {
         data: { session }
-      } = await supabase2.auth.getSession();
-      return { supabase: supabase2, session };
+      } = await supabase3.auth.getSession();
+      return { supabase: supabase3, session };
     };
   }
 });
@@ -9099,9 +9154,9 @@ function calculateSize(size, ratio, precision) {
 }
 function splitSVGDefs(content, tag = "defs") {
   let defs = "";
-  const index19 = content.indexOf("<" + tag);
-  while (index19 >= 0) {
-    const start = content.indexOf(">", index19);
+  const index21 = content.indexOf("<" + tag);
+  while (index21 >= 0) {
+    const start = content.indexOf(">", index21);
     const end = content.indexOf("</" + tag);
     if (start === -1 || end === -1) {
       break;
@@ -9111,7 +9166,7 @@ function splitSVGDefs(content, tag = "defs") {
       break;
     }
     defs += content.slice(start + 1, end).trim();
-    content = content.slice(0, index19).trim() + content.slice(endEnd + 1);
+    content = content.slice(0, index21).trim() + content.slice(endEnd + 1);
   }
   return {
     defs,
@@ -9583,9 +9638,9 @@ function sendQuery(config, payload, query, done) {
     resetTimer();
     clearQueue();
     if (!config.random) {
-      const index19 = config.resources.indexOf(item.resource);
-      if (index19 !== -1 && index19 !== config.index) {
-        config.index = index19;
+      const index21 = config.resources.indexOf(item.resource);
+      if (index21 !== -1 && index21 !== config.index) {
+        config.index = index21;
       }
     }
     status = "completed";
@@ -9642,10 +9697,10 @@ function initRedundancy(cfg) {
       config,
       payload,
       queryCallback,
-      (data, error) => {
+      (data, error2) => {
         cleanup();
         if (doneCallback) {
-          doneCallback(data, error);
+          doneCallback(data, error2);
         }
       }
     );
@@ -9660,8 +9715,8 @@ function initRedundancy(cfg) {
   const instance = {
     query,
     find,
-    setIndex: (index19) => {
-      config.index = index19;
+    setIndex: (index21) => {
+      config.index = index21;
     },
     getIndex: () => config.index,
     cleanup
@@ -9772,8 +9827,8 @@ function iterateBrowserStorage(key2, callback) {
     return;
   }
   const minTime = Math.floor(Date.now() / browserStorageHour) - browserStorageCacheExpiration;
-  const parseItem = (index19) => {
-    const name2 = browserCachePrefix + index19.toString();
+  const parseItem = (index21) => {
+    const name2 = browserCachePrefix + index21.toString();
     const item = getStoredItem(func, name2);
     if (typeof item !== "string") {
       return;
@@ -9781,7 +9836,7 @@ function iterateBrowserStorage(key2, callback) {
     try {
       const data = JSON.parse(item);
       if (typeof data === "object" && typeof data.cached === "number" && data.cached > minTime && typeof data.provider === "string" && typeof data.data === "object" && typeof data.data.prefix === "string" && // Valid item: run callback
-      callback(data, index19)) {
+      callback(data, index21)) {
         return true;
       }
     } catch (err) {
@@ -9852,12 +9907,12 @@ function storeInBrowserStorage(storage2, data) {
       return;
     }
     const set = browserStorageEmptyItems[key2];
-    let index19;
+    let index21;
     if (set.size) {
-      set.delete(index19 = Array.from(set).shift());
+      set.delete(index21 = Array.from(set).shift());
     } else {
-      index19 = getBrowserStorageItemsCount(func);
-      if (index19 >= browserStorageLimit || !setBrowserStorageItemsCount(func, index19 + 1)) {
+      index21 = getBrowserStorageItemsCount(func);
+      if (index21 >= browserStorageLimit || !setBrowserStorageItemsCount(func, index21 + 1)) {
         return;
       }
     }
@@ -9868,7 +9923,7 @@ function storeInBrowserStorage(storage2, data) {
     };
     return setStoredItem(
       func,
-      browserCachePrefix + index19.toString(),
+      browserCachePrefix + index21.toString(),
       JSON.stringify(item)
     );
   }
@@ -10325,9 +10380,9 @@ var init_Icon = __esm({
         icons: []
       };
       let length = 0;
-      icons.forEach((name2, index19) => {
+      icons.forEach((name2, index21) => {
         length += name2.length + 1;
-        if (length >= maxLength && index19 > 0) {
+        if (length >= maxLength && index21 > 0) {
           results.push(item);
           item = {
             type,
@@ -10611,11 +10666,6 @@ function get2(key2, parse2 = JSON.parse) {
   } catch {
   }
 }
-function goto(url, opts = {}) {
-  {
-    throw new Error("Cannot call goto(...) on the server");
-  }
-}
 var SNAPSHOT_KEY, SCROLL_KEY;
 var init_client = __esm({
   ".svelte-kit/output/server/chunks/client.js"() {
@@ -10665,14 +10715,14 @@ __export(layout_svelte_exports, {
 function getDescription($page) {
   try {
     return $page.data.data.metaDescription || $page.data.data.description.replace(/(<([^>]+)>)/gi, "").substring(0, 155);
-  } catch (error) {
+  } catch (error2) {
     return "Willkommen auf cdl-protokolle.com \u2013 Ihrer Quelle f\xFCr hochwertige Gesundheitsinformationen und wertvolle Tipps f\xFCr ein gesundes Leben! Entdecken Sie kostenlose Leseproben aus erstklassigen Gesundheitsb\xFCchern und erhalten Sie zahlreiche Ratschl\xE4ge zur Verbesserung Ihrer Gesundheit, ohne den Einsatz von Pharma-Medizin. Unsere Website entstand aus einer engagierten Telegram-Gruppe und bietet Ihnen organisierte Informationen sowie die M\xF6glichkeit zum aktiven Austausch. Tauchen Sie ein in die Welt der ganzheitlichen Gesundheit und f\xF6rdern Sie Ihr Wohlbefinden auf nat\xFCrliche Weise. Starten Sie jetzt Ihren Weg zu einem ges\xFCnderen Lebensstil!";
   }
 }
 function getTitle($page) {
   try {
     return $page.data.data.title || $page.data.data.name;
-  } catch (error) {
+  } catch (error2) {
     return "CDL Protokolle ";
   }
 }
@@ -10682,6 +10732,7 @@ var init_layout_svelte = __esm({
     init_ssr();
     init_Icon();
     init_stores();
+    init_client();
     Logo = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `<a href="/" class="flex items-center justify-center md:justify-left space-x-3 rtl:space-x-reverse m-2">${validate_component(Icon, "Icon").$$render(
         $$result,
@@ -10709,6 +10760,9 @@ var init_layout_svelte = __esm({
     Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let $page, $$unsubscribe_page;
       $$unsubscribe_page = subscribe(page, (value) => $page = value);
+      let { data } = $$props;
+      if ($$props.data === void 0 && $$bindings.data && data !== void 0)
+        $$bindings.data(data);
       $$unsubscribe_page();
       return `${$$result.head += `<!-- HEAD_svelte-17vvv3l_START -->${$$result.title = `<title>${escape(getTitle($page))}</title>`, ""}<meta name="description"${add_attribute("content", getDescription($page), 0)}><!-- HEAD_svelte-17vvv3l_END -->`, ""}  <div class="bg-white max-w-screen-lg m-auto md:block justify-center items-center text-black"><div class="w-full mx-auto px-1"> ${validate_component(Navbar, "Navbar").$$render($$result, {}, {}, {})} <form class="flex border-2 px-2 justify-center items-center" method="get" action="/search"><input class="w-full border-0 border-collapse border-gray-400" type="text" name="q" placeholder="Wonach suchen Sie? (B\xFCcher, Produkte, Inhaltsstoffe)"> <button class="border-1 border-collapse border-gray-400 p-2" type="submit">${validate_component(Icon, "Icon").$$render($$result, { width: "24", icon: "ion:search-outline" }, {}, {})}</button></form>  ${slots.default ? slots.default({}) : ``}</div> ${validate_component(Footer, "Footer").$$render($$result, {}, {}, {})}</div>`;
     });
@@ -10737,7 +10791,7 @@ var init__ = __esm({
     component = async () => component_cache ?? (component_cache = (await Promise.resolve().then(() => (init_layout_svelte(), layout_svelte_exports))).default);
     universal_id = "src/routes/+layout.js";
     server_id = "src/routes/+layout.server.js";
-    imports = ["_app/immutable/nodes/0.CbAQcjAV.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/Icon.CJ8UdO_k.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/stores.B0xy-5y0.js", "_app/immutable/chunks/entry.B_oBJj3n.js", "_app/immutable/chunks/index.DYca1GoS.js"];
+    imports = ["_app/immutable/nodes/0.DAfSqi58.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js", "_app/immutable/chunks/Icon.DOO-BNps.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/stores.Bx5agO8q.js", "_app/immutable/chunks/entry.B7fW5v37.js", "_app/immutable/chunks/index.78gAU9JB.js"];
     stylesheets = ["_app/immutable/assets/0.B-tvac6M.css"];
     fonts = [];
   }
@@ -10776,7 +10830,7 @@ var init__2 = __esm({
   ".svelte-kit/output/server/nodes/1.js"() {
     index2 = 1;
     component2 = async () => component_cache2 ?? (component_cache2 = (await Promise.resolve().then(() => (init_error_svelte(), error_svelte_exports))).default);
-    imports2 = ["_app/immutable/nodes/1.Bnz2UOJc.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/stores.B0xy-5y0.js", "_app/immutable/chunks/entry.B_oBJj3n.js", "_app/immutable/chunks/index.DYca1GoS.js"];
+    imports2 = ["_app/immutable/nodes/1.Db7W4thp.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js", "_app/immutable/chunks/stores.Bx5agO8q.js", "_app/immutable/chunks/entry.B7fW5v37.js", "_app/immutable/chunks/index.78gAU9JB.js"];
     stylesheets2 = [];
     fonts2 = [];
   }
@@ -10989,16 +11043,16 @@ function createSplitModifiers(config) {
     let bracketDepth = 0;
     let modifierStart = 0;
     let postfixModifierPosition;
-    for (let index19 = 0; index19 < className.length; index19++) {
-      let currentCharacter = className[index19];
+    for (let index21 = 0; index21 < className.length; index21++) {
+      let currentCharacter = className[index21];
       if (bracketDepth === 0) {
-        if (currentCharacter === firstSeparatorCharacter && (isSeparatorSingleCharacter || className.slice(index19, index19 + separatorLength) === separator2)) {
-          modifiers.push(className.slice(modifierStart, index19));
-          modifierStart = index19 + separatorLength;
+        if (currentCharacter === firstSeparatorCharacter && (isSeparatorSingleCharacter || className.slice(index21, index21 + separatorLength) === separator2)) {
+          modifiers.push(className.slice(modifierStart, index21));
+          modifierStart = index21 + separatorLength;
           continue;
         }
         if (currentCharacter === "/") {
-          postfixModifierPosition = index19;
+          postfixModifierPosition = index21;
           continue;
         }
       }
@@ -11105,12 +11159,12 @@ function mergeClassList(classList, configUtils) {
   }).reverse().map((parsed) => parsed.originalClassName).join(" ");
 }
 function twJoin() {
-  let index19 = 0;
+  let index21 = 0;
   let argument;
   let resolvedValue;
   let string = "";
-  while (index19 < arguments.length) {
-    if (argument = arguments[index19++]) {
+  while (index21 < arguments.length) {
+    if (argument = arguments[index21++]) {
       if (resolvedValue = toValue(argument)) {
         string && (string += " ");
         string += resolvedValue;
@@ -13507,18 +13561,18 @@ var init__3 = __esm({
     index3 = 2;
     component3 = async () => component_cache3 ?? (component_cache3 = (await Promise.resolve().then(() => (init_layout_svelte2(), layout_svelte_exports2))).default);
     universal_id2 = "src/routes/buecher/+layout.ts";
-    imports3 = ["_app/immutable/nodes/2.xJwb5FR6.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/Button.Bl_UZ5qz.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
+    imports3 = ["_app/immutable/nodes/2.BW06jIH8.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/Button.D8_IwI95.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
     stylesheets3 = [];
     fonts3 = [];
   }
 });
 
 // .svelte-kit/output/server/chunks/supabaseClient.js
-var supabase;
+var supabase2;
 var init_supabaseClient = __esm({
   ".svelte-kit/output/server/chunks/supabaseClient.js"() {
     init_module6();
-    supabase = createClient(
+    supabase2 = createClient(
       "https://noejjknzqcfnwzgrpfdi.supabase.co",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vZWpqa256cWNmbnd6Z3JwZmRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc0ODMyNDQsImV4cCI6MjAyMzA1OTI0NH0.pEqKPgopedqGbawDnrNssT_RjZBhr-IJoUx_9uWWv1c"
     );
@@ -13533,7 +13587,7 @@ __export(layout_ts_exports2, {
 async function fetchCategories() {
   if (!cachedCategories) {
     console.log("getting Categories from supabase");
-    const { data: categories2 } = await supabase.from("productcategories").select("*").order("name");
+    const { data: categories2 } = await supabase2.from("productcategories").select("*").order("name");
     console.log("speichere Katgorien im Cache um zuk\xFCnftige Anfragen zu beschleunigen");
     cachedCategories = categories2;
     return categories2;
@@ -13542,7 +13596,7 @@ async function fetchCategories() {
   return cachedCategories;
 }
 async function load4() {
-  const { count } = await supabase.from("products").select("*", { count: "exact", head: true });
+  const { count } = await supabase2.from("products").select("*", { count: "exact", head: true });
   const categories2 = await fetchCategories();
   return {
     count,
@@ -13603,7 +13657,7 @@ var init__4 = __esm({
     index4 = 3;
     component4 = async () => component_cache4 ?? (component_cache4 = (await Promise.resolve().then(() => (init_layout_svelte3(), layout_svelte_exports3))).default);
     universal_id3 = "src/routes/produkte/+layout.ts";
-    imports4 = ["_app/immutable/nodes/3.5ndOarXh.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/getHashtags.DsRrQDEt.js"];
+    imports4 = ["_app/immutable/nodes/3.VxyizrVm.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/getHashtags.DsRrQDEt.js"];
     stylesheets4 = [];
     fonts4 = [];
   }
@@ -13663,7 +13717,7 @@ var init__5 = __esm({
   ".svelte-kit/output/server/nodes/4.js"() {
     index5 = 4;
     component5 = async () => component_cache5 ?? (component_cache5 = (await Promise.resolve().then(() => (init_page_svelte(), page_svelte_exports))).default);
-    imports5 = ["_app/immutable/nodes/4.Ba669PUs.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js"];
+    imports5 = ["_app/immutable/nodes/4.DG1Q2fwc.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js"];
     stylesheets5 = [];
     fonts5 = [];
   }
@@ -13678,44 +13732,8 @@ var Page2;
 var init_page_svelte2 = __esm({
   ".svelte-kit/output/server/entries/pages/admin/_page.svelte.js"() {
     init_ssr();
-    init_client();
-    init_supabaseClient();
     Page2 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-      async function getSession() {
-        console.log("BEFORE getSession");
-        const { data, error } = await supabase.auth.getSession();
-        console.log("after get Session");
-        return data;
-      }
-      async function getUser() {
-        console.log("before getUser");
-        const { data: { user: user2 } } = await supabase.auth.getUser();
-        console.log("after getUser");
-        return user2;
-      }
-      async function signinUser() {
-        console.log("Signing in User");
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: "hanniboy@gmail.com",
-          password: "291276168"
-        });
-        console.log("sign in user data ", data);
-        console.log("sign in user error ", error);
-      }
-      console.log("now signing in user");
-      signinUser().then(getSession);
-      console.log("now getting user");
-      let user = getUser();
-      console.log("now getting session. ");
-      let session = getSession();
-      console.log("session is ", session);
-      console.log("user is ", user);
-      const isAuthenticated = supabase.auth.getSession() !== null;
-      console.log("Authenticated is ", isAuthenticated);
-      if (!isAuthenticated) {
-        goto();
-      }
-      return `${isAuthenticated ? ` <h1 data-svelte-h="svelte-csxq8s">Willkommen zur Admin-Seite</h1> ` : ` <p data-svelte-h="svelte-14anymq">Du musst angemeldet sein, um auf diese Seite zuzugreifen. Bitte melde dich an.</p>`}`;
+      return `<h2 data-svelte-h="svelte-bela4g">Welcome to admin Dashboard</h2>`;
     });
   }
 });
@@ -13734,7 +13752,7 @@ var init__6 = __esm({
   ".svelte-kit/output/server/nodes/5.js"() {
     index6 = 5;
     component6 = async () => component_cache6 ?? (component_cache6 = (await Promise.resolve().then(() => (init_page_svelte2(), page_svelte_exports2))).default);
-    imports6 = ["_app/immutable/nodes/5.BmmWwKEx.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/entry.B_oBJj3n.js", "_app/immutable/chunks/index.DYca1GoS.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js"];
+    imports6 = ["_app/immutable/nodes/5.COvREElh.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js"];
     stylesheets6 = [];
     fonts6 = [];
   }
@@ -13766,9 +13784,9 @@ async function checkData(formData) {
 }
 async function getNewId(table) {
   console.log("neue id ermitteln");
-  const { data: maxid, error } = await supabase.from(table).select("id").order("id", { ascending: false }).limit(1).single();
-  if (error) {
-    console.log("es gab einen fehler bei der ermittlung der id ", error);
+  const { data: maxid, error: error2 } = await supabase2.from(table).select("id").order("id", { ascending: false }).limit(1).single();
+  if (error2) {
+    console.log("es gab einen fehler bei der ermittlung der id ", error2);
     return fail(400);
   }
   const id = Number(maxid.id) + 1;
@@ -13778,28 +13796,28 @@ async function getNewId(table) {
 async function createBook(formData) {
   const { title, img, desc } = await extractFormData(formData);
   const id = await getNewId("books");
-  const { data, error } = await supabase.from("books").insert({
+  const { data, error: error2 } = await supabase2.from("books").insert({
     id,
     title,
     img,
     desc,
     active: true
   }).select();
-  if (error)
-    console.log("There was an error creating the book", error);
+  if (error2)
+    console.log("There was an error creating the book", error2);
   console.log("data is ", data);
   return id;
 }
 async function addBookToCategories(formData, bookid) {
   const id = await getNewId("books_categories");
   const { category } = await extractFormData(formData);
-  const { data, error } = await supabase.from("books_categories").insert({
+  const { data, error: error2 } = await supabase2.from("books_categories").insert({
     id,
     book_id: bookid,
     category_id: category
   });
-  if (error) {
-    console.log("Fehler in addBookToCategories ", error);
+  if (error2) {
+    console.log("Fehler in addBookToCategories ", error2);
     return fail(404);
   } else
     return true;
@@ -13807,14 +13825,14 @@ async function addBookToCategories(formData, bookid) {
 async function addBookLink(formData, bookid) {
   const id = await getNewId("booklinks");
   const { label, link } = await extractFormData(formData);
-  const { data, error } = await supabase.from("booklinks").insert({
+  const { data, error: error2 } = await supabase2.from("booklinks").insert({
     id,
     book_id: bookid,
     label,
     link
   });
-  if (error) {
-    console.log("Fehler in addBookLink ", error);
+  if (error2) {
+    console.log("Fehler in addBookLink ", error2);
     return fail(404);
   } else
     return true;
@@ -13879,9 +13897,49 @@ var init__7 = __esm({
     index7 = 6;
     component7 = async () => component_cache7 ?? (component_cache7 = (await Promise.resolve().then(() => (init_page_svelte3(), page_svelte_exports3))).default);
     server_id2 = "src/routes/admin/books/+page.server.ts";
-    imports7 = ["_app/immutable/nodes/6.Dzx8Kig3.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js"];
+    imports7 = ["_app/immutable/nodes/6.C1xgvBew.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js"];
     stylesheets7 = ["_app/immutable/assets/6.a2MriB7A.css"];
     fonts7 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/auth/_page.svelte.js
+var page_svelte_exports4 = {};
+__export(page_svelte_exports4, {
+  default: () => Page4
+});
+var Page4;
+var init_page_svelte4 = __esm({
+  ".svelte-kit/output/server/entries/pages/auth/_page.svelte.js"() {
+    init_ssr();
+    Page4 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let { data } = $$props;
+      let email;
+      let password;
+      if ($$props.data === void 0 && $$bindings.data && data !== void 0)
+        $$bindings.data(data);
+      return `  <form><input name="email"${add_attribute("value", email, 0)}> <input type="password" name="password"${add_attribute("value", password, 0)}> <button data-svelte-h="svelte-11o5rk4">Sign up</button></form> <button data-svelte-h="svelte-1on2xs">Sign in</button> <button data-svelte-h="svelte-1joov8g">Sign out</button>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/7.js
+var __exports8 = {};
+__export(__exports8, {
+  component: () => component8,
+  fonts: () => fonts8,
+  imports: () => imports8,
+  index: () => index8,
+  stylesheets: () => stylesheets8
+});
+var index8, component_cache8, component8, imports8, stylesheets8, fonts8;
+var init__8 = __esm({
+  ".svelte-kit/output/server/nodes/7.js"() {
+    index8 = 7;
+    component8 = async () => component_cache8 ?? (component_cache8 = (await Promise.resolve().then(() => (init_page_svelte4(), page_svelte_exports4))).default);
+    imports8 = ["_app/immutable/nodes/7.DzV2GK43.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js"];
+    stylesheets8 = [];
+    fonts8 = [];
   }
 });
 
@@ -13892,7 +13950,7 @@ __export(page_server_exports, {
 });
 async function load5() {
   const title = "Buchempfehlungen. W\xE4hle eine der Kategorien um schneller das passende Buch zu finden. ";
-  const { data } = await supabase.from("books").select().eq("active", true);
+  const { data } = await supabase2.from("books").select().eq("active", true);
   return {
     title,
     streamed: {
@@ -13990,17 +14048,17 @@ var init_Spinner = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/buecher/_page.svelte.js
-var page_svelte_exports4 = {};
-__export(page_svelte_exports4, {
-  default: () => Page4
+var page_svelte_exports5 = {};
+__export(page_svelte_exports5, {
+  default: () => Page5
 });
-var Page4;
-var init_page_svelte4 = __esm({
+var Page5;
+var init_page_svelte5 = __esm({
   ".svelte-kit/output/server/entries/pages/buecher/_page.svelte.js"() {
     init_ssr();
     init_book();
     init_Spinner();
-    Page4 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page5 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let { data } = $$props;
       if ($$props.data === void 0 && $$bindings.data && data !== void 0)
         $$bindings.data(data);
@@ -14031,35 +14089,35 @@ var init_page_svelte4 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/7.js
-var __exports8 = {};
-__export(__exports8, {
-  component: () => component8,
-  fonts: () => fonts8,
-  imports: () => imports8,
-  index: () => index8,
+// .svelte-kit/output/server/nodes/8.js
+var __exports9 = {};
+__export(__exports9, {
+  component: () => component9,
+  fonts: () => fonts9,
+  imports: () => imports9,
+  index: () => index9,
   server: () => page_server_exports,
   server_id: () => server_id3,
-  stylesheets: () => stylesheets8
+  stylesheets: () => stylesheets9
 });
-var index8, component_cache8, component8, server_id3, imports8, stylesheets8, fonts8;
-var init__8 = __esm({
-  ".svelte-kit/output/server/nodes/7.js"() {
+var index9, component_cache9, component9, server_id3, imports9, stylesheets9, fonts9;
+var init__9 = __esm({
+  ".svelte-kit/output/server/nodes/8.js"() {
     init_page_server();
-    index8 = 7;
-    component8 = async () => component_cache8 ?? (component_cache8 = (await Promise.resolve().then(() => (init_page_svelte4(), page_svelte_exports4))).default);
+    index9 = 8;
+    component9 = async () => component_cache9 ?? (component_cache9 = (await Promise.resolve().then(() => (init_page_svelte5(), page_svelte_exports5))).default);
     server_id3 = "src/routes/buecher/+page.server.js";
-    imports8 = ["_app/immutable/nodes/7.PjCkqXR2.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/await_block.Bi0vZFtD.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/book.SrHokJ9s.js", "_app/immutable/chunks/Spinner.B5hr5GDg.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
-    stylesheets8 = [];
-    fonts8 = [];
+    imports9 = ["_app/immutable/nodes/8.BziGXGKe.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/await_block.Db808aBv.js", "_app/immutable/chunks/index.DAEnPYVd.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/book.BFG9hRQ_.js", "_app/immutable/chunks/Spinner.FTzFxhwg.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
+    stylesheets9 = [];
+    fonts9 = [];
   }
 });
 
 // .svelte-kit/output/server/chunks/books.js
 async function getBookIdsFromHashtagIds(hashtagIds) {
   let similarBooksIds = [];
-  const { data: bookIds, error } = await supabase.from("books_hashtags").select("book_id").in("hashtag_id", hashtagIds);
-  if (error)
+  const { data: bookIds, error: error2 } = await supabase2.from("books_hashtags").select("book_id").in("hashtag_id", hashtagIds);
+  if (error2)
     ;
   else {
     similarBooksIds = [...new Set(bookIds.map((row) => row.book_id))];
@@ -14068,8 +14126,8 @@ async function getBookIdsFromHashtagIds(hashtagIds) {
 }
 async function getBookIdsFromCatId(catId) {
   let catBookIds = [];
-  const { data: bookIds, error } = await supabase.from("books_categories").select("book_id").eq("category_id", catId);
-  if (error) {
+  const { data: bookIds, error: error2 } = await supabase2.from("books_categories").select("book_id").eq("category_id", catId);
+  if (error2) {
     console.log("Fehler beim Abrufen der BookIds(catId)");
   } else {
     console.log("Keine Fehler");
@@ -14079,12 +14137,12 @@ async function getBookIdsFromCatId(catId) {
 }
 async function getCategoryNameById(catId) {
   console.log("funktion call getCategoryNameById");
-  const { data } = await supabase.from("categories").select("name").eq("id", catId);
+  const { data } = await supabase2.from("categories").select("name").eq("id", catId);
   console.log("data ", data);
   return data[0].name;
 }
 async function getBooksFromIds(ids) {
-  const { data, error: books_err } = await supabase.from("books").select().in("id", ids);
+  const { data, error: books_err } = await supabase2.from("books").select().in("id", ids);
   if (books_err) {
     return null;
   } else {
@@ -14092,7 +14150,7 @@ async function getBooksFromIds(ids) {
   }
 }
 async function getBookCategories() {
-  const { data, error: categories_err } = await supabase.from("categories").select();
+  const { data, error: categories_err } = await supabase2.from("categories").select();
   if (categories_err) {
     console.log("Fehler in der Abfrage");
     return null;
@@ -14108,22 +14166,22 @@ var init_books = __esm({
 
 // .svelte-kit/output/server/chunks/getHashtags.js
 async function getHashtag(id) {
-  const { data, error } = await supabase.from("hashtags").select("tag").eq("id", id).limit(1).single();
-  if (error) {
-    throw new Error("Fehler beim Abrufen des Hashtag Namens: " + error.message);
+  const { data, error: error2 } = await supabase2.from("hashtags").select("tag").eq("id", id).limit(1).single();
+  if (error2) {
+    throw new Error("Fehler beim Abrufen des Hashtag Namens: " + error2.message);
   }
   return data;
 }
 async function getHashtagIds(bookId) {
-  const { data: hashtagsData, error } = await supabase.from("books_hashtags").select("hashtag_id").eq("book_id", bookId);
-  if (error) {
-    throw new Error("Fehler beim Abrufen der Hashtags: " + error.message);
+  const { data: hashtagsData, error: error2 } = await supabase2.from("books_hashtags").select("hashtag_id").eq("book_id", bookId);
+  if (error2) {
+    throw new Error("Fehler beim Abrufen der Hashtags: " + error2.message);
   }
   const hashtagIds = hashtagsData.map((row) => row.hashtag_id);
   return hashtagIds;
 }
 async function hashtagIdsToText(hashtagIds) {
-  const { data: hashtags, error: hashtagError } = await supabase.from("hashtags").select("tag").in("id", hashtagIds);
+  const { data: hashtags, error: hashtagError } = await supabase2.from("hashtags").select("tag").in("id", hashtagIds);
   if (hashtagError) {
     throw new Error("Fehler beim Abrufen der Hashtags: " + hashtagError.message);
   }
@@ -14142,17 +14200,17 @@ __export(page_exports, {
 });
 async function getBookDetails(bookId) {
   try {
-    const { data } = await supabase.from("books").select("*").eq("id", bookId).limit(1).single();
+    const { data } = await supabase2.from("books").select("*").eq("id", bookId).limit(1).single();
     return { data };
-  } catch (error) {
+  } catch (error2) {
     return {};
   }
 }
 async function getBooklinks(bookid) {
   try {
-    const { data } = await supabase.from("booklinks").select("label, link").eq("book_id", bookid);
+    const { data } = await supabase2.from("booklinks").select("label, link").eq("book_id", bookid);
     return data;
-  } catch (error) {
+  } catch (error2) {
     return {};
   }
 }
@@ -14298,9 +14356,9 @@ var init_Frame = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/buecher/_bookId_/_page.svelte.js
-var page_svelte_exports5 = {};
-__export(page_svelte_exports5, {
-  default: () => Page5
+var page_svelte_exports6 = {};
+__export(page_svelte_exports6, {
+  default: () => Page6
 });
 function fade(node, { delay = 0, duration = 400, easing = identity } = {}) {
   const o = +getComputedStyle(node).opacity;
@@ -14311,8 +14369,8 @@ function fade(node, { delay = 0, duration = 400, easing = identity } = {}) {
     css: (t) => `opacity: ${t * o}`
   };
 }
-var TransitionFrame, ToolbarButton, CloseButton, baseClass, Badge, Page5;
-var init_page_svelte5 = __esm({
+var TransitionFrame, ToolbarButton, CloseButton, baseClass, Badge, Page6;
+var init_page_svelte6 = __esm({
   ".svelte-kit/output/server/entries/pages/buecher/_bookId_/_page.svelte.js"() {
     init_ssr();
     init_Frame();
@@ -14515,7 +14573,7 @@ var init_page_svelte5 = __esm({
         }
       })} `;
     });
-    Page5 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page6 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let book;
       let title;
       let img;
@@ -14593,27 +14651,27 @@ var init_page_svelte5 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/8.js
-var __exports9 = {};
-__export(__exports9, {
-  component: () => component9,
-  fonts: () => fonts9,
-  imports: () => imports9,
-  index: () => index9,
-  stylesheets: () => stylesheets9,
+// .svelte-kit/output/server/nodes/9.js
+var __exports10 = {};
+__export(__exports10, {
+  component: () => component10,
+  fonts: () => fonts10,
+  imports: () => imports10,
+  index: () => index10,
+  stylesheets: () => stylesheets10,
   universal: () => page_exports,
   universal_id: () => universal_id4
 });
-var index9, component_cache9, component9, universal_id4, imports9, stylesheets9, fonts9;
-var init__9 = __esm({
-  ".svelte-kit/output/server/nodes/8.js"() {
+var index10, component_cache10, component10, universal_id4, imports10, stylesheets10, fonts10;
+var init__10 = __esm({
+  ".svelte-kit/output/server/nodes/9.js"() {
     init_page();
-    index9 = 8;
-    component9 = async () => component_cache9 ?? (component_cache9 = (await Promise.resolve().then(() => (init_page_svelte5(), page_svelte_exports5))).default);
+    index10 = 9;
+    component10 = async () => component_cache10 ?? (component_cache10 = (await Promise.resolve().then(() => (init_page_svelte6(), page_svelte_exports6))).default);
     universal_id4 = "src/routes/buecher/[bookId]/+page.js";
-    imports9 = ["_app/immutable/nodes/8.CQwKiwyw.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/books.DUWMxUuU.js", "_app/immutable/chunks/getHashtags.DsRrQDEt.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/await_block.Bi0vZFtD.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/index.Bp1NzK8i.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js", "_app/immutable/chunks/Button.Bl_UZ5qz.js", "_app/immutable/chunks/Spinner.B5hr5GDg.js", "_app/immutable/chunks/book.SrHokJ9s.js"];
-    stylesheets9 = [];
-    fonts9 = [];
+    imports10 = ["_app/immutable/nodes/9.DYedfYDN.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/books.DUWMxUuU.js", "_app/immutable/chunks/getHashtags.DsRrQDEt.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/await_block.Db808aBv.js", "_app/immutable/chunks/index.DAEnPYVd.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/index.DkRmNyH0.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js", "_app/immutable/chunks/Button.D8_IwI95.js", "_app/immutable/chunks/Spinner.FTzFxhwg.js", "_app/immutable/chunks/book.BFG9hRQ_.js"];
+    stylesheets10 = [];
+    fonts10 = [];
   }
 });
 
@@ -14644,17 +14702,17 @@ var init_page_ts = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/buecher/cat/_catid_/_page.svelte.js
-var page_svelte_exports6 = {};
-__export(page_svelte_exports6, {
-  default: () => Page6
+var page_svelte_exports7 = {};
+__export(page_svelte_exports7, {
+  default: () => Page7
 });
-var Page6;
-var init_page_svelte6 = __esm({
+var Page7;
+var init_page_svelte7 = __esm({
   ".svelte-kit/output/server/entries/pages/buecher/cat/_catid_/_page.svelte.js"() {
     init_ssr();
     init_book();
     init_Spinner();
-    Page6 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page7 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let catid;
       let { data } = $$props;
       if ($$props.data === void 0 && $$bindings.data && data !== void 0)
@@ -14687,37 +14745,37 @@ var init_page_svelte6 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/9.js
-var __exports10 = {};
-__export(__exports10, {
-  component: () => component10,
-  fonts: () => fonts10,
-  imports: () => imports10,
-  index: () => index10,
-  stylesheets: () => stylesheets10,
+// .svelte-kit/output/server/nodes/10.js
+var __exports11 = {};
+__export(__exports11, {
+  component: () => component11,
+  fonts: () => fonts11,
+  imports: () => imports11,
+  index: () => index11,
+  stylesheets: () => stylesheets11,
   universal: () => page_ts_exports,
   universal_id: () => universal_id5
 });
-var index10, component_cache10, component10, universal_id5, imports10, stylesheets10, fonts10;
-var init__10 = __esm({
-  ".svelte-kit/output/server/nodes/9.js"() {
+var index11, component_cache11, component11, universal_id5, imports11, stylesheets11, fonts11;
+var init__11 = __esm({
+  ".svelte-kit/output/server/nodes/10.js"() {
     init_page_ts();
-    index10 = 9;
-    component10 = async () => component_cache10 ?? (component_cache10 = (await Promise.resolve().then(() => (init_page_svelte6(), page_svelte_exports6))).default);
+    index11 = 10;
+    component11 = async () => component_cache11 ?? (component_cache11 = (await Promise.resolve().then(() => (init_page_svelte7(), page_svelte_exports7))).default);
     universal_id5 = "src/routes/buecher/cat/[catid]/+page.ts";
-    imports10 = ["_app/immutable/nodes/9.B3VD-2dk.js", "_app/immutable/chunks/books.DUWMxUuU.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/await_block.Bi0vZFtD.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/book.SrHokJ9s.js", "_app/immutable/chunks/Spinner.B5hr5GDg.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
-    stylesheets10 = [];
-    fonts10 = [];
+    imports11 = ["_app/immutable/nodes/10.Ba9yyQvC.js", "_app/immutable/chunks/books.DUWMxUuU.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/await_block.Db808aBv.js", "_app/immutable/chunks/index.DAEnPYVd.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/book.BFG9hRQ_.js", "_app/immutable/chunks/Spinner.FTzFxhwg.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
+    stylesheets11 = [];
+    fonts11 = [];
   }
 });
 
 // .svelte-kit/output/server/entries/pages/cdl-protokolle/_page.svelte.js
-var page_svelte_exports7 = {};
-__export(page_svelte_exports7, {
-  default: () => Page7
+var page_svelte_exports8 = {};
+__export(page_svelte_exports8, {
+  default: () => Page8
 });
-var Accordion, AccordionItem, telegram, Fraguns, css$r, A, css$q, Ai, css$p, B, css$o, C, css$n, D, css$m, E, css$l, F, css$k, G, css$j, H, css$i, I, css$h, J, css$g, K, css$f, L, css$e, M, css$d, N, css$c, O, css$b, P, css$a, Pzwei, css$9, Q, css$8, R, css$7, S, css$6, T, css$5, U, css$4, V, css$3, W, css$2, X, css$1, Y, css3, Z, Page7;
-var init_page_svelte7 = __esm({
+var Accordion, AccordionItem, telegram, Fraguns, css$r, A, css$q, Ai, css$p, B, css$o, C, css$n, D, css$m, E, css$l, F, css$k, G, css$j, H, css$i, I, css$h, J, css$g, K, css$f, L, css$e, M, css$d, N, css$c, O, css$b, P, css$a, Pzwei, css$9, Q, css$8, R, css$7, S, css$6, T, css$5, U, css$4, V, css$3, W, css$2, X, css$1, Y, css3, Z, Page8;
+var init_page_svelte8 = __esm({
   ".svelte-kit/output/server/entries/pages/cdl-protokolle/_page.svelte.js"() {
     init_ssr();
     init_index2();
@@ -15118,7 +15176,7 @@ Sie finden dieses und viele andere wertvolle Informationen in seinem Buch <a hre
 
 </div>`;
     });
-    Page7 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page8 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `${validate_component(Accordion, "Accordion").$$render($$result, { activeClass: "bg-white" }, {}, {
         default: () => {
           return `${validate_component(AccordionItem, "AccordionItem").$$render($$result, {}, {}, {
@@ -15324,33 +15382,33 @@ Sie finden dieses und viele andere wertvolle Informationen in seinem Buch <a hre
   }
 });
 
-// .svelte-kit/output/server/nodes/10.js
-var __exports11 = {};
-__export(__exports11, {
-  component: () => component11,
-  fonts: () => fonts11,
-  imports: () => imports11,
-  index: () => index11,
-  stylesheets: () => stylesheets11
+// .svelte-kit/output/server/nodes/11.js
+var __exports12 = {};
+__export(__exports12, {
+  component: () => component12,
+  fonts: () => fonts12,
+  imports: () => imports12,
+  index: () => index12,
+  stylesheets: () => stylesheets12
 });
-var index11, component_cache11, component11, imports11, stylesheets11, fonts11;
-var init__11 = __esm({
-  ".svelte-kit/output/server/nodes/10.js"() {
-    index11 = 10;
-    component11 = async () => component_cache11 ?? (component_cache11 = (await Promise.resolve().then(() => (init_page_svelte7(), page_svelte_exports7))).default);
-    imports11 = ["_app/immutable/nodes/10.eL5-8Bjp.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/index.DYca1GoS.js", "_app/immutable/chunks/index.Bp1NzK8i.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
-    stylesheets11 = ["_app/immutable/assets/10.DXC0YuUL.css"];
-    fonts11 = [];
+var index12, component_cache12, component12, imports12, stylesheets12, fonts12;
+var init__12 = __esm({
+  ".svelte-kit/output/server/nodes/11.js"() {
+    index12 = 11;
+    component12 = async () => component_cache12 ?? (component_cache12 = (await Promise.resolve().then(() => (init_page_svelte8(), page_svelte_exports8))).default);
+    imports12 = ["_app/immutable/nodes/11.zeIKtZoX.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/index.78gAU9JB.js", "_app/immutable/chunks/index.DkRmNyH0.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
+    stylesheets12 = ["_app/immutable/assets/11.DXC0YuUL.css"];
+    fonts12 = [];
   }
 });
 
 // .svelte-kit/output/server/entries/pages/gutscheine/_page.svelte.js
-var page_svelte_exports8 = {};
-__export(page_svelte_exports8, {
-  default: () => Page8
+var page_svelte_exports9 = {};
+__export(page_svelte_exports9, {
+  default: () => Page9
 });
-var Gutschein, Page8;
-var init_page_svelte8 = __esm({
+var Gutschein, Page9;
+var init_page_svelte9 = __esm({
   ".svelte-kit/output/server/entries/pages/gutscheine/_page.svelte.js"() {
     init_ssr();
     init_Icon();
@@ -15388,7 +15446,7 @@ var init_page_svelte8 = __esm({
         {}
       )} <div class="border-[4px] h-full relative z-30 p-2 border-white border-dotted "><div class="overflow-auto"><h2>${escape(shop)}</h2> <h3>${escape(desc)}</h3> <div>Code: <b>${escape(code)}</b></div> <span>G\xFCltig: ${escape(gueltig)}</span></div></div></div></a>`;
     });
-    Page8 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page9 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `<div class="p-2"><h2 data-svelte-h="svelte-717o1w">Gutscheine f\xFCr alternative Heilmittel und Nahrungserg\xE4nzungsmittel</h2> <div class="grid grid-cols-2 lg:grid-cols-4">${validate_component(Gutschein, "Gutschein").$$render(
         $$result,
         {
@@ -15498,34 +15556,110 @@ var init_page_svelte8 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/11.js
-var __exports12 = {};
-__export(__exports12, {
-  component: () => component12,
-  fonts: () => fonts12,
-  imports: () => imports12,
-  index: () => index12,
-  stylesheets: () => stylesheets12
+// .svelte-kit/output/server/nodes/12.js
+var __exports13 = {};
+__export(__exports13, {
+  component: () => component13,
+  fonts: () => fonts13,
+  imports: () => imports13,
+  index: () => index13,
+  stylesheets: () => stylesheets13
 });
-var index12, component_cache12, component12, imports12, stylesheets12, fonts12;
-var init__12 = __esm({
-  ".svelte-kit/output/server/nodes/11.js"() {
-    index12 = 11;
-    component12 = async () => component_cache12 ?? (component_cache12 = (await Promise.resolve().then(() => (init_page_svelte8(), page_svelte_exports8))).default);
-    imports12 = ["_app/immutable/nodes/11.vg5AoFmn.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/Icon.CJ8UdO_k.js", "_app/immutable/chunks/spread.CgU5AtxT.js"];
-    stylesheets12 = [];
-    fonts12 = [];
+var index13, component_cache13, component13, imports13, stylesheets13, fonts13;
+var init__13 = __esm({
+  ".svelte-kit/output/server/nodes/12.js"() {
+    index13 = 12;
+    component13 = async () => component_cache13 ?? (component_cache13 = (await Promise.resolve().then(() => (init_page_svelte9(), page_svelte_exports9))).default);
+    imports13 = ["_app/immutable/nodes/12.lXKKRo1S.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js", "_app/immutable/chunks/Icon.DOO-BNps.js", "_app/immutable/chunks/spread.CgU5AtxT.js"];
+    stylesheets13 = [];
+    fonts13 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/login/_page.server.js
+var page_server_exports2 = {};
+__export(page_server_exports2, {
+  actions: () => actions2
+});
+var actions2;
+var init_page_server2 = __esm({
+  ".svelte-kit/output/server/entries/pages/login/_page.server.js"() {
+    init_chunks();
+    actions2 = {
+      default: async ({ request, url, locals: { supabase: supabase3 } }) => {
+        const formData = await request.formData();
+        const email = formData.get("email");
+        const password = formData.get("password");
+        const { error: error2 } = await supabase3.auth.signInWithPassword({
+          email,
+          password,
+          options: {
+            emailRedirectTo: "/admin/books"
+          }
+        });
+        if (error2) {
+          return fail(500, { message: "Server error. Try again later.", success: false, email });
+        }
+        return {
+          message: "Please check your email for a magic link to log into the website.",
+          success: true
+        };
+      }
+    };
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/login/_page.svelte.js
+var page_svelte_exports10 = {};
+__export(page_svelte_exports10, {
+  default: () => Page10
+});
+var Page10;
+var init_page_svelte10 = __esm({
+  ".svelte-kit/output/server/entries/pages/login/_page.svelte.js"() {
+    init_ssr();
+    init_client();
+    Page10 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      let { form } = $$props;
+      if ($$props.form === void 0 && $$bindings.form && form !== void 0)
+        $$bindings.form(form);
+      return `  <form method="post"><input name="email"${add_attribute("value", form?.email ?? "", 0)}> <input type="password" name="password"> <button data-svelte-h="svelte-11o5rk4">Sign up</button></form>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/13.js
+var __exports14 = {};
+__export(__exports14, {
+  component: () => component14,
+  fonts: () => fonts14,
+  imports: () => imports14,
+  index: () => index14,
+  server: () => page_server_exports2,
+  server_id: () => server_id4,
+  stylesheets: () => stylesheets14
+});
+var index14, component_cache14, component14, server_id4, imports14, stylesheets14, fonts14;
+var init__14 = __esm({
+  ".svelte-kit/output/server/nodes/13.js"() {
+    init_page_server2();
+    index14 = 13;
+    component14 = async () => component_cache14 ?? (component_cache14 = (await Promise.resolve().then(() => (init_page_svelte10(), page_svelte_exports10))).default);
+    server_id4 = "src/routes/login/+page.server.js";
+    imports14 = ["_app/immutable/nodes/13.Clw8uSIc.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js", "_app/immutable/chunks/entry.B7fW5v37.js", "_app/immutable/chunks/index.78gAU9JB.js"];
+    stylesheets14 = [];
+    fonts14 = [];
   }
 });
 
 // .svelte-kit/output/server/entries/pages/produkte/_page.server.js
-var page_server_exports2 = {};
-__export(page_server_exports2, {
+var page_server_exports3 = {};
+__export(page_server_exports3, {
   load: () => load8
 });
 async function load8() {
   const title = "Produktempfehlungen. W\xE4hle eine der Kategorien um schneller das passende Produkt zu finden. ";
-  const { data } = await supabase.from("products").select().limit(12);
+  const { data } = await supabase2.from("products").select().limit(12);
   return {
     title,
     streamed: {
@@ -15533,7 +15667,7 @@ async function load8() {
     }
   };
 }
-var init_page_server2 = __esm({
+var init_page_server3 = __esm({
   ".svelte-kit/output/server/entries/pages/produkte/_page.server.js"() {
     init_supabaseClient();
   }
@@ -15594,16 +15728,16 @@ var init_shops = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/produkte/_page.svelte.js
-var page_svelte_exports9 = {};
-__export(page_svelte_exports9, {
-  default: () => Page9
+var page_svelte_exports11 = {};
+__export(page_svelte_exports11, {
+  default: () => Page11
 });
-var Page9;
-var init_page_svelte9 = __esm({
+var Page11;
+var init_page_svelte11 = __esm({
   ".svelte-kit/output/server/entries/pages/produkte/_page.svelte.js"() {
     init_ssr();
     init_shops();
-    Page9 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page11 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let { data } = $$props;
       if ($$props.data === void 0 && $$bindings.data && data !== void 0)
         $$bindings.data(data);
@@ -15635,27 +15769,27 @@ var init_page_svelte9 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/12.js
-var __exports13 = {};
-__export(__exports13, {
-  component: () => component13,
-  fonts: () => fonts13,
-  imports: () => imports13,
-  index: () => index13,
-  server: () => page_server_exports2,
-  server_id: () => server_id4,
-  stylesheets: () => stylesheets13
+// .svelte-kit/output/server/nodes/14.js
+var __exports15 = {};
+__export(__exports15, {
+  component: () => component15,
+  fonts: () => fonts15,
+  imports: () => imports15,
+  index: () => index15,
+  server: () => page_server_exports3,
+  server_id: () => server_id5,
+  stylesheets: () => stylesheets15
 });
-var index13, component_cache13, component13, server_id4, imports13, stylesheets13, fonts13;
-var init__13 = __esm({
-  ".svelte-kit/output/server/nodes/12.js"() {
-    init_page_server2();
-    index13 = 12;
-    component13 = async () => component_cache13 ?? (component_cache13 = (await Promise.resolve().then(() => (init_page_svelte9(), page_svelte_exports9))).default);
-    server_id4 = "src/routes/produkte/+page.server.js";
-    imports13 = ["_app/immutable/nodes/12.9PKGSes-.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/await_block.Bi0vZFtD.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Du49zGtT.js"];
-    stylesheets13 = [];
-    fonts13 = [];
+var index15, component_cache15, component15, server_id5, imports15, stylesheets15, fonts15;
+var init__15 = __esm({
+  ".svelte-kit/output/server/nodes/14.js"() {
+    init_page_server3();
+    index15 = 14;
+    component15 = async () => component_cache15 ?? (component_cache15 = (await Promise.resolve().then(() => (init_page_svelte11(), page_svelte_exports11))).default);
+    server_id5 = "src/routes/produkte/+page.server.js";
+    imports15 = ["_app/immutable/nodes/14.Dqbc7xkO.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/await_block.Db808aBv.js", "_app/immutable/chunks/index.DAEnPYVd.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.BBtOUehW.js"];
+    stylesheets15 = [];
+    fonts15 = [];
   }
 });
 
@@ -15667,7 +15801,7 @@ __export(page_exports2, {
 async function load9({ params }) {
   let pid = params.productid;
   let select = `id, name, image, description, link, products_categories(category_id)`;
-  let { data } = await supabase.from("products").select(select).eq("id", pid).limit(1).single();
+  let { data } = await supabase2.from("products").select(select).eq("id", pid).limit(1).single();
   let name2 = data.name;
   console.log("product: ", name2, "id: ", pid);
   data.description || `Entdecken Sie eine Vielzahl von Produkten auf cdl-protokolle.com`;
@@ -15680,13 +15814,13 @@ async function load9({ params }) {
   let searchterm = await getSearchTerm(name2);
   let kid = data.products_categories[0].category_id;
   async function getSimilarProductIds(kid2, pid2) {
-    let { data: data2 } = await supabase.from("products_categories").select("product_id").eq("category_id", kid2).range(0, 9);
+    let { data: data2 } = await supabase2.from("products_categories").select("product_id").eq("category_id", kid2).range(0, 9);
     let similarProducts = data2.map((obj) => obj.product_id);
     similarProducts = similarProducts.filter((product) => product != pid2);
     return similarProducts;
   }
   async function getProductsFromIds(spids2) {
-    let { data: data2 } = await supabase.from("products").select().in("id", spids2);
+    let { data: data2 } = await supabase2.from("products").select().in("id", spids2);
     return data2;
   }
   let spids = await getSimilarProductIds(kid, pid);
@@ -15705,18 +15839,18 @@ var init_page2 = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/produkte/_productid_/_page.svelte.js
-var page_svelte_exports10 = {};
-__export(page_svelte_exports10, {
-  default: () => Page10
+var page_svelte_exports12 = {};
+__export(page_svelte_exports12, {
+  default: () => Page12
 });
-var Page10;
-var init_page_svelte10 = __esm({
+var Page12;
+var init_page_svelte12 = __esm({
   ".svelte-kit/output/server/entries/pages/produkte/_productid_/_page.svelte.js"() {
     init_ssr();
     init_Button();
     init_Spinner();
     init_shops();
-    Page10 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page12 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let img;
       let name2;
       let id;
@@ -15775,27 +15909,27 @@ var init_page_svelte10 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/13.js
-var __exports14 = {};
-__export(__exports14, {
-  component: () => component14,
-  fonts: () => fonts14,
-  imports: () => imports14,
-  index: () => index14,
-  stylesheets: () => stylesheets14,
+// .svelte-kit/output/server/nodes/15.js
+var __exports16 = {};
+__export(__exports16, {
+  component: () => component16,
+  fonts: () => fonts16,
+  imports: () => imports16,
+  index: () => index16,
+  stylesheets: () => stylesheets16,
   universal: () => page_exports2,
   universal_id: () => universal_id6
 });
-var index14, component_cache14, component14, universal_id6, imports14, stylesheets14, fonts14;
-var init__14 = __esm({
-  ".svelte-kit/output/server/nodes/13.js"() {
+var index16, component_cache16, component16, universal_id6, imports16, stylesheets16, fonts16;
+var init__16 = __esm({
+  ".svelte-kit/output/server/nodes/15.js"() {
     init_page2();
-    index14 = 13;
-    component14 = async () => component_cache14 ?? (component_cache14 = (await Promise.resolve().then(() => (init_page_svelte10(), page_svelte_exports10))).default);
+    index16 = 15;
+    component16 = async () => component_cache16 ?? (component_cache16 = (await Promise.resolve().then(() => (init_page_svelte12(), page_svelte_exports12))).default);
     universal_id6 = "src/routes/produkte/[productid]/+page.js";
-    imports14 = ["_app/immutable/nodes/13.5UQSUv9w.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/await_block.Bi0vZFtD.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/Button.Bl_UZ5qz.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js", "_app/immutable/chunks/Spinner.B5hr5GDg.js", "_app/immutable/chunks/shops.Du49zGtT.js"];
-    stylesheets14 = [];
-    fonts14 = [];
+    imports16 = ["_app/immutable/nodes/15.CXHiMLe2.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/await_block.Db808aBv.js", "_app/immutable/chunks/index.DAEnPYVd.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/Button.D8_IwI95.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js", "_app/immutable/chunks/Spinner.FTzFxhwg.js", "_app/immutable/chunks/shops.BBtOUehW.js"];
+    stylesheets16 = [];
+    fonts16 = [];
   }
 });
 
@@ -15807,18 +15941,18 @@ __export(page_ts_exports2, {
 });
 async function getCategoryNameById2(catid) {
   console.log("getCategoryNameById: ", catid);
-  const { data, error } = await supabase.from("categories").select("name").eq("id", catid).single();
+  const { data, error: error2 } = await supabase2.from("categories").select("name").eq("id", catid).single();
   return data?.name;
 }
 async function getCategoryDescription(catid) {
-  const { data, error } = await supabase.from("categories").select("description").eq("id", catid).single();
+  const { data, error: error2 } = await supabase2.from("categories").select("description").eq("id", catid).single();
   try {
     if (data && data.description) {
       return data.description;
     } else {
       return null;
     }
-  } catch (error2) {
+  } catch (error22) {
     return null;
   }
 }
@@ -15828,7 +15962,7 @@ async function load10({ params }) {
   const category = await getCategoryNameById2(parseInt(catid));
   const description = await getCategoryDescription(parseInt(catid));
   console.log("desc", description);
-  const { data: products, error } = await supabase.from("productswithcategory").select().eq("category_id", catid).order("name");
+  const { data: products, error: error2 } = await supabase2.from("productswithcategory").select().eq("category_id", catid).order("name");
   const length = products?.length;
   return {
     catid,
@@ -15847,12 +15981,12 @@ var init_page_ts2 = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/produkte/cat/_catid_/_page.svelte.js
-var page_svelte_exports11 = {};
-__export(page_svelte_exports11, {
-  default: () => Page11
+var page_svelte_exports13 = {};
+__export(page_svelte_exports13, {
+  default: () => Page13
 });
-var css4, maxProductsPerPage, Page11;
-var init_page_svelte11 = __esm({
+var css4, maxProductsPerPage, Page13;
+var init_page_svelte13 = __esm({
   ".svelte-kit/output/server/entries/pages/produkte/cat/_catid_/_page.svelte.js"() {
     init_ssr();
     init_shops();
@@ -15861,7 +15995,7 @@ var init_page_svelte11 = __esm({
       map: null
     };
     maxProductsPerPage = 50;
-    Page11 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page13 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let pageproducts;
       let length;
       let category;
@@ -15904,34 +16038,34 @@ var init_page_svelte11 = __esm({
           {},
           {}
         )}</li> </div>`;
-      })}</ul>  ${totalPages() > 1 ? `<div class="page-selector svelte-ra8vou">${each(Array.from({ length: totalPages() }).map((_, index19) => index19 + 1), (page2) => {
+      })}</ul>  ${totalPages() > 1 ? `<div class="page-selector svelte-ra8vou">${each(Array.from({ length: totalPages() }).map((_, index21) => index21 + 1), (page2) => {
         return `${page2 == currentPage ? `<span class="page-number current-page svelte-ra8vou">${escape(page2)}</span>` : `<a class="page-number svelte-ra8vou">${escape(page2)}</a>`}`;
       })}</div>` : ``}`;
     });
   }
 });
 
-// .svelte-kit/output/server/nodes/14.js
-var __exports15 = {};
-__export(__exports15, {
-  component: () => component15,
-  fonts: () => fonts15,
-  imports: () => imports15,
-  index: () => index15,
-  stylesheets: () => stylesheets15,
+// .svelte-kit/output/server/nodes/16.js
+var __exports17 = {};
+__export(__exports17, {
+  component: () => component17,
+  fonts: () => fonts17,
+  imports: () => imports17,
+  index: () => index17,
+  stylesheets: () => stylesheets17,
   universal: () => page_ts_exports2,
   universal_id: () => universal_id7
 });
-var index15, component_cache15, component15, universal_id7, imports15, stylesheets15, fonts15;
-var init__15 = __esm({
-  ".svelte-kit/output/server/nodes/14.js"() {
+var index17, component_cache17, component17, universal_id7, imports17, stylesheets17, fonts17;
+var init__17 = __esm({
+  ".svelte-kit/output/server/nodes/16.js"() {
     init_page_ts2();
-    index15 = 14;
-    component15 = async () => component_cache15 ?? (component_cache15 = (await Promise.resolve().then(() => (init_page_svelte11(), page_svelte_exports11))).default);
+    index17 = 16;
+    component17 = async () => component_cache17 ?? (component_cache17 = (await Promise.resolve().then(() => (init_page_svelte13(), page_svelte_exports13))).default);
     universal_id7 = "src/routes/produkte/cat/[catid]/+page.ts";
-    imports15 = ["_app/immutable/nodes/14.BzfBQpTd.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Du49zGtT.js"];
-    stylesheets15 = ["_app/immutable/assets/14.9luic-sZ.css"];
-    fonts15 = [];
+    imports17 = ["_app/immutable/nodes/16.HVKQ1Jlu.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.BBtOUehW.js"];
+    stylesheets17 = ["_app/immutable/assets/16.9luic-sZ.css"];
+    fonts17 = [];
   }
 });
 
@@ -15942,8 +16076,8 @@ __export(page_ts_exports3, {
 });
 async function getProductsByName(name2) {
   console.log("getProductsByName", name2);
-  const { data, error } = await supabase.from("products").select("*").ilike("name", "%" + name2 + "%").order("name");
-  if (error) {
+  const { data, error: error2 } = await supabase2.from("products").select("*").ilike("name", "%" + name2 + "%").order("name");
+  if (error2) {
     console.log("Fehler beim Abrufen getProductsByName");
   } else
     return data;
@@ -15969,16 +16103,16 @@ var init_page_ts3 = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/produkte/hashtag/_tag_/_page.svelte.js
-var page_svelte_exports12 = {};
-__export(page_svelte_exports12, {
-  default: () => Page12
+var page_svelte_exports14 = {};
+__export(page_svelte_exports14, {
+  default: () => Page14
 });
-var Page12;
-var init_page_svelte12 = __esm({
+var Page14;
+var init_page_svelte14 = __esm({
   ".svelte-kit/output/server/entries/pages/produkte/hashtag/_tag_/_page.svelte.js"() {
     init_ssr();
     init_shops();
-    Page12 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page14 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let hashtag;
       let products;
       let { data } = $$props;
@@ -16004,27 +16138,27 @@ var init_page_svelte12 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/15.js
-var __exports16 = {};
-__export(__exports16, {
-  component: () => component16,
-  fonts: () => fonts16,
-  imports: () => imports16,
-  index: () => index16,
-  stylesheets: () => stylesheets16,
+// .svelte-kit/output/server/nodes/17.js
+var __exports18 = {};
+__export(__exports18, {
+  component: () => component18,
+  fonts: () => fonts18,
+  imports: () => imports18,
+  index: () => index18,
+  stylesheets: () => stylesheets18,
   universal: () => page_ts_exports3,
   universal_id: () => universal_id8
 });
-var index16, component_cache16, component16, universal_id8, imports16, stylesheets16, fonts16;
-var init__16 = __esm({
-  ".svelte-kit/output/server/nodes/15.js"() {
+var index18, component_cache18, component18, universal_id8, imports18, stylesheets18, fonts18;
+var init__18 = __esm({
+  ".svelte-kit/output/server/nodes/17.js"() {
     init_page_ts3();
-    index16 = 15;
-    component16 = async () => component_cache16 ?? (component_cache16 = (await Promise.resolve().then(() => (init_page_svelte12(), page_svelte_exports12))).default);
+    index18 = 17;
+    component18 = async () => component_cache18 ?? (component_cache18 = (await Promise.resolve().then(() => (init_page_svelte14(), page_svelte_exports14))).default);
     universal_id8 = "src/routes/produkte/hashtag/[tag]/+page.ts";
-    imports16 = ["_app/immutable/nodes/15.WIob5Fse.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/getHashtags.DsRrQDEt.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Du49zGtT.js"];
-    stylesheets16 = [];
-    fonts16 = [];
+    imports18 = ["_app/immutable/nodes/17.B_ujowT5.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/getHashtags.DsRrQDEt.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.BBtOUehW.js"];
+    stylesheets18 = [];
+    fonts18 = [];
   }
 });
 
@@ -16038,7 +16172,7 @@ async function getBooks(q) {
   let anzahl = q.split(" ").length;
   if (anzahl > 1)
     q = q.split(" ").join(" & ");
-  const { data } = await supabase.from("books").select().textSearch("fts", q, { config: "german" }).limit(30);
+  const { data } = await supabase2.from("books").select().textSearch("fts", q, { config: "german" }).limit(30);
   if (data !== null && typeof data !== "undefined") {
     return data;
   } else {
@@ -16050,7 +16184,7 @@ async function getProducts(q) {
   let anzahl = q.split(" ").length;
   if (anzahl > 1)
     q = q.split(" ").join(" & ");
-  const { data } = await supabase.from("products").select().textSearch("fts", q, { config: "german" }).limit(30);
+  const { data } = await supabase2.from("products").select().textSearch("fts", q, { config: "german" }).limit(30);
   if (data !== null && typeof data !== "undefined") {
     return data;
   } else {
@@ -16073,17 +16207,17 @@ var init_page_server_ts2 = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/search/_page.svelte.js
-var page_svelte_exports13 = {};
-__export(page_svelte_exports13, {
-  default: () => Page13
+var page_svelte_exports15 = {};
+__export(page_svelte_exports15, {
+  default: () => Page15
 });
-var Page13;
-var init_page_svelte13 = __esm({
+var Page15;
+var init_page_svelte15 = __esm({
   ".svelte-kit/output/server/entries/pages/search/_page.svelte.js"() {
     init_ssr();
     init_shops();
     init_book();
-    Page13 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page15 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let books;
       let qtyBooks;
       let products;
@@ -16135,78 +16269,98 @@ var init_page_svelte13 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/16.js
-var __exports17 = {};
-__export(__exports17, {
-  component: () => component17,
-  fonts: () => fonts17,
-  imports: () => imports17,
-  index: () => index17,
+// .svelte-kit/output/server/nodes/18.js
+var __exports19 = {};
+__export(__exports19, {
+  component: () => component19,
+  fonts: () => fonts19,
+  imports: () => imports19,
+  index: () => index19,
   server: () => page_server_ts_exports2,
-  server_id: () => server_id5,
-  stylesheets: () => stylesheets17
+  server_id: () => server_id6,
+  stylesheets: () => stylesheets19
 });
-var index17, component_cache17, component17, server_id5, imports17, stylesheets17, fonts17;
-var init__17 = __esm({
-  ".svelte-kit/output/server/nodes/16.js"() {
+var index19, component_cache19, component19, server_id6, imports19, stylesheets19, fonts19;
+var init__19 = __esm({
+  ".svelte-kit/output/server/nodes/18.js"() {
     init_page_server_ts2();
-    index17 = 16;
-    component17 = async () => component_cache17 ?? (component_cache17 = (await Promise.resolve().then(() => (init_page_svelte13(), page_svelte_exports13))).default);
-    server_id5 = "src/routes/search/+page.server.ts";
-    imports17 = ["_app/immutable/nodes/16.BjACXCdd.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Du49zGtT.js", "_app/immutable/chunks/book.SrHokJ9s.js"];
-    stylesheets17 = [];
-    fonts17 = [];
+    index19 = 18;
+    component19 = async () => component_cache19 ?? (component_cache19 = (await Promise.resolve().then(() => (init_page_svelte15(), page_svelte_exports15))).default);
+    server_id6 = "src/routes/search/+page.server.ts";
+    imports19 = ["_app/immutable/nodes/18.CRXLMBtw.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.BBtOUehW.js", "_app/immutable/chunks/book.BFG9hRQ_.js"];
+    stylesheets19 = [];
+    fonts19 = [];
   }
 });
 
 // .svelte-kit/output/server/entries/pages/test/_page.svelte.js
-var page_svelte_exports14 = {};
-__export(page_svelte_exports14, {
-  default: () => Page14
+var page_svelte_exports16 = {};
+__export(page_svelte_exports16, {
+  default: () => Page16
 });
-var Page14;
-var init_page_svelte14 = __esm({
+var Page16;
+var init_page_svelte16 = __esm({
   ".svelte-kit/output/server/entries/pages/test/_page.svelte.js"() {
     init_ssr();
-    Page14 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page16 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `<h2 data-svelte-h="svelte-3u76de">Hello World</h2>`;
     });
   }
 });
 
-// .svelte-kit/output/server/nodes/17.js
-var __exports18 = {};
-__export(__exports18, {
-  component: () => component18,
-  fonts: () => fonts18,
-  imports: () => imports18,
-  index: () => index18,
-  stylesheets: () => stylesheets18
+// .svelte-kit/output/server/nodes/19.js
+var __exports20 = {};
+__export(__exports20, {
+  component: () => component20,
+  fonts: () => fonts20,
+  imports: () => imports20,
+  index: () => index20,
+  stylesheets: () => stylesheets20
 });
-var index18, component_cache18, component18, imports18, stylesheets18, fonts18;
-var init__18 = __esm({
-  ".svelte-kit/output/server/nodes/17.js"() {
-    index18 = 17;
-    component18 = async () => component_cache18 ?? (component_cache18 = (await Promise.resolve().then(() => (init_page_svelte14(), page_svelte_exports14))).default);
-    imports18 = ["_app/immutable/nodes/17.BJ87fn34.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js"];
-    stylesheets18 = [];
-    fonts18 = [];
+var index20, component_cache20, component20, imports20, stylesheets20, fonts20;
+var init__20 = __esm({
+  ".svelte-kit/output/server/nodes/19.js"() {
+    index20 = 19;
+    component20 = async () => component_cache20 ?? (component_cache20 = (await Promise.resolve().then(() => (init_page_svelte16(), page_svelte_exports16))).default);
+    imports20 = ["_app/immutable/nodes/19.Cxr6fg1p.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js"];
+    stylesheets20 = [];
+    fonts20 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/endpoints/api/protected-route/_server.ts.js
+var server_ts_exports = {};
+__export(server_ts_exports, {
+  GET: () => GET
+});
+var GET;
+var init_server_ts = __esm({
+  ".svelte-kit/output/server/entries/endpoints/api/protected-route/_server.ts.js"() {
+    init_chunks();
+    GET = async ({ locals: { supabase: supabase3, getSession } }) => {
+      const session = await getSession();
+      if (!session) {
+        throw error(401, { message: "Unauthorized" });
+      }
+      const { data } = await supabase3.from("test").select("*");
+      return json({ data });
+    };
   }
 });
 
 // .svelte-kit/output/server/entries/endpoints/auth/callback/_server.js
 var server_exports = {};
 __export(server_exports, {
-  GET: () => GET
+  GET: () => GET2
 });
-var GET;
+var GET2;
 var init_server = __esm({
   ".svelte-kit/output/server/entries/endpoints/auth/callback/_server.js"() {
     init_chunks();
-    GET = async ({ url, locals: { supabase: supabase2 } }) => {
+    GET2 = async ({ url, locals: { supabase: supabase3 } }) => {
       const code = url.searchParams.get("code");
       if (code) {
-        await supabase2.auth.exchangeCodeForSession(code);
+        await supabase3.auth.exchangeCodeForSession(code);
       }
       redirect(303, "/");
     };
@@ -16425,7 +16579,7 @@ var options = {
 		<div class="error">
 			<span class="status">` + status + '</span>\n			<div class="message">\n				<h1>' + message + "</h1>\n			</div>\n		</div>\n	</body>\n</html>\n"
   },
-  version_hash: "zgfvao"
+  version_hash: "1oa5c1c"
 };
 async function get_hooks() {
   return {
@@ -16496,17 +16650,17 @@ function coalesce_to_error(err) {
     err
   ) : new Error(JSON.stringify(err));
 }
-function normalize_error(error) {
+function normalize_error(error2) {
   return (
     /** @type {import('../runtime/control.js').Redirect | HttpError | SvelteKitError | Error} */
-    error
+    error2
   );
 }
-function get_status(error) {
-  return error instanceof HttpError || error instanceof SvelteKitError ? error.status : 500;
+function get_status(error2) {
+  return error2 instanceof HttpError || error2 instanceof SvelteKitError ? error2.status : 500;
 }
-function get_message(error) {
-  return error instanceof SvelteKitError ? error.text : "Internal Error";
+function get_message(error2) {
+  return error2 instanceof SvelteKitError ? error2.text : "Internal Error";
 }
 function method_not_allowed(mod, method) {
   return text(`${method} method not allowed`, {
@@ -16531,10 +16685,10 @@ function static_error_page(options2, status, message) {
     status
   });
 }
-async function handle_fatal_error(event, options2, error) {
-  error = error instanceof HttpError ? error : coalesce_to_error(error);
-  const status = get_status(error);
-  const body2 = await handle_error_and_jsonify(event, options2, error);
+async function handle_fatal_error(event, options2, error2) {
+  error2 = error2 instanceof HttpError ? error2 : coalesce_to_error(error2);
+  const status = get_status(error2);
+  const body2 = await handle_error_and_jsonify(event, options2, error2);
   const type = negotiate(event.request.headers.get("accept") || "text/html", [
     "application/json",
     "text/html"
@@ -16546,13 +16700,13 @@ async function handle_fatal_error(event, options2, error) {
   }
   return static_error_page(options2, status, body2.message);
 }
-async function handle_error_and_jsonify(event, options2, error) {
-  if (error instanceof HttpError) {
-    return error.body;
+async function handle_error_and_jsonify(event, options2, error2) {
+  if (error2 instanceof HttpError) {
+    return error2.body;
   }
-  const status = get_status(error);
-  const message = get_message(error);
-  return await options2.hooks.handleError({ error, event, status, message }) ?? { message };
+  const status = get_status(error2);
+  const message = get_message(error2);
+  return await options2.hooks.handleError({ error: error2, event, status, message }) ?? { message };
 }
 function redirect_response(status, location) {
   const response = new Response(void 0, {
@@ -16561,14 +16715,14 @@ function redirect_response(status, location) {
   });
   return response;
 }
-function clarify_devalue_error(event, error) {
-  if (error.path) {
-    return `Data returned from \`load\` while rendering ${event.route.id} is not serializable: ${error.message} (data${error.path})`;
+function clarify_devalue_error(event, error2) {
+  if (error2.path) {
+    return `Data returned from \`load\` while rendering ${event.route.id} is not serializable: ${error2.message} (data${error2.path})`;
   }
-  if (error.path === "") {
+  if (error2.path === "") {
     return `Data returned from \`load\` while rendering ${event.route.id} is not a plain object`;
   }
-  return error.message;
+  return error2.message;
 }
 function stringify_uses(node) {
   const uses = [];
@@ -17085,9 +17239,9 @@ function stringify(value, reducers) {
     stringified[index22] = str;
     return index22;
   }
-  const index19 = flatten(value);
-  if (index19 < 0)
-    return `${index19}`;
+  const index21 = flatten(value);
+  if (index21 < 0)
+    return `${index21}`;
   return `[${stringified.join(",")}]`;
 }
 function stringify_primitive(thing) {
@@ -17112,8 +17266,8 @@ function is_action_json_request(event) {
   return accept === "application/json" && event.request.method === "POST";
 }
 async function handle_action_json_request(event, options2, server2) {
-  const actions2 = server2?.actions;
-  if (!actions2) {
+  const actions3 = server2?.actions;
+  if (!actions3) {
     const no_actions_error = new SvelteKitError(
       405,
       "Method Not Allowed",
@@ -17134,9 +17288,9 @@ async function handle_action_json_request(event, options2, server2) {
       }
     );
   }
-  check_named_default_separate(actions2);
+  check_named_default_separate(actions3);
   try {
-    const data = await call_action(event, actions2);
+    const data = await call_action(event, actions3);
     if (false)
       ;
     if (data instanceof ActionFailure) {
@@ -17180,8 +17334,8 @@ async function handle_action_json_request(event, options2, server2) {
     );
   }
 }
-function check_incorrect_fail_use(error) {
-  return error instanceof ActionFailure ? new Error('Cannot "throw fail()". Use "return fail()"') : error;
+function check_incorrect_fail_use(error2) {
+  return error2 instanceof ActionFailure ? new Error('Cannot "throw fail()". Use "return fail()"') : error2;
 }
 function action_json_redirect(redirect2) {
   return action_json({
@@ -17197,8 +17351,8 @@ function is_action_request(event) {
   return event.request.method === "POST";
 }
 async function handle_action_request(event, server2) {
-  const actions2 = server2?.actions;
-  if (!actions2) {
+  const actions3 = server2?.actions;
+  if (!actions3) {
     event.setHeaders({
       // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/405
       // "The server must generate an Allow header field in a 405 status code response"
@@ -17213,9 +17367,9 @@ async function handle_action_request(event, server2) {
       )
     };
   }
-  check_named_default_separate(actions2);
+  check_named_default_separate(actions3);
   try {
-    const data = await call_action(event, actions2);
+    const data = await call_action(event, actions3);
     if (false)
       ;
     if (data instanceof ActionFailure) {
@@ -17247,14 +17401,14 @@ async function handle_action_request(event, server2) {
     };
   }
 }
-function check_named_default_separate(actions2) {
-  if (actions2.default && Object.keys(actions2).length > 1) {
+function check_named_default_separate(actions3) {
+  if (actions3.default && Object.keys(actions3).length > 1) {
     throw new Error(
       "When using named actions, the default action cannot be used. See the docs for more info: https://kit.svelte.dev/docs/form-actions#named-actions"
     );
   }
 }
-async function call_action(event, actions2) {
+async function call_action(event, actions3) {
   const url = new URL(event.request.url);
   let name2 = "default";
   for (const param of url.searchParams) {
@@ -17266,7 +17420,7 @@ async function call_action(event, actions2) {
       break;
     }
   }
-  const action = actions2[name2];
+  const action = actions3[name2];
   if (!action) {
     throw new SvelteKitError(404, "Not Found", `No action with name '${name2}' found`);
   }
@@ -17291,17 +17445,17 @@ function try_deserialize(data, fn, route_id) {
   try {
     return fn(data);
   } catch (e) {
-    const error = (
+    const error2 = (
       /** @type {any} */
       e
     );
-    if ("path" in error) {
-      let message = `Data returned from action inside ${route_id} is not serializable: ${error.message}`;
-      if (error.path !== "")
-        message += ` (data.${error.path})`;
+    if ("path" in error2) {
+      let message = `Data returned from action inside ${route_id} is not serializable: ${error2.message}`;
+      if (error2.path !== "")
+        message += ` (data.${error2.path})`;
       throw new Error(message);
     }
-    throw error;
+    throw error2;
   }
 }
 var INVALIDATED_PARAM = "x-sveltekit-invalidated";
@@ -18068,7 +18222,7 @@ async function render_response({
   state,
   page_config,
   status,
-  error = null,
+  error: error2 = null,
   event,
   resolve_opts,
   action_result
@@ -18083,8 +18237,8 @@ async function render_response({
   }
   const { client } = manifest2._;
   const modulepreloads = new Set(client.imports);
-  const stylesheets19 = new Set(client.stylesheets);
-  const fonts19 = new Set(client.fonts);
+  const stylesheets21 = new Set(client.stylesheets);
+  const fonts21 = new Set(client.fonts);
   const link_header_preloads = /* @__PURE__ */ new Set();
   const inline_styles = /* @__PURE__ */ new Map();
   let rendered;
@@ -18116,7 +18270,7 @@ async function render_response({
       props[`data_${i}`] = data2;
     }
     props.page = {
-      error,
+      error: error2,
       params: (
         /** @type {Record<string, any>} */
         event.params
@@ -18140,9 +18294,9 @@ async function render_response({
       for (const url of node.imports)
         modulepreloads.add(url);
       for (const url of node.stylesheets)
-        stylesheets19.add(url);
+        stylesheets21.add(url);
       for (const url of node.fonts)
-        fonts19.add(url);
+        fonts21.add(url);
       if (node.inline_styles) {
         Object.entries(await node.inline_styles()).forEach(([k, v]) => inline_styles.set(k, v));
       }
@@ -18170,7 +18324,7 @@ async function render_response({
     head += `
 	<style${attributes.join("")}>${content}</style>`;
   }
-  for (const dep of stylesheets19) {
+  for (const dep of stylesheets21) {
     const path = prefixed(dep);
     const attributes = ['rel="stylesheet"'];
     if (inline_styles.has(dep)) {
@@ -18184,7 +18338,7 @@ async function render_response({
     head += `
 		<link href="${path}" ${attributes.join(" ")}>`;
   }
-  for (const dep of fonts19) {
+  for (const dep of fonts21) {
     const path = prefixed(dep);
     if (resolve_opts.preload({ type: "font", path })) {
       const ext = dep.slice(dep.lastIndexOf(".") + 1);
@@ -18266,8 +18420,8 @@ async function render_response({
           event.route.id
         );
       }
-      if (error) {
-        serialized.error = uneval(error);
+      if (error2) {
+        serialized.error = uneval(error2);
       }
       const hydrate = [
         `node_ids: [${branch.map(({ node }) => node.index).join(", ")}]`,
@@ -18405,26 +18559,26 @@ function get_data(event, options2, nodes, global2) {
         (data) => ({ data })
       ).catch(
         /** @param {any} error */
-        async (error) => ({
-          error: await handle_error_and_jsonify(event, options2, error)
+        async (error2) => ({
+          error: await handle_error_and_jsonify(event, options2, error2)
         })
       ).then(
         /**
          * @param {{data: any; error: any}} result
          */
-        async ({ data, error }) => {
+        async ({ data, error: error2 }) => {
           count -= 1;
           let str;
           try {
-            str = uneval({ id, data, error }, replacer);
+            str = uneval({ id, data, error: error2 }, replacer);
           } catch (e) {
-            error = await handle_error_and_jsonify(
+            error2 = await handle_error_and_jsonify(
               event,
               options2,
               new Error(`Failed to serialize promise while rendering ${event.route.id}`)
             );
             data = void 0;
-            str = uneval({ id, data, error }, replacer);
+            str = uneval({ id, data, error: error2 }, replacer);
           }
           push(`<script>${global2}.resolve(${str})<\/script>
 `);
@@ -18471,7 +18625,7 @@ async function respond_with_error({
   manifest: manifest2,
   state,
   status,
-  error,
+  error: error2,
   resolve_opts
 }) {
   if (event.request.headers.get("x-sveltekit-error")) {
@@ -18479,7 +18633,7 @@ async function respond_with_error({
       options2,
       status,
       /** @type {Error} */
-      error.message
+      error2.message
     );
   }
   const fetched = [];
@@ -18530,7 +18684,7 @@ async function respond_with_error({
         csr
       },
       status,
-      error: await handle_error_and_jsonify(event, options2, error),
+      error: await handle_error_and_jsonify(event, options2, error2),
       branch,
       fetched,
       event,
@@ -18621,17 +18775,17 @@ async function render_data(event, route, options2, manifest2, state, invalidated
     let length = promises.length;
     const nodes = await Promise.all(
       promises.map(
-        (p, i) => p.catch(async (error) => {
-          if (error instanceof Redirect) {
-            throw error;
+        (p, i) => p.catch(async (error2) => {
+          if (error2 instanceof Redirect) {
+            throw error2;
           }
           length = Math.min(length, i + 1);
           return (
             /** @type {import('types').ServerErrorNode} */
             {
               type: "error",
-              error: await handle_error_and_jsonify(event, options2, error),
-              status: error instanceof HttpError || error instanceof SvelteKitError ? error.status : void 0
+              error: await handle_error_and_jsonify(event, options2, error2),
+              status: error2 instanceof HttpError || error2 instanceof SvelteKitError ? error2.status : void 0
             }
           );
         })
@@ -18662,11 +18816,11 @@ async function render_data(event, route, options2, manifest2, state, invalidated
       }
     );
   } catch (e) {
-    const error = normalize_error(e);
-    if (error instanceof Redirect) {
-      return redirect_json_response(error);
+    const error2 = normalize_error(e);
+    if (error2 instanceof Redirect) {
+      return redirect_json_response(error2);
     } else {
-      return json_response(await handle_error_and_jsonify(event, options2, error), 500);
+      return json_response(await handle_error_and_jsonify(event, options2, error2), 500);
     }
   }
 }
@@ -18714,13 +18868,13 @@ function get_data_json(event, options2, nodes) {
             try {
               str = stringify(value, reducers);
             } catch (e) {
-              const error = await handle_error_and_jsonify(
+              const error2 = await handle_error_and_jsonify(
                 event,
                 options2,
                 new Error(`Failed to serialize promise while rendering ${event.route.id}`)
               );
               key2 = "error";
-              str = stringify(error, reducers);
+              str = stringify(error2, reducers);
             }
             count -= 1;
             push(`{"type":"chunk","id":${id},"${key2}":${str}}
@@ -18918,14 +19072,14 @@ async function render_page(event, page2, options2, manifest2, state, resolve_opt
             return redirect_response(err.status, err.location);
           }
           const status2 = get_status(err);
-          const error = await handle_error_and_jsonify(event, options2, err);
+          const error2 = await handle_error_and_jsonify(event, options2, err);
           while (i--) {
             if (page2.errors[i]) {
-              const index19 = (
+              const index21 = (
                 /** @type {number} */
                 page2.errors[i]
               );
-              const node2 = await manifest2._.nodes[index19]();
+              const node2 = await manifest2._.nodes[index21]();
               let j = i;
               while (!branch[j])
                 j -= 1;
@@ -18937,7 +19091,7 @@ async function render_page(event, page2, options2, manifest2, state, resolve_opt
                 resolve_opts,
                 page_config: { ssr: true, csr: true },
                 status: status2,
-                error,
+                error: error2,
                 branch: compact(branch.slice(0, j + 1)).concat({
                   node: node2,
                   data: null,
@@ -18947,7 +19101,7 @@ async function render_page(event, page2, options2, manifest2, state, resolve_opt
               });
             }
           }
-          return static_error_page(options2, status2, error.message);
+          return static_error_page(options2, status2, error2.message);
         }
       } else {
         branch.push(null);
@@ -19048,20 +19202,20 @@ function parse$1(str, options2) {
   var obj = {};
   var opt = options2 || {};
   var dec = opt.decode || decode3;
-  var index19 = 0;
-  while (index19 < str.length) {
-    var eqIdx = str.indexOf("=", index19);
+  var index21 = 0;
+  while (index21 < str.length) {
+    var eqIdx = str.indexOf("=", index21);
     if (eqIdx === -1) {
       break;
     }
-    var endIdx = str.indexOf(";", index19);
+    var endIdx = str.indexOf(";", index21);
     if (endIdx === -1) {
       endIdx = str.length;
     } else if (endIdx < eqIdx) {
-      index19 = str.lastIndexOf(";", eqIdx - 1) + 1;
+      index21 = str.lastIndexOf(";", eqIdx - 1) + 1;
       continue;
     }
-    var key2 = str.slice(index19, eqIdx).trim();
+    var key2 = str.slice(index21, eqIdx).trim();
     if (void 0 === obj[key2]) {
       var val = str.slice(eqIdx + 1, endIdx).trim();
       if (val.charCodeAt(0) === 34) {
@@ -19069,7 +19223,7 @@ function parse$1(str, options2) {
       }
       obj[key2] = tryDecode(val, dec);
     }
-    index19 = endIdx + 1;
+    index21 = endIdx + 1;
   }
   return obj;
 }
@@ -19522,9 +19676,9 @@ function create_fetch({ event, options: options2, manifest: manifest2, state, ge
           if (cookie) {
             request.headers.set("cookie", cookie);
           }
-          const authorization = event.request.headers.get("authorization");
-          if (authorization && !request.headers.has("authorization")) {
-            request.headers.set("authorization", authorization);
+          const authorization2 = event.request.headers.get("authorization");
+          if (authorization2 && !request.headers.has("authorization")) {
+            request.headers.set("authorization", authorization2);
           }
         }
         if (!request.headers.has("accept")) {
@@ -20029,14 +20183,14 @@ var Server = class {
         const module = await get_hooks();
         __privateGet(this, _options).hooks = {
           handle: module.handle || (({ event, resolve: resolve2 }) => resolve2(event)),
-          handleError: module.handleError || (({ error }) => console.error(error)),
+          handleError: module.handleError || (({ error: error2 }) => console.error(error2)),
           handleFetch: module.handleFetch || (({ request, fetch: fetch22 }) => fetch22(request)),
           reroute: module.reroute || (() => {
           })
         };
-      } catch (error) {
+      } catch (error2) {
         {
-          throw error;
+          throw error2;
         }
       }
     }
@@ -20068,7 +20222,7 @@ var manifest = (() => {
     assets: /* @__PURE__ */ new Set(["favicon.png", "images/Intentional Health Color Palette - color-hex.com.png", "images/books/11/Download (1).jpeg", "images/books/12/41HNtcZrJIL._AC_SY780_.jpg", "images/books/13/vitaminum_buch-adipositas.jpg", "images/books/14/Download.jpeg", "images/books/15/61ttNVVSNGL._SL1200_.jpg", "images/books/16/615bfp88qmL._AC_UF1000,1000_QL80_.jpg", "images/books/19/81PGdHerZ7L._AC_UF1000,1000_QL80_.jpg", "images/books/20/61IZVC4ae7L._AC_UF894,1000_QL80_.jpg", "images/books/21/130877.jpg", "images/books/22/9783384006486.jpg", "images/books/23/LP_Desktop_Der-grosse-Cholesterin-Schwindel_968200.jpg", "images/books/24/134140.jpg", "images/books/25/Byebye-covid-2-1-1_600x600.png", "images/books/26/handbuch-der-kolloidalen-metalle_600x600.jpg", "images/books/27/Klinikhandbuch-Aromatherapie_600x600.png", "images/books/28/Arthrose_ist_heilbar_mockup_web-jpg_600x600.jpg", "images/books/29/Manuka_Buch_webshop-jpg_600x600.jpg", "images/books/3/Codex-Humanus_Band-400x400.png.webp", "images/books/30/em-eine-chance-fuer-unsere-erde-anne-lorch_600x600.jpg", "images/books/31/buch-borreliose-natuerlich-heilen-wolf-dieter-storl_600x600.jpg", "images/books/32/buch-pflanzliche-antibiotika-richtig-anwenden_600x600.jpg", "images/books/33/buch-die-leber-natuerlich-reinigen_600x600.jpg", "images/books/34/Borax_600x600.jpg", "images/books/35/CDL-Handbuch-LUBZ_600x600.jpg", "images/books/36/buch-cannabis-und-cannabidiol-cbd-richtig-anwenden_600x600.jpg", "images/books/37/DMSO-Handbuch_600x600.jpg", "images/books/38/9783742305466.jpg", "images/books/39/9783442136940.jpg", "images/books/4/48311634z.jpg", "images/books/6/csm_Bluthochdruck_sf_739bfc2751.png", "images/books/7/vitaminum_buch-alzheimer.png", "images/books/8/Download.jpeg", "images/books/9/61-3sI2vGcL.jpg", "images/books/no_cover.jpeg", "images/logos/Amazon.de-Logo.svg.png", "images/logos/EBay_logo.png", "images/products/bedrop/propolis/be-pp-1.webp", "images/products/bedrop/propolis/be-pp-10.webp", "images/products/bedrop/propolis/be-pp-11.webp", "images/products/bedrop/propolis/be-pp-12.webp", "images/products/bedrop/propolis/be-pp-13.webp", "images/products/bedrop/propolis/be-pp-14.webp", "images/products/bedrop/propolis/be-pp-15.webp", "images/products/bedrop/propolis/be-pp-16.webp", "images/products/bedrop/propolis/be-pp-17.webp", "images/products/bedrop/propolis/be-pp-18.webp", "images/products/bedrop/propolis/be-pp-19.webp", "images/products/bedrop/propolis/be-pp-2.webp", "images/products/bedrop/propolis/be-pp-20.webp", "images/products/bedrop/propolis/be-pp-21.webp", "images/products/bedrop/propolis/be-pp-22.webp", "images/products/bedrop/propolis/be-pp-23.webp", "images/products/bedrop/propolis/be-pp-24.webp", "images/products/bedrop/propolis/be-pp-3.webp", "images/products/bedrop/propolis/be-pp-4.webp", "images/products/bedrop/propolis/be-pp-5.webp", "images/products/bedrop/propolis/be-pp-6.webp", "images/products/bedrop/propolis/be-pp-7.webp", "images/products/bedrop/propolis/be-pp-8.webp", "images/products/bedrop/propolis/be-pp-9.webp", "images/products/cellavita/bio-lebensmittel/1-maca-rot-beutel-einzeln_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/1-maca-schwarzbeutel-einzeln_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/1-produktfoto-maca-rot-glas_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/1-produktfoto-maca-schwarz8ivHrtJaMogPC_600x600.jpg", "images/products/cellavita/bio-lebensmittel/beutel-einzeln_300-kapseln_25_600x600.jpg", "images/products/cellavita/bio-lebensmittel/beutel-einzeln_300-kapseln_26_600x600.jpg", "images/products/cellavita/bio-lebensmittel/beutel-einzeln__11_600x600.jpg", "images/products/cellavita/bio-lebensmittel/beutel-einzeln_acerola_300-kapseln_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/beutel-einzeln_maca-500-kapseln_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/bio-gerstengras-pulver_flasche-kopie_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/bio-gerstengrassaft-pulver_flasche_frei-kopie_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/bio-weizengras-pulver_flasche_frei-kopie_7_600x600.jpg", "images/products/cellavita/bio-lebensmittel/bratlinge-5-1-setSq74FWw0X6KAD_600x600.jpg", "images/products/cellavita/bio-lebensmittel/dinkelbild_neu_ohne_banner_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/flasche-acerola-180-kapseln-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/flasche-acerola-90g-neu-shop_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/flasche-tiere-acerola-90g-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-acerola-1-kg-beutel-shop_10_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-acerola-500g-beutel-shop_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-aufbau-gold-700g-beutel-shop_5_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-chlorella-spirulina-pferd-5kg-shop_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-cordyceps-500-kps-shop_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-curcuma-500-g-shop_15_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-curcuma-pferde-5kg-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-etikett-1kg-shop_10_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-flohsamenschalen-500-g-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-gerstengras-500-g-shop_7_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-gerstengrassaft-etikett-400-g-shop_14_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-hagebutte-500-g-shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-hagebutte-pferde-5kg-shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-heidelberger-7-krai-uter-350-g-beutel-shopGBZSSiCEdh2hA_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-leinmehl-tiere-5kg-shop_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-ling-zhi-bio-250g-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/gelee-royale-kapsen-frontal_1024x1024-2x_4_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-aufbau-gold-100g-shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-cordyceps-150k-shop_4_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-curcuma-100g-shop_10_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-curcuma-180k-shop_4_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-curcuma-tiere-180-kps-shop_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-flohsamenschalenpulver-150g-shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-granatapfel-extrakt-vita-150-kps-shop_9_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-hagebutte-vita-100g-shop_4_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-heidelberger-7-krai-uter-80g-shopLOjXAiJy6fMpD_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-ling-zhi-bio-120k-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-ling-zhi-bio-70g-shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-spirulina-pur-tabs-100g-shop_8_600x600.jpg", "images/products/cellavita/bio-lebensmittel/ksm66_glas_14_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto-maca-rot-180kapseln-glas_7_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto-maca-schwarz-glas_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_aprikosenkerne_250g_shop_7_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_bio-leinsamenmehl_500g_shop_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_buchweizenflocken_500g_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_cashewkerne_250g_shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_glas_kokos__l__2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_haferflocken_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_hanfsamen_250g_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_haseln__sse_250g_shop_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_k__rbiskerne_500g_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_leinsamen_500g_4_600x600.jpg", "images/products/cellavita/bio-lebensmittel/teezeit-20beutel_5_600x600.png", "images/products/cellavita/geraete/01_manschetten_zusammen_gebunden_3_600x600.jpg", "images/products/cellavita/geraete/02-mwo-antennen_18_600x600.jpg", "images/products/cellavita/geraete/094_klangwelten_gold_24_600x600.jpg", "images/products/cellavita/geraete/095_klangwelten_silver_25_600x600.jpg", "images/products/cellavita/geraete/099_koerpergleiter_2_600x600.jpg", "images/products/cellavita/geraete/1-geraet_27_600x600.jpg", "images/products/cellavita/geraete/100_eifix-260x260_600x600.jpg", "images/products/cellavita/geraete/10_5_600x600.jpg", "images/products/cellavita/geraete/11_5_600x600.jpg", "images/products/cellavita/geraete/20210119_114415_28_600x600.jpg", "images/products/cellavita/geraete/20220830_094145-shop_12_600x600.jpg", "images/products/cellavita/geraete/20220831_125727-shop_3_600x600.jpg", "images/products/cellavita/geraete/20230403_151119_28_600x600.jpg", "images/products/cellavita/geraete/20230403_151119_29_600x600.jpg", "images/products/cellavita/geraete/20230403_151119_30_600x600.jpg", "images/products/cellavita/geraete/2_26_600x600.jpg", "images/products/cellavita/geraete/3_40_600x600.jpg", "images/products/cellavita/geraete/ag-blanc_1_600x600.jpg", "images/products/cellavita/geraete/ag-cristal_1_600x600.jpg", "images/products/cellavita/geraete/ag-noir_1_600x600.jpg", "images/products/cellavita/geraete/ag_-_platin_600x600.jpg", "images/products/cellavita/geraete/airnergy-little-atmos-im-schlafzimmer-1030x1030_4_600x600.jpg", "images/products/cellavita/geraete/amfedilgpclmemgl_1_600x600.png", "images/products/cellavita/geraete/anschlusskabel-liegend_600x600.jpg", "images/products/cellavita/geraete/aromamischung_2500x2500_web_600x600.jpg", "images/products/cellavita/geraete/aromaset2shop_1_600x600.jpg", "images/products/cellavita/geraete/aromaset_1_2500x2500_web_600x600.jpg", "images/products/cellavita/geraete/aromaset_3_2500x2500thdgdybek5yqj_1_600x600.jpg", "images/products/cellavita/geraete/aromaset_4_2500x2500web_1_600x600.jpg", "images/products/cellavita/geraete/bild-1_27_600x600.png", "images/products/cellavita/geraete/bild-1_29_600x600.png", "images/products/cellavita/geraete/bild-1_32_600x600.png", "images/products/cellavita/geraete/bild-1_33_600x600.png", "images/products/cellavita/geraete/bild-winkelruten-4-1xHrOqHG9lLCsa_600x600.jpg", "images/products/cellavita/geraete/bp_4_600x600.jpg", "images/products/cellavita/geraete/cellalux-pulser-front-shop_2_600x600.jpg", "images/products/cellavita/geraete/eesm-elite-sleep-mat_10_600x600.jpeg", "images/products/cellavita/geraete/feinstrom_01_hr_7_600x600.jpg", "images/products/cellavita/geraete/filter_v2_2500x2500_2_600x600.jpg", "images/products/cellavita/geraete/filterset-k_11_600x600.jpg", "images/products/cellavita/geraete/filterset-k_12_600x600.jpg", "images/products/cellavita/geraete/filterset-k_13_600x600.jpg", "images/products/cellavita/geraete/frequenzen_shop_1_600x600.jpg", "images/products/cellavita/geraete/front-kapselhuellen-750-kps-shop_5_600x600.jpg", "images/products/cellavita/geraete/geno-neu_5_600x600.jpg", "images/products/cellavita/geraete/img_7988_3_600x600.jpg", "images/products/cellavita/geraete/kapselfuellmaschine-mit-beutel-shop_5_600x600.jpg", "images/products/cellavita/geraete/kornquetsche_nussbaum_9_600x600.png", "images/products/cellavita/geraete/kuechenfilter-k_3_600x600.jpg", "images/products/cellavita/geraete/kw_coverts_1280x1280_5_600x600.jpg", "images/products/cellavita/geraete/lr1_3_600x600.jpg", "images/products/cellavita/geraete/lrk4_4_600x600.jpg", "images/products/cellavita/geraete/luftreiniger-kueche-lrk2-ii_3_600x600.jpg", "images/products/cellavita/geraete/luftreiniger-lr4_52_0_2zbtmw1YVq9CZP_600x600.jpeg", "images/products/cellavita/geraete/luftreiniger-p-lr2-4_50_2_4_600x600.jpg", "images/products/cellavita/geraete/matresscover-calking-1_17_600x600.jpeg", "images/products/cellavita/geraete/matresscover-calking-1_18_600x600.jpeg", "images/products/cellavita/geraete/neowake_chromawatch_seitlich_aus_9_600x600.jpg", "images/products/cellavita/geraete/nfs4_8-schwarz_5_600x600.jpg", "images/products/cellavita/geraete/nfs4_8-weiss_7_600x600.jpg", "images/products/cellavita/geraete/nfs8-meile-119-22-300x217_14_600x600.jpg", "images/products/cellavita/geraete/nfs8-meile-1191-2-1-210x300_16_600x600.jpg", "images/products/cellavita/geraete/optimiererseitlichklein_7_600x600.jpg", "images/products/cellavita/geraete/piano-front_1_600x600.jpg", "images/products/cellavita/geraete/ppcynezllbjunybp_5_600x600.jpg", "images/products/cellavita/geraete/rute2_2_600x600.jpg", "images/products/cellavita/geraete/sativ-front-shop_2_600x600.jpg", "images/products/cellavita/geraete/saugnapf_1_600x600.jpg", "images/products/cellavita/geraete/set-basic_3_600x600.jpg", "images/products/cellavita/geraete/set-premium-freisteller_4_600x600.jpg", "images/products/cellavita/geraete/shop_0046-600x600_13_600x600.jpg", "images/products/cellavita/geraete/shop_0047_21_600x600.jpg", "images/products/cellavita/geraete/shop_brille_3_600x600.jpg", "images/products/cellavita/geraete/shop_nest_img_1306_2_600x600.jpg", "images/products/cellavita/geraete/shop_sd_cover_trilax_front_2_600x600.jpg", "images/products/cellavita/geraete/shop_vom-sandkorn-bis-zum-riesenstern_600x600.jpg", "images/products/cellavita/geraete/shop_wdr_front_600x600.jpg", "images/products/cellavita/geraete/smart_breathe_3_600x600.jpg", "images/products/cellavita/geraete/somnia-cover_600x600.jpg", "images/products/cellavita/geraete/stoffwechelprofis-flasche-blau-2_2_600x600.jpg", "images/products/cellavita/geraete/stoffwechelprofis-flasche-orange-2_2_600x600.jpg", "images/products/cellavita/geraete/stoffwechelprofis-flasche-silber-2_3_600x600.jpg", "images/products/cellavita/geraete/technik_12_4_600x600.jpg", "images/products/cellavita/geraete/tester-leitfaehigkeit_7_600x600.jpeg", "images/products/cellavita/geraete/therapiemagnet-2_600x600.jpg", "images/products/cellavita/geraete/um-universal-matte-2_16_600x600.jpg", "images/products/cellavita/geraete/v1_gold-1-600x600_17_600x600.jpg", "images/products/cellavita/geraete/v1_platin-600x600_27_600x600.jpg", "images/products/cellavita/geraete/voltmeter_einzeln_5_600x600.jpg", "images/products/cellavita/geraete/web_ms-foto_20221017_klangei_next_110_1_600x600.jpg", "images/products/cellavita/kinder/front-multi-c-kids-1250-t-shop_5_600x600.jpg", "images/products/cellavita/kinder/glas-calcium-kids-120g-neu-shop_6_600x600.jpg", "images/products/cellavita/kinder/glas-magnesium-kids-90g-shop_6_600x600.jpg", "images/products/cellavita/kinder/glas-multi-c-kids-180-ta-shop_3_600x600.jpg", "images/products/cellavita/kinder/nec_standard_NeutralTEHH9WAL8dwBy_600x600.png", "images/products/cellavita/kinder/vitamin-d3-kids_2_600x600.jpg", "images/products/cellavita/koerperpflege/01_bluetenfrische_glas_shop_10_600x600.jpg", "images/products/cellavita/koerperpflege/01_deocreme_vorteilspaket_10_600x600.jpg", "images/products/cellavita/koerperpflege/01_gingkolimette_glas_shop_10_600x600.jpg", "images/products/cellavita/koerperpflege/01_greentea_glas_shop_6_600x600.jpg", "images/products/cellavita/koerperpflege/01_mysticman_glas_shop_6_600x600.jpg", "images/products/cellavita/koerperpflege/Citovis-1_600x600.jpg", "images/products/cellavita/koerperpflege/Dermozym-2_600x600.jpg", "images/products/cellavita/koerperpflege/atheltic-fresh-2_1_600x600.jpg", "images/products/cellavita/koerperpflege/badeutensilien_mit_seife2_3_600x600.jpg", "images/products/cellavita/koerperpflege/beebalm_6_600x600.jpg", "images/products/cellavita/koerperpflege/beutel-einzeln__7_600x600.jpg", "images/products/cellavita/koerperpflege/bild6_kopie_1_600x600.jpg", "images/products/cellavita/koerperpflege/cellapure_haarseife_alge_01_7_600x600.jpg", "images/products/cellavita/koerperpflege/cellapure_haarseife_aloe_01_6_600x600.jpg", "images/products/cellavita/koerperpflege/cellapure_haarseife_brennnessel_01_8_600x600.jpg", "images/products/cellavita/koerperpflege/cellapure_haarseife_mango_01_5_600x600.jpg", "images/products/cellavita/koerperpflege/cellapure_haarseife_weizenkeim_01_3_600x600.jpg", "images/products/cellavita/koerperpflege/cellavita_artisan_rose_01_600x600.jpg", "images/products/cellavita/koerperpflege/cellavita_artisan_verveine_01_600x600.jpg", "images/products/cellavita/koerperpflege/front-basenbad-1kg-shop_5_600x600.jpg", "images/products/cellavita/koerperpflege/front-basenbad-5kg-shop_3_600x600.jpg", "images/products/cellavita/koerperpflege/glas-ohne-aufdruck_8_600x600.jpg", "images/products/cellavita/koerperpflege/haarseife_bier_front_5_600x600.jpg", "images/products/cellavita/koerperpflege/haarseife_bundle_v2_9_600x600.jpg", "images/products/cellavita/koerperpflege/image1_2_600x600.jpg", "images/products/cellavita/koerperpflege/jiaogulan-beutel-vorne_8_600x600.jpg", "images/products/cellavita/koerperpflege/jiaogulan-glas__9_600x600.jpg", "images/products/cellavita/koerperpflege/mineralgel_produktfoto_2_600x600.jpg", "images/products/cellavita/koerperpflege/mineralgel_produktfotos_vorrat_9_600x600.jpg", "images/products/cellavita/koerperpflege/nailserum-2_600x600.jpg", "images/products/cellavita/koerperpflege/produktfoto-teststreifen_6_600x600.jpg", "images/products/cellavita/koerperpflege/propolis-seife-1_3_600x600.jpg", "images/products/cellavita/koerperpflege/propolisdeo_1_600x600.jpg", "images/products/cellavita/kolloide/bild-kolloidales-germanium-50-ppm-200-ml_7_600x600.jpg", "images/products/cellavita/kolloide/bild-kolloidales-gold-30-ppm-200-ml_8_600x600.jpg", "images/products/cellavita/kolloide/nanosit-kolloidales-germanium-50-ppm-1000-ml_6_600x600.jpg", "images/products/cellavita/kolloide/nanosit-kolloidales-gold-30-ppm-1000-ml_1280x1280_6_600x600.jpg", "images/products/cellavita/kolloide/nanosit-kolloidales-kupfer-40-ppm-1000-ml_1280x1280_4_600x600.jpg", "images/products/cellavita/kolloide/nanosit-kolloidales-silber-100-ppm-1000-ml_1280x1280_7_600x600.jpg", "images/products/cellavita/kolloide/nanosit-kolloidales-zink-40-ppm-1000-ml_1280x1280_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/1-maca-rot-beutel-einzeln_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/1-maca-schwarzbeutel-einzeln_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/1-produktfoto-maca-rot-glas_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/1-produktfoto-maca-schwarz8ivHrtJaMogPC_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/1000x1000px_setsxlmefn7bmef1h_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/200mlikmv3cvyktayi_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/Brlauch200ml4er_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/Kardenwurzel200ml4er_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/Shaker_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/amino_beutel-einzeln__1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/ausleitungsprotokoll-klein-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beecreamnew_16_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_17_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_21_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_22_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_25_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_26_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln_12_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln_15_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__17_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__24_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__28_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__30_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__32_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln__11_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln__15_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_acerola_300-kapseln_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_maca-500-kapseln_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_nac_300_kapseln_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/bio-gerstengras-pulver_flasche-kopie_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/bio-gerstengrassaft-pulver_flasche_frei-kopie_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/bio-weizengras-pulver_flasche_frei-kopie_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/brlauch100ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/brlauch200ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/calcium-1kg-beutel-einzeln__9_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/calcium-natur-glas-ohne-aufdruck_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/cilantrokoriander100ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/cilantrokoriander200ml4er3378_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/cilantrokoriander200ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/citexivir-3_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/citoethyl-gro-3_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/citovet-1_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/citovigor-1_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/citozym-1_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/d-tagatose_beutel-500g_einzelnuz0Tu8k97iZzK_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/d-tagatose_glas-160g_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/ducolzym-1_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/ergozym-1_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/ergozym-plus-3_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/flasche-acerola-180-kapseln-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/flasche-acerola-90g-neu-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/flasche-ackerschachtelhalm-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/flasche-alpha-liponsaeure-neu-180-kapseln_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-acerola-1-kg-beutel-shop_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-acerola-500g-beutel-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-ackerschachtelhalm-etikett-500-g-beutel-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-alpha-liponsaeure-500-neu-kps-beutel_13_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-aufbau-gold-700g-beutel-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-coenzym-q10-500-kps-beutel-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-cordyceps-500-kps-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-curcuma-500-g-shop_15_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-d-galactose-1kg-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-d-galactose-500g-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-d-mannose-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-d-ribose-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-etikett-1kg-shop_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-gehirn-1kg-shopFdlmIRv3V673C_600x600.jpeg", "images/products/cellavita/nahrungsergaenzung/front-gehirn-500-g-shop015MnnAAFSqhI_600x600.jpeg", "images/products/cellavita/nahrungsergaenzung/front-gerstengras-500-g-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-gerstengrassaft-etikett-400-g-shop_14_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-haut-haare-500-kps-beutel-shop8WYrJHTbKgiuu_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-kalium-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-kalium-500-kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-l-arginin-500-g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-l-carnitin-500-kps-shop_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-lein-protein-900-g-beutel-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-ling-zhi-bio-250g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-lithothamnium-1-kg-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-magnesium-classic-1-kg-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-magnesium-mild-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-msm-1-kg-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-msm-500-kps-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-msm-spezial-1-kg-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-multi-c-kids-1250-t-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-multi-c-kids-1250-t-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-opc-500-g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-pro-colon-420-g-2er-set-shaker-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-pro-colon-420-g-3er-set-shaker-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-pro-colon-420-g-set-shaker-shop_11_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-pro-immun-500-kps-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-sangokoralle-1kg-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-sangokoralle-500g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-superfood-365-500g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-superfood-triphala-500-g-kopie_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-vitamin-b-12-500-g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-vitamin-b-komplex-500-g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-weihrauch-myrrhe-vita-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-weihrauch-vita-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-weizengras-500-g-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-zink-selen-500-kps-shop_6_600x600.jpeg", "images/products/cellavita/nahrungsergaenzung/glas-astaxanthin-60-kaps-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-aufbau-gold-100g-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-bambus-extrakt-50g-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-bor-150-kapseln-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-calcium-kids-120g-neu-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-cellavita-forte-150k-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-coenzym-q10-180k-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-cordyceps-150k-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-curcuma-100g-shop_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-curcuma-180k-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-d-galactose-200g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-d-mannose-110g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-d-ribose-160g-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-eisen-mangan-kupfer-60kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-eisen-vitamin-c-90-kps-shopQsEfqPn0LOmjj_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-gehirn-200g-shopkqOL76y5F5cQA_600x600.jpeg", "images/products/cellavita/nahrungsergaenzung/glas-granatapfel-extrakt-vita-150-kps-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-griffonia-120k-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-haut-haare-150-kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-hyaluronsaeure-180k-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-jod-natur-120-kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-kalium-vita-120-kps-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-kalium-vita-250g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-knochen-bewegung-74g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-l-arginin-150g-shopK8mLU9bdEaZLX_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-l-carnitin-120-kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-ling-zhi-bio-120k-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-ling-zhi-bio-70g-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-lithothamnium-120g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-magnesium-120g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-magnesium-kids-90g-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-magnesium-mild-180-kps-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-magnesium-mild-90-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-mariendistel-120kps-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-melatonin-60-kps-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-msm-spezial-200g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-msm-vita-100g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-msm-vita-150-kps-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-multi-c-kids-180-ta-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-nattokinase-90-kps-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-ohne-aufdruck_9_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-olivenblattextrakt-90-kps-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-opc-100-g-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-opc-60kps-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-pro-immun-90-kps-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-sangokoralle-120g-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-spirulina-pur-tabs-100g-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-superfood-365-150-kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-vitamin-b-komplex-100g-shop_9_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-vitamin-b12-60-kps-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-weihrauch-120-g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-weihrauch-extrakt-150-kps-shop_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-weihrauch-extrakt-50-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-weihrauch-myrrhe-120-g-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-wild-yam-150-kps-shop_20_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/kardanwurzel200ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/kardenwurzel100ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/l-lysin_glas_11_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/mineral-p450-1_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/nec_standard_NeutralTEHH9WAL8dwBy_600x600.png", "images/products/cellavita/nahrungsergaenzung/omega-3-100ml-shop_13_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/omega-kapseln-algen_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/probiotic-p450-1_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktbildems_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktbildemsvorsorgepaketnawlmitbuvkw2_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-glas-multi-c-180-tbl_11_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-granatapfel-vita_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-maca-rot-180kapseln-glas_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-maca-schwarz-glas_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-para-ex-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-vir-ex-vita_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-vitamin-a_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-vitamin-e_16_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-weihrauch-myrrhe-gold_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_d3_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_d3_vorrat_5er_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_glas_nac_kapseln_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_glas_zink_selen_90_kps_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_kiefernadelextrakt_1IR40HOZA3ONcP_600x600.jpeg", "images/products/cellavita/nahrungsergaenzung/produktfoto_lo__wenzahnextrakt_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_milchs__ure_500ml_shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_olivenblattextrakt_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_rosenwurz_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_vitamin_k2_shop_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfotomilchsure500ml5xvorsorgeshopkye8zvyqecidj_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/propoliscream_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/propolisdeo_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/propulzym-2_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/royallotion100ml-kopie_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/spruehflasche_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/vitamin-d3-hochdosiert_12_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/vitamin-d3-kids-vorsorge_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/vitamin-d3-kids_2_600x600.jpg", "images/products/cellavita/natur/1-bottle-with-box-propolis-10aOfyOkhZ3AgZq_600x600.jpg", "images/products/cellavita/natur/1-bottle-with-box-propolis-mundspray_600x600.jpg", "images/products/cellavita/natur/1500ml-Sprossenglas_600x600.jpg", "images/products/cellavita/natur/1500mlglas_600x600.jpg", "images/products/cellavita/natur/20220321_hempamed_de_cbd_premiumoel_10ml_rz_10-_box_bottle_4000px_3_600x600.png", "images/products/cellavita/natur/20220321_hempamed_de_cbd_premiumoel_10ml_rz_20-_box-bottle_4000px_1_600x600.png", "images/products/cellavita/natur/20220321_hempamed_de_cbd_premiumoel_10ml_rz_5-_box-bottle_4000px_1_600x600.png", "images/products/cellavita/natur/20_-tinktur-frontal_1024x1024-2x_3_600x600.jpg", "images/products/cellavita/natur/Bluetenpollenpulver_600x600.jpg", "images/products/cellavita/natur/Deckel_gross_600x600.jpg", "images/products/cellavita/natur/Deckel_klein_600x600.jpg", "images/products/cellavita/natur/SG_1000ml_600x600.jpg", "images/products/cellavita/natur/SG_750_800x800_600x600.jpg", "images/products/cellavita/natur/Set_I_1000_800x800_600x600.jpg", "images/products/cellavita/natur/Set__750_800x800_600x600.jpg", "images/products/cellavita/natur/beebalm_6_600x600.jpg", "images/products/cellavita/natur/beecreamnew_16_600x600.jpg", "images/products/cellavita/natur/blau1_8_600x600.jpg", "images/products/cellavita/natur/brlauch100ml_1_600x600.jpg", "images/products/cellavita/natur/brlauch200ml_1_600x600.jpg", "images/products/cellavita/natur/cilantrokoriander100ml_1_600x600.jpg", "images/products/cellavita/natur/cilantrokoriander200ml_1_600x600.jpg", "images/products/cellavita/natur/front-apfelpektin-600g-shop_8_600x600.jpg", "images/products/cellavita/natur/front-bentonit-1-kg-beutel-shopiFkZHdcBVh1F2_600x600.jpg", "images/products/cellavita/natur/front-flohsamenschalen-500-g-shop_3_600x600.jpg", "images/products/cellavita/natur/front-heidelberger-7-krai-uter-350-g-beutel-shopGBZSSiCEdh2hA_600x600.jpg", "images/products/cellavita/natur/front-zeolith-1-kg-shop_4_600x600.jpg", "images/products/cellavita/natur/front-zeolith-500g-shop_5_600x600.jpg", "images/products/cellavita/natur/front-zeolith-bentonit-1-kg-shop9HoGn1LZqtoRD_600x600.jpg", "images/products/cellavita/natur/gelee-royale-kapsen-frontal_1024x1024-2x_4_600x600.jpg", "images/products/cellavita/natur/glas-bentonit-140g-shop_3_600x600.jpg", "images/products/cellavita/natur/glas-flohsamenschalenpulver-150g-shop_2_600x600.jpg", "images/products/cellavita/natur/glas-heidelberger-7-krai-uter-80g-shopLOjXAiJy6fMpD_600x600.jpg", "images/products/cellavita/natur/glas-zeolith-bentonit-140-g-shopFBo1AXfCVDvww_600x600.jpg", "images/products/cellavita/natur/h-loesung_kl-600x906_7_600x600.jpg", "images/products/cellavita/natur/kardanwurzel200ml_1_600x600.jpg", "images/products/cellavita/natur/kardenwurzel100ml_1_600x600.jpg", "images/products/cellavita/natur/keimkiste-gross_3_600x600.jpg", "images/products/cellavita/natur/keimkiste_klein_2_600x600.png", "images/products/cellavita/natur/manuka-honigwithhoneyspoon_bigger_new_8_600x600.jpg", "images/products/cellavita/natur/manuka_loffel_deckeloffen_2kopie_1024x1024-2x_7_600x600.jpg", "images/products/cellavita/natur/nec_standard_NeutralTEHH9WAL8dwBy_600x600.png", "images/products/cellavita/natur/ortho-2_5_600x600.jpg", "images/products/cellavita/natur/p3299231-quer-freigestellt_5_600x600.png", "images/products/cellavita/natur/produktfoto-granatapfel-vita_4_600x600.jpg", "images/products/cellavita/natur/produktfoto-para-ex-shop_2_600x600.jpg", "images/products/cellavita/natur/produktfoto_aprikosenkerne_250g_shop_7_600x600.jpg", "images/products/cellavita/natur/produktfoto_glas_kokos__l__2_600x600.jpg", "images/products/cellavita/natur/produktfoto_kiefernadelextrakt_1IR40HOZA3ONcP_600x600.jpeg", "images/products/cellavita/natur/produktfoto_lo__wenzahnextrakt_3_600x600.jpg", "images/products/cellavita/natur/produktfoto_olivenblattextrakt_2_600x600.jpg", "images/products/cellavita/natur/produktfoto_rosenwurz_3_600x600.jpg", "images/products/cellavita/natur/propolis-kapseln-frontal_1024x1024-2x_4_600x600.jpg", "images/products/cellavita/natur/propolis-seife-1_3_600x600.jpg", "images/products/cellavita/natur/propoliscream_4_600x600.jpg", "images/products/cellavita/natur/propolisdeo_1_600x600.jpg", "images/products/cellavita/natur/royallotion100ml-kopie_10_600x600.jpg", "images/products/cellavita/natur/sprossen_set_1500ml_600x600.jpg", "images/products/cellavita/natur/system_ii_1000_wei___800x800_600x600.jpg", "images/products/cellavita/natur/system_ii_750_wei___800x800_600x600.jpg", "images/products/cellavita/reinigung/allzweckreiniger-flasche-frei-2s98PTSdeOAk9O_600x600.png", "images/products/cellavita/reinigung/allzweckreiniger-set-frei-2ev5nfOTfhcA22_600x600.png", "images/products/cellavita/reinigung/atme-durch_5_600x600.png", "images/products/cellavita/reinigung/bewegungsfreude_5_600x600.png", "images/products/cellavita/reinigung/bild-cdl-100-ml-weiss-neu9YkuYw16AezcZ_600x600.jpg", "images/products/cellavita/reinigung/borellisan_5_600x600.png", "images/products/cellavita/reinigung/denkfit_6_600x600.png", "images/products/cellavita/reinigung/herzensbluete_16_600x600.png", "images/products/cellavita/reinigung/immuzauber_7_600x600.png", "images/products/cellavita/reinigung/magdasan_6_600x600.png", "images/products/cellavita/reinigung/p1033209_7_600x600.jpg", "images/products/cellavita/reinigung/produktfoto-c60-100ml_3_600x600.jpg", "images/products/cellavita/reinigung/produktfoto-cio-2-500ml_6_600x600.jpg", "images/products/cellavita/reinigung/produktfoto-dmso-500-ml_2_600x600.jpg", "images/products/cellavita/reinigung/produktfoto-dmso_600x600.jpg", "images/products/cellavita/reinigung/ruhepol_6_600x600.png", "images/products/kronenberg/Nahrungsergaenzung/agaricus-blazei-murrill-mandelpilz-120g.png", "images/products/kronenberg/Nahrungsergaenzung/aloe-vera-frischpflanzensaft-mit-honig-plus-vitamin-c.png", "images/products/kronenberg/Nahrungsergaenzung/amalaki-ayurveda-pulver-organisch.png", "images/products/kronenberg/Nahrungsergaenzung/amino-komplex-17-17-essentielle-aminosaeuren.png", "images/products/kronenberg/Nahrungsergaenzung/anorganischer-schwefel-min-999-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-einjaehriger-beifuss-pulver-das-echte.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-kapseln-einjaehriger-beifuss.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-oxymel-compositum-alkoholfrei.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-plus-rosmarin-vitamin-c.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-samen-qing-hao-gvk-spezial.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-ultraschall-extraktion-mit-schungitwasser.png", "images/products/kronenberg/Nahrungsergaenzung/bernsteinsaeure-hpmc-kapseln-plus-vitamin-c.png", "images/products/kronenberg/Nahrungsergaenzung/bio-camu-camu-pulver-viel-vitamin-c.png", "images/products/kronenberg/Nahrungsergaenzung/biota-em-effektive-mikroorganismen-500ml.png", "images/products/kronenberg/Nahrungsergaenzung/bockshornklee-extrakt-ein-vielseitiges-kraut.png", "images/products/kronenberg/Nahrungsergaenzung/bockshornklee-kur-diffuser-haarausfall-kapseln-tee-tinktur.png", "images/products/kronenberg/Nahrungsergaenzung/bockshornklee-tee-samen-200g.png", "images/products/kronenberg/Nahrungsergaenzung/braunalge-knotentang-ascophyllum-nodosum.png", "images/products/kronenberg/Nahrungsergaenzung/calcium-kalium-magnesium-kombination.png", "images/products/kronenberg/Nahrungsergaenzung/catuaba-erythroxylum-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/catuaba-tee-der-tupi-indianer-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/Nahrungsergaenzung/catumupu-catuaba-muira-puama-tinktur.png", "images/products/kronenberg/Nahrungsergaenzung/chaga-pilz-tee-bio-qualitaet-wildsammlung.png", "images/products/kronenberg/Nahrungsergaenzung/chanca-piedra-steinbrecher.png", "images/products/kronenberg/Nahrungsergaenzung/coenzym-q10-vegan-90-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/copaiba-oel-100-natuerlich.png", "images/products/kronenberg/Nahrungsergaenzung/cordyceps-cordycepin-all-in-one-schmelzpastillen.png", "images/products/kronenberg/Nahrungsergaenzung/cordyceps-cordycepin-lyophilized-schmelzpastille-10mgpastille.png", "images/products/kronenberg/Nahrungsergaenzung/eisen-frucht-muttersaft-supermix-330-ml.png", "images/products/kronenberg/Nahrungsergaenzung/eisenbisglycinat-eisen-pulver-100g.png", "images/products/kronenberg/Nahrungsergaenzung/extase-aphrodisiakum-catuaba-muira-puama-rinden-tee.png", "images/products/kronenberg/Nahrungsergaenzung/goldene-milch-paste-kurkuma-power.png", "images/products/kronenberg/Nahrungsergaenzung/graviola-annona-muricata-blaetter-wildsammlung.png", "images/products/kronenberg/Nahrungsergaenzung/graviola-extrakt-annona-muricata-superfood.png", "images/products/kronenberg/Nahrungsergaenzung/gruenes-wunder-chlorella-gerstengras-spirulina-weizengras-.png", "images/products/kronenberg/Nahrungsergaenzung/hacheney-hyperwasser-mit-kolloidalem-silizium.png", "images/products/kronenberg/Nahrungsergaenzung/hagebutten-extrakt-100-natur.png", "images/products/kronenberg/Nahrungsergaenzung/hair-power-kur-bockshornklee-kapseln-60-stk.png", "images/products/kronenberg/Nahrungsergaenzung/holunder-beeren-extrakt-antioxidans.png", "images/products/kronenberg/Nahrungsergaenzung/hyaluronsaeure-plus-glucosamin-und-chondroitin-60-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/juglandis-kur-nach-dr-hulda-clark-kraeuter-tee-aperitif.png", "images/products/kronenberg/Nahrungsergaenzung/katzenkralle-sangre-de-grado-100g-tee-amazonas-regenwald-.png", "images/products/kronenberg/Nahrungsergaenzung/kiefernnadel-und-sprossen-wuerzeextrakt-ultraschall-extraktion.png", "images/products/kronenberg/Nahrungsergaenzung/koriander-co-schwermetall-ausleitung-im-sparpaket.png", "images/products/kronenberg/Nahrungsergaenzung/koriander-extrakt-ultraschall-extraktion-100ml.png", "images/products/kronenberg/Nahrungsergaenzung/kraeutertee-aperitif-lymphe-abies.png", "images/products/kronenberg/Nahrungsergaenzung/kraeutertee-aperitif-niere-ren.png", "images/products/kronenberg/Nahrungsergaenzung/l-arginin-base-pulver-vegan.png", "images/products/kronenberg/Nahrungsergaenzung/l-carnitin-base-pulver-100.png", "images/products/kronenberg/Nahrungsergaenzung/l-tryptophan-mit-b-vitaminen-und-folsaeure-60-hpmc-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/l-tryptophan-pulver-aus-fermentation.png", "images/products/kronenberg/Nahrungsergaenzung/lapacho-rinden-tee-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/Nahrungsergaenzung/licht-edel-schungit-wasser-energetikum.png", "images/products/kronenberg/Nahrungsergaenzung/liposomale-artemisia-annua-ultraschall-extraktion-50ml.png", "images/products/kronenberg/Nahrungsergaenzung/liposomale-moringa-morisana-ultraschall-extraktion.png", "images/products/kronenberg/Nahrungsergaenzung/loewenzahnkraut-wuerze-extrakt-ultraschall-extraktion.png", "images/products/kronenberg/Nahrungsergaenzung/magnesium-plus-b-vitamine-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/meerrettich-extract-ultraschall-extraktion.png", "images/products/kronenberg/Nahrungsergaenzung/meerwasser-agua-de-mar-mit-schungit-wasser.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-miracle-suppe-20-portionen-gmo-frei.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-morisana-gesundheit-spar-paket.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-morisana-plus-artemisia-annua-kombi-paket.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-morisana-premium-mit-vitamin-b12.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-morisana-premium-pulver-300g-monatspackung.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-samen-in-kapsel-100-pures-samenpulver.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-samenpulver-100-fein-gemahlen-20g.png", "images/products/kronenberg/Nahrungsergaenzung/msm-organischer-schwefel-reinheitsgrad-999.png", "images/products/kronenberg/Nahrungsergaenzung/muira-puama-pulver-potenzbaum-im-amazonas-regenwald.png", "images/products/kronenberg/Nahrungsergaenzung/muira-puama-tee-aphrodisiakum-amazonas-regenwald.png", "images/products/kronenberg/Nahrungsergaenzung/multivitamin-mineral-60-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/mulungu-das-schlaf-elixier-der-indianer-90-stk.png", "images/products/kronenberg/Nahrungsergaenzung/natriumhydrogencarbonat-pharm-qualitaet.png", "images/products/kronenberg/Nahrungsergaenzung/noni-100-direktsaft.png", "images/products/kronenberg/Nahrungsergaenzung/nopal-kapseln-feigenkaktus-opuntia-ficus-indica-vegan.png", "images/products/kronenberg/Nahrungsergaenzung/omega-3-lachsoelkapseln-mit-vitamin-e.png", "images/products/kronenberg/Nahrungsergaenzung/oregano-oel-wilder-majoran-carvacrol-80.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-agnimantha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-ashwagandha-ayurveda-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-brahmi-ayurveda-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-giloy-ayurveda-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-patadi-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-shatavari-ayurveda-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-swastha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-trivala-ayurveda-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/original-urs-surbeck-energetisches-wasser-gesunde-balance.png", "images/products/kronenberg/Nahrungsergaenzung/pure-formula-stoffwechsel-90-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/safran-extrakt-mit-curcumin-gueteklasse-1-15ml.png", "images/products/kronenberg/Nahrungsergaenzung/sango-meeres-korallen-pures-pulver-original-aus-okinawa.png", "images/products/kronenberg/Nahrungsergaenzung/sangre-de-drago-100-aus-wildsammlung.png", "images/products/kronenberg/Nahrungsergaenzung/schamblumenblueten-blau-clitoria-ternatea-flores-100g.png", "images/products/kronenberg/Nahrungsergaenzung/schatz-der-inkas-trunk-der-goetter-amazonas-regenwald-tee.png", "images/products/kronenberg/Nahrungsergaenzung/schwarzkuemmel-oel-kaltpressung-gefiltert-100ml.png", "images/products/kronenberg/Nahrungsergaenzung/schwarzkuemmel-pulver-nigella-sativa-premiumqualitaet.png", "images/products/kronenberg/Nahrungsergaenzung/spirulina-tropfenextrakt-100-ml.png", "images/products/kronenberg/Nahrungsergaenzung/stauden-sellerie-pulver-inspiriert-durch-medical-food-monatskur.png", "images/products/kronenberg/Nahrungsergaenzung/strophanthus-kombe-saatgut-strophanthin.png", "images/products/kronenberg/Nahrungsergaenzung/suessholzwurzel-natur-gemahlen-lakritzpulver.png", "images/products/kronenberg/Nahrungsergaenzung/traubenkern-opc-ultraschall-extrakt-mit-schungit-wasser.png", "images/products/kronenberg/Nahrungsergaenzung/tri-magnesiumdicitrat-zaehne-knochen-muskeln.png", "images/products/kronenberg/Nahrungsergaenzung/urs-surbeck-energetisches-wasser-wohlfuehlflasche-50ml.png", "images/products/kronenberg/Nahrungsergaenzung/vitalpilze-6-fach-pilzkomplex-extrakt.png", "images/products/kronenberg/Nahrungsergaenzung/vitamin-b12-pure-power-plus-l-carnitin-vitamin-d-und-c.png", "images/products/kronenberg/Nahrungsergaenzung/vitamin-k2-plus-vitamin-d3-plus-calcium.png", "images/products/kronenberg/Nahrungsergaenzung/weidenrinde-purpurweide-geschnitten-mit-nat-salicin.png", "images/products/kronenberg/Nahrungsergaenzung/weidenrinden-purpurweide-ultraschall-extrakt.png", "images/products/kronenberg/Nahrungsergaenzung/weidenroeschen-kleinbluetig-ultraschall-extraktion.png", "images/products/kronenberg/Nahrungsergaenzung/weih-muri-weihrauch-und-myrrhe-extrakt.png", "images/products/kronenberg/Nahrungsergaenzung/zimtblaetteroel-100-reines-aetherisches-oel-10ml.png", "images/products/kronenberg/TeeKr\xE4uterPulver/988-pures-artemisiaartemisinin-90-vegi-kapseln.png", "images/products/kronenberg/TeeKr\xE4uterPulver/agaricus-blazei-murrill-mandelpilz-120g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/amalaki-ayurveda-pulver-organisch.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-100-reine-blaetter-100g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-einjaehriger-beifuss-pulver-das-echte.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-kapseln-einjaehriger-beifuss.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-oxymel-compositum-alkoholfrei.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-salbe-moringa-samen-pulver-dmso.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-samen-qing-hao-gvk-spezial.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-ultraschall-extraktion-mit-schungitwasser.png", "images/products/kronenberg/TeeKr\xE4uterPulver/ayurveda-tee-mischung-harmonie.png", "images/products/kronenberg/TeeKr\xE4uterPulver/bio-camu-camu-pulver-viel-vitamin-c.png", "images/products/kronenberg/TeeKr\xE4uterPulver/bockshornklee-extrakt-ein-vielseitiges-kraut.png", "images/products/kronenberg/TeeKr\xE4uterPulver/bockshornklee-tee-samen-200g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/brennnesselblaetter-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/TeeKr\xE4uterPulver/brennnesselwurzel-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/TeeKr\xE4uterPulver/catuaba-erythroxylum-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/catuaba-tee-der-tupi-indianer-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/TeeKr\xE4uterPulver/catumupu-catuaba-muira-puama-tinktur.png", "images/products/kronenberg/TeeKr\xE4uterPulver/chaga-pilz-tee-bio-qualitaet-wildsammlung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/chanca-piedra-steinbrecher.png", "images/products/kronenberg/TeeKr\xE4uterPulver/cistus-incanus-zistrosenkraut.png", "images/products/kronenberg/TeeKr\xE4uterPulver/der-weltberuehmte-tee-der-ojibwa-indianer-essiac-blend.png", "images/products/kronenberg/TeeKr\xE4uterPulver/ebv-pulver-mixtur-30-tage-kur.png", "images/products/kronenberg/TeeKr\xE4uterPulver/eisenbisglycinat-eisen-pulver-100g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/extase-aphrodisiakum-catuaba-muira-puama-rinden-tee.png", "images/products/kronenberg/TeeKr\xE4uterPulver/graviola-annona-muricata-blaetter-wildsammlung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/gruenes-wunder-chlorella-gerstengras-spirulina-weizengras-.png", "images/products/kronenberg/TeeKr\xE4uterPulver/indioclean-100g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/jiaogulan-kraut-kraut-der-unsterblichkeit-kraeuterpotpourri.png", "images/products/kronenberg/TeeKr\xE4uterPulver/juglandis-kur-nach-dr-hulda-clark-kraeuter-tee-aperitif.png", "images/products/kronenberg/TeeKr\xE4uterPulver/katzenkralle-sangre-de-grado-100g-tee-amazonas-regenwald-.png", "images/products/kronenberg/TeeKr\xE4uterPulver/koriander-co-schwermetall-ausleitung-im-sparpaket.png", "images/products/kronenberg/TeeKr\xE4uterPulver/kraeutertee-aperitif-leber-lecur.png", "images/products/kronenberg/TeeKr\xE4uterPulver/kraeutertee-aperitif-lymphe-abies.png", "images/products/kronenberg/TeeKr\xE4uterPulver/kraeutertee-aperitif-niere-ren.png", "images/products/kronenberg/TeeKr\xE4uterPulver/kur-paket-premium-4-entgiftungreinigungverdauung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/l-arginin-base-pulver-vegan.png", "images/products/kronenberg/TeeKr\xE4uterPulver/l-carnitin-base-pulver-100.png", "images/products/kronenberg/TeeKr\xE4uterPulver/l-tryptophan-pulver-aus-fermentation.png", "images/products/kronenberg/TeeKr\xE4uterPulver/lapacho-rinden-tee-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/TeeKr\xE4uterPulver/lapacho-tinktur-ultraschall-extraktion-amazonas-regenwald.png", "images/products/kronenberg/TeeKr\xE4uterPulver/leinsamenextrakt-pulver-vegi-kapseln-90-stueck.png", "images/products/kronenberg/TeeKr\xE4uterPulver/liposomale-artemisia-annua-ultraschall-extraktion-50ml.png", "images/products/kronenberg/TeeKr\xE4uterPulver/loewenzahnblaetter-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/TeeKr\xE4uterPulver/loewenzahnwurzel-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/TeeKr\xE4uterPulver/lungenkraut-wuerzeextrakt-ultraschall-extraktion.png", "images/products/kronenberg/TeeKr\xE4uterPulver/moringa-morisana-plus-artemisia-annua-kombi-paket.png", "images/products/kronenberg/TeeKr\xE4uterPulver/moringa-morisana-premium-pulver-300g-monatspackung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/moringa-samenpulver-100-fein-gemahlen-20g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/moringa-spicy-gewuerz-mit-kalahari-wuesten-salz.png", "images/products/kronenberg/TeeKr\xE4uterPulver/muira-puama-pulver-potenzbaum-im-amazonas-regenwald.png", "images/products/kronenberg/TeeKr\xE4uterPulver/muira-puama-tee-aphrodisiakum-amazonas-regenwald.png", "images/products/kronenberg/TeeKr\xE4uterPulver/mulungu-das-schlaf-elixier-der-indianer-90-stk.png", "images/products/kronenberg/TeeKr\xE4uterPulver/natriumhydrogencarbonat-pharm-qualitaet.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-agnimantha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-ashwagandha-ayurveda-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-brahmi-ayurveda-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-giloy-ayurveda-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-patadi-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-shatavari-ayurveda-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-swastha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-trivala-ayurveda-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/papaya-blaetter-und-staengel-grob-100g-superfood.png", "images/products/kronenberg/TeeKr\xE4uterPulver/pure-formula-stoffwechsel-90-kapseln.png", "images/products/kronenberg/TeeKr\xE4uterPulver/schamblumenblueten-blau-clitoria-ternatea-flores-100g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/schatz-der-inkas-trunk-der-goetter-amazonas-regenwald-tee.png", "images/products/kronenberg/TeeKr\xE4uterPulver/schilddruesen-kraeuter-mischung-pulver-inspiriert-durch-medical-food.png", "images/products/kronenberg/TeeKr\xE4uterPulver/schwarzkuemmel-pulver-nigella-sativa-premiumqualitaet.png", "images/products/kronenberg/TeeKr\xE4uterPulver/stauden-sellerie-pulver-inspiriert-durch-medical-food-monatskur.png", "images/products/kronenberg/TeeKr\xE4uterPulver/suessholzwurzel-natur-gemahlen-lakritzpulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/tantum-1-nierentee-reinigung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/tantum-2-lebertee-zur-leberreinigung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/tantum-3-darm-sanierung-kur.png", "images/products/kronenberg/TeeKr\xE4uterPulver/tantum-6-tee-entgiftung-reinigung-verdauung-und-rheuma.png", "images/products/kronenberg/TeeKr\xE4uterPulver/teetox-stoffwechsel-tee-inspiriert-durch-medical-food.png", "images/products/kronenberg/TeeKr\xE4uterPulver/tri-magnesiumdicitrat-zaehne-knochen-muskeln.png", "images/products/kronenberg/TeeKr\xE4uterPulver/typ-2-pulver-bioaktive-verbindungen.png", "images/products/kronenberg/TeeKr\xE4uterPulver/vitalpilze-6-fach-pilzkomplex-extrakt.png", "images/products/kronenberg/TeeKr\xE4uterPulver/weidenrinde-purpurweide-geschnitten-mit-nat-salicin.png", "images/products/kronenberg/TeeKr\xE4uterPulver/weidenrinden-purpurweide-ultraschall-extrakt.png", "images/products/kronenberg/TeeKr\xE4uterPulver/zistrosenkraut-gemahlen-fuer-hunde-katzen-100-natur.png", "images/products/kronenberg/Therapeuteninfos/adsadhs-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/artemisia-annua-einjaehriger-beifuss-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/bockshornklee-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/catuaba-teetinktur-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/chaga-pilz-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/chlordioxid-loesung-chlorine-dioxide-solution-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/chlorellagerstengrasspirullina-und-weizengras-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/cinderella-das-moringa-oleifera-kindermalbuch-25-seiten.png", "images/products/kronenberg/Therapeuteninfos/cistrose-cistus-incanus-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/copaiba-copaifera-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/darmgesundheit-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/darmparasiten-therapeuteninfo-.png", "images/products/kronenberg/Therapeuteninfos/das-dmso-handbuch-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/das-ultimative-gesundungsprogramm.png", "images/products/kronenberg/Therapeuteninfos/der-weltberuehmte-tee-der-ojibwa-indianer-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/detaillierter-produktkatalog-der-graf-von-kronenberg-group.png", "images/products/kronenberg/Therapeuteninfos/detox-kraeuter-tee-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/e-book-organisches-germanium-raetselhaftes-elixier.png", "images/products/kronenberg/Therapeuteninfos/epstein-barr-virus-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/graviola-stachelannone-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/indo-green-kratom-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/kiefer-als-heilmittel-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/kleinbluetiges-weidenroeschen-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/knotentang-braunalge-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/kompendium-beruehmter-und-seltenervergessener-heilmittel.png", "images/products/kronenberg/Therapeuteninfos/koriander-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/l-arginin-base-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/l-carnitin-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/lapacho-teetinktur-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/liposomal-und-die-besondere-wirkung.png", "images/products/kronenberg/Therapeuteninfos/loewenzahn-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/lotus-bluete-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/lungenkraut-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/moringa-morisana-premium-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/msm-dimethylsulfon-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/muira-puama-teetinktur-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/multiple-sklerose-ms-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/mulungu-therapeuteninfo-14-seiten.png", "images/products/kronenberg/Therapeuteninfos/mumiyo-shilajit-maumasil-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/ozonisiertes-olivenoel-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/rote-wurzel-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/safran-das-besondere-heilmittel-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/sango-meeres-koralle-aus-okinawa-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/sangre-de-drago-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/schatz-der-inkas-tee-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/schungit-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/schwarzkuemmel-pulver-nigella-sativa-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/schwefel-kur-nach-dr-karl-j-probst-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/sellerie-saft-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/stachybotrys-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/strophanthin-schach-matt-dem-herzinfarkt.png", "images/products/kronenberg/Therapeuteninfos/strophanthin-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/superfood-cordyceps-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/superfood-meerrettich-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/vitamin-d3-cholecalciferol-ist-gar-kein-vitamin-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/vitamin-e-der-grosse-betrug-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/weidenrinde-therapeutheninfo.png", "images/products/kronenberg/Therapeuteninfos/zuordnung-der-heilkraeuter-zu-krankheiten-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/zytamin-bio-regulator-komplex-therapeuteninfo.png", "images/products/kronenberg/Vitalpilze/agaricus-blazei-murrill-mandelpilz-120g.png", "images/products/kronenberg/Vitalpilze/vitalpilze-6-fach-pilzkomplex-extrakt.png", "images/products/kronenberg/Zubeh\xF6r/100ml-braune-medizinflasche-mit-zerstaeuber.png", "images/products/kronenberg/Zubeh\xF6r/100ml-leere-braune-medizinflasche-mit-pipette.png", "images/products/kronenberg/Zubeh\xF6r/aktivierungssalz-fuer-elektrolyse-fussbad.png", "images/products/kronenberg/Zubeh\xF6r/bioenergiser-ionen-detox-fusselektrolysebad-kpl-set.png", "images/products/kronenberg/Zubeh\xF6r/blasenspritze-100-ml-sterile-einmalspritze.png", "images/products/kronenberg/Zubeh\xF6r/din-18-pipettenverschluss-fuer-100ml-tropfflaschen.png", "images/products/kronenberg/Zubeh\xF6r/nagelfeile-aus-glas-fuer-mani-und-pedikuere-die-revolution.png", "images/products/kronenberg/Zubeh\xF6r/spruehflasche-50-ml-braunes-glas-kompl-mit-zerstaeuber.png", "images/products/kronenberg/aphrodisiaka/catuaba-erythroxylum-pulver.png", "images/products/kronenberg/aphrodisiaka/catumupu-catuaba-muira-puama-tinktur.png", "images/products/kronenberg/aphrodisiaka/extase-aphrodisiakum-catuaba-muira-puama-rinden-tee.png", "images/products/kronenberg/aphrodisiaka/muira-puama-pulver-potenzbaum-im-amazonas-regenwald.png", "images/products/kronenberg/aphrodisiaka/muira-puama-tee-aphrodisiakum-amazonas-regenwald.png", "images/products/kronenberg/ayurveda/amalaki-ayurveda-pulver-organisch.png", "images/products/kronenberg/ayurveda/ayurveda-tee-mischung-harmonie.png", "images/products/kronenberg/ayurveda/organisches-agnimantha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/ayurveda/organisches-ashwagandha-ayurveda-pulver.png", "images/products/kronenberg/ayurveda/organisches-brahmi-ayurveda-pulver.png", "images/products/kronenberg/ayurveda/organisches-giloy-ayurveda-pulver.png", "images/products/kronenberg/ayurveda/organisches-patadi-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/ayurveda/organisches-shatavari-ayurveda-pulver.png", "images/products/kronenberg/ayurveda/organisches-swastha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/ayurveda/organisches-trivala-ayurveda-pulver.png", "images/products/kronenberg/ayurveda/schamblumenblueten-blau-clitoria-ternatea-flores-100g.png", "images/products/kronenberg/bestseller/artemisia-annua-100-reine-blaetter-100g.png", "images/products/kronenberg/bestseller/artemisia-annua-samen-qing-hao-gvk-spezial.png", "images/products/kronenberg/bestseller/biota-em-effektive-mikroorganismen-500ml.png", "images/products/kronenberg/bestseller/camu-camu-extrakt.png", "images/products/kronenberg/bestseller/chanca-piedra-steinbrecher.png", "images/products/kronenberg/bestseller/corona-hygiene-aroma-spray-200ml.png", "images/products/kronenberg/bestseller/der-weltberuehmte-tee-der-ojibwa-indianer-essiac-blend.png", "images/products/kronenberg/bestseller/dmso-60-plus-magnesium-oel-sportler-spray.png", "images/products/kronenberg/bestseller/dmso-schmerz-eukalyptus-balsam-40ml.png", "images/products/kronenberg/bestseller/dmso-schmerz-lavendel-balsam-40-ml.png", "images/products/kronenberg/bestseller/ebv-pulver-mixtur-30-tage-kur.png", "images/products/kronenberg/bestseller/l-carnitin-base-pulver-100.png", "images/products/kronenberg/bestseller/l-tryptophan-pulver-aus-fermentation.png", "images/products/kronenberg/bestseller/moringa-morisana-premium-pulver-300g-monatspackung.png", "images/products/kronenberg/bestseller/moringa-spicy-gewuerz-mit-kalahari-wuesten-salz.png", "images/products/kronenberg/bestseller/nagelfeile-aus-glas-fuer-mani-und-pedikuere-die-revolution.png", "images/products/kronenberg/bestseller/nano-glas-mani-pedikuere-die-revolution.png", "images/products/kronenberg/bestseller/pet-zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/bestseller/sangre-de-drago-100-aus-wildsammlung.png", "images/products/kronenberg/bestseller/schilddruesen-kraeuter-mischung-pulver-inspiriert-durch-medical-food.png", "images/products/kronenberg/bestseller/stauden-sellerie-pulver-inspiriert-durch-medical-food-monatskur.png", "images/products/kronenberg/bestseller/strophanthin-gratus-experimentier-set-100ml.png", "images/products/kronenberg/bestseller/strophanthin-kombe-experimentier-set-200ml.png", "images/products/kronenberg/bestseller/strophanthus-kombe-saatgut-strophanthin.png", "images/products/kronenberg/bestseller/teetox-stoffwechsel-tee-inspiriert-durch-medical-food.png", "images/products/kronenberg/bestseller/typ-2-pulver-bioaktive-verbindungen.png", "images/products/kronenberg/bestseller/zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/bioreiniger/bep-bio-enzym-power-reiniger-effizient-und-oekologisch-reinigen.png", "images/products/kronenberg/bioreiniger/corona-hygiene-aroma-spray-200ml.png", "images/products/kronenberg/chlordioxid/bake-desinfektion-fuer-189-liter-wasser-gallonen-wasserspender.png", "images/products/kronenberg/chlordioxid/cdl-cds-loesung-03-nach-dr-andreas-kalcker.png", "images/products/kronenberg/chlordioxid/cdlcds-100ml-loesung-03-clo2-mit-edel-schungit-wasser.png", "images/products/kronenberg/chlordioxid/desaircap-die-geniale-loesung-fuer-frisches-obst-und-gemuese.png", "images/products/kronenberg/chlordioxid/nagelpflege-napiad-soft-fluid-gel.png", "images/products/kronenberg/chlordioxid/nagelpflege-set-sorglos-paket.png", "images/products/kronenberg/cordyceps/cordyceps-cordycepin-all-in-one-schmelzpastillen.png", "images/products/kronenberg/cordyceps/cordyceps-cordycepin-lyophilized-schmelzpastille-10mgpastille.png", "images/products/kronenberg/darmleberniere/biota-em-effektive-mikroorganismen-500ml.png", "images/products/kronenberg/darmleberniere/juglandis-kur-nach-dr-hulda-clark-kraeuter-tee-aperitif.png", "images/products/kronenberg/darmleberniere/kraeutertee-aperitif-leber-lecur.png", "images/products/kronenberg/darmleberniere/kraeutertee-aperitif-niere-ren.png", "images/products/kronenberg/darmleberniere/tantum-1-nierentee-reinigung.png", "images/products/kronenberg/darmleberniere/tantum-2-lebertee-zur-leberreinigung.png", "images/products/kronenberg/darmleberniere/tantum-3-darm-sanierung-kur.png", "images/products/kronenberg/extrakte/artemisia-annua-oxymel-compositum-alkoholfrei.png", "images/products/kronenberg/extrakte/artemisia-annua-pures-100-oel-ultraschall-extraktion-100ml.png", "images/products/kronenberg/extrakte/artemisia-annua-ultraschall-extraktion-mit-schungitwasser.png", "images/products/kronenberg/extrakte/baerlauch-extrakt-ultraschall-extraktion-100ml.png", "images/products/kronenberg/extrakte/camu-camu-extrakt.png", "images/products/kronenberg/extrakte/catumupu-catuaba-muira-puama-tinktur.png", "images/products/kronenberg/extrakte/graviola-extrakt-annona-muricata-superfood.png", "images/products/kronenberg/extrakte/hacheney-hyperwasser-mit-kolloidalem-silizium.png", "images/products/kronenberg/extrakte/hagebutten-extrakt-100-natur.png", "images/products/kronenberg/extrakte/holunder-beeren-extrakt-antioxidans.png", "images/products/kronenberg/extrakte/kiefernnadel-und-sprossen-wuerzeextrakt-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/koriander-co-schwermetall-ausleitung-im-sparpaket.png", "images/products/kronenberg/extrakte/koriander-extrakt-ultraschall-extraktion-100ml.png", "images/products/kronenberg/extrakte/lapacho-tinktur-ultraschall-extraktion-amazonas-regenwald.png", "images/products/kronenberg/extrakte/liposomale-artemisia-annua-ultraschall-extraktion-50ml.png", "images/products/kronenberg/extrakte/liposomale-moringa-morisana-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/loewenzahnkraut-wuerze-extrakt-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/lungenkraut-wuerzeextrakt-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/meerrettich-extract-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/oregano-oel-wilder-majoran-carvacrol-80.png", "images/products/kronenberg/extrakte/parasitenkurkraeuterextrakt-100ml.png", "images/products/kronenberg/extrakte/safran-extrakt-mit-curcumin-gueteklasse-1-15ml.png", "images/products/kronenberg/extrakte/spirulina-tropfenextrakt-100-ml.png", "images/products/kronenberg/extrakte/strophanthin-gratus-experimentier-set-100ml.png", "images/products/kronenberg/extrakte/strophanthin-kombe-experimentier-set-200ml.png", "images/products/kronenberg/extrakte/traubenkern-opc-ultraschall-extrakt-mit-schungit-wasser.png", "images/products/kronenberg/extrakte/weidenrinden-purpurweide-ultraschall-extrakt.png", "images/products/kronenberg/extrakte/weidenroeschen-kleinbluetig-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/weih-muri-weihrauch-und-myrrhe-extrakt.png", "images/products/kronenberg/extrakte/wilder-chaga-pilz-ultraschall-extraktion.png", "images/products/kronenberg/h2o2/wasserstoffperoxid-h2o2-3-loesung.png", "images/products/kronenberg/haare/100-arganoel-plus-mandeloel-haut-haar-und-massage.png", "images/products/kronenberg/haare/bockshornklee-extrakt-ein-vielseitiges-kraut.png", "images/products/kronenberg/haare/bockshornklee-kur-diffuser-haarausfall-kapseln-tee-tinktur.png", "images/products/kronenberg/haare/bockshornklee-tee-samen-200g.png", "images/products/kronenberg/haare/hair-power-kur-bockshornklee-kapseln-60-stk.png", "images/products/kronenberg/innovationen/988-pures-artemisiaartemisinin-90-vegi-kapseln.png", "images/products/kronenberg/innovationen/aloe-vera-frischpflanzensaft-mit-honig-plus-vitamin-c.png", "images/products/kronenberg/innovationen/aloe-vera-hair-body-shower-gel-200-ml.png", "images/products/kronenberg/innovationen/aloe-vera-hautgel-hair-body-shower-gel-400-ml.png", "images/products/kronenberg/innovationen/aloe-vera-hautgel-natur-983-pur.png", "images/products/kronenberg/innovationen/artemisia-annua-oxymel-compositum-alkoholfrei.png", "images/products/kronenberg/innovationen/artemisia-annua-plus-rosmarin-vitamin-c.png", "images/products/kronenberg/innovationen/artemisia-annua-pures-100-oel-ultraschall-extraktion-100ml.png", "images/products/kronenberg/innovationen/artemisia-annua-salbe-moringa-samen-pulver-dmso.png", "images/products/kronenberg/innovationen/artemisia-annua-ultraschall-extraktion-mit-schungitwasser.png", "images/products/kronenberg/innovationen/ayurveda-tee-mischung-harmonie.png", "images/products/kronenberg/innovationen/baerlauch-extrakt-ultraschall-extraktion-100ml.png", "images/products/kronenberg/innovationen/bernsteinsaeure-hpmc-kapseln-plus-vitamin-c.png", "images/products/kronenberg/innovationen/bockshornklee-extrakt-ein-vielseitiges-kraut.png", "images/products/kronenberg/innovationen/bockshornklee-kur-diffuser-haarausfall-kapseln-tee-tinktur.png", "images/products/kronenberg/innovationen/bockshornklee-tee-samen-200g.png", "images/products/kronenberg/innovationen/brennnesselblaetter-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/innovationen/brennnesselwurzel-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/innovationen/calcium-kalium-magnesium-kombination.png", "images/products/kronenberg/innovationen/camu-camu-extrakt.png", "images/products/kronenberg/innovationen/catuaba-erythroxylum-pulver.png", "images/products/kronenberg/innovationen/catuaba-tee-der-tupi-indianer-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/innovationen/catumupu-catuaba-muira-puama-tinktur.png", "images/products/kronenberg/innovationen/cdl-cds-loesung-03-nach-dr-andreas-kalcker.png", "images/products/kronenberg/innovationen/cdlcds-100ml-loesung-03-clo2-mit-edel-schungit-wasser.png", "images/products/kronenberg/innovationen/chaga-pilz-tee-bio-qualitaet-wildsammlung.png", "images/products/kronenberg/innovationen/copaiba-oel-100-natuerlich.png", "images/products/kronenberg/innovationen/cordyceps-cordycepin-all-in-one-schmelzpastillen.png", "images/products/kronenberg/innovationen/cordyceps-cordycepin-lyophilized-schmelzpastille-10mgpastille.png", "images/products/kronenberg/innovationen/corona-hygiene-aroma-spray-200ml.png", "images/products/kronenberg/innovationen/dmso-60-plus-magnesium-oel-sportler-spray.png", "images/products/kronenberg/innovationen/dmso-schmerz-eukalyptus-balsam-40ml.png", "images/products/kronenberg/innovationen/dmso-schmerz-lavendel-balsam-40-ml.png", "images/products/kronenberg/innovationen/ebv-pulver-mixtur-30-tage-kur.png", "images/products/kronenberg/innovationen/extase-aphrodisiakum-catuaba-muira-puama-rinden-tee.png", "images/products/kronenberg/innovationen/goldene-milch-paste-kurkuma-power.png", "images/products/kronenberg/innovationen/graviola-extrakt-annona-muricata-superfood.png", "images/products/kronenberg/innovationen/gruenes-wunder-chlorella-gerstengras-spirulina-weizengras-.png", "images/products/kronenberg/innovationen/hagebutten-extrakt-100-natur.png", "images/products/kronenberg/innovationen/hair-power-kur-bockshornklee-kapseln-60-stk.png", "images/products/kronenberg/innovationen/holunder-beeren-extrakt-antioxidans.png", "images/products/kronenberg/innovationen/hyaluronsaeure-plus-glucosamin-und-chondroitin-60-kapseln.png", "images/products/kronenberg/innovationen/ingwer-massage-und-bade-oel-therapie-lymphdrainage.png", "images/products/kronenberg/innovationen/juglandis-kur-nach-dr-hulda-clark-kraeuter-tee-aperitif.png", "images/products/kronenberg/innovationen/katzenkralle-sangre-de-grado-100g-tee-amazonas-regenwald-.png", "images/products/kronenberg/innovationen/kiefernnadel-und-sprossen-wuerzeextrakt-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/koriander-co-schwermetall-ausleitung-im-sparpaket.png", "images/products/kronenberg/innovationen/koriander-extrakt-ultraschall-extraktion-100ml.png", "images/products/kronenberg/innovationen/kraeutertee-aperitif-leber-lecur.png", "images/products/kronenberg/innovationen/kraeutertee-aperitif-lymphe-abies.png", "images/products/kronenberg/innovationen/kraeutertee-aperitif-niere-ren.png", "images/products/kronenberg/innovationen/kur-paket-premium-4-entgiftungreinigungverdauung.png", "images/products/kronenberg/innovationen/l-tryptophan-mit-b-vitaminen-und-folsaeure-60-hpmc-kapseln.png", "images/products/kronenberg/innovationen/lapacho-rinden-tee-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/innovationen/lapacho-tinktur-ultraschall-extraktion-amazonas-regenwald.png", "images/products/kronenberg/innovationen/leinsamenextrakt-pulver-vegi-kapseln-90-stueck.png", "images/products/kronenberg/innovationen/licht-edel-schungit-wasser-energetikum.png", "images/products/kronenberg/innovationen/liposomale-artemisia-annua-ultraschall-extraktion-50ml.png", "images/products/kronenberg/innovationen/liposomale-moringa-morisana-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/loewenzahnblaetter-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/innovationen/loewenzahnkraut-wuerze-extrakt-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/loewenzahnwurzel-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/innovationen/magnesium-oel-premium-vitalspray-31-mit-edel-schungit-wasser.png", "images/products/kronenberg/innovationen/meerrettich-extract-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/meerwasser-agua-de-mar-mit-schungit-wasser.png", "images/products/kronenberg/innovationen/moringa-miracle-suppe-20-portionen-gmo-frei.png", "images/products/kronenberg/innovationen/moringa-morisana-premium-mit-vitamin-b12.png", "images/products/kronenberg/innovationen/moringa-morisana-premium-pulver-300g-monatspackung.png", "images/products/kronenberg/innovationen/moringa-samen-in-kapsel-100-pures-samenpulver.png", "images/products/kronenberg/innovationen/moringa-samenpulver-100-fein-gemahlen-20g.png", "images/products/kronenberg/innovationen/moringa-spicy-gewuerz-mit-kalahari-wuesten-salz.png", "images/products/kronenberg/innovationen/muira-puama-pulver-potenzbaum-im-amazonas-regenwald.png", "images/products/kronenberg/innovationen/muira-puama-tee-aphrodisiakum-amazonas-regenwald.png", "images/products/kronenberg/innovationen/oregano-oel-wilder-majoran-carvacrol-80.png", "images/products/kronenberg/innovationen/original-urs-surbeck-energetisches-wasser-gesunde-balance.png", "images/products/kronenberg/innovationen/ozonisiertes-hochwertiges-distel-oel.png", "images/products/kronenberg/innovationen/ozonisiertes-manzanilla-oel-balsam-980g-ozonl.png", "images/products/kronenberg/innovationen/ozonisiertes-manzanilla-olivenoel-gesunde-haut.png", "images/products/kronenberg/innovationen/parasitenkurkraeuterextrakt-100ml.png", "images/products/kronenberg/innovationen/pet-zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/innovationen/schatz-der-inkas-trunk-der-goetter-amazonas-regenwald-tee.png", "images/products/kronenberg/innovationen/schilddruesen-kraeuter-mischung-pulver-inspiriert-durch-medical-food.png", "images/products/kronenberg/innovationen/schwarzkuemmel-oel-mit-mandel-oel-haut-haar-und-massage.png", "images/products/kronenberg/innovationen/skincaregold-aloe-vera-extrakt-anti-aging.png", "images/products/kronenberg/innovationen/skincareplus-aloe-vera-extrakt-mit-collagen-und-hyaluronsaeure.png", "images/products/kronenberg/innovationen/stauden-sellerie-pulver-inspiriert-durch-medical-food-monatskur.png", "images/products/kronenberg/innovationen/strophanthin-gratus-experimentier-set-100ml.png", "images/products/kronenberg/innovationen/strophanthin-kombe-experimentier-set-200ml.png", "images/products/kronenberg/innovationen/suessholzwurzel-natur-gemahlen-lakritzpulver.png", "images/products/kronenberg/innovationen/teetox-stoffwechsel-tee-inspiriert-durch-medical-food.png", "images/products/kronenberg/innovationen/traubenkern-opc-ultraschall-extrakt-mit-schungit-wasser.png", "images/products/kronenberg/innovationen/tri-magnesiumdicitrat-zaehne-knochen-muskeln.png", "images/products/kronenberg/innovationen/twostep-manikuerepedikuere-set.png", "images/products/kronenberg/innovationen/typ-2-pulver-bioaktive-verbindungen.png", "images/products/kronenberg/innovationen/urs-surbeck-energetisches-wasser-wohlfuehlflasche-50ml.png", "images/products/kronenberg/innovationen/weidenrinden-purpurweide-ultraschall-extrakt.png", "images/products/kronenberg/innovationen/weidenroeschen-kleinbluetig-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/weih-muri-weihrauch-und-myrrhe-extrakt.png", "images/products/kronenberg/innovationen/wilder-chaga-pilz-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/innovationen/zimtblaetteroel-100-reines-aetherisches-oel-10ml.png", "images/products/kronenberg/kosmetik/100-arganoel-plus-mandeloel-haut-haar-und-massage.png", "images/products/kronenberg/kosmetik/aloe-vera-hair-body-shower-gel-200-ml.png", "images/products/kronenberg/kosmetik/aloe-vera-hautgel-hair-body-shower-gel-400-ml.png", "images/products/kronenberg/kosmetik/aloe-vera-hautgel-natur-983-pur.png", "images/products/kronenberg/kosmetik/ingwer-massage-und-bade-oel-therapie-lymphdrainage.png", "images/products/kronenberg/kosmetik/magnesium-oel-premium-vitalspray-31-mit-edel-schungit-wasser.png", "images/products/kronenberg/kosmetik/nagelfeile-aus-glas-fuer-mani-und-pedikuere-die-revolution.png", "images/products/kronenberg/kosmetik/nano-glas-mani-pedikuere-die-revolution.png", "images/products/kronenberg/kosmetik/ozonisiertes-hochwertiges-distel-oel.png", "images/products/kronenberg/kosmetik/ozonisiertes-manzanilla-oel-balsam-980g-ozonl.png", "images/products/kronenberg/kosmetik/ozonisiertes-manzanilla-olivenoel-gesunde-haut.png", "images/products/kronenberg/kosmetik/pet-zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/kosmetik/schwarzkuemmel-oel-mit-mandel-oel-haut-haar-und-massage.png", "images/products/kronenberg/kosmetik/skincaregold-aloe-vera-extrakt-anti-aging.png", "images/products/kronenberg/kosmetik/skincareplus-aloe-vera-extrakt-mit-collagen-und-hyaluronsaeure.png", "images/products/kronenberg/kosmetik/twostep-manikuerepedikuere-set.png", "images/products/kronenberg/kosmetik/twostep-nagelfeile-aus-bambus-manikuere.png", "images/products/kronenberg/kosmetik/zahncreme-mit-schwarzkuemmel-ohne-fluor-und-pfefferminz.png", "images/products/kronenberg/kosmetik/zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/kraeutertee/juglandis-kur-nach-dr-hulda-clark-kraeuter-tee-aperitif.png", "images/products/kronenberg/kraeutertee/kraeutertee-aperitif-leber-lecur.png", "images/products/kronenberg/kraeutertee/kraeutertee-aperitif-lymphe-abies.png", "images/products/kronenberg/kraeutertee/kraeutertee-aperitif-niere-ren.png", "images/products/kronenberg/no_cover.jpeg", "images/products/kronenberg/schungit/edel-schungit-set-im-organza-beutel-10-g.png", "images/products/kronenberg/schungit/edel-schungit-steine-lose-50g-sonderangebot-limitierte-auflage.png", "images/products/kronenberg/schungit/harmonisierer-aus-schungit-und-talkchlorit.png", "images/products/kronenberg/schungit/licht-edel-schungit-wasser-energetikum.png", "images/products/kronenberg/schungit/limitiertes-schungit-set-8-auserlesene-produkte.png", "images/products/kronenberg/schungit/schungit-anhaenger-beschuetzer-frau.png", "images/products/kronenberg/schungit/schungit-anhaenger-beschuetzer-mann.png", "images/products/kronenberg/schungit/schungit-anhaenger-engel-mit-haematit.png", "images/products/kronenberg/schungit/schungit-anhaenger-perle-mit-einfassung.png", "images/products/kronenberg/schungit/schungit-anhaenger-scheibe-schmuckstueck-aus-handarbeit.png", "images/products/kronenberg/schungit/schungit-energetisierungsplatte-10x12cm.png", "images/products/kronenberg/schungit/schungit-engel-in-geschnitzter-handarbeit.png", "images/products/kronenberg/schungit/schungit-handy-schutz-schuetzt-vor-schaedlicher-strahlung.png", "images/products/kronenberg/schungit/schungit-kugel-mit-untersetzer-5cm-110g.png", "images/products/kronenberg/schungit/schungit-pulver-200g-aktivkohle-detox-drink.png", "images/products/kronenberg/schungit/schungit-pyramide-5cm-hoch-278g.png", "images/products/kronenberg/schungit/schungit-pyramide-poliert-ca-20cm-hoch.png", "images/products/kronenberg/schungit/schungit-pyramide-poliert-ca-3-cm-hoch.png", "images/products/kronenberg/schungit/schungit-radiaesthesie-pendel-mit-kette.png", "images/products/kronenberg/schungit/schungit-scheibe-ca-5cm-hoch-poliert-harmonisierung-und-wohlbefinden.png", "images/products/kronenberg/schungit/schungit-schluesselanhaenger-mit-2-perlen-8g-laenge-ca-8cm.png", "images/products/kronenberg/schungit/schungit-schluesselanhaenger-silberfarbig-mit-perle.png", "images/products/kronenberg/schungit/schungit-set-im-organza-beutel-100-g.png", "images/products/kronenberg/schungit/schungit-split-1000g.png", "images/products/kronenberg/schungit/schungit-split-500g.png", "images/products/kronenberg/schungit/schungit-uhr-500g-elektrosmog-und-strahlung.png", "images/products/kronenberg/schungit/schungit-wuerfel-65g-harmonie-und-schutz-in-fester-form.png", "images/products/kronenberg/schwefelkur/anorganischer-schwefel-min-999-pulver.png", "images/products/kronenberg/schwefelkur/schwefel-kur-nach-dr-probst-darmsanierung.png", "images/products/kronenberg/\xD6le/100-arganoel-plus-mandeloel-haut-haar-und-massage.png", "images/products/kronenberg/\xD6le/artemisia-annua-pures-100-oel-ultraschall-extraktion-100ml.png", "images/products/kronenberg/\xD6le/copaiba-oel-100-natuerlich.png", "images/products/kronenberg/\xD6le/dmso-60-plus-magnesium-oel-sportler-spray.png", "images/products/kronenberg/\xD6le/dmso-ph-eur-999-100ml-hochreines-dmso.png", "images/products/kronenberg/\xD6le/dmso-schmerz-eukalyptus-balsam-40ml.png", "images/products/kronenberg/\xD6le/dmso-schmerz-lavendel-balsam-40-ml.png", "images/products/kronenberg/\xD6le/ingwer-massage-und-bade-oel-therapie-lymphdrainage.png", "images/products/kronenberg/\xD6le/magnesium-oel-premium-vitalspray-31-mit-edel-schungit-wasser.png", "images/products/kronenberg/\xD6le/omega-3-lachsoelkapseln-mit-vitamin-e.png", "images/products/kronenberg/\xD6le/oregano-oel-wilder-majoran-carvacrol-80.png", "images/products/kronenberg/\xD6le/ozonisiertes-hochwertiges-distel-oel.png", "images/products/kronenberg/\xD6le/ozonisiertes-manzanilla-oel-balsam-980g-ozonl.png", "images/products/kronenberg/\xD6le/ozonisiertes-manzanilla-olivenoel-gesunde-haut.png", "images/products/kronenberg/\xD6le/pet-zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/\xD6le/schwarzkuemmel-oel-kaltpressung-gefiltert-100ml.png", "images/products/kronenberg/\xD6le/zahnfix-revital-liposomal-40ml.png", "images/products/waldkraft/ausleitungsorgane/Borax_Tropfen_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/L-Methionin_Mockup_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/Lebende-Chlorella-Algen-Mockup-Wp3t_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/Lungenkraut_Komplex_Mockup_175x62_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/NAC-N-Acetyl-L-Cystein_Pulver_Mockup_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/Sango_Koralle_Mockup_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/Spirulina-BIO-120-Kapseln_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/Zink-Histidin-Komplex-120-Kapseln_mockup_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/chanca-piedra-pulver-150g-4098-pa10500_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/liposomales-glutathion-aus-reduziertem-l-glutathion-250ml-pa10047_600x600.jpg", "images/products/waldkraft/buecher/25/Byebye-covid-2-1-1_600x600.png", "images/products/waldkraft/buecher/26/handbuch-der-kolloidalen-metalle_600x600.jpg", "images/products/waldkraft/buecher/27/Klinikhandbuch-Aromatherapie_600x600.png", "images/products/waldkraft/buecher/28/Arthrose_ist_heilbar_mockup_web-jpg_600x600.jpg", "images/products/waldkraft/buecher/29/Manuka_Buch_webshop-jpg_600x600.jpg", "images/products/waldkraft/buecher/30/em-eine-chance-fuer-unsere-erde-anne-lorch_600x600.jpg", "images/products/waldkraft/buecher/31/buch-borreliose-natuerlich-heilen-wolf-dieter-storl_600x600.jpg", "images/products/waldkraft/buecher/32/buch-pflanzliche-antibiotika-richtig-anwenden_600x600.jpg", "images/products/waldkraft/buecher/33/buch-die-leber-natuerlich-reinigen_600x600.jpg", "images/products/waldkraft/buecher/34/Borax_600x600.jpg", "images/products/waldkraft/buecher/35/CDL-Handbuch-LUBZ_600x600.jpg", "images/products/waldkraft/buecher/36/buch-cannabis-und-cannabidiol-cbd-richtig-anwenden_600x600.jpg", "images/products/waldkraft/buecher/37/DMSO-Handbuch_600x600.jpg", "images/products/waldkraft/em-mikroorganismen/Floratur-EM-BIO_2-1_600x600.png", "images/products/waldkraft/em-mikroorganismen/Mockup-EM-Basis_600x600.png", "images/products/waldkraft/em-mikroorganismen/Mockup-Floratur-Premium-1_600x600.jpg", "images/products/waldkraft/energie/BIO-Chlorophyll-Extrakt-Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/energie/Kraftpilz-Energie-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/energie/Lungenkraut_Komplex_Mockup_175x62_600x600.jpg", "images/products/waldkraft/energie/Nattokinase_Komplex_Mockup_web-jpg_600x600.jpg", "images/products/waldkraft/energie/Nattokinase_Zink_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/energie/PEA_PUlver_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/energie/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/energie/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/energie/moor-elixier-pa10656-v_600x600.jpg", "images/products/waldkraft/energie/pea-palmitoylethanolamid-120-kapseln-4186-pa10621_600x600.jpg", "images/products/waldkraft/gehirn/B6_Wohlfu-hl_Erythrit_Drops_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/gehirn/Borax_Tropfen_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/gehirn/Kiefernnadel_Tinktur_mockup_600x600.jpg", "images/products/waldkraft/gehirn/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/gehirn/Magnesium_Komplex_Mockup_600x600.jpg", "images/products/waldkraft/gehirn/PEA_PUlver_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/gehirn/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/gehirn/Schwarzer-Maca-Extrakt-120-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/gehirn/Vitamin-B12-Komplex-Drops-Mockup_600x600.jpg", "images/products/waldkraft/gehirn/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/gutelaune/B6_Wohlfu-hl_Erythrit_Drops_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/gutelaune/Vitamin-B12-Komplex-Drops-Mockup_600x600.jpg", "images/products/waldkraft/gutelaune/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/gutelaune/melantonin-Drops-Mockup_600x600.jpg", "images/products/waldkraft/gutelaune/pea-palmitoylethanolamid-120-kapseln-4186-pa10621_600x600.jpg", "images/products/waldkraft/herz/BIO-Chlorophyll-Extrakt-Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/herz/Kraftpilz-Cordyceps-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/herz/Lungenkraut_Komplex_Mockup_175x62_600x600.jpg", "images/products/waldkraft/herz/NAC-N-Acetyl-L-Cystein_Pulver_Mockup_600x600.jpg", "images/products/waldkraft/herz/Nattokinase_Komplex_Mockup_web-jpg_600x600.jpg", "images/products/waldkraft/herz/Nattokinase_Zink_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/herz/OPC-Pycnogenol-60-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/herz/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/herz/Schwarzer-Maca-Extrakt-120-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/herz/Vitamin-B12-Komplex-Drops-Mockup_600x600.jpg", "images/products/waldkraft/herz/Weihrauch_Mockup_600x600.jpg", "images/products/waldkraft/herz/Zink-Histidin-Komplex-120-Kapseln_mockup_600x600.jpg", "images/products/waldkraft/immunsystem/30ml_Mironglas_Flasche_aktuell-Kopie_600x600.jpg", "images/products/waldkraft/immunsystem/Astaxanthin_100ml_Mopckup_600x600.jpg", "images/products/waldkraft/immunsystem/Borax_120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Borax_70g_Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Chlorella_Tabs_Mockup-Kopie_600x600.jpg", "images/products/waldkraft/immunsystem/Gerstengras-Saftpulver-BIO_mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Kelpalgen-Jod-BIO_mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Kiefernnadel_Tinktur_mockup_600x600.jpg", "images/products/waldkraft/immunsystem/L-Lysin_Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Lebende-Chlorella-Algen-Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Loewenzahn_Tinktur_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/immunsystem/Lungenkraut_Komplex_Mockup_175x62_600x600.jpg", "images/products/waldkraft/immunsystem/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/immunsystem/OPC-Pycnogenol-60-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/immunsystem/Schwarzer-Maca-Extrakt-120-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Selen-VitaminC_120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Spirulina-BIO-120-Kapseln_600x600.jpg", "images/products/waldkraft/immunsystem/Vitamin-B12-Komplex-Drops-Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/immunsystem/Zink-Histidin-Komplex-120-Kapseln_mockup_600x600.jpg", "images/products/waldkraft/immunsystem/bio-kurkuma-extrakt-mit-gingerol-und-piperin-in-oxymel-250ml-pa10317_600x600.jpg", "images/products/waldkraft/immunsystem/liposomales-glutathion-aus-reduziertem-l-glutathion-250ml-pa10047_600x600.jpg", "images/products/waldkraft/immunsystem/manuka-honig-mgo-840-250g-4467-wk10500_600x600.png", "images/products/waldkraft/innere-ruhe/B6_Wohlfu-hl_Erythrit_Drops_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/innere-ruhe/KSM-Ashwagandha-BIO_Mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/Kraftpilz-Hericium-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/Kraftpilz-Regeneration-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/PEA_PUlver_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/innere-ruhe/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/innere-ruhe/Schwarzer-Maca-Extrakt-120-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/Vitamin-B12-Komplex-Drops-Mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/Zink-Histidin-Komplex-120-Kapseln_mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/melantonin-Drops-Mockup_600x600.jpg", "images/products/waldkraft/knochen/Astaxanthin-Drops-Mockup_600x600.jpg", "images/products/waldkraft/knochen/Astaxanthin-Hyaluron-Drops-Mockup_600x600.jpg", "images/products/waldkraft/knochen/Borax_Tropfen_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/knochen/Erdling-Vitamin-K2-Mockup-Flasche-Umverpackung_600x600.png", "images/products/waldkraft/knochen/Kraftpilz-Energie-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/knochen/L-Lysin_Mockup_600x600.jpg", "images/products/waldkraft/knochen/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/knochen/OPC-Pycnogenol-60-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/knochen/Osthea_300g_Mockup_600x600.jpg", "images/products/waldkraft/knochen/Sango_Koralle_Mockup_600x600.jpg", "images/products/waldkraft/knochen/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/knochen/arthridea_250g_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/knochen/arthridea_530Kapseln_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/knochen/bio-kurkuma-extrakt-mit-gingerol-und-piperin-in-oxymel-250ml-pa10317_600x600.jpg", "images/products/waldkraft/knochen/pea-palmitoylethanolamid-120-kapseln-4186-pa10621_600x600.jpg", "images/products/waldkraft/kolloide/Kolloidales-Germanium-100-ppm-100-ml-Spr-hflasche-Mockup_600x600.png", "images/products/waldkraft/kolloide/Kolloidales-Gold-100-ppm-100-ml-Mockup_600x600.png", "images/products/waldkraft/kolloide/Kolloidales_Silber_50_ppm_100_ml_Spr-hflasche_Mockup_1_1_1_1_600x600.png", "images/products/waldkraft/kolloide/waldkraft-Kolloidales-Silber-25ppm-250ml_600x600.png", "images/products/waldkraft/kraeuter/Kiefernnadel_Tinktur_mockup_600x600.jpg", "images/products/waldkraft/kraeuter/Loewenzahn_Tinktur_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/kraeuter/Mockups-Artemisia-alkohol-100ml_600x600.jpg", "images/products/waldkraft/kraeuter/Propolis-Tinktur-Mockup-1_600x600.png", "images/products/waldkraft/kraeuter/bio-kurkuma-extrakt-mit-gingerol-und-piperin-in-oxymel-250ml-pa10317_600x600.jpg", "images/products/waldkraft/magendarm/Basicum_120-Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/magendarm/Floratur-EM-BIO_2-1_600x600.png", "images/products/waldkraft/magendarm/Floratur_EM_BIO_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/magendarm/Gerstengras-Saftpulver-BIO_mockup_600x600.jpg", "images/products/waldkraft/magendarm/Kraftpilz-Hericium-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/magendarm/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/magendarm/bio-kurkuma-extrakt-mit-gingerol-und-piperin-in-oxymel-250ml-pa10317_600x600.jpg", "images/products/waldkraft/magendarm/chanca-piedra-pulver-150g-4098-pa10500_600x600.jpg", "images/products/waldkraft/magendarm/honigglas_klein_600x600.png", "images/products/waldkraft/magendarm/manuka-honig-mgo-840-250g-4467-wk10500_600x600.png", "images/products/waldkraft/magendarm/moor-elixier-pa10656-v_600x600.jpg", "images/products/waldkraft/mineralien/Basicum_120-Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/mineralien/Gerstengras-Saftpulver-BIO_mockup_600x600.jpg", "images/products/waldkraft/mineralien/Magnesium_Komplex_Mockup_600x600.jpg", "images/products/waldkraft/mineralien/Rotalgen_Calcium_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/mineralien/Sango_Koralle_Mockup_600x600.jpg", "images/products/waldkraft/mineralien/moor-elixier-pa10656-v_600x600.jpg", "images/products/waldkraft/mundhygiene/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/mundhygiene/Wasserstoffperoxid-3-Mockup_600x600.png", "images/products/waldkraft/mundhygiene/Zahnpulver_-Zitrone-_Mockup_600x600.png", "images/products/waldkraft/mundhygiene/Zahnpulver_mit_Notoginseng_Mockup_600x600.png", "images/products/waldkraft/naturkosmetik/Mockup-Artemisia-Balsam-30ml-miron-BgBW_600x600.png", "images/products/waldkraft/naturkosmetik/Nattokinase_Komplex_Mockup_web-jpg_600x600.jpg", "images/products/waldkraft/naturkosmetik/Nattokinase_Zink_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/naturkosmetik/Zahnpulver_-Zitrone-_Mockup_600x600.png", "images/products/waldkraft/naturkosmetik/Zahnpulver_mit_Notoginseng_Mockup_600x600.png", "images/products/waldkraft/naturkosmetik/manuka-honig-mgo-840-250g-4467-wk10500_600x600.png", "images/products/waldkraft/ozon/Canna3-Mockup_600x600.png", "images/products/waldkraft/ozon/Mockup-Kokoo3-50ml-1-1_600x600.png", "images/products/waldkraft/ozon/olivio3-ozonisiertes-olivenol-250ml-257-wk10090_600x600.png", "images/products/waldkraft/parasiten/Floratur-EM-BIO_2-1_600x600.png", "images/products/waldkraft/parasiten/Floratur_EM_BIO_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/parasiten/Kraftpilz-Energie-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/parasiten/Kraftpilz-Regeneration-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/parasiten/Kraftpilze_Mensch_Abwehr_Freya_Mockup_600x600.jpg", "images/products/waldkraft/parasiten/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/schlaf/B6_Wohlfu-hl_Erythrit_Drops_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/schlaf/KSM-Ashwagandha-BIO_Mockup_600x600.jpg", "images/products/waldkraft/schlaf/Noctea_Mopckup_600x600.jpg", "images/products/waldkraft/schlaf/honigglas_klein_600x600.png", "images/products/waldkraft/schlaf/melantonin-Drops-Mockup_600x600.jpg", "images/products/waldkraft/sensibilit\xE4t/Kelpalgen-Jod-BIO_mockup_600x600.jpg", "images/products/waldkraft/sensibilit\xE4t/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/sensibilit\xE4t/OPC-Pycnogenol-60-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/stoffwechsel/BIO-Chlorophyll-Extrakt-Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/stoffwechsel/Basicum_120-Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/stoffwechsel/Floratur-EM-BIO_2-1_600x600.png", "images/products/waldkraft/stoffwechsel/Floratur_EM_BIO_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/stoffwechsel/L-Arginin_Mopckup_600x600.jpg", "images/products/waldkraft/stoffwechsel/L-Methionin_Mockup_600x600.jpg", "images/products/waldkraft/stoffwechsel/Lungenkraut_Komplex_Mockup_175x62_600x600.jpg", "images/products/waldkraft/stoffwechsel/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/stoffwechsel/Schwarzer-Maca-Extrakt-120-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/stoffwechsel/Zink-Histidin-Komplex-120-Kapseln_mockup_600x600.jpg", "images/products/waldkraft/stoffwechsel/chanca-piedra-pulver-150g-4098-pa10500_600x600.jpg", "images/products/waldkraft/stoffwechsel/pea-palmitoylethanolamid-120-kapseln-4186-pa10621_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilz-Cordyceps-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilz-Energie-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilz-Hericium-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilz-Leben-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilz-Regeneration-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilze_Mensch_Abwehr_Freya_Mockup_600x600.jpg", "images/temp/gutscheine.jpg"]),
     mimeTypes: { ".png": "image/png", ".jpeg": "image/jpeg", ".jpg": "image/jpeg", ".webp": "image/webp" },
     _: {
-      client: { "start": "_app/immutable/entry/start.C8_T6G4y.js", "app": "_app/immutable/entry/app.NYUgxKJu.js", "imports": ["_app/immutable/entry/start.C8_T6G4y.js", "_app/immutable/chunks/entry.B_oBJj3n.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.DYca1GoS.js", "_app/immutable/entry/app.NYUgxKJu.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js"], "stylesheets": [], "fonts": [], "uses_env_dynamic_public": false },
+      client: { "start": "_app/immutable/entry/start.qKwa7Ix0.js", "app": "_app/immutable/entry/app.sm8ZZ22T.js", "imports": ["_app/immutable/entry/start.qKwa7Ix0.js", "_app/immutable/chunks/entry.B7fW5v37.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.78gAU9JB.js", "_app/immutable/entry/app.sm8ZZ22T.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.B5GabeQc.js", "_app/immutable/chunks/index.DAEnPYVd.js"], "stylesheets": [], "fonts": [], "uses_env_dynamic_public": false },
       nodes: [
         __memo(() => Promise.resolve().then(() => (init__(), __exports))),
         __memo(() => Promise.resolve().then(() => (init__2(), __exports2))),
@@ -20087,7 +20241,9 @@ var manifest = (() => {
         __memo(() => Promise.resolve().then(() => (init__15(), __exports15))),
         __memo(() => Promise.resolve().then(() => (init__16(), __exports16))),
         __memo(() => Promise.resolve().then(() => (init__17(), __exports17))),
-        __memo(() => Promise.resolve().then(() => (init__18(), __exports18)))
+        __memo(() => Promise.resolve().then(() => (init__18(), __exports18))),
+        __memo(() => Promise.resolve().then(() => (init__19(), __exports19))),
+        __memo(() => Promise.resolve().then(() => (init__20(), __exports20)))
       ],
       routes: [
         {
@@ -20112,6 +20268,20 @@ var manifest = (() => {
           endpoint: null
         },
         {
+          id: "/api/protected-route",
+          pattern: /^\/api\/protected-route\/?$/,
+          params: [],
+          page: null,
+          endpoint: __memo(() => Promise.resolve().then(() => (init_server_ts(), server_ts_exports)))
+        },
+        {
+          id: "/auth",
+          pattern: /^\/auth\/?$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 7 },
+          endpoint: null
+        },
+        {
           id: "/auth/callback",
           pattern: /^\/auth\/callback\/?$/,
           params: [],
@@ -20122,77 +20292,84 @@ var manifest = (() => {
           id: "/buecher",
           pattern: /^\/buecher\/?$/,
           params: [],
-          page: { layouts: [0, 2], errors: [1, ,], leaf: 7 },
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 8 },
           endpoint: null
         },
         {
           id: "/buecher/cat/[catid]",
           pattern: /^\/buecher\/cat\/([^/]+?)\/?$/,
           params: [{ "name": "catid", "optional": false, "rest": false, "chained": false }],
-          page: { layouts: [0, 2], errors: [1, ,], leaf: 9 },
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 10 },
           endpoint: null
         },
         {
           id: "/buecher/[bookId]",
           pattern: /^\/buecher\/([^/]+?)\/?$/,
           params: [{ "name": "bookId", "optional": false, "rest": false, "chained": false }],
-          page: { layouts: [0, 2], errors: [1, ,], leaf: 8 },
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 9 },
           endpoint: null
         },
         {
           id: "/cdl-protokolle",
           pattern: /^\/cdl-protokolle\/?$/,
           params: [],
-          page: { layouts: [0], errors: [1], leaf: 10 },
+          page: { layouts: [0], errors: [1], leaf: 11 },
           endpoint: null
         },
         {
           id: "/gutscheine",
           pattern: /^\/gutscheine\/?$/,
           params: [],
-          page: { layouts: [0], errors: [1], leaf: 11 },
+          page: { layouts: [0], errors: [1], leaf: 12 },
+          endpoint: null
+        },
+        {
+          id: "/login",
+          pattern: /^\/login\/?$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 13 },
           endpoint: null
         },
         {
           id: "/produkte",
           pattern: /^\/produkte\/?$/,
           params: [],
-          page: { layouts: [0, 3], errors: [1, ,], leaf: 12 },
+          page: { layouts: [0, 3], errors: [1, ,], leaf: 14 },
           endpoint: null
         },
         {
           id: "/produkte/cat/[catid]",
           pattern: /^\/produkte\/cat\/([^/]+?)\/?$/,
           params: [{ "name": "catid", "optional": false, "rest": false, "chained": false }],
-          page: { layouts: [0, 3], errors: [1, ,], leaf: 14 },
+          page: { layouts: [0, 3], errors: [1, ,], leaf: 16 },
           endpoint: null
         },
         {
           id: "/produkte/hashtag/[tag]",
           pattern: /^\/produkte\/hashtag\/([^/]+?)\/?$/,
           params: [{ "name": "tag", "optional": false, "rest": false, "chained": false }],
-          page: { layouts: [0, 3], errors: [1, ,], leaf: 15 },
+          page: { layouts: [0, 3], errors: [1, ,], leaf: 17 },
           endpoint: null
         },
         {
           id: "/produkte/[productid]",
           pattern: /^\/produkte\/([^/]+?)\/?$/,
           params: [{ "name": "productid", "optional": false, "rest": false, "chained": false }],
-          page: { layouts: [0, 3], errors: [1, ,], leaf: 13 },
+          page: { layouts: [0, 3], errors: [1, ,], leaf: 15 },
           endpoint: null
         },
         {
           id: "/search",
           pattern: /^\/search\/?$/,
           params: [],
-          page: { layouts: [0], errors: [1], leaf: 16 },
+          page: { layouts: [0], errors: [1], leaf: 18 },
           endpoint: null
         },
         {
           id: "/test",
           pattern: /^\/test\/?$/,
           params: [],
-          page: { layouts: [0], errors: [1], leaf: 17 },
+          page: { layouts: [0], errors: [1], leaf: 19 },
           endpoint: null
         }
       ],

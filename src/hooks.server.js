@@ -1,11 +1,14 @@
-// src/hooks.server.js
+    // src/hooks.server.js
+import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public'
 import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit'
+import { redirect, error } from '@sveltejs/kit'
+import { sequence } from '@sveltejs/kit/hooks'
 
-export const handle = async ({ event, resolve }) => {
+async function supabase({ event, resolve }) {
   event.locals.supabase = createSupabaseServerClient({
     supabaseUrl: 'https://noejjknzqcfnwzgrpfdi.supabase.co',
     supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vZWpqa256cWNmbnd6Z3JwZmRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc0ODMyNDQsImV4cCI6MjAyMzA1OTI0NH0.pEqKPgopedqGbawDnrNssT_RjZBhr-IJoUx_9uWWv1c',
-    event,
+     event,
   })
 
   /**
@@ -26,3 +29,27 @@ export const handle = async ({ event, resolve }) => {
     },
   })
 }
+
+async function authorization({ event, resolve }) {
+  // protect requests to all routes that start with /protected-routes
+  if (event.url.pathname.startsWith('/admin') && event.request.method === 'GET') {
+    const session = await event.locals.getSession()
+    if (!session) {
+      // the user is not signed in
+      redirect(303, '/')
+    }
+  }
+
+  // protect POST requests to all routes that start with /protected-posts
+  if (event.url.pathname.startsWith('/protected-posts') && event.request.method === 'POST') {
+    const session = await event.locals.getSession()
+    if (!session) {
+      // the user is not signed in
+      throw error(303, '/')
+    }
+  }
+
+  return resolve(event)
+}
+
+export const handle = sequence(supabase, authorization)

@@ -1,11 +1,28 @@
 <script>
 	import '../app.pcss';
-	import '../app.pcss';
-	import '../app.pcss';
 	import Footer from './Footer.svelte';
 	import { page } from '$app/stores';
 	import Navbar from './Navbar.svelte';
 	import Icon from '@iconify/svelte';
+	import { invalidate } from '$app/navigation'
+  	import { onMount } from 'svelte'
+
+	export let data
+	let { supabase, session } = data
+  $: ({ supabase, session } = data)
+  
+  onMount(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, _session) => {
+      if (_session?.expires_at !== session?.expires_at) {
+        invalidate('supabase:auth')
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  });
+
 
 	function getDescription($page) {
 		try {
