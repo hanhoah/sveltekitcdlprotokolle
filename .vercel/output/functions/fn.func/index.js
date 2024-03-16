@@ -95,8 +95,8 @@ function compute_rest_props(props, keys) {
 function custom_event(type, detail, { bubbles = false, cancelable = false } = {}) {
   return new CustomEvent(type, { detail, bubbles, cancelable });
 }
-function set_current_component(component17) {
-  current_component = component17;
+function set_current_component(component19) {
+  current_component = component19;
 }
 function get_current_component() {
   if (!current_component)
@@ -107,9 +107,9 @@ function onDestroy(fn) {
   get_current_component().$$.on_destroy.push(fn);
 }
 function createEventDispatcher() {
-  const component17 = get_current_component();
+  const component19 = get_current_component();
   return (type, detail, { cancelable = false } = {}) => {
-    const callbacks = component17.$$.callbacks[type];
+    const callbacks = component19.$$.callbacks[type];
     if (callbacks) {
       const event = custom_event(
         /** @type {string} */
@@ -118,7 +118,7 @@ function createEventDispatcher() {
         { cancelable }
       );
       callbacks.slice().forEach((fn) => {
-        fn.call(component17, event);
+        fn.call(component19, event);
       });
       return !event.defaultPrevented;
     }
@@ -226,15 +226,15 @@ function each(items, fn) {
   }
   return str;
 }
-function validate_component(component17, name2) {
-  if (!component17 || !component17.$$render) {
+function validate_component(component19, name2) {
+  if (!component19 || !component19.$$render) {
     if (name2 === "svelte:component")
       name2 += " this={...}";
     throw new Error(
       `<${name2}> is not a valid SSR component. You may need to review your build config to ensure that dependencies are compiled, rather than imported as pre-compiled modules. Otherwise you may need to fix a <${name2}>.`
     );
   }
-  return component17;
+  return component19;
 }
 function create_ssr_component(fn) {
   function $$render(result, props, bindings, slots, context) {
@@ -262,7 +262,7 @@ function create_ssr_component(fn) {
       return {
         html,
         css: {
-          code: Array.from(result.css).map((css4) => css4.code).join("\n"),
+          code: Array.from(result.css).map((css5) => css5.code).join("\n"),
           map: null
           // TODO
         },
@@ -320,6 +320,8159 @@ var init_ssr = __esm({
     missing_component = {
       $$render: () => ""
     };
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/webcrypto.js
+var webcrypto_default;
+var init_webcrypto = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/webcrypto.js"() {
+    webcrypto_default = crypto;
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/digest.js
+var init_digest = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/digest.js"() {
+    init_webcrypto();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/buffer_utils.js
+var encoder, decoder, MAX_INT32;
+var init_buffer_utils = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/buffer_utils.js"() {
+    init_digest();
+    encoder = new TextEncoder();
+    decoder = new TextDecoder();
+    MAX_INT32 = 2 ** 32;
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/base64url.js
+var encodeBase64, encode, decodeBase64, decode;
+var init_base64url = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/base64url.js"() {
+    init_buffer_utils();
+    encodeBase64 = (input) => {
+      let unencoded = input;
+      if (typeof unencoded === "string") {
+        unencoded = encoder.encode(unencoded);
+      }
+      const CHUNK_SIZE = 32768;
+      const arr = [];
+      for (let i = 0; i < unencoded.length; i += CHUNK_SIZE) {
+        arr.push(String.fromCharCode.apply(null, unencoded.subarray(i, i + CHUNK_SIZE)));
+      }
+      return btoa(arr.join(""));
+    };
+    encode = (input) => {
+      return encodeBase64(input).replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
+    };
+    decodeBase64 = (encoded) => {
+      const binary = atob(encoded);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+      return bytes;
+    };
+    decode = (input) => {
+      let encoded = input;
+      if (encoded instanceof Uint8Array) {
+        encoded = decoder.decode(encoded);
+      }
+      encoded = encoded.replace(/-/g, "+").replace(/_/g, "/").replace(/\s/g, "");
+      try {
+        return decodeBase64(encoded);
+      } catch (_a) {
+        throw new TypeError("The input to be decoded is not correctly encoded.");
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/util/errors.js
+var init_errors = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/util/errors.js"() {
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/random.js
+var random_default;
+var init_random = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/random.js"() {
+    init_webcrypto();
+    random_default = webcrypto_default.getRandomValues.bind(webcrypto_default);
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/iv.js
+var init_iv = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/iv.js"() {
+    init_errors();
+    init_random();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/check_iv_length.js
+var init_check_iv_length = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/check_iv_length.js"() {
+    init_errors();
+    init_iv();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/check_cek_length.js
+var init_check_cek_length = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/check_cek_length.js"() {
+    init_errors();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/timing_safe_equal.js
+var init_timing_safe_equal = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/timing_safe_equal.js"() {
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/crypto_key.js
+var init_crypto_key = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/crypto_key.js"() {
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/invalid_key_input.js
+var init_invalid_key_input = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/invalid_key_input.js"() {
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/is_key_like.js
+var init_is_key_like = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/is_key_like.js"() {
+    init_webcrypto();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/decrypt.js
+var init_decrypt = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/decrypt.js"() {
+    init_buffer_utils();
+    init_check_iv_length();
+    init_check_cek_length();
+    init_timing_safe_equal();
+    init_errors();
+    init_webcrypto();
+    init_crypto_key();
+    init_invalid_key_input();
+    init_is_key_like();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/zlib.js
+var init_zlib = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/zlib.js"() {
+    init_errors();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/is_disjoint.js
+var init_is_disjoint = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/is_disjoint.js"() {
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/is_object.js
+var init_is_object = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/is_object.js"() {
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/bogus.js
+var init_bogus = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/bogus.js"() {
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/aeskw.js
+var init_aeskw = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/aeskw.js"() {
+    init_bogus();
+    init_webcrypto();
+    init_crypto_key();
+    init_invalid_key_input();
+    init_is_key_like();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/ecdhes.js
+var init_ecdhes = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/ecdhes.js"() {
+    init_buffer_utils();
+    init_webcrypto();
+    init_crypto_key();
+    init_invalid_key_input();
+    init_is_key_like();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/check_p2s.js
+var init_check_p2s = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/check_p2s.js"() {
+    init_errors();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/pbes2kw.js
+var init_pbes2kw = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/pbes2kw.js"() {
+    init_random();
+    init_buffer_utils();
+    init_base64url();
+    init_aeskw();
+    init_check_p2s();
+    init_webcrypto();
+    init_crypto_key();
+    init_invalid_key_input();
+    init_is_key_like();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/subtle_rsaes.js
+var init_subtle_rsaes = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/subtle_rsaes.js"() {
+    init_errors();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/check_key_length.js
+var init_check_key_length = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/check_key_length.js"() {
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/rsaes.js
+var init_rsaes = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/rsaes.js"() {
+    init_subtle_rsaes();
+    init_bogus();
+    init_webcrypto();
+    init_crypto_key();
+    init_check_key_length();
+    init_invalid_key_input();
+    init_is_key_like();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/cek.js
+var init_cek = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/cek.js"() {
+    init_errors();
+    init_random();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/format_pem.js
+var init_format_pem = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/format_pem.js"() {
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/asn1.js
+var init_asn1 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/asn1.js"() {
+    init_webcrypto();
+    init_invalid_key_input();
+    init_base64url();
+    init_format_pem();
+    init_errors();
+    init_is_key_like();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/jwk_to_key.js
+var init_jwk_to_key = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/jwk_to_key.js"() {
+    init_webcrypto();
+    init_errors();
+    init_base64url();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/key/import.js
+var init_import = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/key/import.js"() {
+    init_base64url();
+    init_asn1();
+    init_jwk_to_key();
+    init_errors();
+    init_is_object();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/check_key_type.js
+var init_check_key_type = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/check_key_type.js"() {
+    init_invalid_key_input();
+    init_is_key_like();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/encrypt.js
+var init_encrypt = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/encrypt.js"() {
+    init_buffer_utils();
+    init_check_iv_length();
+    init_check_cek_length();
+    init_webcrypto();
+    init_crypto_key();
+    init_invalid_key_input();
+    init_errors();
+    init_is_key_like();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/aesgcmkw.js
+var init_aesgcmkw = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/aesgcmkw.js"() {
+    init_encrypt();
+    init_decrypt();
+    init_iv();
+    init_base64url();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/decrypt_key_management.js
+var init_decrypt_key_management = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/decrypt_key_management.js"() {
+    init_aeskw();
+    init_ecdhes();
+    init_pbes2kw();
+    init_rsaes();
+    init_base64url();
+    init_errors();
+    init_cek();
+    init_import();
+    init_check_key_type();
+    init_is_object();
+    init_aesgcmkw();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/validate_crit.js
+var init_validate_crit = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/validate_crit.js"() {
+    init_errors();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/validate_algorithms.js
+var init_validate_algorithms = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/validate_algorithms.js"() {
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwe/flattened/decrypt.js
+var init_decrypt2 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwe/flattened/decrypt.js"() {
+    init_base64url();
+    init_decrypt();
+    init_zlib();
+    init_errors();
+    init_is_disjoint();
+    init_is_object();
+    init_decrypt_key_management();
+    init_buffer_utils();
+    init_cek();
+    init_validate_crit();
+    init_validate_algorithms();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwe/compact/decrypt.js
+var init_decrypt3 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwe/compact/decrypt.js"() {
+    init_decrypt2();
+    init_errors();
+    init_buffer_utils();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwe/general/decrypt.js
+var init_decrypt4 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwe/general/decrypt.js"() {
+    init_decrypt2();
+    init_errors();
+    init_is_object();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/key_to_jwk.js
+var init_key_to_jwk = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/key_to_jwk.js"() {
+    init_webcrypto();
+    init_invalid_key_input();
+    init_base64url();
+    init_is_key_like();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/key/export.js
+var init_export = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/key/export.js"() {
+    init_asn1();
+    init_asn1();
+    init_key_to_jwk();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/encrypt_key_management.js
+var init_encrypt_key_management = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/encrypt_key_management.js"() {
+    init_aeskw();
+    init_ecdhes();
+    init_pbes2kw();
+    init_rsaes();
+    init_base64url();
+    init_cek();
+    init_errors();
+    init_export();
+    init_check_key_type();
+    init_aesgcmkw();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwe/flattened/encrypt.js
+var unprotected;
+var init_encrypt2 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwe/flattened/encrypt.js"() {
+    init_base64url();
+    init_encrypt();
+    init_zlib();
+    init_iv();
+    init_encrypt_key_management();
+    init_errors();
+    init_is_disjoint();
+    init_buffer_utils();
+    init_validate_crit();
+    unprotected = Symbol();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwe/general/encrypt.js
+var init_encrypt3 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwe/general/encrypt.js"() {
+    init_encrypt2();
+    init_errors();
+    init_cek();
+    init_is_disjoint();
+    init_encrypt_key_management();
+    init_base64url();
+    init_validate_crit();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/subtle_dsa.js
+var init_subtle_dsa = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/subtle_dsa.js"() {
+    init_errors();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/get_sign_verify_key.js
+var init_get_sign_verify_key = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/get_sign_verify_key.js"() {
+    init_webcrypto();
+    init_crypto_key();
+    init_invalid_key_input();
+    init_is_key_like();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/verify.js
+var init_verify = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/verify.js"() {
+    init_subtle_dsa();
+    init_webcrypto();
+    init_check_key_length();
+    init_get_sign_verify_key();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jws/flattened/verify.js
+var init_verify2 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jws/flattened/verify.js"() {
+    init_base64url();
+    init_verify();
+    init_errors();
+    init_buffer_utils();
+    init_is_disjoint();
+    init_is_object();
+    init_check_key_type();
+    init_validate_crit();
+    init_validate_algorithms();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jws/compact/verify.js
+var init_verify3 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jws/compact/verify.js"() {
+    init_verify2();
+    init_errors();
+    init_buffer_utils();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jws/general/verify.js
+var init_verify4 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jws/general/verify.js"() {
+    init_verify2();
+    init_errors();
+    init_is_object();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/epoch.js
+var init_epoch = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/epoch.js"() {
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/secs.js
+var minute, hour, day, week, year;
+var init_secs = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/secs.js"() {
+    minute = 60;
+    hour = minute * 60;
+    day = hour * 24;
+    week = day * 7;
+    year = day * 365.25;
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/jwt_claims_set.js
+var init_jwt_claims_set = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/lib/jwt_claims_set.js"() {
+    init_errors();
+    init_buffer_utils();
+    init_epoch();
+    init_secs();
+    init_is_object();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwt/verify.js
+var init_verify5 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwt/verify.js"() {
+    init_verify3();
+    init_jwt_claims_set();
+    init_errors();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwt/decrypt.js
+var init_decrypt5 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwt/decrypt.js"() {
+    init_decrypt3();
+    init_jwt_claims_set();
+    init_errors();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwe/compact/encrypt.js
+var init_encrypt4 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwe/compact/encrypt.js"() {
+    init_encrypt2();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/sign.js
+var init_sign = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/sign.js"() {
+    init_subtle_dsa();
+    init_webcrypto();
+    init_check_key_length();
+    init_get_sign_verify_key();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jws/flattened/sign.js
+var init_sign2 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jws/flattened/sign.js"() {
+    init_base64url();
+    init_sign();
+    init_is_disjoint();
+    init_errors();
+    init_buffer_utils();
+    init_check_key_type();
+    init_validate_crit();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jws/compact/sign.js
+var init_sign3 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jws/compact/sign.js"() {
+    init_sign2();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jws/general/sign.js
+var init_sign4 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jws/general/sign.js"() {
+    init_sign2();
+    init_errors();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwt/produce.js
+var init_produce = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwt/produce.js"() {
+    init_epoch();
+    init_is_object();
+    init_secs();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwt/sign.js
+var init_sign5 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwt/sign.js"() {
+    init_sign3();
+    init_errors();
+    init_buffer_utils();
+    init_produce();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwt/encrypt.js
+var init_encrypt5 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwt/encrypt.js"() {
+    init_encrypt4();
+    init_buffer_utils();
+    init_produce();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwk/thumbprint.js
+var init_thumbprint = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwk/thumbprint.js"() {
+    init_digest();
+    init_base64url();
+    init_errors();
+    init_buffer_utils();
+    init_is_object();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwk/embedded.js
+var init_embedded = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwk/embedded.js"() {
+    init_import();
+    init_is_object();
+    init_errors();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwks/local.js
+var init_local = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwks/local.js"() {
+    init_import();
+    init_errors();
+    init_is_object();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/fetch_jwks.js
+var init_fetch_jwks = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/fetch_jwks.js"() {
+    init_errors();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwks/remote.js
+var init_remote = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwks/remote.js"() {
+    init_fetch_jwks();
+    init_errors();
+    init_local();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwt/unsecured.js
+var init_unsecured = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/jwt/unsecured.js"() {
+    init_base64url();
+    init_buffer_utils();
+    init_errors();
+    init_jwt_claims_set();
+    init_produce();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/util/base64url.js
+var base64url_exports2 = {};
+__export(base64url_exports2, {
+  decode: () => decode2,
+  encode: () => encode2
+});
+var encode2, decode2;
+var init_base64url2 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/util/base64url.js"() {
+    init_base64url();
+    encode2 = encode;
+    decode2 = decode;
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/util/decode_protected_header.js
+var init_decode_protected_header = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/util/decode_protected_header.js"() {
+    init_base64url2();
+    init_buffer_utils();
+    init_is_object();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/util/decode_jwt.js
+var init_decode_jwt = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/util/decode_jwt.js"() {
+    init_base64url2();
+    init_buffer_utils();
+    init_is_object();
+    init_errors();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/generate.js
+var init_generate = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/generate.js"() {
+    init_webcrypto();
+    init_errors();
+    init_random();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/key/generate_key_pair.js
+var init_generate_key_pair = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/key/generate_key_pair.js"() {
+    init_generate();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/key/generate_secret.js
+var init_generate_secret = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/key/generate_secret.js"() {
+    init_generate();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/runtime.js
+var init_runtime = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/runtime/runtime.js"() {
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/util/runtime.js
+var init_runtime2 = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/util/runtime.js"() {
+    init_runtime();
+  }
+});
+
+// node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/index.js
+var init_browser = __esm({
+  "node_modules/.pnpm/jose@4.15.5/node_modules/jose/dist/browser/index.js"() {
+    init_decrypt3();
+    init_decrypt2();
+    init_decrypt4();
+    init_encrypt3();
+    init_verify3();
+    init_verify2();
+    init_verify4();
+    init_verify5();
+    init_decrypt5();
+    init_encrypt4();
+    init_encrypt2();
+    init_sign3();
+    init_sign2();
+    init_sign4();
+    init_sign5();
+    init_encrypt5();
+    init_thumbprint();
+    init_embedded();
+    init_local();
+    init_remote();
+    init_unsecured();
+    init_export();
+    init_import();
+    init_decode_protected_header();
+    init_decode_jwt();
+    init_errors();
+    init_generate_key_pair();
+    init_generate_secret();
+    init_base64url2();
+    init_runtime2();
+  }
+});
+
+// node_modules/.pnpm/@supabase+node-fetch@2.6.15/node_modules/@supabase/node-fetch/browser.js
+var browser_exports = {};
+__export(browser_exports, {
+  Headers: () => Headers2,
+  Request: () => Request2,
+  Response: () => Response2,
+  default: () => browser_default,
+  fetch: () => fetch2
+});
+var getGlobal, globalObject, fetch2, browser_default, Headers2, Request2, Response2;
+var init_browser2 = __esm({
+  "node_modules/.pnpm/@supabase+node-fetch@2.6.15/node_modules/@supabase/node-fetch/browser.js"() {
+    "use strict";
+    getGlobal = function() {
+      if (typeof self !== "undefined") {
+        return self;
+      }
+      if (typeof window !== "undefined") {
+        return window;
+      }
+      if (typeof global !== "undefined") {
+        return global;
+      }
+      throw new Error("unable to locate global object");
+    };
+    globalObject = getGlobal();
+    fetch2 = globalObject.fetch;
+    browser_default = globalObject.fetch.bind(globalObject);
+    Headers2 = globalObject.Headers;
+    Request2 = globalObject.Request;
+    Response2 = globalObject.Response;
+  }
+});
+
+// node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/helper.js
+var resolveFetch;
+var init_helper = __esm({
+  "node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/helper.js"() {
+    resolveFetch = (customFetch) => {
+      let _fetch;
+      if (customFetch) {
+        _fetch = customFetch;
+      } else if (typeof fetch === "undefined") {
+        _fetch = (...args) => Promise.resolve().then(() => (init_browser2(), browser_exports)).then(({ default: fetch3 }) => fetch3(...args));
+      } else {
+        _fetch = fetch;
+      }
+      return (...args) => _fetch(...args);
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/types.js
+var FunctionsError, FunctionsFetchError, FunctionsRelayError, FunctionsHttpError;
+var init_types = __esm({
+  "node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/types.js"() {
+    FunctionsError = class extends Error {
+      constructor(message, name2 = "FunctionsError", context) {
+        super(message);
+        this.name = name2;
+        this.context = context;
+      }
+    };
+    FunctionsFetchError = class extends FunctionsError {
+      constructor(context) {
+        super("Failed to send a request to the Edge Function", "FunctionsFetchError", context);
+      }
+    };
+    FunctionsRelayError = class extends FunctionsError {
+      constructor(context) {
+        super("Relay Error invoking the Edge Function", "FunctionsRelayError", context);
+      }
+    };
+    FunctionsHttpError = class extends FunctionsError {
+      constructor(context) {
+        super("Edge Function returned a non-2xx status code", "FunctionsHttpError", context);
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/FunctionsClient.js
+var __awaiter, FunctionsClient;
+var init_FunctionsClient = __esm({
+  "node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/FunctionsClient.js"() {
+    init_helper();
+    init_types();
+    __awaiter = function(thisArg, _arguments, P2, generator) {
+      function adopt(value) {
+        return value instanceof P2 ? value : new P2(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator["throw"](value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    FunctionsClient = class {
+      constructor(url, { headers: headers2 = {}, customFetch } = {}) {
+        this.url = url;
+        this.headers = headers2;
+        this.fetch = resolveFetch(customFetch);
+      }
+      /**
+       * Updates the authorization header
+       * @param token - the new jwt token sent in the authorisation header
+       */
+      setAuth(token) {
+        this.headers.Authorization = `Bearer ${token}`;
+      }
+      /**
+       * Invokes a function
+       * @param functionName - The name of the Function to invoke.
+       * @param options - Options for invoking the Function.
+       */
+      invoke(functionName, options2 = {}) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+          try {
+            const { headers: headers2, method, body: functionArgs } = options2;
+            let _headers = {};
+            let body2;
+            if (functionArgs && (headers2 && !Object.prototype.hasOwnProperty.call(headers2, "Content-Type") || !headers2)) {
+              if (typeof Blob !== "undefined" && functionArgs instanceof Blob || functionArgs instanceof ArrayBuffer) {
+                _headers["Content-Type"] = "application/octet-stream";
+                body2 = functionArgs;
+              } else if (typeof functionArgs === "string") {
+                _headers["Content-Type"] = "text/plain";
+                body2 = functionArgs;
+              } else if (typeof FormData !== "undefined" && functionArgs instanceof FormData) {
+                body2 = functionArgs;
+              } else {
+                _headers["Content-Type"] = "application/json";
+                body2 = JSON.stringify(functionArgs);
+              }
+            }
+            const response = yield this.fetch(`${this.url}/${functionName}`, {
+              method: method || "POST",
+              // headers priority is (high to low):
+              // 1. invoke-level headers
+              // 2. client-level headers
+              // 3. default Content-Type header
+              headers: Object.assign(Object.assign(Object.assign({}, _headers), this.headers), headers2),
+              body: body2
+            }).catch((fetchError) => {
+              throw new FunctionsFetchError(fetchError);
+            });
+            const isRelayError = response.headers.get("x-relay-error");
+            if (isRelayError && isRelayError === "true") {
+              throw new FunctionsRelayError(response);
+            }
+            if (!response.ok) {
+              throw new FunctionsHttpError(response);
+            }
+            let responseType = ((_a = response.headers.get("Content-Type")) !== null && _a !== void 0 ? _a : "text/plain").split(";")[0].trim();
+            let data;
+            if (responseType === "application/json") {
+              data = yield response.json();
+            } else if (responseType === "application/octet-stream") {
+              data = yield response.blob();
+            } else if (responseType === "multipart/form-data") {
+              data = yield response.formData();
+            } else {
+              data = yield response.text();
+            }
+            return { data, error: null };
+          } catch (error) {
+            return { data: null, error };
+          }
+        });
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/index.js
+var init_module = __esm({
+  "node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/index.js"() {
+    init_FunctionsClient();
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestError.js
+var PostgrestError;
+var init_PostgrestError = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestError.js"() {
+    PostgrestError = class extends Error {
+      constructor(context) {
+        super(context.message);
+        this.name = "PostgrestError";
+        this.details = context.details;
+        this.hint = context.hint;
+        this.code = context.code;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestBuilder.js
+var PostgrestBuilder;
+var init_PostgrestBuilder = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestBuilder.js"() {
+    init_browser2();
+    init_PostgrestError();
+    PostgrestBuilder = class {
+      constructor(builder) {
+        this.shouldThrowOnError = false;
+        this.method = builder.method;
+        this.url = builder.url;
+        this.headers = builder.headers;
+        this.schema = builder.schema;
+        this.body = builder.body;
+        this.shouldThrowOnError = builder.shouldThrowOnError;
+        this.signal = builder.signal;
+        this.isMaybeSingle = builder.isMaybeSingle;
+        if (builder.fetch) {
+          this.fetch = builder.fetch;
+        } else if (typeof fetch === "undefined") {
+          this.fetch = browser_default;
+        } else {
+          this.fetch = fetch;
+        }
+      }
+      /**
+       * If there's an error with the query, throwOnError will reject the promise by
+       * throwing the error instead of returning it as part of a successful response.
+       *
+       * {@link https://github.com/supabase/supabase-js/issues/92}
+       */
+      throwOnError() {
+        this.shouldThrowOnError = true;
+        return this;
+      }
+      then(onfulfilled, onrejected) {
+        if (this.schema === void 0) {
+        } else if (["GET", "HEAD"].includes(this.method)) {
+          this.headers["Accept-Profile"] = this.schema;
+        } else {
+          this.headers["Content-Profile"] = this.schema;
+        }
+        if (this.method !== "GET" && this.method !== "HEAD") {
+          this.headers["Content-Type"] = "application/json";
+        }
+        const _fetch = this.fetch;
+        let res = _fetch(this.url.toString(), {
+          method: this.method,
+          headers: this.headers,
+          body: JSON.stringify(this.body),
+          signal: this.signal
+        }).then(async (res2) => {
+          var _a, _b, _c;
+          let error = null;
+          let data = null;
+          let count = null;
+          let status = res2.status;
+          let statusText = res2.statusText;
+          if (res2.ok) {
+            if (this.method !== "HEAD") {
+              const body2 = await res2.text();
+              if (body2 === "") {
+              } else if (this.headers["Accept"] === "text/csv") {
+                data = body2;
+              } else if (this.headers["Accept"] && this.headers["Accept"].includes("application/vnd.pgrst.plan+text")) {
+                data = body2;
+              } else {
+                data = JSON.parse(body2);
+              }
+            }
+            const countHeader = (_a = this.headers["Prefer"]) === null || _a === void 0 ? void 0 : _a.match(/count=(exact|planned|estimated)/);
+            const contentRange = (_b = res2.headers.get("content-range")) === null || _b === void 0 ? void 0 : _b.split("/");
+            if (countHeader && contentRange && contentRange.length > 1) {
+              count = parseInt(contentRange[1]);
+            }
+            if (this.isMaybeSingle && this.method === "GET" && Array.isArray(data)) {
+              if (data.length > 1) {
+                error = {
+                  // https://github.com/PostgREST/postgrest/blob/a867d79c42419af16c18c3fb019eba8df992626f/src/PostgREST/Error.hs#L553
+                  code: "PGRST116",
+                  details: `Results contain ${data.length} rows, application/vnd.pgrst.object+json requires 1 row`,
+                  hint: null,
+                  message: "JSON object requested, multiple (or no) rows returned"
+                };
+                data = null;
+                count = null;
+                status = 406;
+                statusText = "Not Acceptable";
+              } else if (data.length === 1) {
+                data = data[0];
+              } else {
+                data = null;
+              }
+            }
+          } else {
+            const body2 = await res2.text();
+            try {
+              error = JSON.parse(body2);
+              if (Array.isArray(error) && res2.status === 404) {
+                data = [];
+                error = null;
+                status = 200;
+                statusText = "OK";
+              }
+            } catch (_d) {
+              if (res2.status === 404 && body2 === "") {
+                status = 204;
+                statusText = "No Content";
+              } else {
+                error = {
+                  message: body2
+                };
+              }
+            }
+            if (error && this.isMaybeSingle && ((_c = error === null || error === void 0 ? void 0 : error.details) === null || _c === void 0 ? void 0 : _c.includes("0 rows"))) {
+              error = null;
+              status = 200;
+              statusText = "OK";
+            }
+            if (error && this.shouldThrowOnError) {
+              throw new PostgrestError(error);
+            }
+          }
+          const postgrestResponse = {
+            error,
+            data,
+            count,
+            status,
+            statusText
+          };
+          return postgrestResponse;
+        });
+        if (!this.shouldThrowOnError) {
+          res = res.catch((fetchError) => {
+            var _a, _b, _c;
+            return {
+              error: {
+                message: `${(_a = fetchError === null || fetchError === void 0 ? void 0 : fetchError.name) !== null && _a !== void 0 ? _a : "FetchError"}: ${fetchError === null || fetchError === void 0 ? void 0 : fetchError.message}`,
+                details: `${(_b = fetchError === null || fetchError === void 0 ? void 0 : fetchError.stack) !== null && _b !== void 0 ? _b : ""}`,
+                hint: "",
+                code: `${(_c = fetchError === null || fetchError === void 0 ? void 0 : fetchError.code) !== null && _c !== void 0 ? _c : ""}`
+              },
+              data: null,
+              count: null,
+              status: 0,
+              statusText: ""
+            };
+          });
+        }
+        return res.then(onfulfilled, onrejected);
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestTransformBuilder.js
+var PostgrestTransformBuilder;
+var init_PostgrestTransformBuilder = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestTransformBuilder.js"() {
+    init_PostgrestBuilder();
+    PostgrestTransformBuilder = class extends PostgrestBuilder {
+      /**
+       * Perform a SELECT on the query result.
+       *
+       * By default, `.insert()`, `.update()`, `.upsert()`, and `.delete()` do not
+       * return modified rows. By calling this method, modified rows are returned in
+       * `data`.
+       *
+       * @param columns - The columns to retrieve, separated by commas
+       */
+      select(columns) {
+        let quoted2 = false;
+        const cleanedColumns = (columns !== null && columns !== void 0 ? columns : "*").split("").map((c) => {
+          if (/\s/.test(c) && !quoted2) {
+            return "";
+          }
+          if (c === '"') {
+            quoted2 = !quoted2;
+          }
+          return c;
+        }).join("");
+        this.url.searchParams.set("select", cleanedColumns);
+        if (this.headers["Prefer"]) {
+          this.headers["Prefer"] += ",";
+        }
+        this.headers["Prefer"] += "return=representation";
+        return this;
+      }
+      /**
+       * Order the query result by `column`.
+       *
+       * You can call this method multiple times to order by multiple columns.
+       *
+       * You can order referenced tables, but it only affects the ordering of the
+       * parent table if you use `!inner` in the query.
+       *
+       * @param column - The column to order by
+       * @param options - Named parameters
+       * @param options.ascending - If `true`, the result will be in ascending order
+       * @param options.nullsFirst - If `true`, `null`s appear first. If `false`,
+       * `null`s appear last.
+       * @param options.referencedTable - Set this to order a referenced table by
+       * its columns
+       * @param options.foreignTable - Deprecated, use `options.referencedTable`
+       * instead
+       */
+      order(column, { ascending = true, nullsFirst, foreignTable, referencedTable = foreignTable } = {}) {
+        const key2 = referencedTable ? `${referencedTable}.order` : "order";
+        const existingOrder = this.url.searchParams.get(key2);
+        this.url.searchParams.set(key2, `${existingOrder ? `${existingOrder},` : ""}${column}.${ascending ? "asc" : "desc"}${nullsFirst === void 0 ? "" : nullsFirst ? ".nullsfirst" : ".nullslast"}`);
+        return this;
+      }
+      /**
+       * Limit the query result by `count`.
+       *
+       * @param count - The maximum number of rows to return
+       * @param options - Named parameters
+       * @param options.referencedTable - Set this to limit rows of referenced
+       * tables instead of the parent table
+       * @param options.foreignTable - Deprecated, use `options.referencedTable`
+       * instead
+       */
+      limit(count, { foreignTable, referencedTable = foreignTable } = {}) {
+        const key2 = typeof referencedTable === "undefined" ? "limit" : `${referencedTable}.limit`;
+        this.url.searchParams.set(key2, `${count}`);
+        return this;
+      }
+      /**
+       * Limit the query result by starting at an offset (`from`) and ending at the offset (`from + to`).
+       * Only records within this range are returned.
+       * This respects the query order and if there is no order clause the range could behave unexpectedly.
+       * The `from` and `to` values are 0-based and inclusive: `range(1, 3)` will include the second, third
+       * and fourth rows of the query.
+       *
+       * @param from - The starting index from which to limit the result
+       * @param to - The last index to which to limit the result
+       * @param options - Named parameters
+       * @param options.referencedTable - Set this to limit rows of referenced
+       * tables instead of the parent table
+       * @param options.foreignTable - Deprecated, use `options.referencedTable`
+       * instead
+       */
+      range(from, to, { foreignTable, referencedTable = foreignTable } = {}) {
+        const keyOffset = typeof referencedTable === "undefined" ? "offset" : `${referencedTable}.offset`;
+        const keyLimit = typeof referencedTable === "undefined" ? "limit" : `${referencedTable}.limit`;
+        this.url.searchParams.set(keyOffset, `${from}`);
+        this.url.searchParams.set(keyLimit, `${to - from + 1}`);
+        return this;
+      }
+      /**
+       * Set the AbortSignal for the fetch request.
+       *
+       * @param signal - The AbortSignal to use for the fetch request
+       */
+      abortSignal(signal) {
+        this.signal = signal;
+        return this;
+      }
+      /**
+       * Return `data` as a single object instead of an array of objects.
+       *
+       * Query result must be one row (e.g. using `.limit(1)`), otherwise this
+       * returns an error.
+       */
+      single() {
+        this.headers["Accept"] = "application/vnd.pgrst.object+json";
+        return this;
+      }
+      /**
+       * Return `data` as a single object instead of an array of objects.
+       *
+       * Query result must be zero or one row (e.g. using `.limit(1)`), otherwise
+       * this returns an error.
+       */
+      maybeSingle() {
+        if (this.method === "GET") {
+          this.headers["Accept"] = "application/json";
+        } else {
+          this.headers["Accept"] = "application/vnd.pgrst.object+json";
+        }
+        this.isMaybeSingle = true;
+        return this;
+      }
+      /**
+       * Return `data` as a string in CSV format.
+       */
+      csv() {
+        this.headers["Accept"] = "text/csv";
+        return this;
+      }
+      /**
+       * Return `data` as an object in [GeoJSON](https://geojson.org) format.
+       */
+      geojson() {
+        this.headers["Accept"] = "application/geo+json";
+        return this;
+      }
+      /**
+       * Return `data` as the EXPLAIN plan for the query.
+       *
+       * You need to enable the
+       * [db_plan_enabled](https://supabase.com/docs/guides/database/debugging-performance#enabling-explain)
+       * setting before using this method.
+       *
+       * @param options - Named parameters
+       *
+       * @param options.analyze - If `true`, the query will be executed and the
+       * actual run time will be returned
+       *
+       * @param options.verbose - If `true`, the query identifier will be returned
+       * and `data` will include the output columns of the query
+       *
+       * @param options.settings - If `true`, include information on configuration
+       * parameters that affect query planning
+       *
+       * @param options.buffers - If `true`, include information on buffer usage
+       *
+       * @param options.wal - If `true`, include information on WAL record generation
+       *
+       * @param options.format - The format of the output, can be `"text"` (default)
+       * or `"json"`
+       */
+      explain({ analyze = false, verbose = false, settings = false, buffers = false, wal = false, format = "text" } = {}) {
+        var _a;
+        const options2 = [
+          analyze ? "analyze" : null,
+          verbose ? "verbose" : null,
+          settings ? "settings" : null,
+          buffers ? "buffers" : null,
+          wal ? "wal" : null
+        ].filter(Boolean).join("|");
+        const forMediatype = (_a = this.headers["Accept"]) !== null && _a !== void 0 ? _a : "application/json";
+        this.headers["Accept"] = `application/vnd.pgrst.plan+${format}; for="${forMediatype}"; options=${options2};`;
+        if (format === "json")
+          return this;
+        else
+          return this;
+      }
+      /**
+       * Rollback the query.
+       *
+       * `data` will still be returned, but the query is not committed.
+       */
+      rollback() {
+        var _a;
+        if (((_a = this.headers["Prefer"]) !== null && _a !== void 0 ? _a : "").trim().length > 0) {
+          this.headers["Prefer"] += ",tx=rollback";
+        } else {
+          this.headers["Prefer"] = "tx=rollback";
+        }
+        return this;
+      }
+      /**
+       * Override the type of the returned `data`.
+       *
+       * @typeParam NewResult - The new result type to override with
+       */
+      returns() {
+        return this;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestFilterBuilder.js
+var PostgrestFilterBuilder;
+var init_PostgrestFilterBuilder = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestFilterBuilder.js"() {
+    init_PostgrestTransformBuilder();
+    PostgrestFilterBuilder = class extends PostgrestTransformBuilder {
+      /**
+       * Match only rows where `column` is equal to `value`.
+       *
+       * To check if the value of `column` is NULL, you should use `.is()` instead.
+       *
+       * @param column - The column to filter on
+       * @param value - The value to filter with
+       */
+      eq(column, value) {
+        this.url.searchParams.append(column, `eq.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` is not equal to `value`.
+       *
+       * @param column - The column to filter on
+       * @param value - The value to filter with
+       */
+      neq(column, value) {
+        this.url.searchParams.append(column, `neq.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` is greater than `value`.
+       *
+       * @param column - The column to filter on
+       * @param value - The value to filter with
+       */
+      gt(column, value) {
+        this.url.searchParams.append(column, `gt.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` is greater than or equal to `value`.
+       *
+       * @param column - The column to filter on
+       * @param value - The value to filter with
+       */
+      gte(column, value) {
+        this.url.searchParams.append(column, `gte.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` is less than `value`.
+       *
+       * @param column - The column to filter on
+       * @param value - The value to filter with
+       */
+      lt(column, value) {
+        this.url.searchParams.append(column, `lt.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` is less than or equal to `value`.
+       *
+       * @param column - The column to filter on
+       * @param value - The value to filter with
+       */
+      lte(column, value) {
+        this.url.searchParams.append(column, `lte.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` matches `pattern` case-sensitively.
+       *
+       * @param column - The column to filter on
+       * @param pattern - The pattern to match with
+       */
+      like(column, pattern2) {
+        this.url.searchParams.append(column, `like.${pattern2}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` matches all of `patterns` case-sensitively.
+       *
+       * @param column - The column to filter on
+       * @param patterns - The patterns to match with
+       */
+      likeAllOf(column, patterns) {
+        this.url.searchParams.append(column, `like(all).{${patterns.join(",")}}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` matches any of `patterns` case-sensitively.
+       *
+       * @param column - The column to filter on
+       * @param patterns - The patterns to match with
+       */
+      likeAnyOf(column, patterns) {
+        this.url.searchParams.append(column, `like(any).{${patterns.join(",")}}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` matches `pattern` case-insensitively.
+       *
+       * @param column - The column to filter on
+       * @param pattern - The pattern to match with
+       */
+      ilike(column, pattern2) {
+        this.url.searchParams.append(column, `ilike.${pattern2}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` matches all of `patterns` case-insensitively.
+       *
+       * @param column - The column to filter on
+       * @param patterns - The patterns to match with
+       */
+      ilikeAllOf(column, patterns) {
+        this.url.searchParams.append(column, `ilike(all).{${patterns.join(",")}}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` matches any of `patterns` case-insensitively.
+       *
+       * @param column - The column to filter on
+       * @param patterns - The patterns to match with
+       */
+      ilikeAnyOf(column, patterns) {
+        this.url.searchParams.append(column, `ilike(any).{${patterns.join(",")}}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` IS `value`.
+       *
+       * For non-boolean columns, this is only relevant for checking if the value of
+       * `column` is NULL by setting `value` to `null`.
+       *
+       * For boolean columns, you can also set `value` to `true` or `false` and it
+       * will behave the same way as `.eq()`.
+       *
+       * @param column - The column to filter on
+       * @param value - The value to filter with
+       */
+      is(column, value) {
+        this.url.searchParams.append(column, `is.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows where `column` is included in the `values` array.
+       *
+       * @param column - The column to filter on
+       * @param values - The values array to filter with
+       */
+      in(column, values) {
+        const cleanedValues = values.map((s2) => {
+          if (typeof s2 === "string" && new RegExp("[,()]").test(s2))
+            return `"${s2}"`;
+          else
+            return `${s2}`;
+        }).join(",");
+        this.url.searchParams.append(column, `in.(${cleanedValues})`);
+        return this;
+      }
+      /**
+       * Only relevant for jsonb, array, and range columns. Match only rows where
+       * `column` contains every element appearing in `value`.
+       *
+       * @param column - The jsonb, array, or range column to filter on
+       * @param value - The jsonb, array, or range value to filter with
+       */
+      contains(column, value) {
+        if (typeof value === "string") {
+          this.url.searchParams.append(column, `cs.${value}`);
+        } else if (Array.isArray(value)) {
+          this.url.searchParams.append(column, `cs.{${value.join(",")}}`);
+        } else {
+          this.url.searchParams.append(column, `cs.${JSON.stringify(value)}`);
+        }
+        return this;
+      }
+      /**
+       * Only relevant for jsonb, array, and range columns. Match only rows where
+       * every element appearing in `column` is contained by `value`.
+       *
+       * @param column - The jsonb, array, or range column to filter on
+       * @param value - The jsonb, array, or range value to filter with
+       */
+      containedBy(column, value) {
+        if (typeof value === "string") {
+          this.url.searchParams.append(column, `cd.${value}`);
+        } else if (Array.isArray(value)) {
+          this.url.searchParams.append(column, `cd.{${value.join(",")}}`);
+        } else {
+          this.url.searchParams.append(column, `cd.${JSON.stringify(value)}`);
+        }
+        return this;
+      }
+      /**
+       * Only relevant for range columns. Match only rows where every element in
+       * `column` is greater than any element in `range`.
+       *
+       * @param column - The range column to filter on
+       * @param range - The range to filter with
+       */
+      rangeGt(column, range) {
+        this.url.searchParams.append(column, `sr.${range}`);
+        return this;
+      }
+      /**
+       * Only relevant for range columns. Match only rows where every element in
+       * `column` is either contained in `range` or greater than any element in
+       * `range`.
+       *
+       * @param column - The range column to filter on
+       * @param range - The range to filter with
+       */
+      rangeGte(column, range) {
+        this.url.searchParams.append(column, `nxl.${range}`);
+        return this;
+      }
+      /**
+       * Only relevant for range columns. Match only rows where every element in
+       * `column` is less than any element in `range`.
+       *
+       * @param column - The range column to filter on
+       * @param range - The range to filter with
+       */
+      rangeLt(column, range) {
+        this.url.searchParams.append(column, `sl.${range}`);
+        return this;
+      }
+      /**
+       * Only relevant for range columns. Match only rows where every element in
+       * `column` is either contained in `range` or less than any element in
+       * `range`.
+       *
+       * @param column - The range column to filter on
+       * @param range - The range to filter with
+       */
+      rangeLte(column, range) {
+        this.url.searchParams.append(column, `nxr.${range}`);
+        return this;
+      }
+      /**
+       * Only relevant for range columns. Match only rows where `column` is
+       * mutually exclusive to `range` and there can be no element between the two
+       * ranges.
+       *
+       * @param column - The range column to filter on
+       * @param range - The range to filter with
+       */
+      rangeAdjacent(column, range) {
+        this.url.searchParams.append(column, `adj.${range}`);
+        return this;
+      }
+      /**
+       * Only relevant for array and range columns. Match only rows where
+       * `column` and `value` have an element in common.
+       *
+       * @param column - The array or range column to filter on
+       * @param value - The array or range value to filter with
+       */
+      overlaps(column, value) {
+        if (typeof value === "string") {
+          this.url.searchParams.append(column, `ov.${value}`);
+        } else {
+          this.url.searchParams.append(column, `ov.{${value.join(",")}}`);
+        }
+        return this;
+      }
+      /**
+       * Only relevant for text and tsvector columns. Match only rows where
+       * `column` matches the query string in `query`.
+       *
+       * @param column - The text or tsvector column to filter on
+       * @param query - The query text to match with
+       * @param options - Named parameters
+       * @param options.config - The text search configuration to use
+       * @param options.type - Change how the `query` text is interpreted
+       */
+      textSearch(column, query, { config, type } = {}) {
+        let typePart = "";
+        if (type === "plain") {
+          typePart = "pl";
+        } else if (type === "phrase") {
+          typePart = "ph";
+        } else if (type === "websearch") {
+          typePart = "w";
+        }
+        const configPart = config === void 0 ? "" : `(${config})`;
+        this.url.searchParams.append(column, `${typePart}fts${configPart}.${query}`);
+        return this;
+      }
+      /**
+       * Match only rows where each column in `query` keys is equal to its
+       * associated value. Shorthand for multiple `.eq()`s.
+       *
+       * @param query - The object to filter with, with column names as keys mapped
+       * to their filter values
+       */
+      match(query) {
+        Object.entries(query).forEach(([column, value]) => {
+          this.url.searchParams.append(column, `eq.${value}`);
+        });
+        return this;
+      }
+      /**
+       * Match only rows which doesn't satisfy the filter.
+       *
+       * Unlike most filters, `opearator` and `value` are used as-is and need to
+       * follow [PostgREST
+       * syntax](https://postgrest.org/en/stable/api.html#operators). You also need
+       * to make sure they are properly sanitized.
+       *
+       * @param column - The column to filter on
+       * @param operator - The operator to be negated to filter with, following
+       * PostgREST syntax
+       * @param value - The value to filter with, following PostgREST syntax
+       */
+      not(column, operator, value) {
+        this.url.searchParams.append(column, `not.${operator}.${value}`);
+        return this;
+      }
+      /**
+       * Match only rows which satisfy at least one of the filters.
+       *
+       * Unlike most filters, `filters` is used as-is and needs to follow [PostgREST
+       * syntax](https://postgrest.org/en/stable/api.html#operators). You also need
+       * to make sure it's properly sanitized.
+       *
+       * It's currently not possible to do an `.or()` filter across multiple tables.
+       *
+       * @param filters - The filters to use, following PostgREST syntax
+       * @param options - Named parameters
+       * @param options.referencedTable - Set this to filter on referenced tables
+       * instead of the parent table
+       * @param options.foreignTable - Deprecated, use `referencedTable` instead
+       */
+      or(filters, { foreignTable, referencedTable = foreignTable } = {}) {
+        const key2 = referencedTable ? `${referencedTable}.or` : "or";
+        this.url.searchParams.append(key2, `(${filters})`);
+        return this;
+      }
+      /**
+       * Match only rows which satisfy the filter. This is an escape hatch - you
+       * should use the specific filter methods wherever possible.
+       *
+       * Unlike most filters, `opearator` and `value` are used as-is and need to
+       * follow [PostgREST
+       * syntax](https://postgrest.org/en/stable/api.html#operators). You also need
+       * to make sure they are properly sanitized.
+       *
+       * @param column - The column to filter on
+       * @param operator - The operator to filter with, following PostgREST syntax
+       * @param value - The value to filter with, following PostgREST syntax
+       */
+      filter(column, operator, value) {
+        this.url.searchParams.append(column, `${operator}.${value}`);
+        return this;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestQueryBuilder.js
+var PostgrestQueryBuilder;
+var init_PostgrestQueryBuilder = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestQueryBuilder.js"() {
+    init_PostgrestFilterBuilder();
+    PostgrestQueryBuilder = class {
+      constructor(url, { headers: headers2 = {}, schema, fetch: fetch3 }) {
+        this.url = url;
+        this.headers = headers2;
+        this.schema = schema;
+        this.fetch = fetch3;
+      }
+      /**
+       * Perform a SELECT query on the table or view.
+       *
+       * @param columns - The columns to retrieve, separated by commas. Columns can be renamed when returned with `customName:columnName`
+       *
+       * @param options - Named parameters
+       *
+       * @param options.head - When set to `true`, `data` will not be returned.
+       * Useful if you only need the count.
+       *
+       * @param options.count - Count algorithm to use to count rows in the table or view.
+       *
+       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+       * hood.
+       *
+       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+       * statistics under the hood.
+       *
+       * `"estimated"`: Uses exact count for low numbers and planned count for high
+       * numbers.
+       */
+      select(columns, { head = false, count } = {}) {
+        const method = head ? "HEAD" : "GET";
+        let quoted2 = false;
+        const cleanedColumns = (columns !== null && columns !== void 0 ? columns : "*").split("").map((c) => {
+          if (/\s/.test(c) && !quoted2) {
+            return "";
+          }
+          if (c === '"') {
+            quoted2 = !quoted2;
+          }
+          return c;
+        }).join("");
+        this.url.searchParams.set("select", cleanedColumns);
+        if (count) {
+          this.headers["Prefer"] = `count=${count}`;
+        }
+        return new PostgrestFilterBuilder({
+          method,
+          url: this.url,
+          headers: this.headers,
+          schema: this.schema,
+          fetch: this.fetch,
+          allowEmpty: false
+        });
+      }
+      /**
+       * Perform an INSERT into the table or view.
+       *
+       * By default, inserted rows are not returned. To return it, chain the call
+       * with `.select()`.
+       *
+       * @param values - The values to insert. Pass an object to insert a single row
+       * or an array to insert multiple rows.
+       *
+       * @param options - Named parameters
+       *
+       * @param options.count - Count algorithm to use to count inserted rows.
+       *
+       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+       * hood.
+       *
+       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+       * statistics under the hood.
+       *
+       * `"estimated"`: Uses exact count for low numbers and planned count for high
+       * numbers.
+       *
+       * @param options.defaultToNull - Make missing fields default to `null`.
+       * Otherwise, use the default value for the column. Only applies for bulk
+       * inserts.
+       */
+      insert(values, { count, defaultToNull = true } = {}) {
+        const method = "POST";
+        const prefersHeaders = [];
+        if (this.headers["Prefer"]) {
+          prefersHeaders.push(this.headers["Prefer"]);
+        }
+        if (count) {
+          prefersHeaders.push(`count=${count}`);
+        }
+        if (!defaultToNull) {
+          prefersHeaders.push("missing=default");
+        }
+        this.headers["Prefer"] = prefersHeaders.join(",");
+        if (Array.isArray(values)) {
+          const columns = values.reduce((acc, x) => acc.concat(Object.keys(x)), []);
+          if (columns.length > 0) {
+            const uniqueColumns = [...new Set(columns)].map((column) => `"${column}"`);
+            this.url.searchParams.set("columns", uniqueColumns.join(","));
+          }
+        }
+        return new PostgrestFilterBuilder({
+          method,
+          url: this.url,
+          headers: this.headers,
+          schema: this.schema,
+          body: values,
+          fetch: this.fetch,
+          allowEmpty: false
+        });
+      }
+      /**
+       * Perform an UPSERT on the table or view. Depending on the column(s) passed
+       * to `onConflict`, `.upsert()` allows you to perform the equivalent of
+       * `.insert()` if a row with the corresponding `onConflict` columns doesn't
+       * exist, or if it does exist, perform an alternative action depending on
+       * `ignoreDuplicates`.
+       *
+       * By default, upserted rows are not returned. To return it, chain the call
+       * with `.select()`.
+       *
+       * @param values - The values to upsert with. Pass an object to upsert a
+       * single row or an array to upsert multiple rows.
+       *
+       * @param options - Named parameters
+       *
+       * @param options.onConflict - Comma-separated UNIQUE column(s) to specify how
+       * duplicate rows are determined. Two rows are duplicates if all the
+       * `onConflict` columns are equal.
+       *
+       * @param options.ignoreDuplicates - If `true`, duplicate rows are ignored. If
+       * `false`, duplicate rows are merged with existing rows.
+       *
+       * @param options.count - Count algorithm to use to count upserted rows.
+       *
+       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+       * hood.
+       *
+       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+       * statistics under the hood.
+       *
+       * `"estimated"`: Uses exact count for low numbers and planned count for high
+       * numbers.
+       *
+       * @param options.defaultToNull - Make missing fields default to `null`.
+       * Otherwise, use the default value for the column. This only applies when
+       * inserting new rows, not when merging with existing rows under
+       * `ignoreDuplicates: false`. This also only applies when doing bulk upserts.
+       */
+      upsert(values, { onConflict, ignoreDuplicates = false, count, defaultToNull = true } = {}) {
+        const method = "POST";
+        const prefersHeaders = [`resolution=${ignoreDuplicates ? "ignore" : "merge"}-duplicates`];
+        if (onConflict !== void 0)
+          this.url.searchParams.set("on_conflict", onConflict);
+        if (this.headers["Prefer"]) {
+          prefersHeaders.push(this.headers["Prefer"]);
+        }
+        if (count) {
+          prefersHeaders.push(`count=${count}`);
+        }
+        if (!defaultToNull) {
+          prefersHeaders.push("missing=default");
+        }
+        this.headers["Prefer"] = prefersHeaders.join(",");
+        if (Array.isArray(values)) {
+          const columns = values.reduce((acc, x) => acc.concat(Object.keys(x)), []);
+          if (columns.length > 0) {
+            const uniqueColumns = [...new Set(columns)].map((column) => `"${column}"`);
+            this.url.searchParams.set("columns", uniqueColumns.join(","));
+          }
+        }
+        return new PostgrestFilterBuilder({
+          method,
+          url: this.url,
+          headers: this.headers,
+          schema: this.schema,
+          body: values,
+          fetch: this.fetch,
+          allowEmpty: false
+        });
+      }
+      /**
+       * Perform an UPDATE on the table or view.
+       *
+       * By default, updated rows are not returned. To return it, chain the call
+       * with `.select()` after filters.
+       *
+       * @param values - The values to update with
+       *
+       * @param options - Named parameters
+       *
+       * @param options.count - Count algorithm to use to count updated rows.
+       *
+       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+       * hood.
+       *
+       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+       * statistics under the hood.
+       *
+       * `"estimated"`: Uses exact count for low numbers and planned count for high
+       * numbers.
+       */
+      update(values, { count } = {}) {
+        const method = "PATCH";
+        const prefersHeaders = [];
+        if (this.headers["Prefer"]) {
+          prefersHeaders.push(this.headers["Prefer"]);
+        }
+        if (count) {
+          prefersHeaders.push(`count=${count}`);
+        }
+        this.headers["Prefer"] = prefersHeaders.join(",");
+        return new PostgrestFilterBuilder({
+          method,
+          url: this.url,
+          headers: this.headers,
+          schema: this.schema,
+          body: values,
+          fetch: this.fetch,
+          allowEmpty: false
+        });
+      }
+      /**
+       * Perform a DELETE on the table or view.
+       *
+       * By default, deleted rows are not returned. To return it, chain the call
+       * with `.select()` after filters.
+       *
+       * @param options - Named parameters
+       *
+       * @param options.count - Count algorithm to use to count deleted rows.
+       *
+       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+       * hood.
+       *
+       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+       * statistics under the hood.
+       *
+       * `"estimated"`: Uses exact count for low numbers and planned count for high
+       * numbers.
+       */
+      delete({ count } = {}) {
+        const method = "DELETE";
+        const prefersHeaders = [];
+        if (count) {
+          prefersHeaders.push(`count=${count}`);
+        }
+        if (this.headers["Prefer"]) {
+          prefersHeaders.unshift(this.headers["Prefer"]);
+        }
+        this.headers["Prefer"] = prefersHeaders.join(",");
+        return new PostgrestFilterBuilder({
+          method,
+          url: this.url,
+          headers: this.headers,
+          schema: this.schema,
+          fetch: this.fetch,
+          allowEmpty: false
+        });
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/version.js
+var version;
+var init_version = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/version.js"() {
+    version = "1.9.2";
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/constants.js
+var DEFAULT_HEADERS;
+var init_constants = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/constants.js"() {
+    init_version();
+    DEFAULT_HEADERS = { "X-Client-Info": `postgrest-js/${version}` };
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestClient.js
+var PostgrestClient;
+var init_PostgrestClient = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestClient.js"() {
+    init_PostgrestQueryBuilder();
+    init_PostgrestFilterBuilder();
+    init_constants();
+    PostgrestClient = class _PostgrestClient {
+      // TODO: Add back shouldThrowOnError once we figure out the typings
+      /**
+       * Creates a PostgREST client.
+       *
+       * @param url - URL of the PostgREST endpoint
+       * @param options - Named parameters
+       * @param options.headers - Custom headers
+       * @param options.schema - Postgres schema to switch to
+       * @param options.fetch - Custom fetch
+       */
+      constructor(url, { headers: headers2 = {}, schema, fetch: fetch3 } = {}) {
+        this.url = url;
+        this.headers = Object.assign(Object.assign({}, DEFAULT_HEADERS), headers2);
+        this.schemaName = schema;
+        this.fetch = fetch3;
+      }
+      /**
+       * Perform a query on a table or a view.
+       *
+       * @param relation - The table or view name to query
+       */
+      from(relation) {
+        const url = new URL(`${this.url}/${relation}`);
+        return new PostgrestQueryBuilder(url, {
+          headers: Object.assign({}, this.headers),
+          schema: this.schemaName,
+          fetch: this.fetch
+        });
+      }
+      /**
+       * Select a schema to query or perform an function (rpc) call.
+       *
+       * The schema needs to be on the list of exposed schemas inside Supabase.
+       *
+       * @param schema - The schema to query
+       */
+      schema(schema) {
+        return new _PostgrestClient(this.url, {
+          headers: this.headers,
+          schema,
+          fetch: this.fetch
+        });
+      }
+      /**
+       * Perform a function call.
+       *
+       * @param fn - The function name to call
+       * @param args - The arguments to pass to the function call
+       * @param options - Named parameters
+       * @param options.head - When set to `true`, `data` will not be returned.
+       * Useful if you only need the count.
+       * @param options.count - Count algorithm to use to count rows returned by the
+       * function. Only applicable for [set-returning
+       * functions](https://www.postgresql.org/docs/current/functions-srf.html).
+       *
+       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+       * hood.
+       *
+       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+       * statistics under the hood.
+       *
+       * `"estimated"`: Uses exact count for low numbers and planned count for high
+       * numbers.
+       */
+      rpc(fn, args = {}, { head = false, count } = {}) {
+        let method;
+        const url = new URL(`${this.url}/rpc/${fn}`);
+        let body2;
+        if (head) {
+          method = "HEAD";
+          Object.entries(args).forEach(([name2, value]) => {
+            url.searchParams.append(name2, `${value}`);
+          });
+        } else {
+          method = "POST";
+          body2 = args;
+        }
+        const headers2 = Object.assign({}, this.headers);
+        if (count) {
+          headers2["Prefer"] = `count=${count}`;
+        }
+        return new PostgrestFilterBuilder({
+          method,
+          url,
+          headers: headers2,
+          schema: this.schemaName,
+          body: body2,
+          fetch: this.fetch,
+          allowEmpty: false
+        });
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/index.js
+var init_module2 = __esm({
+  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/index.js"() {
+    init_PostgrestClient();
+    init_PostgrestQueryBuilder();
+    init_PostgrestFilterBuilder();
+    init_PostgrestTransformBuilder();
+    init_PostgrestBuilder();
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/version.js
+var version2;
+var init_version2 = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/version.js"() {
+    version2 = "2.9.3";
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/constants.js
+var DEFAULT_HEADERS2, VSN, DEFAULT_TIMEOUT, WS_CLOSE_NORMAL, SOCKET_STATES, CHANNEL_STATES, CHANNEL_EVENTS, TRANSPORTS, CONNECTION_STATE;
+var init_constants2 = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/constants.js"() {
+    init_version2();
+    DEFAULT_HEADERS2 = { "X-Client-Info": `realtime-js/${version2}` };
+    VSN = "1.0.0";
+    DEFAULT_TIMEOUT = 1e4;
+    WS_CLOSE_NORMAL = 1e3;
+    (function(SOCKET_STATES2) {
+      SOCKET_STATES2[SOCKET_STATES2["connecting"] = 0] = "connecting";
+      SOCKET_STATES2[SOCKET_STATES2["open"] = 1] = "open";
+      SOCKET_STATES2[SOCKET_STATES2["closing"] = 2] = "closing";
+      SOCKET_STATES2[SOCKET_STATES2["closed"] = 3] = "closed";
+    })(SOCKET_STATES || (SOCKET_STATES = {}));
+    (function(CHANNEL_STATES2) {
+      CHANNEL_STATES2["closed"] = "closed";
+      CHANNEL_STATES2["errored"] = "errored";
+      CHANNEL_STATES2["joined"] = "joined";
+      CHANNEL_STATES2["joining"] = "joining";
+      CHANNEL_STATES2["leaving"] = "leaving";
+    })(CHANNEL_STATES || (CHANNEL_STATES = {}));
+    (function(CHANNEL_EVENTS2) {
+      CHANNEL_EVENTS2["close"] = "phx_close";
+      CHANNEL_EVENTS2["error"] = "phx_error";
+      CHANNEL_EVENTS2["join"] = "phx_join";
+      CHANNEL_EVENTS2["reply"] = "phx_reply";
+      CHANNEL_EVENTS2["leave"] = "phx_leave";
+      CHANNEL_EVENTS2["access_token"] = "access_token";
+    })(CHANNEL_EVENTS || (CHANNEL_EVENTS = {}));
+    (function(TRANSPORTS2) {
+      TRANSPORTS2["websocket"] = "websocket";
+    })(TRANSPORTS || (TRANSPORTS = {}));
+    (function(CONNECTION_STATE2) {
+      CONNECTION_STATE2["Connecting"] = "connecting";
+      CONNECTION_STATE2["Open"] = "open";
+      CONNECTION_STATE2["Closing"] = "closing";
+      CONNECTION_STATE2["Closed"] = "closed";
+    })(CONNECTION_STATE || (CONNECTION_STATE = {}));
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/timer.js
+var Timer;
+var init_timer = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/timer.js"() {
+    Timer = class {
+      constructor(callback, timerCalc) {
+        this.callback = callback;
+        this.timerCalc = timerCalc;
+        this.timer = void 0;
+        this.tries = 0;
+        this.callback = callback;
+        this.timerCalc = timerCalc;
+      }
+      reset() {
+        this.tries = 0;
+        clearTimeout(this.timer);
+      }
+      // Cancels any previous scheduleTimeout and schedules callback
+      scheduleTimeout() {
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+          this.tries = this.tries + 1;
+          this.callback();
+        }, this.timerCalc(this.tries + 1));
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/serializer.js
+var Serializer;
+var init_serializer = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/serializer.js"() {
+    Serializer = class {
+      constructor() {
+        this.HEADER_LENGTH = 1;
+      }
+      decode(rawPayload, callback) {
+        if (rawPayload.constructor === ArrayBuffer) {
+          return callback(this._binaryDecode(rawPayload));
+        }
+        if (typeof rawPayload === "string") {
+          return callback(JSON.parse(rawPayload));
+        }
+        return callback({});
+      }
+      _binaryDecode(buffer) {
+        const view = new DataView(buffer);
+        const decoder2 = new TextDecoder();
+        return this._decodeBroadcast(buffer, view, decoder2);
+      }
+      _decodeBroadcast(buffer, view, decoder2) {
+        const topicSize = view.getUint8(1);
+        const eventSize = view.getUint8(2);
+        let offset = this.HEADER_LENGTH + 2;
+        const topic = decoder2.decode(buffer.slice(offset, offset + topicSize));
+        offset = offset + topicSize;
+        const event = decoder2.decode(buffer.slice(offset, offset + eventSize));
+        offset = offset + eventSize;
+        const data = JSON.parse(decoder2.decode(buffer.slice(offset, buffer.byteLength)));
+        return { ref: null, topic, event, payload: data };
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/push.js
+var Push;
+var init_push = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/push.js"() {
+    init_constants2();
+    Push = class {
+      /**
+       * Initializes the Push
+       *
+       * @param channel The Channel
+       * @param event The event, for example `"phx_join"`
+       * @param payload The payload, for example `{user_id: 123}`
+       * @param timeout The push timeout in milliseconds
+       */
+      constructor(channel, event, payload = {}, timeout = DEFAULT_TIMEOUT) {
+        this.channel = channel;
+        this.event = event;
+        this.payload = payload;
+        this.timeout = timeout;
+        this.sent = false;
+        this.timeoutTimer = void 0;
+        this.ref = "";
+        this.receivedResp = null;
+        this.recHooks = [];
+        this.refEvent = null;
+      }
+      resend(timeout) {
+        this.timeout = timeout;
+        this._cancelRefEvent();
+        this.ref = "";
+        this.refEvent = null;
+        this.receivedResp = null;
+        this.sent = false;
+        this.send();
+      }
+      send() {
+        if (this._hasReceived("timeout")) {
+          return;
+        }
+        this.startTimeout();
+        this.sent = true;
+        this.channel.socket.push({
+          topic: this.channel.topic,
+          event: this.event,
+          payload: this.payload,
+          ref: this.ref,
+          join_ref: this.channel._joinRef()
+        });
+      }
+      updatePayload(payload) {
+        this.payload = Object.assign(Object.assign({}, this.payload), payload);
+      }
+      receive(status, callback) {
+        var _a;
+        if (this._hasReceived(status)) {
+          callback((_a = this.receivedResp) === null || _a === void 0 ? void 0 : _a.response);
+        }
+        this.recHooks.push({ status, callback });
+        return this;
+      }
+      startTimeout() {
+        if (this.timeoutTimer) {
+          return;
+        }
+        this.ref = this.channel.socket._makeRef();
+        this.refEvent = this.channel._replyEventName(this.ref);
+        const callback = (payload) => {
+          this._cancelRefEvent();
+          this._cancelTimeout();
+          this.receivedResp = payload;
+          this._matchReceive(payload);
+        };
+        this.channel._on(this.refEvent, {}, callback);
+        this.timeoutTimer = setTimeout(() => {
+          this.trigger("timeout", {});
+        }, this.timeout);
+      }
+      trigger(status, response) {
+        if (this.refEvent)
+          this.channel._trigger(this.refEvent, { status, response });
+      }
+      destroy() {
+        this._cancelRefEvent();
+        this._cancelTimeout();
+      }
+      _cancelRefEvent() {
+        if (!this.refEvent) {
+          return;
+        }
+        this.channel._off(this.refEvent, {});
+      }
+      _cancelTimeout() {
+        clearTimeout(this.timeoutTimer);
+        this.timeoutTimer = void 0;
+      }
+      _matchReceive({ status, response }) {
+        this.recHooks.filter((h) => h.status === status).forEach((h) => h.callback(response));
+      }
+      _hasReceived(status) {
+        return this.receivedResp && this.receivedResp.status === status;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimePresence.js
+var REALTIME_PRESENCE_LISTEN_EVENTS, RealtimePresence;
+var init_RealtimePresence = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimePresence.js"() {
+    (function(REALTIME_PRESENCE_LISTEN_EVENTS2) {
+      REALTIME_PRESENCE_LISTEN_EVENTS2["SYNC"] = "sync";
+      REALTIME_PRESENCE_LISTEN_EVENTS2["JOIN"] = "join";
+      REALTIME_PRESENCE_LISTEN_EVENTS2["LEAVE"] = "leave";
+    })(REALTIME_PRESENCE_LISTEN_EVENTS || (REALTIME_PRESENCE_LISTEN_EVENTS = {}));
+    RealtimePresence = class _RealtimePresence {
+      /**
+       * Initializes the Presence.
+       *
+       * @param channel - The RealtimeChannel
+       * @param opts - The options,
+       *        for example `{events: {state: 'state', diff: 'diff'}}`
+       */
+      constructor(channel, opts) {
+        this.channel = channel;
+        this.state = {};
+        this.pendingDiffs = [];
+        this.joinRef = null;
+        this.caller = {
+          onJoin: () => {
+          },
+          onLeave: () => {
+          },
+          onSync: () => {
+          }
+        };
+        const events = (opts === null || opts === void 0 ? void 0 : opts.events) || {
+          state: "presence_state",
+          diff: "presence_diff"
+        };
+        this.channel._on(events.state, {}, (newState) => {
+          const { onJoin, onLeave, onSync } = this.caller;
+          this.joinRef = this.channel._joinRef();
+          this.state = _RealtimePresence.syncState(this.state, newState, onJoin, onLeave);
+          this.pendingDiffs.forEach((diff) => {
+            this.state = _RealtimePresence.syncDiff(this.state, diff, onJoin, onLeave);
+          });
+          this.pendingDiffs = [];
+          onSync();
+        });
+        this.channel._on(events.diff, {}, (diff) => {
+          const { onJoin, onLeave, onSync } = this.caller;
+          if (this.inPendingSyncState()) {
+            this.pendingDiffs.push(diff);
+          } else {
+            this.state = _RealtimePresence.syncDiff(this.state, diff, onJoin, onLeave);
+            onSync();
+          }
+        });
+        this.onJoin((key2, currentPresences, newPresences) => {
+          this.channel._trigger("presence", {
+            event: "join",
+            key: key2,
+            currentPresences,
+            newPresences
+          });
+        });
+        this.onLeave((key2, currentPresences, leftPresences) => {
+          this.channel._trigger("presence", {
+            event: "leave",
+            key: key2,
+            currentPresences,
+            leftPresences
+          });
+        });
+        this.onSync(() => {
+          this.channel._trigger("presence", { event: "sync" });
+        });
+      }
+      /**
+       * Used to sync the list of presences on the server with the
+       * client's state.
+       *
+       * An optional `onJoin` and `onLeave` callback can be provided to
+       * react to changes in the client's local presences across
+       * disconnects and reconnects with the server.
+       *
+       * @internal
+       */
+      static syncState(currentState, newState, onJoin, onLeave) {
+        const state = this.cloneDeep(currentState);
+        const transformedState = this.transformState(newState);
+        const joins = {};
+        const leaves = {};
+        this.map(state, (key2, presences) => {
+          if (!transformedState[key2]) {
+            leaves[key2] = presences;
+          }
+        });
+        this.map(transformedState, (key2, newPresences) => {
+          const currentPresences = state[key2];
+          if (currentPresences) {
+            const newPresenceRefs = newPresences.map((m) => m.presence_ref);
+            const curPresenceRefs = currentPresences.map((m) => m.presence_ref);
+            const joinedPresences = newPresences.filter((m) => curPresenceRefs.indexOf(m.presence_ref) < 0);
+            const leftPresences = currentPresences.filter((m) => newPresenceRefs.indexOf(m.presence_ref) < 0);
+            if (joinedPresences.length > 0) {
+              joins[key2] = joinedPresences;
+            }
+            if (leftPresences.length > 0) {
+              leaves[key2] = leftPresences;
+            }
+          } else {
+            joins[key2] = newPresences;
+          }
+        });
+        return this.syncDiff(state, { joins, leaves }, onJoin, onLeave);
+      }
+      /**
+       * Used to sync a diff of presence join and leave events from the
+       * server, as they happen.
+       *
+       * Like `syncState`, `syncDiff` accepts optional `onJoin` and
+       * `onLeave` callbacks to react to a user joining or leaving from a
+       * device.
+       *
+       * @internal
+       */
+      static syncDiff(state, diff, onJoin, onLeave) {
+        const { joins, leaves } = {
+          joins: this.transformState(diff.joins),
+          leaves: this.transformState(diff.leaves)
+        };
+        if (!onJoin) {
+          onJoin = () => {
+          };
+        }
+        if (!onLeave) {
+          onLeave = () => {
+          };
+        }
+        this.map(joins, (key2, newPresences) => {
+          var _a;
+          const currentPresences = (_a = state[key2]) !== null && _a !== void 0 ? _a : [];
+          state[key2] = this.cloneDeep(newPresences);
+          if (currentPresences.length > 0) {
+            const joinedPresenceRefs = state[key2].map((m) => m.presence_ref);
+            const curPresences = currentPresences.filter((m) => joinedPresenceRefs.indexOf(m.presence_ref) < 0);
+            state[key2].unshift(...curPresences);
+          }
+          onJoin(key2, currentPresences, newPresences);
+        });
+        this.map(leaves, (key2, leftPresences) => {
+          let currentPresences = state[key2];
+          if (!currentPresences)
+            return;
+          const presenceRefsToRemove = leftPresences.map((m) => m.presence_ref);
+          currentPresences = currentPresences.filter((m) => presenceRefsToRemove.indexOf(m.presence_ref) < 0);
+          state[key2] = currentPresences;
+          onLeave(key2, currentPresences, leftPresences);
+          if (currentPresences.length === 0)
+            delete state[key2];
+        });
+        return state;
+      }
+      /** @internal */
+      static map(obj, func) {
+        return Object.getOwnPropertyNames(obj).map((key2) => func(key2, obj[key2]));
+      }
+      /**
+       * Remove 'metas' key
+       * Change 'phx_ref' to 'presence_ref'
+       * Remove 'phx_ref' and 'phx_ref_prev'
+       *
+       * @example
+       * // returns {
+       *  abc123: [
+       *    { presence_ref: '2', user_id: 1 },
+       *    { presence_ref: '3', user_id: 2 }
+       *  ]
+       * }
+       * RealtimePresence.transformState({
+       *  abc123: {
+       *    metas: [
+       *      { phx_ref: '2', phx_ref_prev: '1' user_id: 1 },
+       *      { phx_ref: '3', user_id: 2 }
+       *    ]
+       *  }
+       * })
+       *
+       * @internal
+       */
+      static transformState(state) {
+        state = this.cloneDeep(state);
+        return Object.getOwnPropertyNames(state).reduce((newState, key2) => {
+          const presences = state[key2];
+          if ("metas" in presences) {
+            newState[key2] = presences.metas.map((presence) => {
+              presence["presence_ref"] = presence["phx_ref"];
+              delete presence["phx_ref"];
+              delete presence["phx_ref_prev"];
+              return presence;
+            });
+          } else {
+            newState[key2] = presences;
+          }
+          return newState;
+        }, {});
+      }
+      /** @internal */
+      static cloneDeep(obj) {
+        return JSON.parse(JSON.stringify(obj));
+      }
+      /** @internal */
+      onJoin(callback) {
+        this.caller.onJoin = callback;
+      }
+      /** @internal */
+      onLeave(callback) {
+        this.caller.onLeave = callback;
+      }
+      /** @internal */
+      onSync(callback) {
+        this.caller.onSync = callback;
+      }
+      /** @internal */
+      inPendingSyncState() {
+        return !this.joinRef || this.joinRef !== this.channel._joinRef();
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/transformers.js
+var PostgresTypes, convertChangeData, convertColumn, convertCell, noop2, toBoolean, toNumber, toJson, toArray, toTimestampString;
+var init_transformers = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/transformers.js"() {
+    (function(PostgresTypes2) {
+      PostgresTypes2["abstime"] = "abstime";
+      PostgresTypes2["bool"] = "bool";
+      PostgresTypes2["date"] = "date";
+      PostgresTypes2["daterange"] = "daterange";
+      PostgresTypes2["float4"] = "float4";
+      PostgresTypes2["float8"] = "float8";
+      PostgresTypes2["int2"] = "int2";
+      PostgresTypes2["int4"] = "int4";
+      PostgresTypes2["int4range"] = "int4range";
+      PostgresTypes2["int8"] = "int8";
+      PostgresTypes2["int8range"] = "int8range";
+      PostgresTypes2["json"] = "json";
+      PostgresTypes2["jsonb"] = "jsonb";
+      PostgresTypes2["money"] = "money";
+      PostgresTypes2["numeric"] = "numeric";
+      PostgresTypes2["oid"] = "oid";
+      PostgresTypes2["reltime"] = "reltime";
+      PostgresTypes2["text"] = "text";
+      PostgresTypes2["time"] = "time";
+      PostgresTypes2["timestamp"] = "timestamp";
+      PostgresTypes2["timestamptz"] = "timestamptz";
+      PostgresTypes2["timetz"] = "timetz";
+      PostgresTypes2["tsrange"] = "tsrange";
+      PostgresTypes2["tstzrange"] = "tstzrange";
+    })(PostgresTypes || (PostgresTypes = {}));
+    convertChangeData = (columns, record, options2 = {}) => {
+      var _a;
+      const skipTypes = (_a = options2.skipTypes) !== null && _a !== void 0 ? _a : [];
+      return Object.keys(record).reduce((acc, rec_key) => {
+        acc[rec_key] = convertColumn(rec_key, columns, record, skipTypes);
+        return acc;
+      }, {});
+    };
+    convertColumn = (columnName, columns, record, skipTypes) => {
+      const column = columns.find((x) => x.name === columnName);
+      const colType = column === null || column === void 0 ? void 0 : column.type;
+      const value = record[columnName];
+      if (colType && !skipTypes.includes(colType)) {
+        return convertCell(colType, value);
+      }
+      return noop2(value);
+    };
+    convertCell = (type, value) => {
+      if (type.charAt(0) === "_") {
+        const dataType = type.slice(1, type.length);
+        return toArray(value, dataType);
+      }
+      switch (type) {
+        case PostgresTypes.bool:
+          return toBoolean(value);
+        case PostgresTypes.float4:
+        case PostgresTypes.float8:
+        case PostgresTypes.int2:
+        case PostgresTypes.int4:
+        case PostgresTypes.int8:
+        case PostgresTypes.numeric:
+        case PostgresTypes.oid:
+          return toNumber(value);
+        case PostgresTypes.json:
+        case PostgresTypes.jsonb:
+          return toJson(value);
+        case PostgresTypes.timestamp:
+          return toTimestampString(value);
+        case PostgresTypes.abstime:
+        case PostgresTypes.date:
+        case PostgresTypes.daterange:
+        case PostgresTypes.int4range:
+        case PostgresTypes.int8range:
+        case PostgresTypes.money:
+        case PostgresTypes.reltime:
+        case PostgresTypes.text:
+        case PostgresTypes.time:
+        case PostgresTypes.timestamptz:
+        case PostgresTypes.timetz:
+        case PostgresTypes.tsrange:
+        case PostgresTypes.tstzrange:
+          return noop2(value);
+        default:
+          return noop2(value);
+      }
+    };
+    noop2 = (value) => {
+      return value;
+    };
+    toBoolean = (value) => {
+      switch (value) {
+        case "t":
+          return true;
+        case "f":
+          return false;
+        default:
+          return value;
+      }
+    };
+    toNumber = (value) => {
+      if (typeof value === "string") {
+        const parsedValue = parseFloat(value);
+        if (!Number.isNaN(parsedValue)) {
+          return parsedValue;
+        }
+      }
+      return value;
+    };
+    toJson = (value) => {
+      if (typeof value === "string") {
+        try {
+          return JSON.parse(value);
+        } catch (error) {
+          console.log(`JSON parse error: ${error}`);
+          return value;
+        }
+      }
+      return value;
+    };
+    toArray = (value, type) => {
+      if (typeof value !== "string") {
+        return value;
+      }
+      const lastIdx = value.length - 1;
+      const closeBrace = value[lastIdx];
+      const openBrace = value[0];
+      if (openBrace === "{" && closeBrace === "}") {
+        let arr;
+        const valTrim = value.slice(1, lastIdx);
+        try {
+          arr = JSON.parse("[" + valTrim + "]");
+        } catch (_) {
+          arr = valTrim ? valTrim.split(",") : [];
+        }
+        return arr.map((val) => convertCell(type, val));
+      }
+      return value;
+    };
+    toTimestampString = (value) => {
+      if (typeof value === "string") {
+        return value.replace(" ", "T");
+      }
+      return value;
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimeChannel.js
+var REALTIME_POSTGRES_CHANGES_LISTEN_EVENT, REALTIME_LISTEN_TYPES, REALTIME_SUBSCRIBE_STATES, RealtimeChannel;
+var init_RealtimeChannel = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimeChannel.js"() {
+    init_constants2();
+    init_push();
+    init_timer();
+    init_RealtimePresence();
+    init_transformers();
+    (function(REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2) {
+      REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["ALL"] = "*";
+      REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["INSERT"] = "INSERT";
+      REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["UPDATE"] = "UPDATE";
+      REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["DELETE"] = "DELETE";
+    })(REALTIME_POSTGRES_CHANGES_LISTEN_EVENT || (REALTIME_POSTGRES_CHANGES_LISTEN_EVENT = {}));
+    (function(REALTIME_LISTEN_TYPES2) {
+      REALTIME_LISTEN_TYPES2["BROADCAST"] = "broadcast";
+      REALTIME_LISTEN_TYPES2["PRESENCE"] = "presence";
+      REALTIME_LISTEN_TYPES2["POSTGRES_CHANGES"] = "postgres_changes";
+    })(REALTIME_LISTEN_TYPES || (REALTIME_LISTEN_TYPES = {}));
+    (function(REALTIME_SUBSCRIBE_STATES2) {
+      REALTIME_SUBSCRIBE_STATES2["SUBSCRIBED"] = "SUBSCRIBED";
+      REALTIME_SUBSCRIBE_STATES2["TIMED_OUT"] = "TIMED_OUT";
+      REALTIME_SUBSCRIBE_STATES2["CLOSED"] = "CLOSED";
+      REALTIME_SUBSCRIBE_STATES2["CHANNEL_ERROR"] = "CHANNEL_ERROR";
+    })(REALTIME_SUBSCRIBE_STATES || (REALTIME_SUBSCRIBE_STATES = {}));
+    RealtimeChannel = class _RealtimeChannel {
+      constructor(topic, params = { config: {} }, socket) {
+        this.topic = topic;
+        this.params = params;
+        this.socket = socket;
+        this.bindings = {};
+        this.state = CHANNEL_STATES.closed;
+        this.joinedOnce = false;
+        this.pushBuffer = [];
+        this.subTopic = topic.replace(/^realtime:/i, "");
+        this.params.config = Object.assign({
+          broadcast: { ack: false, self: false },
+          presence: { key: "" }
+        }, params.config);
+        this.timeout = this.socket.timeout;
+        this.joinPush = new Push(this, CHANNEL_EVENTS.join, this.params, this.timeout);
+        this.rejoinTimer = new Timer(() => this._rejoinUntilConnected(), this.socket.reconnectAfterMs);
+        this.joinPush.receive("ok", () => {
+          this.state = CHANNEL_STATES.joined;
+          this.rejoinTimer.reset();
+          this.pushBuffer.forEach((pushEvent) => pushEvent.send());
+          this.pushBuffer = [];
+        });
+        this._onClose(() => {
+          this.rejoinTimer.reset();
+          this.socket.log("channel", `close ${this.topic} ${this._joinRef()}`);
+          this.state = CHANNEL_STATES.closed;
+          this.socket._remove(this);
+        });
+        this._onError((reason) => {
+          if (this._isLeaving() || this._isClosed()) {
+            return;
+          }
+          this.socket.log("channel", `error ${this.topic}`, reason);
+          this.state = CHANNEL_STATES.errored;
+          this.rejoinTimer.scheduleTimeout();
+        });
+        this.joinPush.receive("timeout", () => {
+          if (!this._isJoining()) {
+            return;
+          }
+          this.socket.log("channel", `timeout ${this.topic}`, this.joinPush.timeout);
+          this.state = CHANNEL_STATES.errored;
+          this.rejoinTimer.scheduleTimeout();
+        });
+        this._on(CHANNEL_EVENTS.reply, {}, (payload, ref) => {
+          this._trigger(this._replyEventName(ref), payload);
+        });
+        this.presence = new RealtimePresence(this);
+        this.broadcastEndpointURL = this._broadcastEndpointURL();
+      }
+      /** Subscribe registers your client with the server */
+      subscribe(callback, timeout = this.timeout) {
+        var _a, _b;
+        if (!this.socket.isConnected()) {
+          this.socket.connect();
+        }
+        if (this.joinedOnce) {
+          throw `tried to subscribe multiple times. 'subscribe' can only be called a single time per channel instance`;
+        } else {
+          const { config: { broadcast, presence } } = this.params;
+          this._onError((e) => callback && callback("CHANNEL_ERROR", e));
+          this._onClose(() => callback && callback("CLOSED"));
+          const accessTokenPayload = {};
+          const config = {
+            broadcast,
+            presence,
+            postgres_changes: (_b = (_a = this.bindings.postgres_changes) === null || _a === void 0 ? void 0 : _a.map((r) => r.filter)) !== null && _b !== void 0 ? _b : []
+          };
+          if (this.socket.accessToken) {
+            accessTokenPayload.access_token = this.socket.accessToken;
+          }
+          this.updateJoinPayload(Object.assign({ config }, accessTokenPayload));
+          this.joinedOnce = true;
+          this._rejoin(timeout);
+          this.joinPush.receive("ok", ({ postgres_changes: serverPostgresFilters }) => {
+            var _a2;
+            this.socket.accessToken && this.socket.setAuth(this.socket.accessToken);
+            if (serverPostgresFilters === void 0) {
+              callback && callback("SUBSCRIBED");
+              return;
+            } else {
+              const clientPostgresBindings = this.bindings.postgres_changes;
+              const bindingsLen = (_a2 = clientPostgresBindings === null || clientPostgresBindings === void 0 ? void 0 : clientPostgresBindings.length) !== null && _a2 !== void 0 ? _a2 : 0;
+              const newPostgresBindings = [];
+              for (let i = 0; i < bindingsLen; i++) {
+                const clientPostgresBinding = clientPostgresBindings[i];
+                const { filter: { event, schema, table, filter } } = clientPostgresBinding;
+                const serverPostgresFilter = serverPostgresFilters && serverPostgresFilters[i];
+                if (serverPostgresFilter && serverPostgresFilter.event === event && serverPostgresFilter.schema === schema && serverPostgresFilter.table === table && serverPostgresFilter.filter === filter) {
+                  newPostgresBindings.push(Object.assign(Object.assign({}, clientPostgresBinding), { id: serverPostgresFilter.id }));
+                } else {
+                  this.unsubscribe();
+                  callback && callback("CHANNEL_ERROR", new Error("mismatch between server and client bindings for postgres changes"));
+                  return;
+                }
+              }
+              this.bindings.postgres_changes = newPostgresBindings;
+              callback && callback("SUBSCRIBED");
+              return;
+            }
+          }).receive("error", (error) => {
+            callback && callback("CHANNEL_ERROR", new Error(JSON.stringify(Object.values(error).join(", ") || "error")));
+            return;
+          }).receive("timeout", () => {
+            callback && callback("TIMED_OUT");
+            return;
+          });
+        }
+        return this;
+      }
+      presenceState() {
+        return this.presence.state;
+      }
+      async track(payload, opts = {}) {
+        return await this.send({
+          type: "presence",
+          event: "track",
+          payload
+        }, opts.timeout || this.timeout);
+      }
+      async untrack(opts = {}) {
+        return await this.send({
+          type: "presence",
+          event: "untrack"
+        }, opts);
+      }
+      on(type, filter, callback) {
+        return this._on(type, filter, callback);
+      }
+      /**
+       * Sends a message into the channel.
+       *
+       * @param args Arguments to send to channel
+       * @param args.type The type of event to send
+       * @param args.event The name of the event being sent
+       * @param args.payload Payload to be sent
+       * @param opts Options to be used during the send process
+       */
+      async send(args, opts = {}) {
+        var _a, _b;
+        if (!this._canPush() && args.type === "broadcast") {
+          const { event, payload: endpoint_payload } = args;
+          const options2 = {
+            method: "POST",
+            headers: {
+              apikey: (_a = this.socket.apiKey) !== null && _a !== void 0 ? _a : "",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              messages: [
+                { topic: this.subTopic, event, payload: endpoint_payload }
+              ]
+            })
+          };
+          try {
+            const response = await this._fetchWithTimeout(this.broadcastEndpointURL, options2, (_b = opts.timeout) !== null && _b !== void 0 ? _b : this.timeout);
+            if (response.ok) {
+              return "ok";
+            } else {
+              return "error";
+            }
+          } catch (error) {
+            if (error.name === "AbortError") {
+              return "timed out";
+            } else {
+              return "error";
+            }
+          }
+        } else {
+          return new Promise((resolve2) => {
+            var _a2, _b2, _c;
+            const push = this._push(args.type, args, opts.timeout || this.timeout);
+            if (args.type === "broadcast" && !((_c = (_b2 = (_a2 = this.params) === null || _a2 === void 0 ? void 0 : _a2.config) === null || _b2 === void 0 ? void 0 : _b2.broadcast) === null || _c === void 0 ? void 0 : _c.ack)) {
+              resolve2("ok");
+            }
+            push.receive("ok", () => resolve2("ok"));
+            push.receive("timeout", () => resolve2("timed out"));
+          });
+        }
+      }
+      updateJoinPayload(payload) {
+        this.joinPush.updatePayload(payload);
+      }
+      /**
+       * Leaves the channel.
+       *
+       * Unsubscribes from server events, and instructs channel to terminate on server.
+       * Triggers onClose() hooks.
+       *
+       * To receive leave acknowledgements, use the a `receive` hook to bind to the server ack, ie:
+       * channel.unsubscribe().receive("ok", () => alert("left!") )
+       */
+      unsubscribe(timeout = this.timeout) {
+        this.state = CHANNEL_STATES.leaving;
+        const onClose = () => {
+          this.socket.log("channel", `leave ${this.topic}`);
+          this._trigger(CHANNEL_EVENTS.close, "leave", this._joinRef());
+        };
+        this.rejoinTimer.reset();
+        this.joinPush.destroy();
+        return new Promise((resolve2) => {
+          const leavePush = new Push(this, CHANNEL_EVENTS.leave, {}, timeout);
+          leavePush.receive("ok", () => {
+            onClose();
+            resolve2("ok");
+          }).receive("timeout", () => {
+            onClose();
+            resolve2("timed out");
+          }).receive("error", () => {
+            resolve2("error");
+          });
+          leavePush.send();
+          if (!this._canPush()) {
+            leavePush.trigger("ok", {});
+          }
+        });
+      }
+      /** @internal */
+      _broadcastEndpointURL() {
+        let url = this.socket.endPoint;
+        url = url.replace(/^ws/i, "http");
+        url = url.replace(/(\/socket\/websocket|\/socket|\/websocket)\/?$/i, "");
+        return url.replace(/\/+$/, "") + "/api/broadcast";
+      }
+      async _fetchWithTimeout(url, options2, timeout) {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+        const response = await this.socket.fetch(url, Object.assign(Object.assign({}, options2), { signal: controller.signal }));
+        clearTimeout(id);
+        return response;
+      }
+      /** @internal */
+      _push(event, payload, timeout = this.timeout) {
+        if (!this.joinedOnce) {
+          throw `tried to push '${event}' to '${this.topic}' before joining. Use channel.subscribe() before pushing events`;
+        }
+        let pushEvent = new Push(this, event, payload, timeout);
+        if (this._canPush()) {
+          pushEvent.send();
+        } else {
+          pushEvent.startTimeout();
+          this.pushBuffer.push(pushEvent);
+        }
+        return pushEvent;
+      }
+      /**
+       * Overridable message hook
+       *
+       * Receives all events for specialized message handling before dispatching to the channel callbacks.
+       * Must return the payload, modified or unmodified.
+       *
+       * @internal
+       */
+      _onMessage(_event, payload, _ref) {
+        return payload;
+      }
+      /** @internal */
+      _isMember(topic) {
+        return this.topic === topic;
+      }
+      /** @internal */
+      _joinRef() {
+        return this.joinPush.ref;
+      }
+      /** @internal */
+      _trigger(type, payload, ref) {
+        var _a, _b;
+        const typeLower = type.toLocaleLowerCase();
+        const { close, error, leave, join } = CHANNEL_EVENTS;
+        const events = [close, error, leave, join];
+        if (ref && events.indexOf(typeLower) >= 0 && ref !== this._joinRef()) {
+          return;
+        }
+        let handledPayload = this._onMessage(typeLower, payload, ref);
+        if (payload && !handledPayload) {
+          throw "channel onMessage callbacks must return the payload, modified or unmodified";
+        }
+        if (["insert", "update", "delete"].includes(typeLower)) {
+          (_a = this.bindings.postgres_changes) === null || _a === void 0 ? void 0 : _a.filter((bind) => {
+            var _a2, _b2, _c;
+            return ((_a2 = bind.filter) === null || _a2 === void 0 ? void 0 : _a2.event) === "*" || ((_c = (_b2 = bind.filter) === null || _b2 === void 0 ? void 0 : _b2.event) === null || _c === void 0 ? void 0 : _c.toLocaleLowerCase()) === typeLower;
+          }).map((bind) => bind.callback(handledPayload, ref));
+        } else {
+          (_b = this.bindings[typeLower]) === null || _b === void 0 ? void 0 : _b.filter((bind) => {
+            var _a2, _b2, _c, _d, _e, _f;
+            if (["broadcast", "presence", "postgres_changes"].includes(typeLower)) {
+              if ("id" in bind) {
+                const bindId = bind.id;
+                const bindEvent = (_a2 = bind.filter) === null || _a2 === void 0 ? void 0 : _a2.event;
+                return bindId && ((_b2 = payload.ids) === null || _b2 === void 0 ? void 0 : _b2.includes(bindId)) && (bindEvent === "*" || (bindEvent === null || bindEvent === void 0 ? void 0 : bindEvent.toLocaleLowerCase()) === ((_c = payload.data) === null || _c === void 0 ? void 0 : _c.type.toLocaleLowerCase()));
+              } else {
+                const bindEvent = (_e = (_d = bind === null || bind === void 0 ? void 0 : bind.filter) === null || _d === void 0 ? void 0 : _d.event) === null || _e === void 0 ? void 0 : _e.toLocaleLowerCase();
+                return bindEvent === "*" || bindEvent === ((_f = payload === null || payload === void 0 ? void 0 : payload.event) === null || _f === void 0 ? void 0 : _f.toLocaleLowerCase());
+              }
+            } else {
+              return bind.type.toLocaleLowerCase() === typeLower;
+            }
+          }).map((bind) => {
+            if (typeof handledPayload === "object" && "ids" in handledPayload) {
+              const postgresChanges = handledPayload.data;
+              const { schema, table, commit_timestamp, type: type2, errors } = postgresChanges;
+              const enrichedPayload = {
+                schema,
+                table,
+                commit_timestamp,
+                eventType: type2,
+                new: {},
+                old: {},
+                errors
+              };
+              handledPayload = Object.assign(Object.assign({}, enrichedPayload), this._getPayloadRecords(postgresChanges));
+            }
+            bind.callback(handledPayload, ref);
+          });
+        }
+      }
+      /** @internal */
+      _isClosed() {
+        return this.state === CHANNEL_STATES.closed;
+      }
+      /** @internal */
+      _isJoined() {
+        return this.state === CHANNEL_STATES.joined;
+      }
+      /** @internal */
+      _isJoining() {
+        return this.state === CHANNEL_STATES.joining;
+      }
+      /** @internal */
+      _isLeaving() {
+        return this.state === CHANNEL_STATES.leaving;
+      }
+      /** @internal */
+      _replyEventName(ref) {
+        return `chan_reply_${ref}`;
+      }
+      /** @internal */
+      _on(type, filter, callback) {
+        const typeLower = type.toLocaleLowerCase();
+        const binding = {
+          type: typeLower,
+          filter,
+          callback
+        };
+        if (this.bindings[typeLower]) {
+          this.bindings[typeLower].push(binding);
+        } else {
+          this.bindings[typeLower] = [binding];
+        }
+        return this;
+      }
+      /** @internal */
+      _off(type, filter) {
+        const typeLower = type.toLocaleLowerCase();
+        this.bindings[typeLower] = this.bindings[typeLower].filter((bind) => {
+          var _a;
+          return !(((_a = bind.type) === null || _a === void 0 ? void 0 : _a.toLocaleLowerCase()) === typeLower && _RealtimeChannel.isEqual(bind.filter, filter));
+        });
+        return this;
+      }
+      /** @internal */
+      static isEqual(obj1, obj2) {
+        if (Object.keys(obj1).length !== Object.keys(obj2).length) {
+          return false;
+        }
+        for (const k in obj1) {
+          if (obj1[k] !== obj2[k]) {
+            return false;
+          }
+        }
+        return true;
+      }
+      /** @internal */
+      _rejoinUntilConnected() {
+        this.rejoinTimer.scheduleTimeout();
+        if (this.socket.isConnected()) {
+          this._rejoin();
+        }
+      }
+      /**
+       * Registers a callback that will be executed when the channel closes.
+       *
+       * @internal
+       */
+      _onClose(callback) {
+        this._on(CHANNEL_EVENTS.close, {}, callback);
+      }
+      /**
+       * Registers a callback that will be executed when the channel encounteres an error.
+       *
+       * @internal
+       */
+      _onError(callback) {
+        this._on(CHANNEL_EVENTS.error, {}, (reason) => callback(reason));
+      }
+      /**
+       * Returns `true` if the socket is connected and the channel has been joined.
+       *
+       * @internal
+       */
+      _canPush() {
+        return this.socket.isConnected() && this._isJoined();
+      }
+      /** @internal */
+      _rejoin(timeout = this.timeout) {
+        if (this._isLeaving()) {
+          return;
+        }
+        this.socket._leaveOpenTopic(this.topic);
+        this.state = CHANNEL_STATES.joining;
+        this.joinPush.resend(timeout);
+      }
+      /** @internal */
+      _getPayloadRecords(payload) {
+        const records = {
+          new: {},
+          old: {}
+        };
+        if (payload.type === "INSERT" || payload.type === "UPDATE") {
+          records.new = convertChangeData(payload.columns, payload.record);
+        }
+        if (payload.type === "UPDATE" || payload.type === "DELETE") {
+          records.old = convertChangeData(payload.columns, payload.old_record);
+        }
+        return records;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/ws@8.16.0/node_modules/ws/browser.js
+var require_browser = __commonJS({
+  "node_modules/.pnpm/ws@8.16.0/node_modules/ws/browser.js"(exports, module) {
+    "use strict";
+    module.exports = function() {
+      throw new Error(
+        "ws does not work in the browser. Browser clients must use the native WebSocket object"
+      );
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimeClient.js
+var noop3, NATIVE_WEBSOCKET_AVAILABLE, RealtimeClient, WSWebSocketDummy;
+var init_RealtimeClient = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimeClient.js"() {
+    init_constants2();
+    init_timer();
+    init_serializer();
+    init_RealtimeChannel();
+    noop3 = () => {
+    };
+    NATIVE_WEBSOCKET_AVAILABLE = typeof WebSocket !== "undefined";
+    RealtimeClient = class {
+      /**
+       * Initializes the Socket.
+       *
+       * @param endPoint The string WebSocket endpoint, ie, "ws://example.com/socket", "wss://example.com", "/socket" (inherited host & protocol)
+       * @param options.transport The Websocket Transport, for example WebSocket.
+       * @param options.timeout The default timeout in milliseconds to trigger push timeouts.
+       * @param options.params The optional params to pass when connecting.
+       * @param options.headers The optional headers to pass when connecting.
+       * @param options.heartbeatIntervalMs The millisec interval to send a heartbeat message.
+       * @param options.logger The optional function for specialized logging, ie: logger: (kind, msg, data) => { console.log(`${kind}: ${msg}`, data) }
+       * @param options.encode The function to encode outgoing messages. Defaults to JSON: (payload, callback) => callback(JSON.stringify(payload))
+       * @param options.decode The function to decode incoming messages. Defaults to Serializer's decode.
+       * @param options.reconnectAfterMs he optional function that returns the millsec reconnect interval. Defaults to stepped backoff off.
+       */
+      constructor(endPoint, options2) {
+        var _a;
+        this.accessToken = null;
+        this.apiKey = null;
+        this.channels = [];
+        this.endPoint = "";
+        this.headers = DEFAULT_HEADERS2;
+        this.params = {};
+        this.timeout = DEFAULT_TIMEOUT;
+        this.heartbeatIntervalMs = 3e4;
+        this.heartbeatTimer = void 0;
+        this.pendingHeartbeatRef = null;
+        this.ref = 0;
+        this.logger = noop3;
+        this.conn = null;
+        this.sendBuffer = [];
+        this.serializer = new Serializer();
+        this.stateChangeCallbacks = {
+          open: [],
+          close: [],
+          error: [],
+          message: []
+        };
+        this._resolveFetch = (customFetch) => {
+          let _fetch;
+          if (customFetch) {
+            _fetch = customFetch;
+          } else if (typeof fetch === "undefined") {
+            _fetch = (...args) => Promise.resolve().then(() => (init_browser2(), browser_exports)).then(({ default: fetch3 }) => fetch3(...args));
+          } else {
+            _fetch = fetch;
+          }
+          return (...args) => _fetch(...args);
+        };
+        this.endPoint = `${endPoint}/${TRANSPORTS.websocket}`;
+        if (options2 === null || options2 === void 0 ? void 0 : options2.transport) {
+          this.transport = options2.transport;
+        } else {
+          this.transport = null;
+        }
+        if (options2 === null || options2 === void 0 ? void 0 : options2.params)
+          this.params = options2.params;
+        if (options2 === null || options2 === void 0 ? void 0 : options2.headers)
+          this.headers = Object.assign(Object.assign({}, this.headers), options2.headers);
+        if (options2 === null || options2 === void 0 ? void 0 : options2.timeout)
+          this.timeout = options2.timeout;
+        if (options2 === null || options2 === void 0 ? void 0 : options2.logger)
+          this.logger = options2.logger;
+        if (options2 === null || options2 === void 0 ? void 0 : options2.heartbeatIntervalMs)
+          this.heartbeatIntervalMs = options2.heartbeatIntervalMs;
+        const accessToken = (_a = options2 === null || options2 === void 0 ? void 0 : options2.params) === null || _a === void 0 ? void 0 : _a.apikey;
+        if (accessToken) {
+          this.accessToken = accessToken;
+          this.apiKey = accessToken;
+        }
+        this.reconnectAfterMs = (options2 === null || options2 === void 0 ? void 0 : options2.reconnectAfterMs) ? options2.reconnectAfterMs : (tries) => {
+          return [1e3, 2e3, 5e3, 1e4][tries - 1] || 1e4;
+        };
+        this.encode = (options2 === null || options2 === void 0 ? void 0 : options2.encode) ? options2.encode : (payload, callback) => {
+          return callback(JSON.stringify(payload));
+        };
+        this.decode = (options2 === null || options2 === void 0 ? void 0 : options2.decode) ? options2.decode : this.serializer.decode.bind(this.serializer);
+        this.reconnectTimer = new Timer(async () => {
+          this.disconnect();
+          this.connect();
+        }, this.reconnectAfterMs);
+        this.fetch = this._resolveFetch(options2 === null || options2 === void 0 ? void 0 : options2.fetch);
+      }
+      /**
+       * Connects the socket, unless already connected.
+       */
+      connect() {
+        if (this.conn) {
+          return;
+        }
+        if (this.transport) {
+          this.conn = new this.transport(this._endPointURL(), void 0, {
+            headers: this.headers
+          });
+          return;
+        }
+        if (NATIVE_WEBSOCKET_AVAILABLE) {
+          this.conn = new WebSocket(this._endPointURL());
+          this.setupConnection();
+          return;
+        }
+        this.conn = new WSWebSocketDummy(this._endPointURL(), void 0, {
+          close: () => {
+            this.conn = null;
+          }
+        });
+        Promise.resolve().then(() => __toESM(require_browser())).then(({ default: WS }) => {
+          this.conn = new WS(this._endPointURL(), void 0, {
+            headers: this.headers
+          });
+          this.setupConnection();
+        });
+      }
+      /**
+       * Disconnects the socket.
+       *
+       * @param code A numeric status code to send on disconnect.
+       * @param reason A custom reason for the disconnect.
+       */
+      disconnect(code, reason) {
+        if (this.conn) {
+          this.conn.onclose = function() {
+          };
+          if (code) {
+            this.conn.close(code, reason !== null && reason !== void 0 ? reason : "");
+          } else {
+            this.conn.close();
+          }
+          this.conn = null;
+          this.heartbeatTimer && clearInterval(this.heartbeatTimer);
+          this.reconnectTimer.reset();
+        }
+      }
+      /**
+       * Returns all created channels
+       */
+      getChannels() {
+        return this.channels;
+      }
+      /**
+       * Unsubscribes and removes a single channel
+       * @param channel A RealtimeChannel instance
+       */
+      async removeChannel(channel) {
+        const status = await channel.unsubscribe();
+        if (this.channels.length === 0) {
+          this.disconnect();
+        }
+        return status;
+      }
+      /**
+       * Unsubscribes and removes all channels
+       */
+      async removeAllChannels() {
+        const values_1 = await Promise.all(this.channels.map((channel) => channel.unsubscribe()));
+        this.disconnect();
+        return values_1;
+      }
+      /**
+       * Logs the message.
+       *
+       * For customized logging, `this.logger` can be overridden.
+       */
+      log(kind, msg, data) {
+        this.logger(kind, msg, data);
+      }
+      /**
+       * Returns the current state of the socket.
+       */
+      connectionState() {
+        switch (this.conn && this.conn.readyState) {
+          case SOCKET_STATES.connecting:
+            return CONNECTION_STATE.Connecting;
+          case SOCKET_STATES.open:
+            return CONNECTION_STATE.Open;
+          case SOCKET_STATES.closing:
+            return CONNECTION_STATE.Closing;
+          default:
+            return CONNECTION_STATE.Closed;
+        }
+      }
+      /**
+       * Returns `true` is the connection is open.
+       */
+      isConnected() {
+        return this.connectionState() === CONNECTION_STATE.Open;
+      }
+      channel(topic, params = { config: {} }) {
+        const chan = new RealtimeChannel(`realtime:${topic}`, params, this);
+        this.channels.push(chan);
+        return chan;
+      }
+      /**
+       * Push out a message if the socket is connected.
+       *
+       * If the socket is not connected, the message gets enqueued within a local buffer, and sent out when a connection is next established.
+       */
+      push(data) {
+        const { topic, event, payload, ref } = data;
+        const callback = () => {
+          this.encode(data, (result) => {
+            var _a;
+            (_a = this.conn) === null || _a === void 0 ? void 0 : _a.send(result);
+          });
+        };
+        this.log("push", `${topic} ${event} (${ref})`, payload);
+        if (this.isConnected()) {
+          callback();
+        } else {
+          this.sendBuffer.push(callback);
+        }
+      }
+      /**
+       * Sets the JWT access token used for channel subscription authorization and Realtime RLS.
+       *
+       * @param token A JWT string.
+       */
+      setAuth(token) {
+        this.accessToken = token;
+        this.channels.forEach((channel) => {
+          token && channel.updateJoinPayload({ access_token: token });
+          if (channel.joinedOnce && channel._isJoined()) {
+            channel._push(CHANNEL_EVENTS.access_token, { access_token: token });
+          }
+        });
+      }
+      /**
+       * Return the next message ref, accounting for overflows
+       *
+       * @internal
+       */
+      _makeRef() {
+        let newRef = this.ref + 1;
+        if (newRef === this.ref) {
+          this.ref = 0;
+        } else {
+          this.ref = newRef;
+        }
+        return this.ref.toString();
+      }
+      /**
+       * Unsubscribe from channels with the specified topic.
+       *
+       * @internal
+       */
+      _leaveOpenTopic(topic) {
+        let dupChannel = this.channels.find((c) => c.topic === topic && (c._isJoined() || c._isJoining()));
+        if (dupChannel) {
+          this.log("transport", `leaving duplicate topic "${topic}"`);
+          dupChannel.unsubscribe();
+        }
+      }
+      /**
+       * Removes a subscription from the socket.
+       *
+       * @param channel An open subscription.
+       *
+       * @internal
+       */
+      _remove(channel) {
+        this.channels = this.channels.filter((c) => c._joinRef() !== channel._joinRef());
+      }
+      /**
+       * Sets up connection handlers.
+       *
+       * @internal
+       */
+      setupConnection() {
+        if (this.conn) {
+          this.conn.binaryType = "arraybuffer";
+          this.conn.onopen = () => this._onConnOpen();
+          this.conn.onerror = (error) => this._onConnError(error);
+          this.conn.onmessage = (event) => this._onConnMessage(event);
+          this.conn.onclose = (event) => this._onConnClose(event);
+        }
+      }
+      /**
+       * Returns the URL of the websocket.
+       *
+       * @internal
+       */
+      _endPointURL() {
+        return this._appendParams(this.endPoint, Object.assign({}, this.params, { vsn: VSN }));
+      }
+      /** @internal */
+      _onConnMessage(rawMessage) {
+        this.decode(rawMessage.data, (msg) => {
+          let { topic, event, payload, ref } = msg;
+          if (ref && ref === this.pendingHeartbeatRef || event === (payload === null || payload === void 0 ? void 0 : payload.type)) {
+            this.pendingHeartbeatRef = null;
+          }
+          this.log("receive", `${payload.status || ""} ${topic} ${event} ${ref && "(" + ref + ")" || ""}`, payload);
+          this.channels.filter((channel) => channel._isMember(topic)).forEach((channel) => channel._trigger(event, payload, ref));
+          this.stateChangeCallbacks.message.forEach((callback) => callback(msg));
+        });
+      }
+      /** @internal */
+      _onConnOpen() {
+        this.log("transport", `connected to ${this._endPointURL()}`);
+        this._flushSendBuffer();
+        this.reconnectTimer.reset();
+        this.heartbeatTimer && clearInterval(this.heartbeatTimer);
+        this.heartbeatTimer = setInterval(() => this._sendHeartbeat(), this.heartbeatIntervalMs);
+        this.stateChangeCallbacks.open.forEach((callback) => callback());
+      }
+      /** @internal */
+      _onConnClose(event) {
+        this.log("transport", "close", event);
+        this._triggerChanError();
+        this.heartbeatTimer && clearInterval(this.heartbeatTimer);
+        this.reconnectTimer.scheduleTimeout();
+        this.stateChangeCallbacks.close.forEach((callback) => callback(event));
+      }
+      /** @internal */
+      _onConnError(error) {
+        this.log("transport", error.message);
+        this._triggerChanError();
+        this.stateChangeCallbacks.error.forEach((callback) => callback(error));
+      }
+      /** @internal */
+      _triggerChanError() {
+        this.channels.forEach((channel) => channel._trigger(CHANNEL_EVENTS.error));
+      }
+      /** @internal */
+      _appendParams(url, params) {
+        if (Object.keys(params).length === 0) {
+          return url;
+        }
+        const prefix = url.match(/\?/) ? "&" : "?";
+        const query = new URLSearchParams(params);
+        return `${url}${prefix}${query}`;
+      }
+      /** @internal */
+      _flushSendBuffer() {
+        if (this.isConnected() && this.sendBuffer.length > 0) {
+          this.sendBuffer.forEach((callback) => callback());
+          this.sendBuffer = [];
+        }
+      }
+      /** @internal */
+      _sendHeartbeat() {
+        var _a;
+        if (!this.isConnected()) {
+          return;
+        }
+        if (this.pendingHeartbeatRef) {
+          this.pendingHeartbeatRef = null;
+          this.log("transport", "heartbeat timeout. Attempting to re-establish connection");
+          (_a = this.conn) === null || _a === void 0 ? void 0 : _a.close(WS_CLOSE_NORMAL, "hearbeat timeout");
+          return;
+        }
+        this.pendingHeartbeatRef = this._makeRef();
+        this.push({
+          topic: "phoenix",
+          event: "heartbeat",
+          payload: {},
+          ref: this.pendingHeartbeatRef
+        });
+        this.setAuth(this.accessToken);
+      }
+    };
+    WSWebSocketDummy = class {
+      constructor(address, _protocols, options2) {
+        this.binaryType = "arraybuffer";
+        this.onclose = () => {
+        };
+        this.onerror = () => {
+        };
+        this.onmessage = () => {
+        };
+        this.onopen = () => {
+        };
+        this.readyState = SOCKET_STATES.connecting;
+        this.send = () => {
+        };
+        this.url = null;
+        this.url = address;
+        this.close = options2.close;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/index.js
+var init_module3 = __esm({
+  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/index.js"() {
+    init_RealtimeClient();
+    init_RealtimeChannel();
+    init_RealtimePresence();
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/errors.js
+function isStorageError(error) {
+  return typeof error === "object" && error !== null && "__isStorageError" in error;
+}
+var StorageError, StorageApiError, StorageUnknownError;
+var init_errors2 = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/errors.js"() {
+    StorageError = class extends Error {
+      constructor(message) {
+        super(message);
+        this.__isStorageError = true;
+        this.name = "StorageError";
+      }
+    };
+    StorageApiError = class extends StorageError {
+      constructor(message, status) {
+        super(message);
+        this.name = "StorageApiError";
+        this.status = status;
+      }
+      toJSON() {
+        return {
+          name: this.name,
+          message: this.message,
+          status: this.status
+        };
+      }
+    };
+    StorageUnknownError = class extends StorageError {
+      constructor(message, originalError) {
+        super(message);
+        this.name = "StorageUnknownError";
+        this.originalError = originalError;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/helpers.js
+var __awaiter2, resolveFetch2, resolveResponse;
+var init_helpers = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/helpers.js"() {
+    __awaiter2 = function(thisArg, _arguments, P2, generator) {
+      function adopt(value) {
+        return value instanceof P2 ? value : new P2(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator["throw"](value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    resolveFetch2 = (customFetch) => {
+      let _fetch;
+      if (customFetch) {
+        _fetch = customFetch;
+      } else if (typeof fetch === "undefined") {
+        _fetch = (...args) => Promise.resolve().then(() => (init_browser2(), browser_exports)).then(({ default: fetch3 }) => fetch3(...args));
+      } else {
+        _fetch = fetch;
+      }
+      return (...args) => _fetch(...args);
+    };
+    resolveResponse = () => __awaiter2(void 0, void 0, void 0, function* () {
+      if (typeof Response === "undefined") {
+        return (yield Promise.resolve().then(() => (init_browser2(), browser_exports))).Response;
+      }
+      return Response;
+    });
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/fetch.js
+function _handleRequest(fetcher, method, url, options2, parameters, body2) {
+  return __awaiter3(this, void 0, void 0, function* () {
+    return new Promise((resolve2, reject) => {
+      fetcher(url, _getRequestParams(method, options2, parameters, body2)).then((result) => {
+        if (!result.ok)
+          throw result;
+        if (options2 === null || options2 === void 0 ? void 0 : options2.noResolveJson)
+          return result;
+        return result.json();
+      }).then((data) => resolve2(data)).catch((error) => handleError(error, reject));
+    });
+  });
+}
+function get(fetcher, url, options2, parameters) {
+  return __awaiter3(this, void 0, void 0, function* () {
+    return _handleRequest(fetcher, "GET", url, options2, parameters);
+  });
+}
+function post(fetcher, url, body2, options2, parameters) {
+  return __awaiter3(this, void 0, void 0, function* () {
+    return _handleRequest(fetcher, "POST", url, options2, parameters, body2);
+  });
+}
+function put(fetcher, url, body2, options2, parameters) {
+  return __awaiter3(this, void 0, void 0, function* () {
+    return _handleRequest(fetcher, "PUT", url, options2, parameters, body2);
+  });
+}
+function remove(fetcher, url, body2, options2, parameters) {
+  return __awaiter3(this, void 0, void 0, function* () {
+    return _handleRequest(fetcher, "DELETE", url, options2, parameters, body2);
+  });
+}
+var __awaiter3, _getErrorMessage, handleError, _getRequestParams;
+var init_fetch = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/fetch.js"() {
+    init_errors2();
+    init_helpers();
+    __awaiter3 = function(thisArg, _arguments, P2, generator) {
+      function adopt(value) {
+        return value instanceof P2 ? value : new P2(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator["throw"](value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    _getErrorMessage = (err) => err.msg || err.message || err.error_description || err.error || JSON.stringify(err);
+    handleError = (error, reject) => __awaiter3(void 0, void 0, void 0, function* () {
+      const Res = yield resolveResponse();
+      if (error instanceof Res) {
+        error.json().then((err) => {
+          reject(new StorageApiError(_getErrorMessage(err), error.status || 500));
+        }).catch((err) => {
+          reject(new StorageUnknownError(_getErrorMessage(err), err));
+        });
+      } else {
+        reject(new StorageUnknownError(_getErrorMessage(error), error));
+      }
+    });
+    _getRequestParams = (method, options2, parameters, body2) => {
+      const params = { method, headers: (options2 === null || options2 === void 0 ? void 0 : options2.headers) || {} };
+      if (method === "GET") {
+        return params;
+      }
+      params.headers = Object.assign({ "Content-Type": "application/json" }, options2 === null || options2 === void 0 ? void 0 : options2.headers);
+      params.body = JSON.stringify(body2);
+      return Object.assign(Object.assign({}, params), parameters);
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js
+var __awaiter4, DEFAULT_SEARCH_OPTIONS, DEFAULT_FILE_OPTIONS, StorageFileApi;
+var init_StorageFileApi = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js"() {
+    init_errors2();
+    init_fetch();
+    init_helpers();
+    __awaiter4 = function(thisArg, _arguments, P2, generator) {
+      function adopt(value) {
+        return value instanceof P2 ? value : new P2(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator["throw"](value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    DEFAULT_SEARCH_OPTIONS = {
+      limit: 100,
+      offset: 0,
+      sortBy: {
+        column: "name",
+        order: "asc"
+      }
+    };
+    DEFAULT_FILE_OPTIONS = {
+      cacheControl: "3600",
+      contentType: "text/plain;charset=UTF-8",
+      upsert: false
+    };
+    StorageFileApi = class {
+      constructor(url, headers2 = {}, bucketId, fetch3) {
+        this.url = url;
+        this.headers = headers2;
+        this.bucketId = bucketId;
+        this.fetch = resolveFetch2(fetch3);
+      }
+      /**
+       * Uploads a file to an existing bucket or replaces an existing file at the specified path with a new one.
+       *
+       * @param method HTTP method.
+       * @param path The relative file path. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload.
+       * @param fileBody The body of the file to be stored in the bucket.
+       */
+      uploadOrUpdate(method, path, fileBody, fileOptions) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            let body2;
+            const options2 = Object.assign(Object.assign({}, DEFAULT_FILE_OPTIONS), fileOptions);
+            const headers2 = Object.assign(Object.assign({}, this.headers), method === "POST" && { "x-upsert": String(options2.upsert) });
+            if (typeof Blob !== "undefined" && fileBody instanceof Blob) {
+              body2 = new FormData();
+              body2.append("cacheControl", options2.cacheControl);
+              body2.append("", fileBody);
+            } else if (typeof FormData !== "undefined" && fileBody instanceof FormData) {
+              body2 = fileBody;
+              body2.append("cacheControl", options2.cacheControl);
+            } else {
+              body2 = fileBody;
+              headers2["cache-control"] = `max-age=${options2.cacheControl}`;
+              headers2["content-type"] = options2.contentType;
+            }
+            const cleanPath = this._removeEmptyFolders(path);
+            const _path = this._getFinalPath(cleanPath);
+            const res = yield this.fetch(`${this.url}/object/${_path}`, Object.assign({ method, body: body2, headers: headers2 }, (options2 === null || options2 === void 0 ? void 0 : options2.duplex) ? { duplex: options2.duplex } : {}));
+            const data = yield res.json();
+            if (res.ok) {
+              return {
+                data: { path: cleanPath, id: data.Id, fullPath: data.Key },
+                error: null
+              };
+            } else {
+              const error = data;
+              return { data: null, error };
+            }
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Uploads a file to an existing bucket.
+       *
+       * @param path The file path, including the file name. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload.
+       * @param fileBody The body of the file to be stored in the bucket.
+       */
+      upload(path, fileBody, fileOptions) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          return this.uploadOrUpdate("POST", path, fileBody, fileOptions);
+        });
+      }
+      /**
+       * Upload a file with a token generated from `createSignedUploadUrl`.
+       * @param path The file path, including the file name. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload.
+       * @param token The token generated from `createSignedUploadUrl`
+       * @param fileBody The body of the file to be stored in the bucket.
+       */
+      uploadToSignedUrl(path, token, fileBody, fileOptions) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          const cleanPath = this._removeEmptyFolders(path);
+          const _path = this._getFinalPath(cleanPath);
+          const url = new URL(this.url + `/object/upload/sign/${_path}`);
+          url.searchParams.set("token", token);
+          try {
+            let body2;
+            const options2 = Object.assign({ upsert: DEFAULT_FILE_OPTIONS.upsert }, fileOptions);
+            const headers2 = Object.assign(Object.assign({}, this.headers), { "x-upsert": String(options2.upsert) });
+            if (typeof Blob !== "undefined" && fileBody instanceof Blob) {
+              body2 = new FormData();
+              body2.append("cacheControl", options2.cacheControl);
+              body2.append("", fileBody);
+            } else if (typeof FormData !== "undefined" && fileBody instanceof FormData) {
+              body2 = fileBody;
+              body2.append("cacheControl", options2.cacheControl);
+            } else {
+              body2 = fileBody;
+              headers2["cache-control"] = `max-age=${options2.cacheControl}`;
+              headers2["content-type"] = options2.contentType;
+            }
+            const res = yield this.fetch(url.toString(), {
+              method: "PUT",
+              body: body2,
+              headers: headers2
+            });
+            const data = yield res.json();
+            if (res.ok) {
+              return {
+                data: { path: cleanPath, fullPath: data.Key },
+                error: null
+              };
+            } else {
+              const error = data;
+              return { data: null, error };
+            }
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Creates a signed upload URL.
+       * Signed upload URLs can be used to upload files to the bucket without further authentication.
+       * They are valid for 2 hours.
+       * @param path The file path, including the current file name. For example `folder/image.png`.
+       */
+      createSignedUploadUrl(path) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            let _path = this._getFinalPath(path);
+            const data = yield post(this.fetch, `${this.url}/object/upload/sign/${_path}`, {}, { headers: this.headers });
+            const url = new URL(this.url + data.url);
+            const token = url.searchParams.get("token");
+            if (!token) {
+              throw new StorageError("No token returned by API");
+            }
+            return { data: { signedUrl: url.toString(), path, token }, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Replaces an existing file at the specified path with a new one.
+       *
+       * @param path The relative file path. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to update.
+       * @param fileBody The body of the file to be stored in the bucket.
+       */
+      update(path, fileBody, fileOptions) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          return this.uploadOrUpdate("PUT", path, fileBody, fileOptions);
+        });
+      }
+      /**
+       * Moves an existing file to a new path in the same bucket.
+       *
+       * @param fromPath The original file path, including the current file name. For example `folder/image.png`.
+       * @param toPath The new file path, including the new file name. For example `folder/image-new.png`.
+       */
+      move(fromPath, toPath) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            const data = yield post(this.fetch, `${this.url}/object/move`, { bucketId: this.bucketId, sourceKey: fromPath, destinationKey: toPath }, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Copies an existing file to a new path in the same bucket.
+       *
+       * @param fromPath The original file path, including the current file name. For example `folder/image.png`.
+       * @param toPath The new file path, including the new file name. For example `folder/image-copy.png`.
+       */
+      copy(fromPath, toPath) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            const data = yield post(this.fetch, `${this.url}/object/copy`, { bucketId: this.bucketId, sourceKey: fromPath, destinationKey: toPath }, { headers: this.headers });
+            return { data: { path: data.Key }, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Creates a signed URL. Use a signed URL to share a file for a fixed amount of time.
+       *
+       * @param path The file path, including the current file name. For example `folder/image.png`.
+       * @param expiresIn The number of seconds until the signed URL expires. For example, `60` for a URL which is valid for one minute.
+       * @param options.download triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
+       * @param options.transform Transform the asset before serving it to the client.
+       */
+      createSignedUrl(path, expiresIn, options2) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            let _path = this._getFinalPath(path);
+            let data = yield post(this.fetch, `${this.url}/object/sign/${_path}`, Object.assign({ expiresIn }, (options2 === null || options2 === void 0 ? void 0 : options2.transform) ? { transform: options2.transform } : {}), { headers: this.headers });
+            const downloadQueryParam = (options2 === null || options2 === void 0 ? void 0 : options2.download) ? `&download=${options2.download === true ? "" : options2.download}` : "";
+            const signedUrl = encodeURI(`${this.url}${data.signedURL}${downloadQueryParam}`);
+            data = { signedUrl };
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Creates multiple signed URLs. Use a signed URL to share a file for a fixed amount of time.
+       *
+       * @param paths The file paths to be downloaded, including the current file names. For example `['folder/image.png', 'folder2/image2.png']`.
+       * @param expiresIn The number of seconds until the signed URLs expire. For example, `60` for URLs which are valid for one minute.
+       * @param options.download triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
+       */
+      createSignedUrls(paths, expiresIn, options2) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            const data = yield post(this.fetch, `${this.url}/object/sign/${this.bucketId}`, { expiresIn, paths }, { headers: this.headers });
+            const downloadQueryParam = (options2 === null || options2 === void 0 ? void 0 : options2.download) ? `&download=${options2.download === true ? "" : options2.download}` : "";
+            return {
+              data: data.map((datum) => Object.assign(Object.assign({}, datum), { signedUrl: datum.signedURL ? encodeURI(`${this.url}${datum.signedURL}${downloadQueryParam}`) : null })),
+              error: null
+            };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Downloads a file from a private bucket. For public buckets, make a request to the URL returned from `getPublicUrl` instead.
+       *
+       * @param path The full path and file name of the file to be downloaded. For example `folder/image.png`.
+       * @param options.transform Transform the asset before serving it to the client.
+       */
+      download(path, options2) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          const wantsTransformation = typeof (options2 === null || options2 === void 0 ? void 0 : options2.transform) !== "undefined";
+          const renderPath = wantsTransformation ? "render/image/authenticated" : "object";
+          const transformationQuery = this.transformOptsToQueryString((options2 === null || options2 === void 0 ? void 0 : options2.transform) || {});
+          const queryString = transformationQuery ? `?${transformationQuery}` : "";
+          try {
+            const _path = this._getFinalPath(path);
+            const res = yield get(this.fetch, `${this.url}/${renderPath}/${_path}${queryString}`, {
+              headers: this.headers,
+              noResolveJson: true
+            });
+            const data = yield res.blob();
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * A simple convenience function to get the URL for an asset in a public bucket. If you do not want to use this function, you can construct the public URL by concatenating the bucket URL with the path to the asset.
+       * This function does not verify if the bucket is public. If a public URL is created for a bucket which is not public, you will not be able to download the asset.
+       *
+       * @param path The path and name of the file to generate the public URL for. For example `folder/image.png`.
+       * @param options.download Triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
+       * @param options.transform Transform the asset before serving it to the client.
+       */
+      getPublicUrl(path, options2) {
+        const _path = this._getFinalPath(path);
+        const _queryString = [];
+        const downloadQueryParam = (options2 === null || options2 === void 0 ? void 0 : options2.download) ? `download=${options2.download === true ? "" : options2.download}` : "";
+        if (downloadQueryParam !== "") {
+          _queryString.push(downloadQueryParam);
+        }
+        const wantsTransformation = typeof (options2 === null || options2 === void 0 ? void 0 : options2.transform) !== "undefined";
+        const renderPath = wantsTransformation ? "render/image" : "object";
+        const transformationQuery = this.transformOptsToQueryString((options2 === null || options2 === void 0 ? void 0 : options2.transform) || {});
+        if (transformationQuery !== "") {
+          _queryString.push(transformationQuery);
+        }
+        let queryString = _queryString.join("&");
+        if (queryString !== "") {
+          queryString = `?${queryString}`;
+        }
+        return {
+          data: { publicUrl: encodeURI(`${this.url}/${renderPath}/public/${_path}${queryString}`) }
+        };
+      }
+      /**
+       * Deletes files within the same bucket
+       *
+       * @param paths An array of files to delete, including the path and file name. For example [`'folder/image.png'`].
+       */
+      remove(paths) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            const data = yield remove(this.fetch, `${this.url}/object/${this.bucketId}`, { prefixes: paths }, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Get file metadata
+       * @param id the file id to retrieve metadata
+       */
+      // async getMetadata(
+      //   id: string
+      // ): Promise<
+      //   | {
+      //       data: Metadata
+      //       error: null
+      //     }
+      //   | {
+      //       data: null
+      //       error: StorageError
+      //     }
+      // > {
+      //   try {
+      //     const data = await get(this.fetch, `${this.url}/metadata/${id}`, { headers: this.headers })
+      //     return { data, error: null }
+      //   } catch (error) {
+      //     if (isStorageError(error)) {
+      //       return { data: null, error }
+      //     }
+      //     throw error
+      //   }
+      // }
+      /**
+       * Update file metadata
+       * @param id the file id to update metadata
+       * @param meta the new file metadata
+       */
+      // async updateMetadata(
+      //   id: string,
+      //   meta: Metadata
+      // ): Promise<
+      //   | {
+      //       data: Metadata
+      //       error: null
+      //     }
+      //   | {
+      //       data: null
+      //       error: StorageError
+      //     }
+      // > {
+      //   try {
+      //     const data = await post(
+      //       this.fetch,
+      //       `${this.url}/metadata/${id}`,
+      //       { ...meta },
+      //       { headers: this.headers }
+      //     )
+      //     return { data, error: null }
+      //   } catch (error) {
+      //     if (isStorageError(error)) {
+      //       return { data: null, error }
+      //     }
+      //     throw error
+      //   }
+      // }
+      /**
+       * Lists all the files within a bucket.
+       * @param path The folder path.
+       */
+      list(path, options2, parameters) {
+        return __awaiter4(this, void 0, void 0, function* () {
+          try {
+            const body2 = Object.assign(Object.assign(Object.assign({}, DEFAULT_SEARCH_OPTIONS), options2), { prefix: path || "" });
+            const data = yield post(this.fetch, `${this.url}/object/list/${this.bucketId}`, body2, { headers: this.headers }, parameters);
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      _getFinalPath(path) {
+        return `${this.bucketId}/${path}`;
+      }
+      _removeEmptyFolders(path) {
+        return path.replace(/^\/|\/$/g, "").replace(/\/+/g, "/");
+      }
+      transformOptsToQueryString(transform) {
+        const params = [];
+        if (transform.width) {
+          params.push(`width=${transform.width}`);
+        }
+        if (transform.height) {
+          params.push(`height=${transform.height}`);
+        }
+        if (transform.resize) {
+          params.push(`resize=${transform.resize}`);
+        }
+        if (transform.format) {
+          params.push(`format=${transform.format}`);
+        }
+        if (transform.quality) {
+          params.push(`quality=${transform.quality}`);
+        }
+        return params.join("&");
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/version.js
+var version3;
+var init_version3 = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/version.js"() {
+    version3 = "2.5.5";
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/constants.js
+var DEFAULT_HEADERS3;
+var init_constants3 = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/constants.js"() {
+    init_version3();
+    DEFAULT_HEADERS3 = { "X-Client-Info": `storage-js/${version3}` };
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/packages/StorageBucketApi.js
+var __awaiter5, StorageBucketApi;
+var init_StorageBucketApi = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/packages/StorageBucketApi.js"() {
+    init_constants3();
+    init_errors2();
+    init_fetch();
+    init_helpers();
+    __awaiter5 = function(thisArg, _arguments, P2, generator) {
+      function adopt(value) {
+        return value instanceof P2 ? value : new P2(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator["throw"](value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    StorageBucketApi = class {
+      constructor(url, headers2 = {}, fetch3) {
+        this.url = url;
+        this.headers = Object.assign(Object.assign({}, DEFAULT_HEADERS3), headers2);
+        this.fetch = resolveFetch2(fetch3);
+      }
+      /**
+       * Retrieves the details of all Storage buckets within an existing project.
+       */
+      listBuckets() {
+        return __awaiter5(this, void 0, void 0, function* () {
+          try {
+            const data = yield get(this.fetch, `${this.url}/bucket`, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Retrieves the details of an existing Storage bucket.
+       *
+       * @param id The unique identifier of the bucket you would like to retrieve.
+       */
+      getBucket(id) {
+        return __awaiter5(this, void 0, void 0, function* () {
+          try {
+            const data = yield get(this.fetch, `${this.url}/bucket/${id}`, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Creates a new Storage bucket
+       *
+       * @param id A unique identifier for the bucket you are creating.
+       * @param options.public The visibility of the bucket. Public buckets don't require an authorization token to download objects, but still require a valid token for all other operations. By default, buckets are private.
+       * @param options.fileSizeLimit specifies the max file size in bytes that can be uploaded to this bucket.
+       * The global file size limit takes precedence over this value.
+       * The default value is null, which doesn't set a per bucket file size limit.
+       * @param options.allowedMimeTypes specifies the allowed mime types that this bucket can accept during upload.
+       * The default value is null, which allows files with all mime types to be uploaded.
+       * Each mime type specified can be a wildcard, e.g. image/*, or a specific mime type, e.g. image/png.
+       * @returns newly created bucket id
+       */
+      createBucket(id, options2 = {
+        public: false
+      }) {
+        return __awaiter5(this, void 0, void 0, function* () {
+          try {
+            const data = yield post(this.fetch, `${this.url}/bucket`, {
+              id,
+              name: id,
+              public: options2.public,
+              file_size_limit: options2.fileSizeLimit,
+              allowed_mime_types: options2.allowedMimeTypes
+            }, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Updates a Storage bucket
+       *
+       * @param id A unique identifier for the bucket you are updating.
+       * @param options.public The visibility of the bucket. Public buckets don't require an authorization token to download objects, but still require a valid token for all other operations.
+       * @param options.fileSizeLimit specifies the max file size in bytes that can be uploaded to this bucket.
+       * The global file size limit takes precedence over this value.
+       * The default value is null, which doesn't set a per bucket file size limit.
+       * @param options.allowedMimeTypes specifies the allowed mime types that this bucket can accept during upload.
+       * The default value is null, which allows files with all mime types to be uploaded.
+       * Each mime type specified can be a wildcard, e.g. image/*, or a specific mime type, e.g. image/png.
+       */
+      updateBucket(id, options2) {
+        return __awaiter5(this, void 0, void 0, function* () {
+          try {
+            const data = yield put(this.fetch, `${this.url}/bucket/${id}`, {
+              id,
+              name: id,
+              public: options2.public,
+              file_size_limit: options2.fileSizeLimit,
+              allowed_mime_types: options2.allowedMimeTypes
+            }, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Removes all objects inside a single bucket.
+       *
+       * @param id The unique identifier of the bucket you would like to empty.
+       */
+      emptyBucket(id) {
+        return __awaiter5(this, void 0, void 0, function* () {
+          try {
+            const data = yield post(this.fetch, `${this.url}/bucket/${id}/empty`, {}, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * Deletes an existing bucket. A bucket can't be deleted with existing objects inside it.
+       * You must first `empty()` the bucket.
+       *
+       * @param id The unique identifier of the bucket you would like to delete.
+       */
+      deleteBucket(id) {
+        return __awaiter5(this, void 0, void 0, function* () {
+          try {
+            const data = yield remove(this.fetch, `${this.url}/bucket/${id}`, {}, { headers: this.headers });
+            return { data, error: null };
+          } catch (error) {
+            if (isStorageError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/StorageClient.js
+var StorageClient;
+var init_StorageClient = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/StorageClient.js"() {
+    init_StorageFileApi();
+    init_StorageBucketApi();
+    StorageClient = class extends StorageBucketApi {
+      constructor(url, headers2 = {}, fetch3) {
+        super(url, headers2, fetch3);
+      }
+      /**
+       * Perform file operation in a bucket.
+       *
+       * @param id The bucket id to operate on.
+       */
+      from(id) {
+        return new StorageFileApi(this.url, this.headers, id, this.fetch);
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/types.js
+var init_types2 = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/types.js"() {
+  }
+});
+
+// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/index.js
+var init_module4 = __esm({
+  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/index.js"() {
+    init_StorageClient();
+    init_types2();
+    init_errors2();
+  }
+});
+
+// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/version.js
+var version4;
+var init_version4 = __esm({
+  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/version.js"() {
+    version4 = "2.39.8";
+  }
+});
+
+// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/constants.js
+var JS_ENV, DEFAULT_HEADERS4, DEFAULT_GLOBAL_OPTIONS, DEFAULT_DB_OPTIONS, DEFAULT_AUTH_OPTIONS, DEFAULT_REALTIME_OPTIONS;
+var init_constants4 = __esm({
+  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/constants.js"() {
+    init_version4();
+    JS_ENV = "";
+    if (typeof Deno !== "undefined") {
+      JS_ENV = "deno";
+    } else if (typeof document !== "undefined") {
+      JS_ENV = "web";
+    } else if (typeof navigator !== "undefined" && navigator.product === "ReactNative") {
+      JS_ENV = "react-native";
+    } else {
+      JS_ENV = "node";
+    }
+    DEFAULT_HEADERS4 = { "X-Client-Info": `supabase-js-${JS_ENV}/${version4}` };
+    DEFAULT_GLOBAL_OPTIONS = {
+      headers: DEFAULT_HEADERS4
+    };
+    DEFAULT_DB_OPTIONS = {
+      schema: "public"
+    };
+    DEFAULT_AUTH_OPTIONS = {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+      flowType: "implicit"
+    };
+    DEFAULT_REALTIME_OPTIONS = {};
+  }
+});
+
+// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/fetch.js
+var __awaiter6, resolveFetch3, resolveHeadersConstructor, fetchWithAuth;
+var init_fetch2 = __esm({
+  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/fetch.js"() {
+    init_browser2();
+    __awaiter6 = function(thisArg, _arguments, P2, generator) {
+      function adopt(value) {
+        return value instanceof P2 ? value : new P2(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator["throw"](value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    resolveFetch3 = (customFetch) => {
+      let _fetch;
+      if (customFetch) {
+        _fetch = customFetch;
+      } else if (typeof fetch === "undefined") {
+        _fetch = browser_default;
+      } else {
+        _fetch = fetch;
+      }
+      return (...args) => _fetch(...args);
+    };
+    resolveHeadersConstructor = () => {
+      if (typeof Headers === "undefined") {
+        return Headers2;
+      }
+      return Headers;
+    };
+    fetchWithAuth = (supabaseKey, getAccessToken, customFetch) => {
+      const fetch3 = resolveFetch3(customFetch);
+      const HeadersConstructor = resolveHeadersConstructor();
+      return (input, init2) => __awaiter6(void 0, void 0, void 0, function* () {
+        var _a;
+        const accessToken = (_a = yield getAccessToken()) !== null && _a !== void 0 ? _a : supabaseKey;
+        let headers2 = new HeadersConstructor(init2 === null || init2 === void 0 ? void 0 : init2.headers);
+        if (!headers2.has("apikey")) {
+          headers2.set("apikey", supabaseKey);
+        }
+        if (!headers2.has("Authorization")) {
+          headers2.set("Authorization", `Bearer ${accessToken}`);
+        }
+        return fetch3(input, Object.assign(Object.assign({}, init2), { headers: headers2 }));
+      });
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/helpers.js
+function stripTrailingSlash(url) {
+  return url.replace(/\/$/, "");
+}
+function applySettingDefaults(options2, defaults) {
+  const { db: dbOptions, auth: authOptions, realtime: realtimeOptions, global: globalOptions } = options2;
+  const { db: DEFAULT_DB_OPTIONS2, auth: DEFAULT_AUTH_OPTIONS2, realtime: DEFAULT_REALTIME_OPTIONS2, global: DEFAULT_GLOBAL_OPTIONS2 } = defaults;
+  return {
+    db: Object.assign(Object.assign({}, DEFAULT_DB_OPTIONS2), dbOptions),
+    auth: Object.assign(Object.assign({}, DEFAULT_AUTH_OPTIONS2), authOptions),
+    realtime: Object.assign(Object.assign({}, DEFAULT_REALTIME_OPTIONS2), realtimeOptions),
+    global: Object.assign(Object.assign({}, DEFAULT_GLOBAL_OPTIONS2), globalOptions)
+  };
+}
+var init_helpers2 = __esm({
+  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/helpers.js"() {
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/helpers.js
+function expiresAt(expiresIn) {
+  const timeNow = Math.round(Date.now() / 1e3);
+  return timeNow + expiresIn;
+}
+function uuid() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0, v = c == "x" ? r : r & 3 | 8;
+    return v.toString(16);
+  });
+}
+function parseParametersFromURL(href) {
+  const result = {};
+  const url = new URL(href);
+  if (url.hash && url.hash[0] === "#") {
+    try {
+      const hashSearchParams = new URLSearchParams(url.hash.substring(1));
+      hashSearchParams.forEach((value, key2) => {
+        result[key2] = value;
+      });
+    } catch (e) {
+    }
+  }
+  url.searchParams.forEach((value, key2) => {
+    result[key2] = value;
+  });
+  return result;
+}
+function decodeBase64URL(value) {
+  const key2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+  let base642 = "";
+  let chr1, chr2, chr3;
+  let enc1, enc2, enc3, enc4;
+  let i = 0;
+  value = value.replace("-", "+").replace("_", "/");
+  while (i < value.length) {
+    enc1 = key2.indexOf(value.charAt(i++));
+    enc2 = key2.indexOf(value.charAt(i++));
+    enc3 = key2.indexOf(value.charAt(i++));
+    enc4 = key2.indexOf(value.charAt(i++));
+    chr1 = enc1 << 2 | enc2 >> 4;
+    chr2 = (enc2 & 15) << 4 | enc3 >> 2;
+    chr3 = (enc3 & 3) << 6 | enc4;
+    base642 = base642 + String.fromCharCode(chr1);
+    if (enc3 != 64 && chr2 != 0) {
+      base642 = base642 + String.fromCharCode(chr2);
+    }
+    if (enc4 != 64 && chr3 != 0) {
+      base642 = base642 + String.fromCharCode(chr3);
+    }
+  }
+  return base642;
+}
+function decodeJWTPayload(token) {
+  const base64UrlRegex = /^([a-z0-9_-]{4})*($|[a-z0-9_-]{3}=?$|[a-z0-9_-]{2}(==)?$)$/i;
+  const parts = token.split(".");
+  if (parts.length !== 3) {
+    throw new Error("JWT is not valid: not a JWT structure");
+  }
+  if (!base64UrlRegex.test(parts[1])) {
+    throw new Error("JWT is not valid: payload is not in base64url format");
+  }
+  const base64Url = parts[1];
+  return JSON.parse(decodeBase64URL(base64Url));
+}
+async function sleep(time) {
+  return await new Promise((accept) => {
+    setTimeout(() => accept(null), time);
+  });
+}
+function retryable(fn, isRetryable) {
+  const promise = new Promise((accept, reject) => {
+    ;
+    (async () => {
+      for (let attempt = 0; attempt < Infinity; attempt++) {
+        try {
+          const result = await fn(attempt);
+          if (!isRetryable(attempt, null, result)) {
+            accept(result);
+            return;
+          }
+        } catch (e) {
+          if (!isRetryable(attempt, e)) {
+            reject(e);
+            return;
+          }
+        }
+      }
+    })();
+  });
+  return promise;
+}
+function dec2hex(dec) {
+  return ("0" + dec.toString(16)).substr(-2);
+}
+function generatePKCEVerifier() {
+  const verifierLength = 56;
+  const array2 = new Uint32Array(verifierLength);
+  if (typeof crypto === "undefined") {
+    const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
+    const charSetLen = charSet.length;
+    let verifier = "";
+    for (let i = 0; i < verifierLength; i++) {
+      verifier += charSet.charAt(Math.floor(Math.random() * charSetLen));
+    }
+    return verifier;
+  }
+  crypto.getRandomValues(array2);
+  return Array.from(array2, dec2hex).join("");
+}
+async function sha256(randomString) {
+  const encoder4 = new TextEncoder();
+  const encodedData = encoder4.encode(randomString);
+  const hash2 = await crypto.subtle.digest("SHA-256", encodedData);
+  const bytes = new Uint8Array(hash2);
+  return Array.from(bytes).map((c) => String.fromCharCode(c)).join("");
+}
+function base64urlencode(str) {
+  return btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+async function generatePKCEChallenge(verifier) {
+  const hasCryptoSupport = typeof crypto !== "undefined" && typeof crypto.subtle !== "undefined" && typeof TextEncoder !== "undefined";
+  if (!hasCryptoSupport) {
+    console.warn("WebCrypto API is not supported. Code challenge method will default to use plain instead of sha256.");
+    return verifier;
+  }
+  const hashed = await sha256(verifier);
+  return base64urlencode(hashed);
+}
+var isBrowser, localStorageWriteTests, supportsLocalStorage, resolveFetch4, looksLikeFetchResponse, setItemAsync, getItemAsync, removeItemAsync, Deferred;
+var init_helpers3 = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/helpers.js"() {
+    isBrowser = () => typeof document !== "undefined";
+    localStorageWriteTests = {
+      tested: false,
+      writable: false
+    };
+    supportsLocalStorage = () => {
+      if (!isBrowser()) {
+        return false;
+      }
+      try {
+        if (typeof globalThis.localStorage !== "object") {
+          return false;
+        }
+      } catch (e) {
+        return false;
+      }
+      if (localStorageWriteTests.tested) {
+        return localStorageWriteTests.writable;
+      }
+      const randomKey = `lswt-${Math.random()}${Math.random()}`;
+      try {
+        globalThis.localStorage.setItem(randomKey, randomKey);
+        globalThis.localStorage.removeItem(randomKey);
+        localStorageWriteTests.tested = true;
+        localStorageWriteTests.writable = true;
+      } catch (e) {
+        localStorageWriteTests.tested = true;
+        localStorageWriteTests.writable = false;
+      }
+      return localStorageWriteTests.writable;
+    };
+    resolveFetch4 = (customFetch) => {
+      let _fetch;
+      if (customFetch) {
+        _fetch = customFetch;
+      } else if (typeof fetch === "undefined") {
+        _fetch = (...args) => Promise.resolve().then(() => (init_browser2(), browser_exports)).then(({ default: fetch3 }) => fetch3(...args));
+      } else {
+        _fetch = fetch;
+      }
+      return (...args) => _fetch(...args);
+    };
+    looksLikeFetchResponse = (maybeResponse) => {
+      return typeof maybeResponse === "object" && maybeResponse !== null && "status" in maybeResponse && "ok" in maybeResponse && "json" in maybeResponse && typeof maybeResponse.json === "function";
+    };
+    setItemAsync = async (storage2, key2, data) => {
+      await storage2.setItem(key2, JSON.stringify(data));
+    };
+    getItemAsync = async (storage2, key2) => {
+      const value = await storage2.getItem(key2);
+      if (!value) {
+        return null;
+      }
+      try {
+        return JSON.parse(value);
+      } catch (_a) {
+        return value;
+      }
+    };
+    removeItemAsync = async (storage2, key2) => {
+      await storage2.removeItem(key2);
+    };
+    Deferred = class _Deferred {
+      constructor() {
+        ;
+        this.promise = new _Deferred.promiseConstructor((res, rej) => {
+          ;
+          this.resolve = res;
+          this.reject = rej;
+        });
+      }
+    };
+    Deferred.promiseConstructor = Promise;
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/errors.js
+function isAuthError(error) {
+  return typeof error === "object" && error !== null && "__isAuthError" in error;
+}
+function isAuthApiError(error) {
+  return isAuthError(error) && error.name === "AuthApiError";
+}
+function isAuthRetryableFetchError(error) {
+  return isAuthError(error) && error.name === "AuthRetryableFetchError";
+}
+var AuthError, AuthApiError, AuthUnknownError, CustomAuthError, AuthSessionMissingError, AuthInvalidTokenResponseError, AuthInvalidCredentialsError, AuthImplicitGrantRedirectError, AuthPKCEGrantCodeExchangeError, AuthRetryableFetchError, AuthWeakPasswordError;
+var init_errors3 = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/errors.js"() {
+    AuthError = class extends Error {
+      constructor(message, status) {
+        super(message);
+        this.__isAuthError = true;
+        this.name = "AuthError";
+        this.status = status;
+      }
+    };
+    AuthApiError = class extends AuthError {
+      constructor(message, status) {
+        super(message, status);
+        this.name = "AuthApiError";
+        this.status = status;
+      }
+      toJSON() {
+        return {
+          name: this.name,
+          message: this.message,
+          status: this.status
+        };
+      }
+    };
+    AuthUnknownError = class extends AuthError {
+      constructor(message, originalError) {
+        super(message);
+        this.name = "AuthUnknownError";
+        this.originalError = originalError;
+      }
+    };
+    CustomAuthError = class extends AuthError {
+      constructor(message, name2, status) {
+        super(message);
+        this.name = name2;
+        this.status = status;
+      }
+      toJSON() {
+        return {
+          name: this.name,
+          message: this.message,
+          status: this.status
+        };
+      }
+    };
+    AuthSessionMissingError = class extends CustomAuthError {
+      constructor() {
+        super("Auth session missing!", "AuthSessionMissingError", 400);
+      }
+    };
+    AuthInvalidTokenResponseError = class extends CustomAuthError {
+      constructor() {
+        super("Auth session or user missing", "AuthInvalidTokenResponseError", 500);
+      }
+    };
+    AuthInvalidCredentialsError = class extends CustomAuthError {
+      constructor(message) {
+        super(message, "AuthInvalidCredentialsError", 400);
+      }
+    };
+    AuthImplicitGrantRedirectError = class extends CustomAuthError {
+      constructor(message, details = null) {
+        super(message, "AuthImplicitGrantRedirectError", 500);
+        this.details = null;
+        this.details = details;
+      }
+      toJSON() {
+        return {
+          name: this.name,
+          message: this.message,
+          status: this.status,
+          details: this.details
+        };
+      }
+    };
+    AuthPKCEGrantCodeExchangeError = class extends CustomAuthError {
+      constructor(message, details = null) {
+        super(message, "AuthPKCEGrantCodeExchangeError", 500);
+        this.details = null;
+        this.details = details;
+      }
+      toJSON() {
+        return {
+          name: this.name,
+          message: this.message,
+          status: this.status,
+          details: this.details
+        };
+      }
+    };
+    AuthRetryableFetchError = class extends CustomAuthError {
+      constructor(message, status) {
+        super(message, "AuthRetryableFetchError", status);
+      }
+    };
+    AuthWeakPasswordError = class extends CustomAuthError {
+      constructor(message, status, reasons) {
+        super(message, "AuthWeakPasswordError", status);
+        this.reasons = reasons;
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/fetch.js
+async function handleError2(error) {
+  if (!looksLikeFetchResponse(error)) {
+    throw new AuthRetryableFetchError(_getErrorMessage2(error), 0);
+  }
+  if (NETWORK_ERROR_CODES.includes(error.status)) {
+    throw new AuthRetryableFetchError(_getErrorMessage2(error), error.status);
+  }
+  let data;
+  try {
+    data = await error.json();
+  } catch (e) {
+    throw new AuthUnknownError(_getErrorMessage2(e), e);
+  }
+  if (typeof data === "object" && data && typeof data.weak_password === "object" && data.weak_password && Array.isArray(data.weak_password.reasons) && data.weak_password.reasons.length && data.weak_password.reasons.reduce((a, i) => a && typeof i === "string", true)) {
+    throw new AuthWeakPasswordError(_getErrorMessage2(data), error.status, data.weak_password.reasons);
+  }
+  throw new AuthApiError(_getErrorMessage2(data), error.status || 500);
+}
+async function _request(fetcher, method, url, options2) {
+  var _a;
+  const headers2 = Object.assign({}, options2 === null || options2 === void 0 ? void 0 : options2.headers);
+  if (options2 === null || options2 === void 0 ? void 0 : options2.jwt) {
+    headers2["Authorization"] = `Bearer ${options2.jwt}`;
+  }
+  const qs = (_a = options2 === null || options2 === void 0 ? void 0 : options2.query) !== null && _a !== void 0 ? _a : {};
+  if (options2 === null || options2 === void 0 ? void 0 : options2.redirectTo) {
+    qs["redirect_to"] = options2.redirectTo;
+  }
+  const queryString = Object.keys(qs).length ? "?" + new URLSearchParams(qs).toString() : "";
+  const data = await _handleRequest2(fetcher, method, url + queryString, { headers: headers2, noResolveJson: options2 === null || options2 === void 0 ? void 0 : options2.noResolveJson }, {}, options2 === null || options2 === void 0 ? void 0 : options2.body);
+  return (options2 === null || options2 === void 0 ? void 0 : options2.xform) ? options2 === null || options2 === void 0 ? void 0 : options2.xform(data) : { data: Object.assign({}, data), error: null };
+}
+async function _handleRequest2(fetcher, method, url, options2, parameters, body2) {
+  const requestParams = _getRequestParams2(method, options2, parameters, body2);
+  let result;
+  try {
+    result = await fetcher(url, requestParams);
+  } catch (e) {
+    console.error(e);
+    throw new AuthRetryableFetchError(_getErrorMessage2(e), 0);
+  }
+  if (!result.ok) {
+    await handleError2(result);
+  }
+  if (options2 === null || options2 === void 0 ? void 0 : options2.noResolveJson) {
+    return result;
+  }
+  try {
+    return await result.json();
+  } catch (e) {
+    await handleError2(e);
+  }
+}
+function _sessionResponse(data) {
+  var _a;
+  let session = null;
+  if (hasSession(data)) {
+    session = Object.assign({}, data);
+    if (!data.expires_at) {
+      session.expires_at = expiresAt(data.expires_in);
+    }
+  }
+  const user = (_a = data.user) !== null && _a !== void 0 ? _a : data;
+  return { data: { session, user }, error: null };
+}
+function _sessionResponsePassword(data) {
+  const response = _sessionResponse(data);
+  if (!response.error && data.weak_password && typeof data.weak_password === "object" && Array.isArray(data.weak_password.reasons) && data.weak_password.reasons.length && data.weak_password.message && typeof data.weak_password.message === "string" && data.weak_password.reasons.reduce((a, i) => a && typeof i === "string", true)) {
+    response.data.weak_password = data.weak_password;
+  }
+  return response;
+}
+function _userResponse(data) {
+  var _a;
+  const user = (_a = data.user) !== null && _a !== void 0 ? _a : data;
+  return { data: { user }, error: null };
+}
+function _ssoResponse(data) {
+  return { data, error: null };
+}
+function _generateLinkResponse(data) {
+  const { action_link, email_otp, hashed_token, redirect_to, verification_type } = data, rest = __rest(data, ["action_link", "email_otp", "hashed_token", "redirect_to", "verification_type"]);
+  const properties = {
+    action_link,
+    email_otp,
+    hashed_token,
+    redirect_to,
+    verification_type
+  };
+  const user = Object.assign({}, rest);
+  return {
+    data: {
+      properties,
+      user
+    },
+    error: null
+  };
+}
+function _noResolveJsonResponse(data) {
+  return data;
+}
+function hasSession(data) {
+  return data.access_token && data.refresh_token && data.expires_in;
+}
+var __rest, _getErrorMessage2, NETWORK_ERROR_CODES, _getRequestParams2;
+var init_fetch3 = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/fetch.js"() {
+    init_helpers3();
+    init_errors3();
+    __rest = function(s2, e) {
+      var t = {};
+      for (var p in s2)
+        if (Object.prototype.hasOwnProperty.call(s2, p) && e.indexOf(p) < 0)
+          t[p] = s2[p];
+      if (s2 != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s2); i < p.length; i++) {
+          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s2, p[i]))
+            t[p[i]] = s2[p[i]];
+        }
+      return t;
+    };
+    _getErrorMessage2 = (err) => err.msg || err.message || err.error_description || err.error || JSON.stringify(err);
+    NETWORK_ERROR_CODES = [502, 503, 504];
+    _getRequestParams2 = (method, options2, parameters, body2) => {
+      const params = { method, headers: (options2 === null || options2 === void 0 ? void 0 : options2.headers) || {} };
+      if (method === "GET") {
+        return params;
+      }
+      params.headers = Object.assign({ "Content-Type": "application/json;charset=UTF-8" }, options2 === null || options2 === void 0 ? void 0 : options2.headers);
+      params.body = JSON.stringify(body2);
+      return Object.assign(Object.assign({}, params), parameters);
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/GoTrueAdminApi.js
+var __rest2, GoTrueAdminApi;
+var init_GoTrueAdminApi = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/GoTrueAdminApi.js"() {
+    init_fetch3();
+    init_helpers3();
+    init_errors3();
+    __rest2 = function(s2, e) {
+      var t = {};
+      for (var p in s2)
+        if (Object.prototype.hasOwnProperty.call(s2, p) && e.indexOf(p) < 0)
+          t[p] = s2[p];
+      if (s2 != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s2); i < p.length; i++) {
+          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s2, p[i]))
+            t[p[i]] = s2[p[i]];
+        }
+      return t;
+    };
+    GoTrueAdminApi = class {
+      constructor({ url = "", headers: headers2 = {}, fetch: fetch3 }) {
+        this.url = url;
+        this.headers = headers2;
+        this.fetch = resolveFetch4(fetch3);
+        this.mfa = {
+          listFactors: this._listFactors.bind(this),
+          deleteFactor: this._deleteFactor.bind(this)
+        };
+      }
+      /**
+       * Removes a logged-in session.
+       * @param jwt A valid, logged-in JWT.
+       * @param scope The logout sope.
+       */
+      async signOut(jwt, scope = "global") {
+        try {
+          await _request(this.fetch, "POST", `${this.url}/logout?scope=${scope}`, {
+            headers: this.headers,
+            jwt,
+            noResolveJson: true
+          });
+          return { data: null, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Sends an invite link to an email address.
+       * @param email The email address of the user.
+       * @param options Additional options to be included when inviting.
+       */
+      async inviteUserByEmail(email, options2 = {}) {
+        try {
+          return await _request(this.fetch, "POST", `${this.url}/invite`, {
+            body: { email, data: options2.data },
+            headers: this.headers,
+            redirectTo: options2.redirectTo,
+            xform: _userResponse
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Generates email links and OTPs to be sent via a custom email provider.
+       * @param email The user's email.
+       * @param options.password User password. For signup only.
+       * @param options.data Optional user metadata. For signup only.
+       * @param options.redirectTo The redirect url which should be appended to the generated link
+       */
+      async generateLink(params) {
+        try {
+          const { options: options2 } = params, rest = __rest2(params, ["options"]);
+          const body2 = Object.assign(Object.assign({}, rest), options2);
+          if ("newEmail" in rest) {
+            body2.new_email = rest === null || rest === void 0 ? void 0 : rest.newEmail;
+            delete body2["newEmail"];
+          }
+          return await _request(this.fetch, "POST", `${this.url}/admin/generate_link`, {
+            body: body2,
+            headers: this.headers,
+            xform: _generateLinkResponse,
+            redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.redirectTo
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return {
+              data: {
+                properties: null,
+                user: null
+              },
+              error
+            };
+          }
+          throw error;
+        }
+      }
+      // User Admin API
+      /**
+       * Creates a new user.
+       * This function should only be called on a server. Never expose your `service_role` key in the browser.
+       */
+      async createUser(attributes) {
+        try {
+          return await _request(this.fetch, "POST", `${this.url}/admin/users`, {
+            body: attributes,
+            headers: this.headers,
+            xform: _userResponse
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Get a list of users.
+       *
+       * This function should only be called on a server. Never expose your `service_role` key in the browser.
+       * @param params An object which supports `page` and `perPage` as numbers, to alter the paginated results.
+       */
+      async listUsers(params) {
+        var _a, _b, _c, _d, _e, _f, _g;
+        try {
+          const pagination = { nextPage: null, lastPage: 0, total: 0 };
+          const response = await _request(this.fetch, "GET", `${this.url}/admin/users`, {
+            headers: this.headers,
+            noResolveJson: true,
+            query: {
+              page: (_b = (_a = params === null || params === void 0 ? void 0 : params.page) === null || _a === void 0 ? void 0 : _a.toString()) !== null && _b !== void 0 ? _b : "",
+              per_page: (_d = (_c = params === null || params === void 0 ? void 0 : params.perPage) === null || _c === void 0 ? void 0 : _c.toString()) !== null && _d !== void 0 ? _d : ""
+            },
+            xform: _noResolveJsonResponse
+          });
+          if (response.error)
+            throw response.error;
+          const users = await response.json();
+          const total = (_e = response.headers.get("x-total-count")) !== null && _e !== void 0 ? _e : 0;
+          const links = (_g = (_f = response.headers.get("link")) === null || _f === void 0 ? void 0 : _f.split(",")) !== null && _g !== void 0 ? _g : [];
+          if (links.length > 0) {
+            links.forEach((link) => {
+              const page2 = parseInt(link.split(";")[0].split("=")[1].substring(0, 1));
+              const rel = JSON.parse(link.split(";")[1].split("=")[1]);
+              pagination[`${rel}Page`] = page2;
+            });
+            pagination.total = parseInt(total);
+          }
+          return { data: Object.assign(Object.assign({}, users), pagination), error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { users: [] }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Get user by id.
+       *
+       * @param uid The user's unique identifier
+       *
+       * This function should only be called on a server. Never expose your `service_role` key in the browser.
+       */
+      async getUserById(uid) {
+        try {
+          return await _request(this.fetch, "GET", `${this.url}/admin/users/${uid}`, {
+            headers: this.headers,
+            xform: _userResponse
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Updates the user data.
+       *
+       * @param attributes The data you want to update.
+       *
+       * This function should only be called on a server. Never expose your `service_role` key in the browser.
+       */
+      async updateUserById(uid, attributes) {
+        try {
+          return await _request(this.fetch, "PUT", `${this.url}/admin/users/${uid}`, {
+            body: attributes,
+            headers: this.headers,
+            xform: _userResponse
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Delete a user. Requires a `service_role` key.
+       *
+       * @param id The user id you want to remove.
+       * @param shouldSoftDelete If true, then the user will be soft-deleted (setting `deleted_at` to the current timestamp and disabling their account while preserving their data) from the auth schema.
+       * Defaults to false for backward compatibility.
+       *
+       * This function should only be called on a server. Never expose your `service_role` key in the browser.
+       */
+      async deleteUser(id, shouldSoftDelete = false) {
+        try {
+          return await _request(this.fetch, "DELETE", `${this.url}/admin/users/${id}`, {
+            headers: this.headers,
+            body: {
+              should_soft_delete: shouldSoftDelete
+            },
+            xform: _userResponse
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null }, error };
+          }
+          throw error;
+        }
+      }
+      async _listFactors(params) {
+        try {
+          const { data, error } = await _request(this.fetch, "GET", `${this.url}/admin/users/${params.userId}/factors`, {
+            headers: this.headers,
+            xform: (factors) => {
+              return { data: { factors }, error: null };
+            }
+          });
+          return { data, error };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      async _deleteFactor(params) {
+        try {
+          const data = await _request(this.fetch, "DELETE", `${this.url}/admin/users/${params.userId}/factors/${params.id}`, {
+            headers: this.headers
+          });
+          return { data, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/version.js
+var version5;
+var init_version5 = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/version.js"() {
+    version5 = "0.0.0";
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/constants.js
+var GOTRUE_URL, STORAGE_KEY, DEFAULT_HEADERS5, EXPIRY_MARGIN;
+var init_constants5 = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/constants.js"() {
+    init_version5();
+    GOTRUE_URL = "http://localhost:9999";
+    STORAGE_KEY = "supabase.auth.token";
+    DEFAULT_HEADERS5 = { "X-Client-Info": `gotrue-js/${version5}` };
+    EXPIRY_MARGIN = 10;
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/local-storage.js
+function memoryLocalStorageAdapter(store = {}) {
+  return {
+    getItem: (key2) => {
+      return store[key2] || null;
+    },
+    setItem: (key2, value) => {
+      store[key2] = value;
+    },
+    removeItem: (key2) => {
+      delete store[key2];
+    }
+  };
+}
+var localStorageAdapter;
+var init_local_storage = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/local-storage.js"() {
+    init_helpers3();
+    localStorageAdapter = {
+      getItem: (key2) => {
+        if (!supportsLocalStorage()) {
+          return null;
+        }
+        return globalThis.localStorage.getItem(key2);
+      },
+      setItem: (key2, value) => {
+        if (!supportsLocalStorage()) {
+          return;
+        }
+        globalThis.localStorage.setItem(key2, value);
+      },
+      removeItem: (key2) => {
+        if (!supportsLocalStorage()) {
+          return;
+        }
+        globalThis.localStorage.removeItem(key2);
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/polyfills.js
+function polyfillGlobalThis() {
+  if (typeof globalThis === "object")
+    return;
+  try {
+    Object.defineProperty(Object.prototype, "__magic__", {
+      get: function() {
+        return this;
+      },
+      configurable: true
+    });
+    __magic__.globalThis = __magic__;
+    delete Object.prototype.__magic__;
+  } catch (e) {
+    if (typeof self !== "undefined") {
+      self.globalThis = self;
+    }
+  }
+}
+var init_polyfills = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/polyfills.js"() {
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/locks.js
+async function navigatorLock(name2, acquireTimeout, fn) {
+  if (internals.debug) {
+    console.log("@supabase/gotrue-js: navigatorLock: acquire lock", name2, acquireTimeout);
+  }
+  const abortController = new globalThis.AbortController();
+  if (acquireTimeout > 0) {
+    setTimeout(() => {
+      abortController.abort();
+      if (internals.debug) {
+        console.log("@supabase/gotrue-js: navigatorLock acquire timed out", name2);
+      }
+    }, acquireTimeout);
+  }
+  return await globalThis.navigator.locks.request(name2, acquireTimeout === 0 ? {
+    mode: "exclusive",
+    ifAvailable: true
+  } : {
+    mode: "exclusive",
+    signal: abortController.signal
+  }, async (lock) => {
+    if (lock) {
+      if (internals.debug) {
+        console.log("@supabase/gotrue-js: navigatorLock: acquired", name2, lock.name);
+      }
+      try {
+        return await fn();
+      } finally {
+        if (internals.debug) {
+          console.log("@supabase/gotrue-js: navigatorLock: released", name2, lock.name);
+        }
+      }
+    } else {
+      if (acquireTimeout === 0) {
+        if (internals.debug) {
+          console.log("@supabase/gotrue-js: navigatorLock: not immediately available", name2);
+        }
+        throw new NavigatorLockAcquireTimeoutError(`Acquiring an exclusive Navigator LockManager lock "${name2}" immediately failed`);
+      } else {
+        if (internals.debug) {
+          try {
+            const result = await globalThis.navigator.locks.query();
+            console.log("@supabase/gotrue-js: Navigator LockManager state", JSON.stringify(result, null, "  "));
+          } catch (e) {
+            console.warn("@supabase/gotrue-js: Error when querying Navigator LockManager state", e);
+          }
+        }
+        console.warn("@supabase/gotrue-js: Navigator LockManager returned a null lock when using #request without ifAvailable set to true, it appears this browser is not following the LockManager spec https://developer.mozilla.org/en-US/docs/Web/API/LockManager/request");
+        return await fn();
+      }
+    }
+  });
+}
+var internals, LockAcquireTimeoutError, NavigatorLockAcquireTimeoutError;
+var init_locks = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/locks.js"() {
+    init_helpers3();
+    internals = {
+      /**
+       * @experimental
+       */
+      debug: !!(globalThis && supportsLocalStorage() && globalThis.localStorage && globalThis.localStorage.getItem("supabase.gotrue-js.locks.debug") === "true")
+    };
+    LockAcquireTimeoutError = class extends Error {
+      constructor(message) {
+        super(message);
+        this.isAcquireTimeout = true;
+      }
+    };
+    NavigatorLockAcquireTimeoutError = class extends LockAcquireTimeoutError {
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/GoTrueClient.js
+async function lockNoOp(name2, acquireTimeout, fn) {
+  return await fn();
+}
+var DEFAULT_OPTIONS, AUTO_REFRESH_TICK_DURATION, AUTO_REFRESH_TICK_THRESHOLD, GoTrueClient;
+var init_GoTrueClient = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/GoTrueClient.js"() {
+    init_GoTrueAdminApi();
+    init_constants5();
+    init_errors3();
+    init_fetch3();
+    init_helpers3();
+    init_local_storage();
+    init_polyfills();
+    init_version5();
+    init_locks();
+    polyfillGlobalThis();
+    DEFAULT_OPTIONS = {
+      url: GOTRUE_URL,
+      storageKey: STORAGE_KEY,
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+      headers: DEFAULT_HEADERS5,
+      flowType: "implicit",
+      debug: false
+    };
+    AUTO_REFRESH_TICK_DURATION = 30 * 1e3;
+    AUTO_REFRESH_TICK_THRESHOLD = 3;
+    GoTrueClient = class _GoTrueClient {
+      /**
+       * Create a new client for use in the browser.
+       */
+      constructor(options2) {
+        var _a, _b;
+        this.memoryStorage = null;
+        this.stateChangeEmitters = /* @__PURE__ */ new Map();
+        this.autoRefreshTicker = null;
+        this.visibilityChangedCallback = null;
+        this.refreshingDeferred = null;
+        this.initializePromise = null;
+        this.detectSessionInUrl = true;
+        this.lockAcquired = false;
+        this.pendingInLock = [];
+        this.broadcastChannel = null;
+        this.logger = console.log;
+        this.instanceID = _GoTrueClient.nextInstanceID;
+        _GoTrueClient.nextInstanceID += 1;
+        if (this.instanceID > 0 && isBrowser()) {
+          console.warn("Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.");
+        }
+        const settings = Object.assign(Object.assign({}, DEFAULT_OPTIONS), options2);
+        this.logDebugMessages = !!settings.debug;
+        if (typeof settings.debug === "function") {
+          this.logger = settings.debug;
+        }
+        this.persistSession = settings.persistSession;
+        this.storageKey = settings.storageKey;
+        this.autoRefreshToken = settings.autoRefreshToken;
+        this.admin = new GoTrueAdminApi({
+          url: settings.url,
+          headers: settings.headers,
+          fetch: settings.fetch
+        });
+        this.url = settings.url;
+        this.headers = settings.headers;
+        this.fetch = resolveFetch4(settings.fetch);
+        this.lock = settings.lock || lockNoOp;
+        this.detectSessionInUrl = settings.detectSessionInUrl;
+        this.flowType = settings.flowType;
+        if (settings.lock) {
+          this.lock = settings.lock;
+        } else if (isBrowser() && ((_a = globalThis === null || globalThis === void 0 ? void 0 : globalThis.navigator) === null || _a === void 0 ? void 0 : _a.locks)) {
+          this.lock = navigatorLock;
+        } else {
+          this.lock = lockNoOp;
+        }
+        this.mfa = {
+          verify: this._verify.bind(this),
+          enroll: this._enroll.bind(this),
+          unenroll: this._unenroll.bind(this),
+          challenge: this._challenge.bind(this),
+          listFactors: this._listFactors.bind(this),
+          challengeAndVerify: this._challengeAndVerify.bind(this),
+          getAuthenticatorAssuranceLevel: this._getAuthenticatorAssuranceLevel.bind(this)
+        };
+        if (this.persistSession) {
+          if (settings.storage) {
+            this.storage = settings.storage;
+          } else {
+            if (supportsLocalStorage()) {
+              this.storage = localStorageAdapter;
+            } else {
+              this.memoryStorage = {};
+              this.storage = memoryLocalStorageAdapter(this.memoryStorage);
+            }
+          }
+        } else {
+          this.memoryStorage = {};
+          this.storage = memoryLocalStorageAdapter(this.memoryStorage);
+        }
+        if (isBrowser() && globalThis.BroadcastChannel && this.persistSession && this.storageKey) {
+          try {
+            this.broadcastChannel = new globalThis.BroadcastChannel(this.storageKey);
+          } catch (e) {
+            console.error("Failed to create a new BroadcastChannel, multi-tab state changes will not be available", e);
+          }
+          (_b = this.broadcastChannel) === null || _b === void 0 ? void 0 : _b.addEventListener("message", async (event) => {
+            this._debug("received broadcast notification from other tab or client", event);
+            await this._notifyAllSubscribers(event.data.event, event.data.session, false);
+          });
+        }
+        this.initialize();
+      }
+      _debug(...args) {
+        if (this.logDebugMessages) {
+          this.logger(`GoTrueClient@${this.instanceID} (${version5}) ${(/* @__PURE__ */ new Date()).toISOString()}`, ...args);
+        }
+        return this;
+      }
+      /**
+       * Initializes the client session either from the url or from storage.
+       * This method is automatically called when instantiating the client, but should also be called
+       * manually when checking for an error from an auth redirect (oauth, magiclink, password recovery, etc).
+       */
+      async initialize() {
+        if (this.initializePromise) {
+          return await this.initializePromise;
+        }
+        this.initializePromise = (async () => {
+          return await this._acquireLock(-1, async () => {
+            return await this._initialize();
+          });
+        })();
+        return await this.initializePromise;
+      }
+      /**
+       * IMPORTANT:
+       * 1. Never throw in this method, as it is called from the constructor
+       * 2. Never return a session from this method as it would be cached over
+       *    the whole lifetime of the client
+       */
+      async _initialize() {
+        try {
+          const isPKCEFlow = isBrowser() ? await this._isPKCEFlow() : false;
+          this._debug("#_initialize()", "begin", "is PKCE flow", isPKCEFlow);
+          if (isPKCEFlow || this.detectSessionInUrl && this._isImplicitGrantFlow()) {
+            const { data, error } = await this._getSessionFromURL(isPKCEFlow);
+            if (error) {
+              this._debug("#_initialize()", "error detecting session from URL", error);
+              if ((error === null || error === void 0 ? void 0 : error.message) === "Identity is already linked" || (error === null || error === void 0 ? void 0 : error.message) === "Identity is already linked to another user") {
+                return { error };
+              }
+              await this._removeSession();
+              return { error };
+            }
+            const { session, redirectType } = data;
+            this._debug("#_initialize()", "detected session in URL", session, "redirect type", redirectType);
+            await this._saveSession(session);
+            setTimeout(async () => {
+              if (redirectType === "recovery") {
+                await this._notifyAllSubscribers("PASSWORD_RECOVERY", session);
+              } else {
+                await this._notifyAllSubscribers("SIGNED_IN", session);
+              }
+            }, 0);
+            return { error: null };
+          }
+          await this._recoverAndRefresh();
+          return { error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { error };
+          }
+          return {
+            error: new AuthUnknownError("Unexpected error during initialization", error)
+          };
+        } finally {
+          await this._handleVisibilityChange();
+          this._debug("#_initialize()", "end");
+        }
+      }
+      /**
+       * Creates a new user.
+       *
+       * Be aware that if a user account exists in the system you may get back an
+       * error message that attempts to hide this information from the user.
+       * This method has support for PKCE via email signups. The PKCE flow cannot be used when autoconfirm is enabled.
+       *
+       * @returns A logged-in session if the server has "autoconfirm" ON
+       * @returns A user if the server has "autoconfirm" OFF
+       */
+      async signUp(credentials) {
+        var _a, _b, _c;
+        try {
+          await this._removeSession();
+          let res;
+          if ("email" in credentials) {
+            const { email, password, options: options2 } = credentials;
+            let codeChallenge = null;
+            let codeChallengeMethod = null;
+            if (this.flowType === "pkce") {
+              const codeVerifier = generatePKCEVerifier();
+              await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, codeVerifier);
+              codeChallenge = await generatePKCEChallenge(codeVerifier);
+              codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
+            }
+            res = await _request(this.fetch, "POST", `${this.url}/signup`, {
+              headers: this.headers,
+              redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.emailRedirectTo,
+              body: {
+                email,
+                password,
+                data: (_a = options2 === null || options2 === void 0 ? void 0 : options2.data) !== null && _a !== void 0 ? _a : {},
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken },
+                code_challenge: codeChallenge,
+                code_challenge_method: codeChallengeMethod
+              },
+              xform: _sessionResponse
+            });
+          } else if ("phone" in credentials) {
+            const { phone, password, options: options2 } = credentials;
+            res = await _request(this.fetch, "POST", `${this.url}/signup`, {
+              headers: this.headers,
+              body: {
+                phone,
+                password,
+                data: (_b = options2 === null || options2 === void 0 ? void 0 : options2.data) !== null && _b !== void 0 ? _b : {},
+                channel: (_c = options2 === null || options2 === void 0 ? void 0 : options2.channel) !== null && _c !== void 0 ? _c : "sms",
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
+              },
+              xform: _sessionResponse
+            });
+          } else {
+            throw new AuthInvalidCredentialsError("You must provide either an email or phone number and a password");
+          }
+          const { data, error } = res;
+          if (error || !data) {
+            return { data: { user: null, session: null }, error };
+          }
+          const session = data.session;
+          const user = data.user;
+          if (data.session) {
+            await this._saveSession(data.session);
+            await this._notifyAllSubscribers("SIGNED_IN", session);
+          }
+          return { data: { user, session }, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Log in an existing user with an email and password or phone and password.
+       *
+       * Be aware that you may get back an error message that will not distinguish
+       * between the cases where the account does not exist or that the
+       * email/phone and password combination is wrong or that the account can only
+       * be accessed via social login.
+       */
+      async signInWithPassword(credentials) {
+        try {
+          await this._removeSession();
+          let res;
+          if ("email" in credentials) {
+            const { email, password, options: options2 } = credentials;
+            res = await _request(this.fetch, "POST", `${this.url}/token?grant_type=password`, {
+              headers: this.headers,
+              body: {
+                email,
+                password,
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
+              },
+              xform: _sessionResponsePassword
+            });
+          } else if ("phone" in credentials) {
+            const { phone, password, options: options2 } = credentials;
+            res = await _request(this.fetch, "POST", `${this.url}/token?grant_type=password`, {
+              headers: this.headers,
+              body: {
+                phone,
+                password,
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
+              },
+              xform: _sessionResponsePassword
+            });
+          } else {
+            throw new AuthInvalidCredentialsError("You must provide either an email or phone number and a password");
+          }
+          const { data, error } = res;
+          if (error) {
+            return { data: { user: null, session: null }, error };
+          } else if (!data || !data.session || !data.user) {
+            return { data: { user: null, session: null }, error: new AuthInvalidTokenResponseError() };
+          }
+          if (data.session) {
+            await this._saveSession(data.session);
+            await this._notifyAllSubscribers("SIGNED_IN", data.session);
+          }
+          return {
+            data: Object.assign({ user: data.user, session: data.session }, data.weak_password ? { weakPassword: data.weak_password } : null),
+            error
+          };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Log in an existing user via a third-party provider.
+       * This method supports the PKCE flow.
+       */
+      async signInWithOAuth(credentials) {
+        var _a, _b, _c, _d;
+        await this._removeSession();
+        return await this._handleProviderSignIn(credentials.provider, {
+          redirectTo: (_a = credentials.options) === null || _a === void 0 ? void 0 : _a.redirectTo,
+          scopes: (_b = credentials.options) === null || _b === void 0 ? void 0 : _b.scopes,
+          queryParams: (_c = credentials.options) === null || _c === void 0 ? void 0 : _c.queryParams,
+          skipBrowserRedirect: (_d = credentials.options) === null || _d === void 0 ? void 0 : _d.skipBrowserRedirect
+        });
+      }
+      /**
+       * Log in an existing user by exchanging an Auth Code issued during the PKCE flow.
+       */
+      async exchangeCodeForSession(authCode) {
+        await this.initializePromise;
+        return this._acquireLock(-1, async () => {
+          return this._exchangeCodeForSession(authCode);
+        });
+      }
+      async _exchangeCodeForSession(authCode) {
+        const storageItem = await getItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+        const [codeVerifier, redirectType] = (storageItem !== null && storageItem !== void 0 ? storageItem : "").split("/");
+        const { data, error } = await _request(this.fetch, "POST", `${this.url}/token?grant_type=pkce`, {
+          headers: this.headers,
+          body: {
+            auth_code: authCode,
+            code_verifier: codeVerifier
+          },
+          xform: _sessionResponse
+        });
+        await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+        if (error) {
+          return { data: { user: null, session: null, redirectType: null }, error };
+        } else if (!data || !data.session || !data.user) {
+          return {
+            data: { user: null, session: null, redirectType: null },
+            error: new AuthInvalidTokenResponseError()
+          };
+        }
+        if (data.session) {
+          await this._saveSession(data.session);
+          await this._notifyAllSubscribers("SIGNED_IN", data.session);
+        }
+        return { data: Object.assign(Object.assign({}, data), { redirectType: redirectType !== null && redirectType !== void 0 ? redirectType : null }), error };
+      }
+      /**
+       * Allows signing in with an OIDC ID token. The authentication provider used
+       * should be enabled and configured.
+       */
+      async signInWithIdToken(credentials) {
+        await this._removeSession();
+        try {
+          const { options: options2, provider, token, access_token, nonce } = credentials;
+          const res = await _request(this.fetch, "POST", `${this.url}/token?grant_type=id_token`, {
+            headers: this.headers,
+            body: {
+              provider,
+              id_token: token,
+              access_token,
+              nonce,
+              gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
+            },
+            xform: _sessionResponse
+          });
+          const { data, error } = res;
+          if (error) {
+            return { data: { user: null, session: null }, error };
+          } else if (!data || !data.session || !data.user) {
+            return {
+              data: { user: null, session: null },
+              error: new AuthInvalidTokenResponseError()
+            };
+          }
+          if (data.session) {
+            await this._saveSession(data.session);
+            await this._notifyAllSubscribers("SIGNED_IN", data.session);
+          }
+          return { data, error };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Log in a user using magiclink or a one-time password (OTP).
+       *
+       * If the `{{ .ConfirmationURL }}` variable is specified in the email template, a magiclink will be sent.
+       * If the `{{ .Token }}` variable is specified in the email template, an OTP will be sent.
+       * If you're using phone sign-ins, only an OTP will be sent. You won't be able to send a magiclink for phone sign-ins.
+       *
+       * Be aware that you may get back an error message that will not distinguish
+       * between the cases where the account does not exist or, that the account
+       * can only be accessed via social login.
+       *
+       * Do note that you will need to configure a Whatsapp sender on Twilio
+       * if you are using phone sign in with the 'whatsapp' channel. The whatsapp
+       * channel is not supported on other providers
+       * at this time.
+       * This method supports PKCE when an email is passed.
+       */
+      async signInWithOtp(credentials) {
+        var _a, _b, _c, _d, _e;
+        try {
+          await this._removeSession();
+          if ("email" in credentials) {
+            const { email, options: options2 } = credentials;
+            let codeChallenge = null;
+            let codeChallengeMethod = null;
+            if (this.flowType === "pkce") {
+              const codeVerifier = generatePKCEVerifier();
+              await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, codeVerifier);
+              codeChallenge = await generatePKCEChallenge(codeVerifier);
+              codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
+            }
+            const { error } = await _request(this.fetch, "POST", `${this.url}/otp`, {
+              headers: this.headers,
+              body: {
+                email,
+                data: (_a = options2 === null || options2 === void 0 ? void 0 : options2.data) !== null && _a !== void 0 ? _a : {},
+                create_user: (_b = options2 === null || options2 === void 0 ? void 0 : options2.shouldCreateUser) !== null && _b !== void 0 ? _b : true,
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken },
+                code_challenge: codeChallenge,
+                code_challenge_method: codeChallengeMethod
+              },
+              redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.emailRedirectTo
+            });
+            return { data: { user: null, session: null }, error };
+          }
+          if ("phone" in credentials) {
+            const { phone, options: options2 } = credentials;
+            const { data, error } = await _request(this.fetch, "POST", `${this.url}/otp`, {
+              headers: this.headers,
+              body: {
+                phone,
+                data: (_c = options2 === null || options2 === void 0 ? void 0 : options2.data) !== null && _c !== void 0 ? _c : {},
+                create_user: (_d = options2 === null || options2 === void 0 ? void 0 : options2.shouldCreateUser) !== null && _d !== void 0 ? _d : true,
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken },
+                channel: (_e = options2 === null || options2 === void 0 ? void 0 : options2.channel) !== null && _e !== void 0 ? _e : "sms"
+              }
+            });
+            return { data: { user: null, session: null, messageId: data === null || data === void 0 ? void 0 : data.message_id }, error };
+          }
+          throw new AuthInvalidCredentialsError("You must provide either an email or phone number.");
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Log in a user given a User supplied OTP or TokenHash received through mobile or email.
+       */
+      async verifyOtp(params) {
+        var _a, _b;
+        try {
+          if (params.type !== "email_change" && params.type !== "phone_change") {
+            await this._removeSession();
+          }
+          let redirectTo = void 0;
+          let captchaToken = void 0;
+          if ("options" in params) {
+            redirectTo = (_a = params.options) === null || _a === void 0 ? void 0 : _a.redirectTo;
+            captchaToken = (_b = params.options) === null || _b === void 0 ? void 0 : _b.captchaToken;
+          }
+          const { data, error } = await _request(this.fetch, "POST", `${this.url}/verify`, {
+            headers: this.headers,
+            body: Object.assign(Object.assign({}, params), { gotrue_meta_security: { captcha_token: captchaToken } }),
+            redirectTo,
+            xform: _sessionResponse
+          });
+          if (error) {
+            throw error;
+          }
+          if (!data) {
+            throw new Error("An error occurred on token verification.");
+          }
+          const session = data.session;
+          const user = data.user;
+          if (session === null || session === void 0 ? void 0 : session.access_token) {
+            await this._saveSession(session);
+            await this._notifyAllSubscribers(params.type == "recovery" ? "PASSWORD_RECOVERY" : "SIGNED_IN", session);
+          }
+          return { data: { user, session }, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Attempts a single-sign on using an enterprise Identity Provider. A
+       * successful SSO attempt will redirect the current page to the identity
+       * provider authorization page. The redirect URL is implementation and SSO
+       * protocol specific.
+       *
+       * You can use it by providing a SSO domain. Typically you can extract this
+       * domain by asking users for their email address. If this domain is
+       * registered on the Auth instance the redirect will use that organization's
+       * currently active SSO Identity Provider for the login.
+       *
+       * If you have built an organization-specific login page, you can use the
+       * organization's SSO Identity Provider UUID directly instead.
+       */
+      async signInWithSSO(params) {
+        var _a, _b, _c;
+        try {
+          await this._removeSession();
+          let codeChallenge = null;
+          let codeChallengeMethod = null;
+          if (this.flowType === "pkce") {
+            const codeVerifier = generatePKCEVerifier();
+            await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, codeVerifier);
+            codeChallenge = await generatePKCEChallenge(codeVerifier);
+            codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
+          }
+          return await _request(this.fetch, "POST", `${this.url}/sso`, {
+            body: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, "providerId" in params ? { provider_id: params.providerId } : null), "domain" in params ? { domain: params.domain } : null), { redirect_to: (_b = (_a = params.options) === null || _a === void 0 ? void 0 : _a.redirectTo) !== null && _b !== void 0 ? _b : void 0 }), ((_c = params === null || params === void 0 ? void 0 : params.options) === null || _c === void 0 ? void 0 : _c.captchaToken) ? { gotrue_meta_security: { captcha_token: params.options.captchaToken } } : null), { skip_http_redirect: true, code_challenge: codeChallenge, code_challenge_method: codeChallengeMethod }),
+            headers: this.headers,
+            xform: _ssoResponse
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Sends a reauthentication OTP to the user's email or phone number.
+       * Requires the user to be signed-in.
+       */
+      async reauthenticate() {
+        await this.initializePromise;
+        return await this._acquireLock(-1, async () => {
+          return await this._reauthenticate();
+        });
+      }
+      async _reauthenticate() {
+        try {
+          return await this._useSession(async (result) => {
+            const { data: { session }, error: sessionError } = result;
+            if (sessionError)
+              throw sessionError;
+            if (!session)
+              throw new AuthSessionMissingError();
+            const { error } = await _request(this.fetch, "GET", `${this.url}/reauthenticate`, {
+              headers: this.headers,
+              jwt: session.access_token
+            });
+            return { data: { user: null, session: null }, error };
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Resends an existing signup confirmation email, email change email, SMS OTP or phone change OTP.
+       */
+      async resend(credentials) {
+        try {
+          if (credentials.type != "email_change" && credentials.type != "phone_change") {
+            await this._removeSession();
+          }
+          const endpoint = `${this.url}/resend`;
+          if ("email" in credentials) {
+            const { email, type, options: options2 } = credentials;
+            const { error } = await _request(this.fetch, "POST", endpoint, {
+              headers: this.headers,
+              body: {
+                email,
+                type,
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
+              },
+              redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.emailRedirectTo
+            });
+            return { data: { user: null, session: null }, error };
+          } else if ("phone" in credentials) {
+            const { phone, type, options: options2 } = credentials;
+            const { data, error } = await _request(this.fetch, "POST", endpoint, {
+              headers: this.headers,
+              body: {
+                phone,
+                type,
+                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
+              }
+            });
+            return { data: { user: null, session: null, messageId: data === null || data === void 0 ? void 0 : data.message_id }, error };
+          }
+          throw new AuthInvalidCredentialsError("You must provide either an email or phone number and a type");
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Returns the session, refreshing it if necessary.
+       * The session returned can be null if the session is not detected which can happen in the event a user is not signed-in or has logged out.
+       */
+      async getSession() {
+        await this.initializePromise;
+        return this._acquireLock(-1, async () => {
+          return this._useSession(async (result) => {
+            return result;
+          });
+        });
+      }
+      /**
+       * Acquires a global lock based on the storage key.
+       */
+      async _acquireLock(acquireTimeout, fn) {
+        this._debug("#_acquireLock", "begin", acquireTimeout);
+        try {
+          if (this.lockAcquired) {
+            const last = this.pendingInLock.length ? this.pendingInLock[this.pendingInLock.length - 1] : Promise.resolve();
+            const result = (async () => {
+              await last;
+              return await fn();
+            })();
+            this.pendingInLock.push((async () => {
+              try {
+                await result;
+              } catch (e) {
+              }
+            })());
+            return result;
+          }
+          return await this.lock(`lock:${this.storageKey}`, acquireTimeout, async () => {
+            this._debug("#_acquireLock", "lock acquired for storage key", this.storageKey);
+            try {
+              this.lockAcquired = true;
+              const result = fn();
+              this.pendingInLock.push((async () => {
+                try {
+                  await result;
+                } catch (e) {
+                }
+              })());
+              await result;
+              while (this.pendingInLock.length) {
+                const waitOn = [...this.pendingInLock];
+                await Promise.all(waitOn);
+                this.pendingInLock.splice(0, waitOn.length);
+              }
+              return await result;
+            } finally {
+              this._debug("#_acquireLock", "lock released for storage key", this.storageKey);
+              this.lockAcquired = false;
+            }
+          });
+        } finally {
+          this._debug("#_acquireLock", "end");
+        }
+      }
+      /**
+       * Use instead of {@link #getSession} inside the library. It is
+       * semantically usually what you want, as getting a session involves some
+       * processing afterwards that requires only one client operating on the
+       * session at once across multiple tabs or processes.
+       */
+      async _useSession(fn) {
+        this._debug("#_useSession", "begin");
+        try {
+          const result = await this.__loadSession();
+          return await fn(result);
+        } finally {
+          this._debug("#_useSession", "end");
+        }
+      }
+      /**
+       * NEVER USE DIRECTLY!
+       *
+       * Always use {@link #_useSession}.
+       */
+      async __loadSession() {
+        this._debug("#__loadSession()", "begin");
+        if (!this.lockAcquired) {
+          this._debug("#__loadSession()", "used outside of an acquired lock!", new Error().stack);
+        }
+        try {
+          let currentSession = null;
+          const maybeSession = await getItemAsync(this.storage, this.storageKey);
+          this._debug("#getSession()", "session from storage", maybeSession);
+          if (maybeSession !== null) {
+            if (this._isValidSession(maybeSession)) {
+              currentSession = maybeSession;
+            } else {
+              this._debug("#getSession()", "session from storage is not valid");
+              await this._removeSession();
+            }
+          }
+          if (!currentSession) {
+            return { data: { session: null }, error: null };
+          }
+          const hasExpired = currentSession.expires_at ? currentSession.expires_at <= Date.now() / 1e3 : false;
+          this._debug("#__loadSession()", `session has${hasExpired ? "" : " not"} expired`, "expires_at", currentSession.expires_at);
+          if (!hasExpired) {
+            return { data: { session: currentSession }, error: null };
+          }
+          const { session, error } = await this._callRefreshToken(currentSession.refresh_token);
+          if (error) {
+            return { data: { session: null }, error };
+          }
+          return { data: { session }, error: null };
+        } finally {
+          this._debug("#__loadSession()", "end");
+        }
+      }
+      /**
+       * Gets the current user details if there is an existing session.
+       * @param jwt Takes in an optional access token jwt. If no jwt is provided, getUser() will attempt to get the jwt from the current session.
+       */
+      async getUser(jwt) {
+        if (jwt) {
+          return await this._getUser(jwt);
+        }
+        await this.initializePromise;
+        return this._acquireLock(-1, async () => {
+          return await this._getUser();
+        });
+      }
+      async _getUser(jwt) {
+        try {
+          if (jwt) {
+            return await _request(this.fetch, "GET", `${this.url}/user`, {
+              headers: this.headers,
+              jwt,
+              xform: _userResponse
+            });
+          }
+          return await this._useSession(async (result) => {
+            var _a, _b;
+            const { data, error } = result;
+            if (error) {
+              throw error;
+            }
+            return await _request(this.fetch, "GET", `${this.url}/user`, {
+              headers: this.headers,
+              jwt: (_b = (_a = data.session) === null || _a === void 0 ? void 0 : _a.access_token) !== null && _b !== void 0 ? _b : void 0,
+              xform: _userResponse
+            });
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Updates user data for a logged in user.
+       */
+      async updateUser(attributes, options2 = {}) {
+        await this.initializePromise;
+        return await this._acquireLock(-1, async () => {
+          return await this._updateUser(attributes, options2);
+        });
+      }
+      async _updateUser(attributes, options2 = {}) {
+        try {
+          return await this._useSession(async (result) => {
+            const { data: sessionData, error: sessionError } = result;
+            if (sessionError) {
+              throw sessionError;
+            }
+            if (!sessionData.session) {
+              throw new AuthSessionMissingError();
+            }
+            const session = sessionData.session;
+            let codeChallenge = null;
+            let codeChallengeMethod = null;
+            if (this.flowType === "pkce" && attributes.email != null) {
+              const codeVerifier = generatePKCEVerifier();
+              await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, codeVerifier);
+              codeChallenge = await generatePKCEChallenge(codeVerifier);
+              codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
+            }
+            const { data, error: userError } = await _request(this.fetch, "PUT", `${this.url}/user`, {
+              headers: this.headers,
+              redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.emailRedirectTo,
+              body: Object.assign(Object.assign({}, attributes), { code_challenge: codeChallenge, code_challenge_method: codeChallengeMethod }),
+              jwt: session.access_token,
+              xform: _userResponse
+            });
+            if (userError)
+              throw userError;
+            session.user = data.user;
+            await this._saveSession(session);
+            await this._notifyAllSubscribers("USER_UPDATED", session);
+            return { data: { user: session.user }, error: null };
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Decodes a JWT (without performing any validation).
+       */
+      _decodeJWT(jwt) {
+        return decodeJWTPayload(jwt);
+      }
+      /**
+       * Sets the session data from the current session. If the current session is expired, setSession will take care of refreshing it to obtain a new session.
+       * If the refresh token or access token in the current session is invalid, an error will be thrown.
+       * @param currentSession The current session that minimally contains an access token and refresh token.
+       */
+      async setSession(currentSession) {
+        await this.initializePromise;
+        return await this._acquireLock(-1, async () => {
+          return await this._setSession(currentSession);
+        });
+      }
+      async _setSession(currentSession) {
+        try {
+          if (!currentSession.access_token || !currentSession.refresh_token) {
+            throw new AuthSessionMissingError();
+          }
+          const timeNow = Date.now() / 1e3;
+          let expiresAt2 = timeNow;
+          let hasExpired = true;
+          let session = null;
+          const payload = decodeJWTPayload(currentSession.access_token);
+          if (payload.exp) {
+            expiresAt2 = payload.exp;
+            hasExpired = expiresAt2 <= timeNow;
+          }
+          if (hasExpired) {
+            const { session: refreshedSession, error } = await this._callRefreshToken(currentSession.refresh_token);
+            if (error) {
+              return { data: { user: null, session: null }, error };
+            }
+            if (!refreshedSession) {
+              return { data: { user: null, session: null }, error: null };
+            }
+            session = refreshedSession;
+          } else {
+            const { data, error } = await this._getUser(currentSession.access_token);
+            if (error) {
+              throw error;
+            }
+            session = {
+              access_token: currentSession.access_token,
+              refresh_token: currentSession.refresh_token,
+              user: data.user,
+              token_type: "bearer",
+              expires_in: expiresAt2 - timeNow,
+              expires_at: expiresAt2
+            };
+            await this._saveSession(session);
+            await this._notifyAllSubscribers("SIGNED_IN", session);
+          }
+          return { data: { user: session.user, session }, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { session: null, user: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Returns a new session, regardless of expiry status.
+       * Takes in an optional current session. If not passed in, then refreshSession() will attempt to retrieve it from getSession().
+       * If the current session's refresh token is invalid, an error will be thrown.
+       * @param currentSession The current session. If passed in, it must contain a refresh token.
+       */
+      async refreshSession(currentSession) {
+        await this.initializePromise;
+        return await this._acquireLock(-1, async () => {
+          return await this._refreshSession(currentSession);
+        });
+      }
+      async _refreshSession(currentSession) {
+        try {
+          return await this._useSession(async (result) => {
+            var _a;
+            if (!currentSession) {
+              const { data, error: error2 } = result;
+              if (error2) {
+                throw error2;
+              }
+              currentSession = (_a = data.session) !== null && _a !== void 0 ? _a : void 0;
+            }
+            if (!(currentSession === null || currentSession === void 0 ? void 0 : currentSession.refresh_token)) {
+              throw new AuthSessionMissingError();
+            }
+            const { session, error } = await this._callRefreshToken(currentSession.refresh_token);
+            if (error) {
+              return { data: { user: null, session: null }, error };
+            }
+            if (!session) {
+              return { data: { user: null, session: null }, error: null };
+            }
+            return { data: { user: session.user, session }, error: null };
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { user: null, session: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Gets the session data from a URL string
+       */
+      async _getSessionFromURL(isPKCEFlow) {
+        try {
+          if (!isBrowser())
+            throw new AuthImplicitGrantRedirectError("No browser detected.");
+          if (this.flowType === "implicit" && !this._isImplicitGrantFlow()) {
+            throw new AuthImplicitGrantRedirectError("Not a valid implicit grant flow url.");
+          } else if (this.flowType == "pkce" && !isPKCEFlow) {
+            throw new AuthPKCEGrantCodeExchangeError("Not a valid PKCE flow url.");
+          }
+          const params = parseParametersFromURL(window.location.href);
+          if (isPKCEFlow) {
+            if (!params.code)
+              throw new AuthPKCEGrantCodeExchangeError("No code detected.");
+            const { data: data2, error: error2 } = await this._exchangeCodeForSession(params.code);
+            if (error2)
+              throw error2;
+            const url = new URL(window.location.href);
+            url.searchParams.delete("code");
+            window.history.replaceState(window.history.state, "", url.toString());
+            return { data: { session: data2.session, redirectType: null }, error: null };
+          }
+          if (params.error || params.error_description || params.error_code) {
+            throw new AuthImplicitGrantRedirectError(params.error_description || "Error in URL with unspecified error_description", {
+              error: params.error || "unspecified_error",
+              code: params.error_code || "unspecified_code"
+            });
+          }
+          const { provider_token, provider_refresh_token, access_token, refresh_token, expires_in, expires_at, token_type } = params;
+          if (!access_token || !expires_in || !refresh_token || !token_type) {
+            throw new AuthImplicitGrantRedirectError("No session defined in URL");
+          }
+          const timeNow = Math.round(Date.now() / 1e3);
+          const expiresIn = parseInt(expires_in);
+          let expiresAt2 = timeNow + expiresIn;
+          if (expires_at) {
+            expiresAt2 = parseInt(expires_at);
+          }
+          const actuallyExpiresIn = expiresAt2 - timeNow;
+          if (actuallyExpiresIn * 1e3 <= AUTO_REFRESH_TICK_DURATION) {
+            console.warn(`@supabase/gotrue-js: Session as retrieved from URL expires in ${actuallyExpiresIn}s, should have been closer to ${expiresIn}s`);
+          }
+          const issuedAt = expiresAt2 - expiresIn;
+          if (timeNow - issuedAt >= 120) {
+            console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued over 120s ago, URL could be stale", issuedAt, expiresAt2, timeNow);
+          } else if (timeNow - issuedAt < 0) {
+            console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued in the future? Check the device clok for skew", issuedAt, expiresAt2, timeNow);
+          }
+          const { data, error } = await this._getUser(access_token);
+          if (error)
+            throw error;
+          const session = {
+            provider_token,
+            provider_refresh_token,
+            access_token,
+            expires_in: expiresIn,
+            expires_at: expiresAt2,
+            refresh_token,
+            token_type,
+            user: data.user
+          };
+          window.location.hash = "";
+          this._debug("#_getSessionFromURL()", "clearing window.location.hash");
+          return { data: { session, redirectType: params.type }, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { session: null, redirectType: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Checks if the current URL contains parameters given by an implicit oauth grant flow (https://www.rfc-editor.org/rfc/rfc6749.html#section-4.2)
+       */
+      _isImplicitGrantFlow() {
+        const params = parseParametersFromURL(window.location.href);
+        return !!(isBrowser() && (params.access_token || params.error_description));
+      }
+      /**
+       * Checks if the current URL and backing storage contain parameters given by a PKCE flow
+       */
+      async _isPKCEFlow() {
+        const params = parseParametersFromURL(window.location.href);
+        const currentStorageContent = await getItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+        return !!(params.code && currentStorageContent);
+      }
+      /**
+       * Inside a browser context, `signOut()` will remove the logged in user from the browser session and log them out - removing all items from localstorage and then trigger a `"SIGNED_OUT"` event.
+       *
+       * For server-side management, you can revoke all refresh tokens for a user by passing a user's JWT through to `auth.api.signOut(JWT: string)`.
+       * There is no way to revoke a user's access token jwt until it expires. It is recommended to set a shorter expiry on the jwt for this reason.
+       *
+       * If using `others` scope, no `SIGNED_OUT` event is fired!
+       */
+      async signOut(options2 = { scope: "global" }) {
+        await this.initializePromise;
+        return await this._acquireLock(-1, async () => {
+          return await this._signOut(options2);
+        });
+      }
+      async _signOut({ scope } = { scope: "global" }) {
+        return await this._useSession(async (result) => {
+          var _a;
+          const { data, error: sessionError } = result;
+          if (sessionError) {
+            return { error: sessionError };
+          }
+          const accessToken = (_a = data.session) === null || _a === void 0 ? void 0 : _a.access_token;
+          if (accessToken) {
+            const { error } = await this.admin.signOut(accessToken, scope);
+            if (error) {
+              if (!(isAuthApiError(error) && (error.status === 404 || error.status === 401))) {
+                return { error };
+              }
+            }
+          }
+          if (scope !== "others") {
+            await this._removeSession();
+            await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
+            await this._notifyAllSubscribers("SIGNED_OUT", null);
+          }
+          return { error: null };
+        });
+      }
+      /**
+       * Receive a notification every time an auth event happens.
+       * @param callback A callback function to be invoked when an auth event happens.
+       */
+      onAuthStateChange(callback) {
+        const id = uuid();
+        const subscription = {
+          id,
+          callback,
+          unsubscribe: () => {
+            this._debug("#unsubscribe()", "state change callback with id removed", id);
+            this.stateChangeEmitters.delete(id);
+          }
+        };
+        this._debug("#onAuthStateChange()", "registered callback with id", id);
+        this.stateChangeEmitters.set(id, subscription);
+        (async () => {
+          await this.initializePromise;
+          await this._acquireLock(-1, async () => {
+            this._emitInitialSession(id);
+          });
+        })();
+        return { data: { subscription } };
+      }
+      async _emitInitialSession(id) {
+        return await this._useSession(async (result) => {
+          var _a, _b;
+          try {
+            const { data: { session }, error } = result;
+            if (error)
+              throw error;
+            await ((_a = this.stateChangeEmitters.get(id)) === null || _a === void 0 ? void 0 : _a.callback("INITIAL_SESSION", session));
+            this._debug("INITIAL_SESSION", "callback id", id, "session", session);
+          } catch (err) {
+            await ((_b = this.stateChangeEmitters.get(id)) === null || _b === void 0 ? void 0 : _b.callback("INITIAL_SESSION", null));
+            this._debug("INITIAL_SESSION", "callback id", id, "error", err);
+            console.error(err);
+          }
+        });
+      }
+      /**
+       * Sends a password reset request to an email address. This method supports the PKCE flow.
+       *
+       * @param email The email address of the user.
+       * @param options.redirectTo The URL to send the user to after they click the password reset link.
+       * @param options.captchaToken Verification token received when the user completes the captcha on the site.
+       */
+      async resetPasswordForEmail(email, options2 = {}) {
+        let codeChallenge = null;
+        let codeChallengeMethod = null;
+        if (this.flowType === "pkce") {
+          const codeVerifier = generatePKCEVerifier();
+          await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, `${codeVerifier}/PASSWORD_RECOVERY`);
+          codeChallenge = await generatePKCEChallenge(codeVerifier);
+          codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
+        }
+        try {
+          return await _request(this.fetch, "POST", `${this.url}/recover`, {
+            body: {
+              email,
+              code_challenge: codeChallenge,
+              code_challenge_method: codeChallengeMethod,
+              gotrue_meta_security: { captcha_token: options2.captchaToken }
+            },
+            headers: this.headers,
+            redirectTo: options2.redirectTo
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Gets all the identities linked to a user.
+       */
+      async getUserIdentities() {
+        var _a;
+        try {
+          const { data, error } = await this.getUser();
+          if (error)
+            throw error;
+          return { data: { identities: (_a = data.user.identities) !== null && _a !== void 0 ? _a : [] }, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Links an oauth identity to an existing user.
+       * This method supports the PKCE flow.
+       */
+      async linkIdentity(credentials) {
+        var _a;
+        try {
+          const { data, error } = await this._useSession(async (result) => {
+            var _a2, _b, _c, _d, _e;
+            const { data: data2, error: error2 } = result;
+            if (error2)
+              throw error2;
+            const url = await this._getUrlForProvider(`${this.url}/user/identities/authorize`, credentials.provider, {
+              redirectTo: (_a2 = credentials.options) === null || _a2 === void 0 ? void 0 : _a2.redirectTo,
+              scopes: (_b = credentials.options) === null || _b === void 0 ? void 0 : _b.scopes,
+              queryParams: (_c = credentials.options) === null || _c === void 0 ? void 0 : _c.queryParams,
+              skipBrowserRedirect: true
+            });
+            return await _request(this.fetch, "GET", url, {
+              headers: this.headers,
+              jwt: (_e = (_d = data2.session) === null || _d === void 0 ? void 0 : _d.access_token) !== null && _e !== void 0 ? _e : void 0
+            });
+          });
+          if (error)
+            throw error;
+          if (isBrowser() && !((_a = credentials.options) === null || _a === void 0 ? void 0 : _a.skipBrowserRedirect)) {
+            window.location.assign(data === null || data === void 0 ? void 0 : data.url);
+          }
+          return { data: { provider: credentials.provider, url: data === null || data === void 0 ? void 0 : data.url }, error: null };
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: { provider: credentials.provider, url: null }, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Unlinks an identity from a user by deleting it. The user will no longer be able to sign in with that identity once it's unlinked.
+       */
+      async unlinkIdentity(identity2) {
+        try {
+          return await this._useSession(async (result) => {
+            var _a, _b;
+            const { data, error } = result;
+            if (error) {
+              throw error;
+            }
+            return await _request(this.fetch, "DELETE", `${this.url}/user/identities/${identity2.identity_id}`, {
+              headers: this.headers,
+              jwt: (_b = (_a = data.session) === null || _a === void 0 ? void 0 : _a.access_token) !== null && _b !== void 0 ? _b : void 0
+            });
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * Generates a new JWT.
+       * @param refreshToken A valid refresh token that was returned on login.
+       */
+      async _refreshAccessToken(refreshToken) {
+        const debugName = `#_refreshAccessToken(${refreshToken.substring(0, 5)}...)`;
+        this._debug(debugName, "begin");
+        try {
+          const startedAt = Date.now();
+          return await retryable(async (attempt) => {
+            await sleep(attempt * 200);
+            this._debug(debugName, "refreshing attempt", attempt);
+            return await _request(this.fetch, "POST", `${this.url}/token?grant_type=refresh_token`, {
+              body: { refresh_token: refreshToken },
+              headers: this.headers,
+              xform: _sessionResponse
+            });
+          }, (attempt, _, result) => result && result.error && isAuthRetryableFetchError(result.error) && // retryable only if the request can be sent before the backoff overflows the tick duration
+          Date.now() + (attempt + 1) * 200 - startedAt < AUTO_REFRESH_TICK_DURATION);
+        } catch (error) {
+          this._debug(debugName, "error", error);
+          if (isAuthError(error)) {
+            return { data: { session: null, user: null }, error };
+          }
+          throw error;
+        } finally {
+          this._debug(debugName, "end");
+        }
+      }
+      _isValidSession(maybeSession) {
+        const isValidSession = typeof maybeSession === "object" && maybeSession !== null && "access_token" in maybeSession && "refresh_token" in maybeSession && "expires_at" in maybeSession;
+        return isValidSession;
+      }
+      async _handleProviderSignIn(provider, options2) {
+        const url = await this._getUrlForProvider(`${this.url}/authorize`, provider, {
+          redirectTo: options2.redirectTo,
+          scopes: options2.scopes,
+          queryParams: options2.queryParams
+        });
+        this._debug("#_handleProviderSignIn()", "provider", provider, "options", options2, "url", url);
+        if (isBrowser() && !options2.skipBrowserRedirect) {
+          window.location.assign(url);
+        }
+        return { data: { provider, url }, error: null };
+      }
+      /**
+       * Recovers the session from LocalStorage and refreshes
+       * Note: this method is async to accommodate for AsyncStorage e.g. in React native.
+       */
+      async _recoverAndRefresh() {
+        var _a;
+        const debugName = "#_recoverAndRefresh()";
+        this._debug(debugName, "begin");
+        try {
+          const currentSession = await getItemAsync(this.storage, this.storageKey);
+          this._debug(debugName, "session from storage", currentSession);
+          if (!this._isValidSession(currentSession)) {
+            this._debug(debugName, "session is not valid");
+            if (currentSession !== null) {
+              await this._removeSession();
+            }
+            return;
+          }
+          const timeNow = Math.round(Date.now() / 1e3);
+          const expiresWithMargin = ((_a = currentSession.expires_at) !== null && _a !== void 0 ? _a : Infinity) < timeNow + EXPIRY_MARGIN;
+          this._debug(debugName, `session has${expiresWithMargin ? "" : " not"} expired with margin of ${EXPIRY_MARGIN}s`);
+          if (expiresWithMargin) {
+            if (this.autoRefreshToken && currentSession.refresh_token) {
+              const { error } = await this._callRefreshToken(currentSession.refresh_token);
+              if (error) {
+                console.error(error);
+                if (!isAuthRetryableFetchError(error)) {
+                  this._debug(debugName, "refresh failed with a non-retryable error, removing the session", error);
+                  await this._removeSession();
+                }
+              }
+            }
+          } else {
+            await this._notifyAllSubscribers("SIGNED_IN", currentSession);
+          }
+        } catch (err) {
+          this._debug(debugName, "error", err);
+          console.error(err);
+          return;
+        } finally {
+          this._debug(debugName, "end");
+        }
+      }
+      async _callRefreshToken(refreshToken) {
+        var _a, _b;
+        if (!refreshToken) {
+          throw new AuthSessionMissingError();
+        }
+        if (this.refreshingDeferred) {
+          return this.refreshingDeferred.promise;
+        }
+        const debugName = `#_callRefreshToken(${refreshToken.substring(0, 5)}...)`;
+        this._debug(debugName, "begin");
+        try {
+          this.refreshingDeferred = new Deferred();
+          const { data, error } = await this._refreshAccessToken(refreshToken);
+          if (error)
+            throw error;
+          if (!data.session)
+            throw new AuthSessionMissingError();
+          await this._saveSession(data.session);
+          await this._notifyAllSubscribers("TOKEN_REFRESHED", data.session);
+          const result = { session: data.session, error: null };
+          this.refreshingDeferred.resolve(result);
+          return result;
+        } catch (error) {
+          this._debug(debugName, "error", error);
+          if (isAuthError(error)) {
+            const result = { session: null, error };
+            if (!isAuthRetryableFetchError(error)) {
+              await this._removeSession();
+              await this._notifyAllSubscribers("SIGNED_OUT", null);
+            }
+            (_a = this.refreshingDeferred) === null || _a === void 0 ? void 0 : _a.resolve(result);
+            return result;
+          }
+          (_b = this.refreshingDeferred) === null || _b === void 0 ? void 0 : _b.reject(error);
+          throw error;
+        } finally {
+          this.refreshingDeferred = null;
+          this._debug(debugName, "end");
+        }
+      }
+      async _notifyAllSubscribers(event, session, broadcast = true) {
+        const debugName = `#_notifyAllSubscribers(${event})`;
+        this._debug(debugName, "begin", session, `broadcast = ${broadcast}`);
+        try {
+          if (this.broadcastChannel && broadcast) {
+            this.broadcastChannel.postMessage({ event, session });
+          }
+          const errors = [];
+          const promises = Array.from(this.stateChangeEmitters.values()).map(async (x) => {
+            try {
+              await x.callback(event, session);
+            } catch (e) {
+              errors.push(e);
+            }
+          });
+          await Promise.all(promises);
+          if (errors.length > 0) {
+            for (let i = 0; i < errors.length; i += 1) {
+              console.error(errors[i]);
+            }
+            throw errors[0];
+          }
+        } finally {
+          this._debug(debugName, "end");
+        }
+      }
+      /**
+       * set currentSession and currentUser
+       * process to _startAutoRefreshToken if possible
+       */
+      async _saveSession(session) {
+        this._debug("#_saveSession()", session);
+        await setItemAsync(this.storage, this.storageKey, session);
+      }
+      async _removeSession() {
+        this._debug("#_removeSession()");
+        await removeItemAsync(this.storage, this.storageKey);
+      }
+      /**
+       * Removes any registered visibilitychange callback.
+       *
+       * {@see #startAutoRefresh}
+       * {@see #stopAutoRefresh}
+       */
+      _removeVisibilityChangedCallback() {
+        this._debug("#_removeVisibilityChangedCallback()");
+        const callback = this.visibilityChangedCallback;
+        this.visibilityChangedCallback = null;
+        try {
+          if (callback && isBrowser() && (window === null || window === void 0 ? void 0 : window.removeEventListener)) {
+            window.removeEventListener("visibilitychange", callback);
+          }
+        } catch (e) {
+          console.error("removing visibilitychange callback failed", e);
+        }
+      }
+      /**
+       * This is the private implementation of {@link #startAutoRefresh}. Use this
+       * within the library.
+       */
+      async _startAutoRefresh() {
+        await this._stopAutoRefresh();
+        this._debug("#_startAutoRefresh()");
+        const ticker = setInterval(() => this._autoRefreshTokenTick(), AUTO_REFRESH_TICK_DURATION);
+        this.autoRefreshTicker = ticker;
+        if (ticker && typeof ticker === "object" && typeof ticker.unref === "function") {
+          ticker.unref();
+        } else if (typeof Deno !== "undefined" && typeof Deno.unrefTimer === "function") {
+          Deno.unrefTimer(ticker);
+        }
+        setTimeout(async () => {
+          await this.initializePromise;
+          await this._autoRefreshTokenTick();
+        }, 0);
+      }
+      /**
+       * This is the private implementation of {@link #stopAutoRefresh}. Use this
+       * within the library.
+       */
+      async _stopAutoRefresh() {
+        this._debug("#_stopAutoRefresh()");
+        const ticker = this.autoRefreshTicker;
+        this.autoRefreshTicker = null;
+        if (ticker) {
+          clearInterval(ticker);
+        }
+      }
+      /**
+       * Starts an auto-refresh process in the background. The session is checked
+       * every few seconds. Close to the time of expiration a process is started to
+       * refresh the session. If refreshing fails it will be retried for as long as
+       * necessary.
+       *
+       * If you set the {@link GoTrueClientOptions#autoRefreshToken} you don't need
+       * to call this function, it will be called for you.
+       *
+       * On browsers the refresh process works only when the tab/window is in the
+       * foreground to conserve resources as well as prevent race conditions and
+       * flooding auth with requests. If you call this method any managed
+       * visibility change callback will be removed and you must manage visibility
+       * changes on your own.
+       *
+       * On non-browser platforms the refresh process works *continuously* in the
+       * background, which may not be desirable. You should hook into your
+       * platform's foreground indication mechanism and call these methods
+       * appropriately to conserve resources.
+       *
+       * {@see #stopAutoRefresh}
+       */
+      async startAutoRefresh() {
+        this._removeVisibilityChangedCallback();
+        await this._startAutoRefresh();
+      }
+      /**
+       * Stops an active auto refresh process running in the background (if any).
+       *
+       * If you call this method any managed visibility change callback will be
+       * removed and you must manage visibility changes on your own.
+       *
+       * See {@link #startAutoRefresh} for more details.
+       */
+      async stopAutoRefresh() {
+        this._removeVisibilityChangedCallback();
+        await this._stopAutoRefresh();
+      }
+      /**
+       * Runs the auto refresh token tick.
+       */
+      async _autoRefreshTokenTick() {
+        this._debug("#_autoRefreshTokenTick()", "begin");
+        try {
+          await this._acquireLock(0, async () => {
+            try {
+              const now = Date.now();
+              try {
+                return await this._useSession(async (result) => {
+                  const { data: { session } } = result;
+                  if (!session || !session.refresh_token || !session.expires_at) {
+                    this._debug("#_autoRefreshTokenTick()", "no session");
+                    return;
+                  }
+                  const expiresInTicks = Math.floor((session.expires_at * 1e3 - now) / AUTO_REFRESH_TICK_DURATION);
+                  this._debug("#_autoRefreshTokenTick()", `access token expires in ${expiresInTicks} ticks, a tick lasts ${AUTO_REFRESH_TICK_DURATION}ms, refresh threshold is ${AUTO_REFRESH_TICK_THRESHOLD} ticks`);
+                  if (expiresInTicks <= AUTO_REFRESH_TICK_THRESHOLD) {
+                    await this._callRefreshToken(session.refresh_token);
+                  }
+                });
+              } catch (e) {
+                console.error("Auto refresh tick failed with error. This is likely a transient error.", e);
+              }
+            } finally {
+              this._debug("#_autoRefreshTokenTick()", "end");
+            }
+          });
+        } catch (e) {
+          if (e.isAcquireTimeout || e instanceof LockAcquireTimeoutError) {
+            this._debug("auto refresh token tick lock not available");
+          } else {
+            throw e;
+          }
+        }
+      }
+      /**
+       * Registers callbacks on the browser / platform, which in-turn run
+       * algorithms when the browser window/tab are in foreground. On non-browser
+       * platforms it assumes always foreground.
+       */
+      async _handleVisibilityChange() {
+        this._debug("#_handleVisibilityChange()");
+        if (!isBrowser() || !(window === null || window === void 0 ? void 0 : window.addEventListener)) {
+          if (this.autoRefreshToken) {
+            this.startAutoRefresh();
+          }
+          return false;
+        }
+        try {
+          this.visibilityChangedCallback = async () => await this._onVisibilityChanged(false);
+          window === null || window === void 0 ? void 0 : window.addEventListener("visibilitychange", this.visibilityChangedCallback);
+          await this._onVisibilityChanged(true);
+        } catch (error) {
+          console.error("_handleVisibilityChange", error);
+        }
+      }
+      /**
+       * Callback registered with `window.addEventListener('visibilitychange')`.
+       */
+      async _onVisibilityChanged(calledFromInitialize) {
+        const methodName = `#_onVisibilityChanged(${calledFromInitialize})`;
+        this._debug(methodName, "visibilityState", document.visibilityState);
+        if (document.visibilityState === "visible") {
+          if (this.autoRefreshToken) {
+            this._startAutoRefresh();
+          }
+          if (!calledFromInitialize) {
+            await this.initializePromise;
+            await this._acquireLock(-1, async () => {
+              if (document.visibilityState !== "visible") {
+                this._debug(methodName, "acquired the lock to recover the session, but the browser visibilityState is no longer visible, aborting");
+                return;
+              }
+              await this._recoverAndRefresh();
+            });
+          }
+        } else if (document.visibilityState === "hidden") {
+          if (this.autoRefreshToken) {
+            this._stopAutoRefresh();
+          }
+        }
+      }
+      /**
+       * Generates the relevant login URL for a third-party provider.
+       * @param options.redirectTo A URL or mobile address to send the user to after they are confirmed.
+       * @param options.scopes A space-separated list of scopes granted to the OAuth application.
+       * @param options.queryParams An object of key-value pairs containing query parameters granted to the OAuth application.
+       */
+      async _getUrlForProvider(url, provider, options2) {
+        const urlParams = [`provider=${encodeURIComponent(provider)}`];
+        if (options2 === null || options2 === void 0 ? void 0 : options2.redirectTo) {
+          urlParams.push(`redirect_to=${encodeURIComponent(options2.redirectTo)}`);
+        }
+        if (options2 === null || options2 === void 0 ? void 0 : options2.scopes) {
+          urlParams.push(`scopes=${encodeURIComponent(options2.scopes)}`);
+        }
+        if (this.flowType === "pkce") {
+          const codeVerifier = generatePKCEVerifier();
+          await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, codeVerifier);
+          const codeChallenge = await generatePKCEChallenge(codeVerifier);
+          const codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
+          this._debug("PKCE", "code verifier", `${codeVerifier.substring(0, 5)}...`, "code challenge", codeChallenge, "method", codeChallengeMethod);
+          const flowParams = new URLSearchParams({
+            code_challenge: `${encodeURIComponent(codeChallenge)}`,
+            code_challenge_method: `${encodeURIComponent(codeChallengeMethod)}`
+          });
+          urlParams.push(flowParams.toString());
+        }
+        if (options2 === null || options2 === void 0 ? void 0 : options2.queryParams) {
+          const query = new URLSearchParams(options2.queryParams);
+          urlParams.push(query.toString());
+        }
+        if (options2 === null || options2 === void 0 ? void 0 : options2.skipBrowserRedirect) {
+          urlParams.push(`skip_http_redirect=${options2.skipBrowserRedirect}`);
+        }
+        return `${url}?${urlParams.join("&")}`;
+      }
+      async _unenroll(params) {
+        try {
+          return await this._useSession(async (result) => {
+            var _a;
+            const { data: sessionData, error: sessionError } = result;
+            if (sessionError) {
+              return { data: null, error: sessionError };
+            }
+            return await _request(this.fetch, "DELETE", `${this.url}/factors/${params.factorId}`, {
+              headers: this.headers,
+              jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
+            });
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * {@see GoTrueMFAApi#enroll}
+       */
+      async _enroll(params) {
+        try {
+          return await this._useSession(async (result) => {
+            var _a, _b;
+            const { data: sessionData, error: sessionError } = result;
+            if (sessionError) {
+              return { data: null, error: sessionError };
+            }
+            const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors`, {
+              body: {
+                friendly_name: params.friendlyName,
+                factor_type: params.factorType,
+                issuer: params.issuer
+              },
+              headers: this.headers,
+              jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
+            });
+            if (error) {
+              return { data: null, error };
+            }
+            if ((_b = data === null || data === void 0 ? void 0 : data.totp) === null || _b === void 0 ? void 0 : _b.qr_code) {
+              data.totp.qr_code = `data:image/svg+xml;utf-8,${data.totp.qr_code}`;
+            }
+            return { data, error: null };
+          });
+        } catch (error) {
+          if (isAuthError(error)) {
+            return { data: null, error };
+          }
+          throw error;
+        }
+      }
+      /**
+       * {@see GoTrueMFAApi#verify}
+       */
+      async _verify(params) {
+        return this._acquireLock(-1, async () => {
+          try {
+            return await this._useSession(async (result) => {
+              var _a;
+              const { data: sessionData, error: sessionError } = result;
+              if (sessionError) {
+                return { data: null, error: sessionError };
+              }
+              const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors/${params.factorId}/verify`, {
+                body: { code: params.code, challenge_id: params.challengeId },
+                headers: this.headers,
+                jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
+              });
+              if (error) {
+                return { data: null, error };
+              }
+              await this._saveSession(Object.assign({ expires_at: Math.round(Date.now() / 1e3) + data.expires_in }, data));
+              await this._notifyAllSubscribers("MFA_CHALLENGE_VERIFIED", data);
+              return { data, error };
+            });
+          } catch (error) {
+            if (isAuthError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * {@see GoTrueMFAApi#challenge}
+       */
+      async _challenge(params) {
+        return this._acquireLock(-1, async () => {
+          try {
+            return await this._useSession(async (result) => {
+              var _a;
+              const { data: sessionData, error: sessionError } = result;
+              if (sessionError) {
+                return { data: null, error: sessionError };
+              }
+              return await _request(this.fetch, "POST", `${this.url}/factors/${params.factorId}/challenge`, {
+                headers: this.headers,
+                jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
+              });
+            });
+          } catch (error) {
+            if (isAuthError(error)) {
+              return { data: null, error };
+            }
+            throw error;
+          }
+        });
+      }
+      /**
+       * {@see GoTrueMFAApi#challengeAndVerify}
+       */
+      async _challengeAndVerify(params) {
+        const { data: challengeData, error: challengeError } = await this._challenge({
+          factorId: params.factorId
+        });
+        if (challengeError) {
+          return { data: null, error: challengeError };
+        }
+        return await this._verify({
+          factorId: params.factorId,
+          challengeId: challengeData.id,
+          code: params.code
+        });
+      }
+      /**
+       * {@see GoTrueMFAApi#listFactors}
+       */
+      async _listFactors() {
+        const { data: { user }, error: userError } = await this.getUser();
+        if (userError) {
+          return { data: null, error: userError };
+        }
+        const factors = (user === null || user === void 0 ? void 0 : user.factors) || [];
+        const totp = factors.filter((factor) => factor.factor_type === "totp" && factor.status === "verified");
+        return {
+          data: {
+            all: factors,
+            totp
+          },
+          error: null
+        };
+      }
+      /**
+       * {@see GoTrueMFAApi#getAuthenticatorAssuranceLevel}
+       */
+      async _getAuthenticatorAssuranceLevel() {
+        return this._acquireLock(-1, async () => {
+          return await this._useSession(async (result) => {
+            var _a, _b;
+            const { data: { session }, error: sessionError } = result;
+            if (sessionError) {
+              return { data: null, error: sessionError };
+            }
+            if (!session) {
+              return {
+                data: { currentLevel: null, nextLevel: null, currentAuthenticationMethods: [] },
+                error: null
+              };
+            }
+            const payload = this._decodeJWT(session.access_token);
+            let currentLevel = null;
+            if (payload.aal) {
+              currentLevel = payload.aal;
+            }
+            let nextLevel = currentLevel;
+            const verifiedFactors = (_b = (_a = session.user.factors) === null || _a === void 0 ? void 0 : _a.filter((factor) => factor.status === "verified")) !== null && _b !== void 0 ? _b : [];
+            if (verifiedFactors.length > 0) {
+              nextLevel = "aal2";
+            }
+            const currentAuthenticationMethods = payload.amr || [];
+            return { data: { currentLevel, nextLevel, currentAuthenticationMethods }, error: null };
+          });
+        });
+      }
+    };
+    GoTrueClient.nextInstanceID = 0;
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/AuthAdminApi.js
+var init_AuthAdminApi = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/AuthAdminApi.js"() {
+    init_GoTrueAdminApi();
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/AuthClient.js
+var init_AuthClient = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/AuthClient.js"() {
+    init_GoTrueClient();
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/types.js
+var init_types3 = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/types.js"() {
+  }
+});
+
+// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/index.js
+var init_module5 = __esm({
+  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/index.js"() {
+    init_GoTrueAdminApi();
+    init_GoTrueClient();
+    init_AuthAdminApi();
+    init_AuthClient();
+    init_types3();
+    init_errors3();
+    init_locks();
+  }
+});
+
+// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/SupabaseAuthClient.js
+var SupabaseAuthClient;
+var init_SupabaseAuthClient = __esm({
+  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/SupabaseAuthClient.js"() {
+    init_module5();
+    SupabaseAuthClient = class extends GoTrueClient {
+      constructor(options2) {
+        super(options2);
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js
+var __awaiter7, SupabaseClient;
+var init_SupabaseClient = __esm({
+  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js"() {
+    init_module();
+    init_module2();
+    init_module3();
+    init_module4();
+    init_constants4();
+    init_fetch2();
+    init_helpers2();
+    init_SupabaseAuthClient();
+    __awaiter7 = function(thisArg, _arguments, P2, generator) {
+      function adopt(value) {
+        return value instanceof P2 ? value : new P2(function(resolve2) {
+          resolve2(value);
+        });
+      }
+      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
+        function fulfilled(value) {
+          try {
+            step(generator.next(value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function rejected(value) {
+          try {
+            step(generator["throw"](value));
+          } catch (e) {
+            reject(e);
+          }
+        }
+        function step(result) {
+          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+      });
+    };
+    SupabaseClient = class {
+      /**
+       * Create a new client for use in the browser.
+       * @param supabaseUrl The unique Supabase URL which is supplied when you create a new project in your project dashboard.
+       * @param supabaseKey The unique Supabase Key which is supplied when you create a new project in your project dashboard.
+       * @param options.db.schema You can switch in between schemas. The schema needs to be on the list of exposed schemas inside Supabase.
+       * @param options.auth.autoRefreshToken Set to "true" if you want to automatically refresh the token before expiring.
+       * @param options.auth.persistSession Set to "true" if you want to automatically save the user session into local storage.
+       * @param options.auth.detectSessionInUrl Set to "true" if you want to automatically detects OAuth grants in the URL and signs in the user.
+       * @param options.realtime Options passed along to realtime-js constructor.
+       * @param options.global.fetch A custom fetch implementation.
+       * @param options.global.headers Any additional headers to send with each network request.
+       */
+      constructor(supabaseUrl, supabaseKey, options2) {
+        var _a, _b, _c, _d, _e, _f, _g, _h;
+        this.supabaseUrl = supabaseUrl;
+        this.supabaseKey = supabaseKey;
+        if (!supabaseUrl)
+          throw new Error("supabaseUrl is required.");
+        if (!supabaseKey)
+          throw new Error("supabaseKey is required.");
+        const _supabaseUrl = stripTrailingSlash(supabaseUrl);
+        this.realtimeUrl = `${_supabaseUrl}/realtime/v1`.replace(/^http/i, "ws");
+        this.authUrl = `${_supabaseUrl}/auth/v1`;
+        this.storageUrl = `${_supabaseUrl}/storage/v1`;
+        this.functionsUrl = `${_supabaseUrl}/functions/v1`;
+        const defaultStorageKey = `sb-${new URL(this.authUrl).hostname.split(".")[0]}-auth-token`;
+        const DEFAULTS = {
+          db: DEFAULT_DB_OPTIONS,
+          realtime: DEFAULT_REALTIME_OPTIONS,
+          auth: Object.assign(Object.assign({}, DEFAULT_AUTH_OPTIONS), { storageKey: defaultStorageKey }),
+          global: DEFAULT_GLOBAL_OPTIONS
+        };
+        const settings = applySettingDefaults(options2 !== null && options2 !== void 0 ? options2 : {}, DEFAULTS);
+        this.storageKey = (_b = (_a = settings.auth) === null || _a === void 0 ? void 0 : _a.storageKey) !== null && _b !== void 0 ? _b : "";
+        this.headers = (_d = (_c = settings.global) === null || _c === void 0 ? void 0 : _c.headers) !== null && _d !== void 0 ? _d : {};
+        this.auth = this._initSupabaseAuthClient((_e = settings.auth) !== null && _e !== void 0 ? _e : {}, this.headers, (_f = settings.global) === null || _f === void 0 ? void 0 : _f.fetch);
+        this.fetch = fetchWithAuth(supabaseKey, this._getAccessToken.bind(this), (_g = settings.global) === null || _g === void 0 ? void 0 : _g.fetch);
+        this.realtime = this._initRealtimeClient(Object.assign({ headers: this.headers }, settings.realtime));
+        this.rest = new PostgrestClient(`${_supabaseUrl}/rest/v1`, {
+          headers: this.headers,
+          schema: (_h = settings.db) === null || _h === void 0 ? void 0 : _h.schema,
+          fetch: this.fetch
+        });
+        this._listenForAuthEvents();
+      }
+      /**
+       * Supabase Functions allows you to deploy and invoke edge functions.
+       */
+      get functions() {
+        return new FunctionsClient(this.functionsUrl, {
+          headers: this.headers,
+          customFetch: this.fetch
+        });
+      }
+      /**
+       * Supabase Storage allows you to manage user-generated content, such as photos or videos.
+       */
+      get storage() {
+        return new StorageClient(this.storageUrl, this.headers, this.fetch);
+      }
+      /**
+       * Perform a query on a table or a view.
+       *
+       * @param relation - The table or view name to query
+       */
+      from(relation) {
+        return this.rest.from(relation);
+      }
+      // NOTE: signatures must be kept in sync with PostgrestClient.schema
+      /**
+       * Select a schema to query or perform an function (rpc) call.
+       *
+       * The schema needs to be on the list of exposed schemas inside Supabase.
+       *
+       * @param schema - The schema to query
+       */
+      schema(schema) {
+        return this.rest.schema(schema);
+      }
+      // NOTE: signatures must be kept in sync with PostgrestClient.rpc
+      /**
+       * Perform a function call.
+       *
+       * @param fn - The function name to call
+       * @param args - The arguments to pass to the function call
+       * @param options - Named parameters
+       * @param options.head - When set to `true`, `data` will not be returned.
+       * Useful if you only need the count.
+       * @param options.count - Count algorithm to use to count rows returned by the
+       * function. Only applicable for [set-returning
+       * functions](https://www.postgresql.org/docs/current/functions-srf.html).
+       *
+       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+       * hood.
+       *
+       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+       * statistics under the hood.
+       *
+       * `"estimated"`: Uses exact count for low numbers and planned count for high
+       * numbers.
+       */
+      rpc(fn, args = {}, options2 = {}) {
+        return this.rest.rpc(fn, args, options2);
+      }
+      /**
+       * Creates a Realtime channel with Broadcast, Presence, and Postgres Changes.
+       *
+       * @param {string} name - The name of the Realtime channel.
+       * @param {Object} opts - The options to pass to the Realtime channel.
+       *
+       */
+      channel(name2, opts = { config: {} }) {
+        return this.realtime.channel(name2, opts);
+      }
+      /**
+       * Returns all Realtime channels.
+       */
+      getChannels() {
+        return this.realtime.getChannels();
+      }
+      /**
+       * Unsubscribes and removes Realtime channel from Realtime client.
+       *
+       * @param {RealtimeChannel} channel - The name of the Realtime channel.
+       *
+       */
+      removeChannel(channel) {
+        return this.realtime.removeChannel(channel);
+      }
+      /**
+       * Unsubscribes and removes all Realtime channels from Realtime client.
+       */
+      removeAllChannels() {
+        return this.realtime.removeAllChannels();
+      }
+      _getAccessToken() {
+        var _a, _b;
+        return __awaiter7(this, void 0, void 0, function* () {
+          const { data } = yield this.auth.getSession();
+          return (_b = (_a = data.session) === null || _a === void 0 ? void 0 : _a.access_token) !== null && _b !== void 0 ? _b : null;
+        });
+      }
+      _initSupabaseAuthClient({ autoRefreshToken, persistSession, detectSessionInUrl, storage: storage2, storageKey, flowType, debug }, headers2, fetch3) {
+        const authHeaders = {
+          Authorization: `Bearer ${this.supabaseKey}`,
+          apikey: `${this.supabaseKey}`
+        };
+        return new SupabaseAuthClient({
+          url: this.authUrl,
+          headers: Object.assign(Object.assign({}, authHeaders), headers2),
+          storageKey,
+          autoRefreshToken,
+          persistSession,
+          detectSessionInUrl,
+          storage: storage2,
+          flowType,
+          debug,
+          fetch: fetch3
+        });
+      }
+      _initRealtimeClient(options2) {
+        return new RealtimeClient(this.realtimeUrl, Object.assign(Object.assign({}, options2), { params: Object.assign({ apikey: this.supabaseKey }, options2 === null || options2 === void 0 ? void 0 : options2.params) }));
+      }
+      _listenForAuthEvents() {
+        let data = this.auth.onAuthStateChange((event, session) => {
+          this._handleTokenChanged(event, "CLIENT", session === null || session === void 0 ? void 0 : session.access_token);
+        });
+        return data;
+      }
+      _handleTokenChanged(event, source, token) {
+        if ((event === "TOKEN_REFRESHED" || event === "SIGNED_IN") && this.changedAccessToken !== token) {
+          this.realtime.setAuth(token !== null && token !== void 0 ? token : null);
+          this.changedAccessToken = token;
+        } else if (event === "SIGNED_OUT") {
+          this.realtime.setAuth(this.supabaseKey);
+          if (source == "STORAGE")
+            this.auth.signOut();
+          this.changedAccessToken = void 0;
+        }
+      }
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/index.js
+var createClient;
+var init_module6 = __esm({
+  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/index.js"() {
+    init_SupabaseClient();
+    init_module5();
+    init_module3();
+    createClient = (supabaseUrl, supabaseKey, options2) => {
+      return new SupabaseClient(supabaseUrl, supabaseKey, options2);
+    };
+  }
+});
+
+// node_modules/.pnpm/@supabase+auth-helpers-shared@0.6.3_@supabase+supabase-js@2.39.8/node_modules/@supabase/auth-helpers-shared/dist/index.mjs
+function parseSupabaseCookie(str) {
+  if (!str) {
+    return null;
+  }
+  try {
+    const session = JSON.parse(str);
+    if (!session) {
+      return null;
+    }
+    if (session.constructor.name === "Object") {
+      return session;
+    }
+    if (session.constructor.name !== "Array") {
+      throw new Error(`Unexpected format: ${session.constructor.name}`);
+    }
+    const [_header, payloadStr, _signature] = session[0].split(".");
+    const payload = base64url_exports2.decode(payloadStr);
+    const decoder2 = new TextDecoder();
+    const { exp, sub, ...user } = JSON.parse(decoder2.decode(payload));
+    return {
+      expires_at: exp,
+      expires_in: exp - Math.round(Date.now() / 1e3),
+      token_type: "bearer",
+      access_token: session[0],
+      refresh_token: session[1],
+      provider_token: session[2],
+      provider_refresh_token: session[3],
+      user: {
+        id: sub,
+        factors: session[4],
+        ...user
+      }
+    };
+  } catch (err) {
+    console.warn("Failed to parse cookie string:", err);
+    return null;
+  }
+}
+function stringifySupabaseSession(session) {
+  var _a;
+  return JSON.stringify([
+    session.access_token,
+    session.refresh_token,
+    session.provider_token,
+    session.provider_refresh_token,
+    ((_a = session.user) == null ? void 0 : _a.factors) ?? null
+  ]);
+}
+function isBrowser2() {
+  return typeof window !== "undefined" && typeof window.document !== "undefined";
+}
+function createChunkRegExp(chunkSize) {
+  return new RegExp(".{1," + chunkSize + "}", "g");
+}
+function createChunks(key2, value, chunkSize) {
+  const re = chunkSize !== void 0 ? createChunkRegExp(chunkSize) : MAX_CHUNK_REGEXP;
+  const chunkCount = Math.ceil(value.length / (chunkSize ?? MAX_CHUNK_SIZE));
+  if (chunkCount === 1) {
+    return [{ name: key2, value }];
+  }
+  const chunks = [];
+  const values = value.match(re);
+  values == null ? void 0 : values.forEach((value2, i) => {
+    const name2 = `${key2}.${i}`;
+    chunks.push({ name: name2, value: value2 });
+  });
+  return chunks;
+}
+function combineChunks(key2, retrieveChunk = () => {
+  return null;
+}) {
+  let values = [];
+  for (let i = 0; ; i++) {
+    const chunkName = `${key2}.${i}`;
+    const chunk = retrieveChunk(chunkName);
+    if (!chunk) {
+      break;
+    }
+    values.push(chunk);
+  }
+  return values.length ? values.join("") : null;
+}
+function createSupabaseClient(supabaseUrl, supabaseKey, options2) {
+  var _a;
+  const browser = isBrowser2();
+  return createClient(supabaseUrl, supabaseKey, {
+    ...options2,
+    auth: {
+      flowType: "pkce",
+      autoRefreshToken: browser,
+      detectSessionInUrl: browser,
+      persistSession: true,
+      storage: options2.auth.storage,
+      // fix this in supabase-js
+      ...((_a = options2.auth) == null ? void 0 : _a.storageKey) ? {
+        storageKey: options2.auth.storageKey
+      } : {}
+    }
+  });
+}
+var __create2, __defProp2, __getOwnPropDesc2, __getOwnPropNames2, __getProtoOf2, __hasOwnProp2, __commonJS2, __copyProps2, __toESM2, require_cookie, import_cookie2, import_cookie, DEFAULT_COOKIE_OPTIONS, MAX_CHUNK_SIZE, MAX_CHUNK_REGEXP, CookieAuthStorageAdapter, BrowserCookieAuthStorageAdapter, export_parseCookies, export_serializeCookie;
+var init_dist = __esm({
+  "node_modules/.pnpm/@supabase+auth-helpers-shared@0.6.3_@supabase+supabase-js@2.39.8/node_modules/@supabase/auth-helpers-shared/dist/index.mjs"() {
+    init_browser();
+    init_module6();
+    __create2 = Object.create;
+    __defProp2 = Object.defineProperty;
+    __getOwnPropDesc2 = Object.getOwnPropertyDescriptor;
+    __getOwnPropNames2 = Object.getOwnPropertyNames;
+    __getProtoOf2 = Object.getPrototypeOf;
+    __hasOwnProp2 = Object.prototype.hasOwnProperty;
+    __commonJS2 = (cb, mod) => function __require() {
+      return mod || (0, cb[__getOwnPropNames2(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+    };
+    __copyProps2 = (to, from, except, desc) => {
+      if (from && typeof from === "object" || typeof from === "function") {
+        for (let key2 of __getOwnPropNames2(from))
+          if (!__hasOwnProp2.call(to, key2) && key2 !== except)
+            __defProp2(to, key2, { get: () => from[key2], enumerable: !(desc = __getOwnPropDesc2(from, key2)) || desc.enumerable });
+      }
+      return to;
+    };
+    __toESM2 = (mod, isNodeMode, target) => (target = mod != null ? __create2(__getProtoOf2(mod)) : {}, __copyProps2(
+      // If the importer is in node compatibility mode or this is not an ESM
+      // file that has been converted to a CommonJS file using a Babel-
+      // compatible transform (i.e. "__esModule" has not been set), then set
+      // "default" to the CommonJS "module.exports" for node compatibility.
+      isNodeMode || !mod || !mod.__esModule ? __defProp2(target, "default", { value: mod, enumerable: true }) : target,
+      mod
+    ));
+    require_cookie = __commonJS2({
+      "../../node_modules/.pnpm/cookie@0.5.0/node_modules/cookie/index.js"(exports) {
+        "use strict";
+        exports.parse = parse3;
+        exports.serialize = serialize3;
+        var __toString2 = Object.prototype.toString;
+        var fieldContentRegExp2 = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;
+        function parse3(str, options2) {
+          if (typeof str !== "string") {
+            throw new TypeError("argument str must be a string");
+          }
+          var obj = {};
+          var opt = options2 || {};
+          var dec = opt.decode || decode4;
+          var index19 = 0;
+          while (index19 < str.length) {
+            var eqIdx = str.indexOf("=", index19);
+            if (eqIdx === -1) {
+              break;
+            }
+            var endIdx = str.indexOf(";", index19);
+            if (endIdx === -1) {
+              endIdx = str.length;
+            } else if (endIdx < eqIdx) {
+              index19 = str.lastIndexOf(";", eqIdx - 1) + 1;
+              continue;
+            }
+            var key2 = str.slice(index19, eqIdx).trim();
+            if (void 0 === obj[key2]) {
+              var val = str.slice(eqIdx + 1, endIdx).trim();
+              if (val.charCodeAt(0) === 34) {
+                val = val.slice(1, -1);
+              }
+              obj[key2] = tryDecode2(val, dec);
+            }
+            index19 = endIdx + 1;
+          }
+          return obj;
+        }
+        function serialize3(name2, val, options2) {
+          var opt = options2 || {};
+          var enc = opt.encode || encode4;
+          if (typeof enc !== "function") {
+            throw new TypeError("option encode is invalid");
+          }
+          if (!fieldContentRegExp2.test(name2)) {
+            throw new TypeError("argument name is invalid");
+          }
+          var value = enc(val);
+          if (value && !fieldContentRegExp2.test(value)) {
+            throw new TypeError("argument val is invalid");
+          }
+          var str = name2 + "=" + value;
+          if (null != opt.maxAge) {
+            var maxAge = opt.maxAge - 0;
+            if (isNaN(maxAge) || !isFinite(maxAge)) {
+              throw new TypeError("option maxAge is invalid");
+            }
+            str += "; Max-Age=" + Math.floor(maxAge);
+          }
+          if (opt.domain) {
+            if (!fieldContentRegExp2.test(opt.domain)) {
+              throw new TypeError("option domain is invalid");
+            }
+            str += "; Domain=" + opt.domain;
+          }
+          if (opt.path) {
+            if (!fieldContentRegExp2.test(opt.path)) {
+              throw new TypeError("option path is invalid");
+            }
+            str += "; Path=" + opt.path;
+          }
+          if (opt.expires) {
+            var expires = opt.expires;
+            if (!isDate2(expires) || isNaN(expires.valueOf())) {
+              throw new TypeError("option expires is invalid");
+            }
+            str += "; Expires=" + expires.toUTCString();
+          }
+          if (opt.httpOnly) {
+            str += "; HttpOnly";
+          }
+          if (opt.secure) {
+            str += "; Secure";
+          }
+          if (opt.priority) {
+            var priority = typeof opt.priority === "string" ? opt.priority.toLowerCase() : opt.priority;
+            switch (priority) {
+              case "low":
+                str += "; Priority=Low";
+                break;
+              case "medium":
+                str += "; Priority=Medium";
+                break;
+              case "high":
+                str += "; Priority=High";
+                break;
+              default:
+                throw new TypeError("option priority is invalid");
+            }
+          }
+          if (opt.sameSite) {
+            var sameSite = typeof opt.sameSite === "string" ? opt.sameSite.toLowerCase() : opt.sameSite;
+            switch (sameSite) {
+              case true:
+                str += "; SameSite=Strict";
+                break;
+              case "lax":
+                str += "; SameSite=Lax";
+                break;
+              case "strict":
+                str += "; SameSite=Strict";
+                break;
+              case "none":
+                str += "; SameSite=None";
+                break;
+              default:
+                throw new TypeError("option sameSite is invalid");
+            }
+          }
+          return str;
+        }
+        function decode4(str) {
+          return str.indexOf("%") !== -1 ? decodeURIComponent(str) : str;
+        }
+        function encode4(val) {
+          return encodeURIComponent(val);
+        }
+        function isDate2(val) {
+          return __toString2.call(val) === "[object Date]" || val instanceof Date;
+        }
+        function tryDecode2(str, decode22) {
+          try {
+            return decode22(str);
+          } catch (e) {
+            return str;
+          }
+        }
+      }
+    });
+    import_cookie2 = __toESM2(require_cookie());
+    import_cookie = __toESM2(require_cookie());
+    DEFAULT_COOKIE_OPTIONS = {
+      path: "/",
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24 * 365 * 1e3
+    };
+    MAX_CHUNK_SIZE = 3180;
+    MAX_CHUNK_REGEXP = createChunkRegExp(MAX_CHUNK_SIZE);
+    CookieAuthStorageAdapter = class {
+      constructor(cookieOptions) {
+        this.cookieOptions = {
+          ...DEFAULT_COOKIE_OPTIONS,
+          ...cookieOptions,
+          maxAge: DEFAULT_COOKIE_OPTIONS.maxAge
+        };
+      }
+      getItem(key2) {
+        const value = this.getCookie(key2);
+        if (key2.endsWith("-code-verifier") && value) {
+          return value;
+        }
+        if (value) {
+          return JSON.stringify(parseSupabaseCookie(value));
+        }
+        const chunks = combineChunks(key2, (chunkName) => {
+          return this.getCookie(chunkName);
+        });
+        return chunks !== null ? JSON.stringify(parseSupabaseCookie(chunks)) : null;
+      }
+      setItem(key2, value) {
+        if (key2.endsWith("-code-verifier")) {
+          this.setCookie(key2, value);
+          return;
+        }
+        let session = JSON.parse(value);
+        const sessionStr = stringifySupabaseSession(session);
+        const sessionChunks = createChunks(key2, sessionStr);
+        sessionChunks.forEach((sess) => {
+          this.setCookie(sess.name, sess.value);
+        });
+      }
+      removeItem(key2) {
+        this._deleteSingleCookie(key2);
+        this._deleteChunkedCookies(key2);
+      }
+      _deleteSingleCookie(key2) {
+        if (this.getCookie(key2)) {
+          this.deleteCookie(key2);
+        }
+      }
+      _deleteChunkedCookies(key2, from = 0) {
+        for (let i = from; ; i++) {
+          const cookieName = `${key2}.${i}`;
+          const value = this.getCookie(cookieName);
+          if (value === void 0) {
+            break;
+          }
+          this.deleteCookie(cookieName);
+        }
+      }
+    };
+    BrowserCookieAuthStorageAdapter = class extends CookieAuthStorageAdapter {
+      constructor(cookieOptions) {
+        super(cookieOptions);
+      }
+      getCookie(name2) {
+        if (!isBrowser2())
+          return null;
+        const cookies = (0, import_cookie2.parse)(document.cookie);
+        return cookies[name2];
+      }
+      setCookie(name2, value) {
+        if (!isBrowser2())
+          return null;
+        document.cookie = (0, import_cookie2.serialize)(name2, value, {
+          ...this.cookieOptions,
+          httpOnly: false
+        });
+      }
+      deleteCookie(name2) {
+        if (!isBrowser2())
+          return null;
+        document.cookie = (0, import_cookie2.serialize)(name2, "", {
+          ...this.cookieOptions,
+          maxAge: 0,
+          httpOnly: false
+        });
+      }
+    };
+    export_parseCookies = import_cookie.parse;
+    export_serializeCookie = import_cookie.serialize;
+  }
+});
+
+// node_modules/.pnpm/@supabase+auth-helpers-sveltekit@0.12.0_@supabase+supabase-js@2.39.8_@sveltejs+kit@2.5.4/node_modules/@supabase/auth-helpers-sveltekit/dist/index.js
+function createSupabaseLoadClient({
+  supabaseUrl,
+  supabaseKey,
+  event,
+  serverSession,
+  options: options2,
+  cookieOptions
+}) {
+  var _a;
+  const browser = isBrowser2();
+  if (browser && cachedBrowserClient) {
+    return cachedBrowserClient;
+  }
+  const client = createSupabaseClient(supabaseUrl, supabaseKey, {
+    ...options2,
+    global: {
+      fetch: event.fetch,
+      ...options2 == null ? void 0 : options2.global,
+      headers: {
+        ...(_a = options2 == null ? void 0 : options2.global) == null ? void 0 : _a.headers,
+        "X-Client-Info": `${"@supabase/auth-helpers-sveltekit"}@${"0.12.0"}`
+      }
+    },
+    auth: {
+      storage: new SvelteKitLoadAuthStorageAdapter(serverSession, cookieOptions)
+    }
+  });
+  if (browser) {
+    cachedBrowserClient = client;
+  }
+  return client;
+}
+function createSupabaseServerClient({
+  supabaseUrl,
+  supabaseKey,
+  event,
+  options: options2,
+  cookieOptions,
+  expiryMargin
+}) {
+  var _a;
+  const client = createSupabaseClient(supabaseUrl, supabaseKey, {
+    ...options2,
+    global: {
+      ...options2 == null ? void 0 : options2.global,
+      headers: {
+        ...(_a = options2 == null ? void 0 : options2.global) == null ? void 0 : _a.headers,
+        "X-Client-Info": `${"@supabase/auth-helpers-sveltekit"}@${"0.12.0"}`
+      }
+    },
+    auth: {
+      storage: new SvelteKitServerAuthStorageAdapter(event, cookieOptions, expiryMargin)
+    }
+  });
+  return client;
+}
+var SvelteKitLoadAuthStorageAdapter, cachedBrowserClient, SvelteKitServerAuthStorageAdapter;
+var init_dist2 = __esm({
+  "node_modules/.pnpm/@supabase+auth-helpers-sveltekit@0.12.0_@supabase+supabase-js@2.39.8_@sveltejs+kit@2.5.4/node_modules/@supabase/auth-helpers-sveltekit/dist/index.js"() {
+    init_dist();
+    init_dist();
+    init_dist();
+    init_dist();
+    SvelteKitLoadAuthStorageAdapter = class extends BrowserCookieAuthStorageAdapter {
+      constructor(serverSession = null, cookieOptions) {
+        super(cookieOptions);
+        this.serverSession = serverSession;
+      }
+      getItem(key2) {
+        if (!isBrowser2()) {
+          return JSON.stringify(this.serverSession);
+        }
+        return super.getItem(key2);
+      }
+    };
+    SvelteKitServerAuthStorageAdapter = class extends CookieAuthStorageAdapter {
+      constructor(event, cookieOptions, expiryMargin = 60) {
+        super(cookieOptions);
+        this.event = event;
+        this.expiryMargin = expiryMargin;
+        this.isServer = true;
+        this.isInitialDelete = true;
+        this.currentSession = null;
+      }
+      getCookie(name2) {
+        return this.event.cookies.get(name2);
+      }
+      setCookie(name2, value) {
+        this.event.cookies.set(name2, value, {
+          httpOnly: false,
+          path: "/",
+          ...this.cookieOptions
+        });
+      }
+      deleteCookie(name2) {
+        this.event.cookies.delete(name2, {
+          httpOnly: false,
+          path: "/",
+          ...this.cookieOptions
+        });
+      }
+      async getItem(key2) {
+        const sessionStr = await super.getItem(key2);
+        if (!sessionStr) {
+          this.currentSession = null;
+          return null;
+        }
+        const session = JSON.parse(sessionStr);
+        this.currentSession = session;
+        if (session == null ? void 0 : session.expires_at) {
+          session.expires_at -= this.expiryMargin;
+        }
+        return JSON.stringify(session);
+      }
+      removeItem(key2) {
+        var _a;
+        if (this.isInitialDelete && ((_a = this.currentSession) == null ? void 0 : _a.expires_at)) {
+          const now = Math.round(Date.now() / 1e3);
+          if (this.currentSession.expires_at < now + 10) {
+            this.isInitialDelete = false;
+            return;
+          }
+        }
+        super.removeItem(key2);
+      }
+    };
+  }
+});
+
+// .svelte-kit/output/server/chunks/hooks.server.js
+var hooks_server_exports = {};
+__export(hooks_server_exports, {
+  handle: () => handle
+});
+var handle;
+var init_hooks_server = __esm({
+  ".svelte-kit/output/server/chunks/hooks.server.js"() {
+    init_dist2();
+    handle = async ({ event, resolve: resolve2 }) => {
+      event.locals.supabase = createSupabaseServerClient({
+        supabaseUrl: "https://noejjknzqcfnwzgrpfdi.supabase.co",
+        supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vZWpqa256cWNmbnd6Z3JwZmRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc0ODMyNDQsImV4cCI6MjAyMzA1OTI0NH0.pEqKPgopedqGbawDnrNssT_RjZBhr-IJoUx_9uWWv1c",
+        event
+      });
+      event.locals.getSession = async () => {
+        const {
+          data: { session }
+        } = await event.locals.supabase.auth.getSession();
+        return session;
+      };
+      return resolve2(event, {
+        filterSerializedResponseHeaders(name2) {
+          return name2 === "content-range";
+        }
+      });
+    };
+  }
+});
+
+// .svelte-kit/output/server/chunks/index.js
+function redirect(status, location) {
+  if (isNaN(status) || status < 300 || status > 308) {
+    throw new Error("Invalid status code");
+  }
+  throw new Redirect(
+    // @ts-ignore
+    status,
+    location.toString()
+  );
+}
+function json(data, init2) {
+  const body2 = JSON.stringify(data);
+  const headers2 = new Headers(init2?.headers);
+  if (!headers2.has("content-length")) {
+    headers2.set("content-length", encoder2.encode(body2).byteLength.toString());
+  }
+  if (!headers2.has("content-type")) {
+    headers2.set("content-type", "application/json");
+  }
+  return new Response(body2, {
+    ...init2,
+    headers: headers2
+  });
+}
+function text(body2, init2) {
+  const headers2 = new Headers(init2?.headers);
+  if (!headers2.has("content-length")) {
+    const encoded = encoder2.encode(body2);
+    headers2.set("content-length", encoded.byteLength.toString());
+    return new Response(encoded, {
+      ...init2,
+      headers: headers2
+    });
+  }
+  return new Response(body2, {
+    ...init2,
+    headers: headers2
+  });
+}
+function fail(status, data) {
+  return new ActionFailure(status, data);
+}
+var HttpError, Redirect, SvelteKitError, ActionFailure, encoder2;
+var init_chunks = __esm({
+  ".svelte-kit/output/server/chunks/index.js"() {
+    HttpError = class {
+      /**
+       * @param {number} status
+       * @param {{message: string} extends App.Error ? (App.Error | string | undefined) : App.Error} body
+       */
+      constructor(status, body2) {
+        this.status = status;
+        if (typeof body2 === "string") {
+          this.body = { message: body2 };
+        } else if (body2) {
+          this.body = body2;
+        } else {
+          this.body = { message: `Error: ${status}` };
+        }
+      }
+      toString() {
+        return JSON.stringify(this.body);
+      }
+    };
+    Redirect = class {
+      /**
+       * @param {300 | 301 | 302 | 303 | 304 | 305 | 306 | 307 | 308} status
+       * @param {string} location
+       */
+      constructor(status, location) {
+        this.status = status;
+        this.location = location;
+      }
+    };
+    SvelteKitError = class extends Error {
+      /**
+       * @param {number} status
+       * @param {string} text
+       * @param {string} message
+       */
+      constructor(status, text2, message) {
+        super(message);
+        this.status = status;
+        this.text = text2;
+      }
+    };
+    ActionFailure = class {
+      /**
+       * @param {number} status
+       * @param {T} data
+       */
+      constructor(status, data) {
+        this.status = status;
+        this.data = data;
+      }
+    };
+    encoder2 = new TextEncoder();
   }
 });
 
@@ -512,7 +8665,7 @@ var init_exports = __esm({
   }
 });
 
-// .svelte-kit/output/server/chunks/index.js
+// .svelte-kit/output/server/chunks/index2.js
 function readable(value, start) {
   return {
     subscribe: writable(value, start).subscribe
@@ -560,15 +8713,15 @@ function writable(value, start = noop) {
   return { set, update, subscribe: subscribe2 };
 }
 var subscriber_queue;
-var init_chunks = __esm({
-  ".svelte-kit/output/server/chunks/index.js"() {
+var init_index2 = __esm({
+  ".svelte-kit/output/server/chunks/index2.js"() {
     init_ssr();
     subscriber_queue = [];
   }
 });
 
 // node_modules/.pnpm/@vercel+analytics@1.2.2/node_modules/@vercel/analytics/dist/index.mjs
-function isBrowser() {
+function isBrowser3() {
   return typeof window !== "undefined";
 }
 function detectEnvironment() {
@@ -589,7 +8742,7 @@ function setMode(mode = "auto") {
   window.vam = mode;
 }
 function getMode() {
-  const mode = isBrowser() ? window.vam : detectEnvironment();
+  const mode = isBrowser3() ? window.vam : detectEnvironment();
   return mode || "production";
 }
 function isDevelopment() {
@@ -599,7 +8752,7 @@ function inject(props = {
   debug: true
 }) {
   var _a;
-  if (!isBrowser())
+  if (!isBrowser3())
     return;
   setMode(props.mode);
   initQueue();
@@ -613,7 +8766,7 @@ function inject(props = {
   script.src = src;
   script.defer = true;
   script.dataset.sdkn = name + (props.framework ? `/${props.framework}` : "");
-  script.dataset.sdkv = version;
+  script.dataset.sdkv = version6;
   if (props.disableAutoTrack) {
     script.dataset.disableAutoTrack = "1";
   }
@@ -634,11 +8787,11 @@ function inject(props = {
   }
   document.head.appendChild(script);
 }
-var name, version, initQueue, DEV_SCRIPT_URL, PROD_SCRIPT_URL;
-var init_dist = __esm({
+var name, version6, initQueue, DEV_SCRIPT_URL, PROD_SCRIPT_URL;
+var init_dist3 = __esm({
   "node_modules/.pnpm/@vercel+analytics@1.2.2/node_modules/@vercel/analytics/dist/index.mjs"() {
     name = "@vercel/analytics";
-    version = "1.2.2";
+    version6 = "1.2.2";
     initQueue = () => {
       if (window.va)
         return;
@@ -654,15 +8807,42 @@ var init_dist = __esm({
 // .svelte-kit/output/server/entries/pages/_layout.js
 var layout_exports = {};
 __export(layout_exports, {
-  config: () => config
+  load: () => load
 });
-var config;
+var load;
 var init_layout = __esm({
   ".svelte-kit/output/server/entries/pages/_layout.js"() {
-    init_dist();
+    init_dist3();
+    init_dist2();
     inject({ mode: "production" });
-    config = {
-      runtime: "edge"
+    load = async ({ fetch: fetch3, data, depends }) => {
+      depends("supabase:auth");
+      const supabase2 = createSupabaseLoadClient({
+        supabaseUrl: "https://noejjknzqcfnwzgrpfdi.supabase.co",
+        supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vZWpqa256cWNmbnd6Z3JwZmRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc0ODMyNDQsImV4cCI6MjAyMzA1OTI0NH0.pEqKPgopedqGbawDnrNssT_RjZBhr-IJoUx_9uWWv1c",
+        event: { fetch: fetch3 },
+        serverSession: data.session
+      });
+      const {
+        data: { session }
+      } = await supabase2.auth.getSession();
+      return { supabase: supabase2, session };
+    };
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/_layout.server.js
+var layout_server_exports = {};
+__export(layout_server_exports, {
+  load: () => load2
+});
+var load2;
+var init_layout_server = __esm({
+  ".svelte-kit/output/server/entries/pages/_layout.server.js"() {
+    load2 = async ({ locals: { getSession } }) => {
+      return {
+        session: await getSession()
+      };
     };
   }
 });
@@ -919,9 +9099,9 @@ function calculateSize(size, ratio, precision) {
 }
 function splitSVGDefs(content, tag = "defs") {
   let defs = "";
-  const index17 = content.indexOf("<" + tag);
-  while (index17 >= 0) {
-    const start = content.indexOf(">", index17);
+  const index19 = content.indexOf("<" + tag);
+  while (index19 >= 0) {
+    const start = content.indexOf(">", index19);
     const end = content.indexOf("</" + tag);
     if (start === -1 || end === -1) {
       break;
@@ -931,7 +9111,7 @@ function splitSVGDefs(content, tag = "defs") {
       break;
     }
     defs += content.slice(start + 1, end).trim();
-    content = content.slice(0, index17).trim() + content.slice(endEnd + 1);
+    content = content.slice(0, index19).trim() + content.slice(endEnd + 1);
   }
   return {
     defs,
@@ -1116,32 +9296,32 @@ function createAPIConfig(source) {
   return result;
 }
 function addAPIProvider(provider, customConfig) {
-  const config2 = createAPIConfig(customConfig);
-  if (config2 === null) {
+  const config = createAPIConfig(customConfig);
+  if (config === null) {
     return false;
   }
-  configStorage[provider] = config2;
+  configStorage[provider] = config;
   return true;
 }
 function getAPIConfig(provider) {
   return configStorage[provider];
 }
 function calculateMaxLength(provider, prefix) {
-  const config2 = getAPIConfig(provider);
-  if (!config2) {
+  const config = getAPIConfig(provider);
+  if (!config) {
     return 0;
   }
   let result;
-  if (!config2.maxURL) {
+  if (!config.maxURL) {
     result = 0;
   } else {
     let maxHostLength = 0;
-    config2.resources.forEach((item) => {
+    config.resources.forEach((item) => {
       const host = item;
       maxHostLength = Math.max(maxHostLength, host.length);
     });
     const url = prefix + ".json?icons=";
-    result = config2.maxURL - maxHostLength - config2.path.length - url.length;
+    result = config.maxURL - maxHostLength - config.path.length - url.length;
   }
   return result;
 }
@@ -1150,9 +9330,9 @@ function shouldAbort(status) {
 }
 function getPath(provider) {
   if (typeof provider === "string") {
-    const config2 = getAPIConfig(provider);
-    if (config2) {
-      return config2.path;
+    const config = getAPIConfig(provider);
+    if (config) {
+      return config.path;
     }
   }
   return "/";
@@ -1293,12 +9473,12 @@ function listToIcons(list, validate = true, simpleNames2 = false) {
   });
   return result;
 }
-function sendQuery(config2, payload, query, done) {
-  const resourcesCount = config2.resources.length;
-  const startIndex = config2.random ? Math.floor(Math.random() * resourcesCount) : config2.index;
+function sendQuery(config, payload, query, done) {
+  const resourcesCount = config.resources.length;
+  const startIndex = config.random ? Math.floor(Math.random() * resourcesCount) : config.index;
   let resources;
-  if (config2.random) {
-    let list = config2.resources.slice(0);
+  if (config.random) {
+    let list = config.resources.slice(0);
     resources = [];
     while (list.length > 1) {
       const nextIndex = Math.floor(Math.random() * list.length);
@@ -1307,7 +9487,7 @@ function sendQuery(config2, payload, query, done) {
     }
     resources = resources.concat(list);
   } else {
-    resources = config2.resources.slice(startIndex).concat(config2.resources.slice(0, startIndex));
+    resources = config.resources.slice(startIndex).concat(config.resources.slice(0, startIndex));
   }
   const startTime = Date.now();
   let status = "pending";
@@ -1377,7 +9557,7 @@ function sendQuery(config2, payload, query, done) {
       case "pending":
         break;
       case "failed":
-        if (isError || !config2.dataAfterTimeout) {
+        if (isError || !config.dataAfterTimeout) {
           return;
         }
         break;
@@ -1402,10 +9582,10 @@ function sendQuery(config2, payload, query, done) {
     }
     resetTimer();
     clearQueue();
-    if (!config2.random) {
-      const index17 = config2.resources.indexOf(item.resource);
-      if (index17 !== -1 && index17 !== config2.index) {
-        config2.index = index17;
+    if (!config.random) {
+      const index19 = config.resources.indexOf(item.resource);
+      if (index19 !== -1 && index19 !== config.index) {
+        config.index = index19;
       }
     }
     status = "completed";
@@ -1427,7 +9607,7 @@ function sendQuery(config2, payload, query, done) {
             clearQueue();
             failQuery();
           }
-        }, config2.timeout);
+        }, config.timeout);
         return;
       }
       failQuery();
@@ -1442,14 +9622,14 @@ function sendQuery(config2, payload, query, done) {
     };
     queue.push(item);
     queriesSent++;
-    timer = setTimeout(execNext, config2.rotate);
+    timer = setTimeout(execNext, config.rotate);
     query(resource, payload, item.callback);
   }
   setTimeout(execNext);
   return getQueryStatus;
 }
 function initRedundancy(cfg) {
-  const config2 = {
+  const config = {
     ...defaultConfig,
     ...cfg
   };
@@ -1459,7 +9639,7 @@ function initRedundancy(cfg) {
   }
   function query(payload, queryCallback, doneCallback) {
     const query2 = sendQuery(
-      config2,
+      config,
       payload,
       queryCallback,
       (data, error) => {
@@ -1480,10 +9660,10 @@ function initRedundancy(cfg) {
   const instance = {
     query,
     find,
-    setIndex: (index17) => {
-      config2.index = index17;
+    setIndex: (index19) => {
+      config.index = index19;
     },
-    getIndex: () => config2.index,
+    getIndex: () => config.index,
     cleanup
   };
   return instance;
@@ -1492,13 +9672,13 @@ function emptyCallback$1() {
 }
 function getRedundancyCache(provider) {
   if (!redundancyCache[provider]) {
-    const config2 = getAPIConfig(provider);
-    if (!config2) {
+    const config = getAPIConfig(provider);
+    if (!config) {
       return;
     }
-    const redundancy = initRedundancy(config2);
+    const redundancy = initRedundancy(config);
     const cachedReundancy = {
-      config: config2,
+      config,
       redundancy
     };
     redundancyCache[provider] = cachedReundancy;
@@ -1520,9 +9700,9 @@ function sendAPIQuery(target, query, callback) {
       redundancy = cached.redundancy;
     }
   } else {
-    const config2 = createAPIConfig(target);
-    if (config2) {
-      redundancy = initRedundancy(config2);
+    const config = createAPIConfig(target);
+    if (config) {
+      redundancy = initRedundancy(config);
       const moduleKey = target.resources ? target.resources[0] : "";
       const api = getAPIModule(moduleKey);
       if (api) {
@@ -1592,8 +9772,8 @@ function iterateBrowserStorage(key2, callback) {
     return;
   }
   const minTime = Math.floor(Date.now() / browserStorageHour) - browserStorageCacheExpiration;
-  const parseItem = (index17) => {
-    const name2 = browserCachePrefix + index17.toString();
+  const parseItem = (index19) => {
+    const name2 = browserCachePrefix + index19.toString();
     const item = getStoredItem(func, name2);
     if (typeof item !== "string") {
       return;
@@ -1601,7 +9781,7 @@ function iterateBrowserStorage(key2, callback) {
     try {
       const data = JSON.parse(item);
       if (typeof data === "object" && typeof data.cached === "number" && data.cached > minTime && typeof data.provider === "string" && typeof data.data === "object" && typeof data.data.prefix === "string" && // Valid item: run callback
-      callback(data, index17)) {
+      callback(data, index19)) {
         return true;
       }
     } catch (err) {
@@ -1672,12 +9852,12 @@ function storeInBrowserStorage(storage2, data) {
       return;
     }
     const set = browserStorageEmptyItems[key2];
-    let index17;
+    let index19;
     if (set.size) {
-      set.delete(index17 = Array.from(set).shift());
+      set.delete(index19 = Array.from(set).shift());
     } else {
-      index17 = getBrowserStorageItemsCount(func);
-      if (index17 >= browserStorageLimit || !setBrowserStorageItemsCount(func, index17 + 1)) {
+      index19 = getBrowserStorageItemsCount(func);
+      if (index19 >= browserStorageLimit || !setBrowserStorageItemsCount(func, index19 + 1)) {
         return;
       }
     }
@@ -1688,7 +9868,7 @@ function storeInBrowserStorage(storage2, data) {
     };
     return setStoredItem(
       func,
-      browserCachePrefix + index17.toString(),
+      browserCachePrefix + index19.toString(),
       JSON.stringify(item)
     );
   }
@@ -2145,9 +10325,9 @@ var init_Icon = __esm({
         icons: []
       };
       let length = 0;
-      icons.forEach((name2, index17) => {
+      icons.forEach((name2, index19) => {
         length += name2.length + 1;
-        if (length >= maxLength && index17 > 0) {
+        if (length >= maxLength && index19 > 0) {
           results.push(item);
           item = {
             type,
@@ -2424,22 +10604,35 @@ var init_Icon = __esm({
   }
 });
 
-// .svelte-kit/output/server/chunks/stores.js
-function get(key2, parse2 = JSON.parse) {
+// .svelte-kit/output/server/chunks/client.js
+function get2(key2, parse2 = JSON.parse) {
   try {
     return parse2(sessionStorage[key2]);
   } catch {
   }
 }
-var SNAPSHOT_KEY, SCROLL_KEY, getStores, page;
-var init_stores = __esm({
-  ".svelte-kit/output/server/chunks/stores.js"() {
-    init_ssr();
+function goto(url, opts = {}) {
+  {
+    throw new Error("Cannot call goto(...) on the server");
+  }
+}
+var SNAPSHOT_KEY, SCROLL_KEY;
+var init_client = __esm({
+  ".svelte-kit/output/server/chunks/client.js"() {
     init_exports();
     SNAPSHOT_KEY = "sveltekit:snapshot";
     SCROLL_KEY = "sveltekit:scroll";
-    get(SCROLL_KEY) ?? {};
-    get(SNAPSHOT_KEY) ?? {};
+    get2(SCROLL_KEY) ?? {};
+    get2(SNAPSHOT_KEY) ?? {};
+  }
+});
+
+// .svelte-kit/output/server/chunks/stores.js
+var getStores, page;
+var init_stores = __esm({
+  ".svelte-kit/output/server/chunks/stores.js"() {
+    init_ssr();
+    init_client();
     getStores = () => {
       const stores = getContext("__svelte__");
       return {
@@ -2529,19 +10722,23 @@ __export(__exports, {
   fonts: () => fonts,
   imports: () => imports,
   index: () => index,
+  server: () => layout_server_exports,
+  server_id: () => server_id,
   stylesheets: () => stylesheets,
   universal: () => layout_exports,
   universal_id: () => universal_id
 });
-var index, component_cache, component, universal_id, imports, stylesheets, fonts;
+var index, component_cache, component, universal_id, server_id, imports, stylesheets, fonts;
 var init__ = __esm({
   ".svelte-kit/output/server/nodes/0.js"() {
     init_layout();
+    init_layout_server();
     index = 0;
     component = async () => component_cache ?? (component_cache = (await Promise.resolve().then(() => (init_layout_svelte(), layout_svelte_exports))).default);
     universal_id = "src/routes/+layout.js";
-    imports = ["_app/immutable/nodes/0.Dha4I-ct.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/index.emHA90Ds.js", "_app/immutable/chunks/Icon.kDC1fZp9.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/stores.C2UwUtyU.js", "_app/immutable/chunks/entry.B-h6Aso4.js", "_app/immutable/chunks/index.BDBoGLXD.js"];
-    stylesheets = ["_app/immutable/assets/0.DSrYEx7I.css"];
+    server_id = "src/routes/+layout.server.js";
+    imports = ["_app/immutable/nodes/0.CbAQcjAV.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/Icon.CJ8UdO_k.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/stores.B0xy-5y0.js", "_app/immutable/chunks/entry.B_oBJj3n.js", "_app/immutable/chunks/index.DYca1GoS.js"];
+    stylesheets = ["_app/immutable/assets/0.B-tvac6M.css"];
     fonts = [];
   }
 });
@@ -2579,7 +10776,7 @@ var init__2 = __esm({
   ".svelte-kit/output/server/nodes/1.js"() {
     index2 = 1;
     component2 = async () => component_cache2 ?? (component_cache2 = (await Promise.resolve().then(() => (init_error_svelte(), error_svelte_exports))).default);
-    imports2 = ["_app/immutable/nodes/1.NM0fYNxo.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/index.emHA90Ds.js", "_app/immutable/chunks/stores.C2UwUtyU.js", "_app/immutable/chunks/entry.B-h6Aso4.js", "_app/immutable/chunks/index.BDBoGLXD.js"];
+    imports2 = ["_app/immutable/nodes/1.Bnz2UOJc.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/stores.B0xy-5y0.js", "_app/immutable/chunks/entry.B_oBJj3n.js", "_app/immutable/chunks/index.DYca1GoS.js"];
     stylesheets2 = [];
     fonts2 = [];
   }
@@ -2588,9 +10785,9 @@ var init__2 = __esm({
 // .svelte-kit/output/server/entries/pages/buecher/_layout.ts.js
 var layout_ts_exports = {};
 __export(layout_ts_exports, {
-  load: () => load
+  load: () => load3
 });
-function load() {
+function load3() {
   return {
     categories
   };
@@ -2619,12 +10816,12 @@ var init_names = __esm({
 });
 
 // .svelte-kit/output/server/chunks/bundle-mjs.js
-function createClassUtils(config2) {
-  const classMap = createClassMap(config2);
+function createClassUtils(config) {
+  const classMap = createClassMap(config);
   const {
     conflictingClassGroups,
     conflictingClassGroupModifiers
-  } = config2;
+  } = config;
   function getClassGroupId(className) {
     const classParts = className.split(CLASS_PART_SEPARATOR);
     if (classParts[0] === "" && classParts.length !== 1) {
@@ -2671,16 +10868,16 @@ function getGroupIdForArbitraryProperty(className) {
     }
   }
 }
-function createClassMap(config2) {
+function createClassMap(config) {
   const {
     theme,
     prefix
-  } = config2;
+  } = config;
   const classMap = {
     nextPart: /* @__PURE__ */ new Map(),
     validators: []
   };
-  const prefixedClassGroupEntries = getPrefixedClassGroupEntries(Object.entries(config2.classGroups), prefix);
+  const prefixedClassGroupEntries = getPrefixedClassGroupEntries(Object.entries(config.classGroups), prefix);
   prefixedClassGroupEntries.forEach(([classGroupId, classGroup]) => {
     processClassesRecursively(classGroup, classMap, classGroupId, theme);
   });
@@ -2782,8 +10979,8 @@ function createLruCache(maxCacheSize) {
     }
   };
 }
-function createSplitModifiers(config2) {
-  const separator2 = config2.separator;
+function createSplitModifiers(config) {
+  const separator2 = config.separator;
   const isSeparatorSingleCharacter = separator2.length === 1;
   const firstSeparatorCharacter = separator2[0];
   const separatorLength = separator2.length;
@@ -2792,16 +10989,16 @@ function createSplitModifiers(config2) {
     let bracketDepth = 0;
     let modifierStart = 0;
     let postfixModifierPosition;
-    for (let index17 = 0; index17 < className.length; index17++) {
-      let currentCharacter = className[index17];
+    for (let index19 = 0; index19 < className.length; index19++) {
+      let currentCharacter = className[index19];
       if (bracketDepth === 0) {
-        if (currentCharacter === firstSeparatorCharacter && (isSeparatorSingleCharacter || className.slice(index17, index17 + separatorLength) === separator2)) {
-          modifiers.push(className.slice(modifierStart, index17));
-          modifierStart = index17 + separatorLength;
+        if (currentCharacter === firstSeparatorCharacter && (isSeparatorSingleCharacter || className.slice(index19, index19 + separatorLength) === separator2)) {
+          modifiers.push(className.slice(modifierStart, index19));
+          modifierStart = index19 + separatorLength;
           continue;
         }
         if (currentCharacter === "/") {
-          postfixModifierPosition = index17;
+          postfixModifierPosition = index19;
           continue;
         }
       }
@@ -2841,11 +11038,11 @@ function sortModifiers(modifiers) {
   sortedModifiers.push(...unsortedModifiers.sort());
   return sortedModifiers;
 }
-function createConfigUtils(config2) {
+function createConfigUtils(config) {
   return {
-    cache: createLruCache(config2.cacheSize),
-    splitModifiers: createSplitModifiers(config2),
-    ...createClassUtils(config2)
+    cache: createLruCache(config.cacheSize),
+    splitModifiers: createSplitModifiers(config),
+    ...createClassUtils(config)
   };
 }
 function mergeClassList(classList, configUtils) {
@@ -2908,12 +11105,12 @@ function mergeClassList(classList, configUtils) {
   }).reverse().map((parsed) => parsed.originalClassName).join(" ");
 }
 function twJoin() {
-  let index17 = 0;
+  let index19 = 0;
   let argument;
   let resolvedValue;
   let string = "";
-  while (index17 < arguments.length) {
-    if (argument = arguments[index17++]) {
+  while (index19 < arguments.length) {
+    if (argument = arguments[index19++]) {
       if (resolvedValue = toValue(argument)) {
         string && (string += " ");
         string += resolvedValue;
@@ -2944,8 +11141,8 @@ function createTailwindMerge(createConfigFirst, ...createConfigRest) {
   let cacheSet;
   let functionToCall = initTailwindMerge;
   function initTailwindMerge(classList) {
-    const config2 = createConfigRest.reduce((previousConfig, createConfigCurrent) => createConfigCurrent(previousConfig), createConfigFirst());
-    configUtils = createConfigUtils(config2);
+    const config = createConfigRest.reduce((previousConfig, createConfigCurrent) => createConfigCurrent(previousConfig), createConfigFirst());
+    configUtils = createConfigUtils(config);
     cacheGet = configUtils.cache.get;
     cacheSet = configUtils.cache.set;
     functionToCall = tailwindMerge;
@@ -5310,6743 +13507,9 @@ var init__3 = __esm({
     index3 = 2;
     component3 = async () => component_cache3 ?? (component_cache3 = (await Promise.resolve().then(() => (init_layout_svelte2(), layout_svelte_exports2))).default);
     universal_id2 = "src/routes/buecher/+layout.ts";
-    imports3 = ["_app/immutable/nodes/2.LypH5JNc.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/index.emHA90Ds.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/Button.CUI7bz6L.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
+    imports3 = ["_app/immutable/nodes/2.xJwb5FR6.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/Button.Bl_UZ5qz.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
     stylesheets3 = [];
     fonts3 = [];
-  }
-});
-
-// node_modules/.pnpm/@supabase+node-fetch@2.6.15/node_modules/@supabase/node-fetch/browser.js
-var browser_exports = {};
-__export(browser_exports, {
-  Headers: () => Headers2,
-  Request: () => Request2,
-  Response: () => Response2,
-  default: () => browser_default,
-  fetch: () => fetch2
-});
-var getGlobal, globalObject, fetch2, browser_default, Headers2, Request2, Response2;
-var init_browser = __esm({
-  "node_modules/.pnpm/@supabase+node-fetch@2.6.15/node_modules/@supabase/node-fetch/browser.js"() {
-    "use strict";
-    getGlobal = function() {
-      if (typeof self !== "undefined") {
-        return self;
-      }
-      if (typeof window !== "undefined") {
-        return window;
-      }
-      if (typeof global !== "undefined") {
-        return global;
-      }
-      throw new Error("unable to locate global object");
-    };
-    globalObject = getGlobal();
-    fetch2 = globalObject.fetch;
-    browser_default = globalObject.fetch.bind(globalObject);
-    Headers2 = globalObject.Headers;
-    Request2 = globalObject.Request;
-    Response2 = globalObject.Response;
-  }
-});
-
-// node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/helper.js
-var resolveFetch;
-var init_helper = __esm({
-  "node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/helper.js"() {
-    resolveFetch = (customFetch) => {
-      let _fetch;
-      if (customFetch) {
-        _fetch = customFetch;
-      } else if (typeof fetch === "undefined") {
-        _fetch = (...args) => Promise.resolve().then(() => (init_browser(), browser_exports)).then(({ default: fetch3 }) => fetch3(...args));
-      } else {
-        _fetch = fetch;
-      }
-      return (...args) => _fetch(...args);
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/types.js
-var FunctionsError, FunctionsFetchError, FunctionsRelayError, FunctionsHttpError;
-var init_types = __esm({
-  "node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/types.js"() {
-    FunctionsError = class extends Error {
-      constructor(message, name2 = "FunctionsError", context) {
-        super(message);
-        this.name = name2;
-        this.context = context;
-      }
-    };
-    FunctionsFetchError = class extends FunctionsError {
-      constructor(context) {
-        super("Failed to send a request to the Edge Function", "FunctionsFetchError", context);
-      }
-    };
-    FunctionsRelayError = class extends FunctionsError {
-      constructor(context) {
-        super("Relay Error invoking the Edge Function", "FunctionsRelayError", context);
-      }
-    };
-    FunctionsHttpError = class extends FunctionsError {
-      constructor(context) {
-        super("Edge Function returned a non-2xx status code", "FunctionsHttpError", context);
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/FunctionsClient.js
-var __awaiter, FunctionsClient;
-var init_FunctionsClient = __esm({
-  "node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/FunctionsClient.js"() {
-    init_helper();
-    init_types();
-    __awaiter = function(thisArg, _arguments, P2, generator) {
-      function adopt(value) {
-        return value instanceof P2 ? value : new P2(function(resolve2) {
-          resolve2(value);
-        });
-      }
-      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
-        function fulfilled(value) {
-          try {
-            step(generator.next(value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function rejected(value) {
-          try {
-            step(generator["throw"](value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function step(result) {
-          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
-        }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-      });
-    };
-    FunctionsClient = class {
-      constructor(url, { headers: headers2 = {}, customFetch } = {}) {
-        this.url = url;
-        this.headers = headers2;
-        this.fetch = resolveFetch(customFetch);
-      }
-      /**
-       * Updates the authorization header
-       * @param token - the new jwt token sent in the authorisation header
-       */
-      setAuth(token) {
-        this.headers.Authorization = `Bearer ${token}`;
-      }
-      /**
-       * Invokes a function
-       * @param functionName - The name of the Function to invoke.
-       * @param options - Options for invoking the Function.
-       */
-      invoke(functionName, options2 = {}) {
-        var _a;
-        return __awaiter(this, void 0, void 0, function* () {
-          try {
-            const { headers: headers2, method, body: functionArgs } = options2;
-            let _headers = {};
-            let body2;
-            if (functionArgs && (headers2 && !Object.prototype.hasOwnProperty.call(headers2, "Content-Type") || !headers2)) {
-              if (typeof Blob !== "undefined" && functionArgs instanceof Blob || functionArgs instanceof ArrayBuffer) {
-                _headers["Content-Type"] = "application/octet-stream";
-                body2 = functionArgs;
-              } else if (typeof functionArgs === "string") {
-                _headers["Content-Type"] = "text/plain";
-                body2 = functionArgs;
-              } else if (typeof FormData !== "undefined" && functionArgs instanceof FormData) {
-                body2 = functionArgs;
-              } else {
-                _headers["Content-Type"] = "application/json";
-                body2 = JSON.stringify(functionArgs);
-              }
-            }
-            const response = yield this.fetch(`${this.url}/${functionName}`, {
-              method: method || "POST",
-              // headers priority is (high to low):
-              // 1. invoke-level headers
-              // 2. client-level headers
-              // 3. default Content-Type header
-              headers: Object.assign(Object.assign(Object.assign({}, _headers), this.headers), headers2),
-              body: body2
-            }).catch((fetchError) => {
-              throw new FunctionsFetchError(fetchError);
-            });
-            const isRelayError = response.headers.get("x-relay-error");
-            if (isRelayError && isRelayError === "true") {
-              throw new FunctionsRelayError(response);
-            }
-            if (!response.ok) {
-              throw new FunctionsHttpError(response);
-            }
-            let responseType = ((_a = response.headers.get("Content-Type")) !== null && _a !== void 0 ? _a : "text/plain").split(";")[0].trim();
-            let data;
-            if (responseType === "application/json") {
-              data = yield response.json();
-            } else if (responseType === "application/octet-stream") {
-              data = yield response.blob();
-            } else if (responseType === "multipart/form-data") {
-              data = yield response.formData();
-            } else {
-              data = yield response.text();
-            }
-            return { data, error: null };
-          } catch (error) {
-            return { data: null, error };
-          }
-        });
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/index.js
-var init_module = __esm({
-  "node_modules/.pnpm/@supabase+functions-js@2.1.5/node_modules/@supabase/functions-js/dist/module/index.js"() {
-    init_FunctionsClient();
-  }
-});
-
-// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestError.js
-var PostgrestError;
-var init_PostgrestError = __esm({
-  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestError.js"() {
-    PostgrestError = class extends Error {
-      constructor(context) {
-        super(context.message);
-        this.name = "PostgrestError";
-        this.details = context.details;
-        this.hint = context.hint;
-        this.code = context.code;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestBuilder.js
-var PostgrestBuilder;
-var init_PostgrestBuilder = __esm({
-  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestBuilder.js"() {
-    init_browser();
-    init_PostgrestError();
-    PostgrestBuilder = class {
-      constructor(builder) {
-        this.shouldThrowOnError = false;
-        this.method = builder.method;
-        this.url = builder.url;
-        this.headers = builder.headers;
-        this.schema = builder.schema;
-        this.body = builder.body;
-        this.shouldThrowOnError = builder.shouldThrowOnError;
-        this.signal = builder.signal;
-        this.isMaybeSingle = builder.isMaybeSingle;
-        if (builder.fetch) {
-          this.fetch = builder.fetch;
-        } else if (typeof fetch === "undefined") {
-          this.fetch = browser_default;
-        } else {
-          this.fetch = fetch;
-        }
-      }
-      /**
-       * If there's an error with the query, throwOnError will reject the promise by
-       * throwing the error instead of returning it as part of a successful response.
-       *
-       * {@link https://github.com/supabase/supabase-js/issues/92}
-       */
-      throwOnError() {
-        this.shouldThrowOnError = true;
-        return this;
-      }
-      then(onfulfilled, onrejected) {
-        if (this.schema === void 0) {
-        } else if (["GET", "HEAD"].includes(this.method)) {
-          this.headers["Accept-Profile"] = this.schema;
-        } else {
-          this.headers["Content-Profile"] = this.schema;
-        }
-        if (this.method !== "GET" && this.method !== "HEAD") {
-          this.headers["Content-Type"] = "application/json";
-        }
-        const _fetch = this.fetch;
-        let res = _fetch(this.url.toString(), {
-          method: this.method,
-          headers: this.headers,
-          body: JSON.stringify(this.body),
-          signal: this.signal
-        }).then(async (res2) => {
-          var _a, _b, _c;
-          let error = null;
-          let data = null;
-          let count = null;
-          let status = res2.status;
-          let statusText = res2.statusText;
-          if (res2.ok) {
-            if (this.method !== "HEAD") {
-              const body2 = await res2.text();
-              if (body2 === "") {
-              } else if (this.headers["Accept"] === "text/csv") {
-                data = body2;
-              } else if (this.headers["Accept"] && this.headers["Accept"].includes("application/vnd.pgrst.plan+text")) {
-                data = body2;
-              } else {
-                data = JSON.parse(body2);
-              }
-            }
-            const countHeader = (_a = this.headers["Prefer"]) === null || _a === void 0 ? void 0 : _a.match(/count=(exact|planned|estimated)/);
-            const contentRange = (_b = res2.headers.get("content-range")) === null || _b === void 0 ? void 0 : _b.split("/");
-            if (countHeader && contentRange && contentRange.length > 1) {
-              count = parseInt(contentRange[1]);
-            }
-            if (this.isMaybeSingle && this.method === "GET" && Array.isArray(data)) {
-              if (data.length > 1) {
-                error = {
-                  // https://github.com/PostgREST/postgrest/blob/a867d79c42419af16c18c3fb019eba8df992626f/src/PostgREST/Error.hs#L553
-                  code: "PGRST116",
-                  details: `Results contain ${data.length} rows, application/vnd.pgrst.object+json requires 1 row`,
-                  hint: null,
-                  message: "JSON object requested, multiple (or no) rows returned"
-                };
-                data = null;
-                count = null;
-                status = 406;
-                statusText = "Not Acceptable";
-              } else if (data.length === 1) {
-                data = data[0];
-              } else {
-                data = null;
-              }
-            }
-          } else {
-            const body2 = await res2.text();
-            try {
-              error = JSON.parse(body2);
-              if (Array.isArray(error) && res2.status === 404) {
-                data = [];
-                error = null;
-                status = 200;
-                statusText = "OK";
-              }
-            } catch (_d) {
-              if (res2.status === 404 && body2 === "") {
-                status = 204;
-                statusText = "No Content";
-              } else {
-                error = {
-                  message: body2
-                };
-              }
-            }
-            if (error && this.isMaybeSingle && ((_c = error === null || error === void 0 ? void 0 : error.details) === null || _c === void 0 ? void 0 : _c.includes("0 rows"))) {
-              error = null;
-              status = 200;
-              statusText = "OK";
-            }
-            if (error && this.shouldThrowOnError) {
-              throw new PostgrestError(error);
-            }
-          }
-          const postgrestResponse = {
-            error,
-            data,
-            count,
-            status,
-            statusText
-          };
-          return postgrestResponse;
-        });
-        if (!this.shouldThrowOnError) {
-          res = res.catch((fetchError) => {
-            var _a, _b, _c;
-            return {
-              error: {
-                message: `${(_a = fetchError === null || fetchError === void 0 ? void 0 : fetchError.name) !== null && _a !== void 0 ? _a : "FetchError"}: ${fetchError === null || fetchError === void 0 ? void 0 : fetchError.message}`,
-                details: `${(_b = fetchError === null || fetchError === void 0 ? void 0 : fetchError.stack) !== null && _b !== void 0 ? _b : ""}`,
-                hint: "",
-                code: `${(_c = fetchError === null || fetchError === void 0 ? void 0 : fetchError.code) !== null && _c !== void 0 ? _c : ""}`
-              },
-              data: null,
-              count: null,
-              status: 0,
-              statusText: ""
-            };
-          });
-        }
-        return res.then(onfulfilled, onrejected);
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestTransformBuilder.js
-var PostgrestTransformBuilder;
-var init_PostgrestTransformBuilder = __esm({
-  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestTransformBuilder.js"() {
-    init_PostgrestBuilder();
-    PostgrestTransformBuilder = class extends PostgrestBuilder {
-      /**
-       * Perform a SELECT on the query result.
-       *
-       * By default, `.insert()`, `.update()`, `.upsert()`, and `.delete()` do not
-       * return modified rows. By calling this method, modified rows are returned in
-       * `data`.
-       *
-       * @param columns - The columns to retrieve, separated by commas
-       */
-      select(columns) {
-        let quoted2 = false;
-        const cleanedColumns = (columns !== null && columns !== void 0 ? columns : "*").split("").map((c) => {
-          if (/\s/.test(c) && !quoted2) {
-            return "";
-          }
-          if (c === '"') {
-            quoted2 = !quoted2;
-          }
-          return c;
-        }).join("");
-        this.url.searchParams.set("select", cleanedColumns);
-        if (this.headers["Prefer"]) {
-          this.headers["Prefer"] += ",";
-        }
-        this.headers["Prefer"] += "return=representation";
-        return this;
-      }
-      /**
-       * Order the query result by `column`.
-       *
-       * You can call this method multiple times to order by multiple columns.
-       *
-       * You can order referenced tables, but it only affects the ordering of the
-       * parent table if you use `!inner` in the query.
-       *
-       * @param column - The column to order by
-       * @param options - Named parameters
-       * @param options.ascending - If `true`, the result will be in ascending order
-       * @param options.nullsFirst - If `true`, `null`s appear first. If `false`,
-       * `null`s appear last.
-       * @param options.referencedTable - Set this to order a referenced table by
-       * its columns
-       * @param options.foreignTable - Deprecated, use `options.referencedTable`
-       * instead
-       */
-      order(column, { ascending = true, nullsFirst, foreignTable, referencedTable = foreignTable } = {}) {
-        const key2 = referencedTable ? `${referencedTable}.order` : "order";
-        const existingOrder = this.url.searchParams.get(key2);
-        this.url.searchParams.set(key2, `${existingOrder ? `${existingOrder},` : ""}${column}.${ascending ? "asc" : "desc"}${nullsFirst === void 0 ? "" : nullsFirst ? ".nullsfirst" : ".nullslast"}`);
-        return this;
-      }
-      /**
-       * Limit the query result by `count`.
-       *
-       * @param count - The maximum number of rows to return
-       * @param options - Named parameters
-       * @param options.referencedTable - Set this to limit rows of referenced
-       * tables instead of the parent table
-       * @param options.foreignTable - Deprecated, use `options.referencedTable`
-       * instead
-       */
-      limit(count, { foreignTable, referencedTable = foreignTable } = {}) {
-        const key2 = typeof referencedTable === "undefined" ? "limit" : `${referencedTable}.limit`;
-        this.url.searchParams.set(key2, `${count}`);
-        return this;
-      }
-      /**
-       * Limit the query result by starting at an offset (`from`) and ending at the offset (`from + to`).
-       * Only records within this range are returned.
-       * This respects the query order and if there is no order clause the range could behave unexpectedly.
-       * The `from` and `to` values are 0-based and inclusive: `range(1, 3)` will include the second, third
-       * and fourth rows of the query.
-       *
-       * @param from - The starting index from which to limit the result
-       * @param to - The last index to which to limit the result
-       * @param options - Named parameters
-       * @param options.referencedTable - Set this to limit rows of referenced
-       * tables instead of the parent table
-       * @param options.foreignTable - Deprecated, use `options.referencedTable`
-       * instead
-       */
-      range(from, to, { foreignTable, referencedTable = foreignTable } = {}) {
-        const keyOffset = typeof referencedTable === "undefined" ? "offset" : `${referencedTable}.offset`;
-        const keyLimit = typeof referencedTable === "undefined" ? "limit" : `${referencedTable}.limit`;
-        this.url.searchParams.set(keyOffset, `${from}`);
-        this.url.searchParams.set(keyLimit, `${to - from + 1}`);
-        return this;
-      }
-      /**
-       * Set the AbortSignal for the fetch request.
-       *
-       * @param signal - The AbortSignal to use for the fetch request
-       */
-      abortSignal(signal) {
-        this.signal = signal;
-        return this;
-      }
-      /**
-       * Return `data` as a single object instead of an array of objects.
-       *
-       * Query result must be one row (e.g. using `.limit(1)`), otherwise this
-       * returns an error.
-       */
-      single() {
-        this.headers["Accept"] = "application/vnd.pgrst.object+json";
-        return this;
-      }
-      /**
-       * Return `data` as a single object instead of an array of objects.
-       *
-       * Query result must be zero or one row (e.g. using `.limit(1)`), otherwise
-       * this returns an error.
-       */
-      maybeSingle() {
-        if (this.method === "GET") {
-          this.headers["Accept"] = "application/json";
-        } else {
-          this.headers["Accept"] = "application/vnd.pgrst.object+json";
-        }
-        this.isMaybeSingle = true;
-        return this;
-      }
-      /**
-       * Return `data` as a string in CSV format.
-       */
-      csv() {
-        this.headers["Accept"] = "text/csv";
-        return this;
-      }
-      /**
-       * Return `data` as an object in [GeoJSON](https://geojson.org) format.
-       */
-      geojson() {
-        this.headers["Accept"] = "application/geo+json";
-        return this;
-      }
-      /**
-       * Return `data` as the EXPLAIN plan for the query.
-       *
-       * You need to enable the
-       * [db_plan_enabled](https://supabase.com/docs/guides/database/debugging-performance#enabling-explain)
-       * setting before using this method.
-       *
-       * @param options - Named parameters
-       *
-       * @param options.analyze - If `true`, the query will be executed and the
-       * actual run time will be returned
-       *
-       * @param options.verbose - If `true`, the query identifier will be returned
-       * and `data` will include the output columns of the query
-       *
-       * @param options.settings - If `true`, include information on configuration
-       * parameters that affect query planning
-       *
-       * @param options.buffers - If `true`, include information on buffer usage
-       *
-       * @param options.wal - If `true`, include information on WAL record generation
-       *
-       * @param options.format - The format of the output, can be `"text"` (default)
-       * or `"json"`
-       */
-      explain({ analyze = false, verbose = false, settings = false, buffers = false, wal = false, format = "text" } = {}) {
-        var _a;
-        const options2 = [
-          analyze ? "analyze" : null,
-          verbose ? "verbose" : null,
-          settings ? "settings" : null,
-          buffers ? "buffers" : null,
-          wal ? "wal" : null
-        ].filter(Boolean).join("|");
-        const forMediatype = (_a = this.headers["Accept"]) !== null && _a !== void 0 ? _a : "application/json";
-        this.headers["Accept"] = `application/vnd.pgrst.plan+${format}; for="${forMediatype}"; options=${options2};`;
-        if (format === "json")
-          return this;
-        else
-          return this;
-      }
-      /**
-       * Rollback the query.
-       *
-       * `data` will still be returned, but the query is not committed.
-       */
-      rollback() {
-        var _a;
-        if (((_a = this.headers["Prefer"]) !== null && _a !== void 0 ? _a : "").trim().length > 0) {
-          this.headers["Prefer"] += ",tx=rollback";
-        } else {
-          this.headers["Prefer"] = "tx=rollback";
-        }
-        return this;
-      }
-      /**
-       * Override the type of the returned `data`.
-       *
-       * @typeParam NewResult - The new result type to override with
-       */
-      returns() {
-        return this;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestFilterBuilder.js
-var PostgrestFilterBuilder;
-var init_PostgrestFilterBuilder = __esm({
-  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestFilterBuilder.js"() {
-    init_PostgrestTransformBuilder();
-    PostgrestFilterBuilder = class extends PostgrestTransformBuilder {
-      /**
-       * Match only rows where `column` is equal to `value`.
-       *
-       * To check if the value of `column` is NULL, you should use `.is()` instead.
-       *
-       * @param column - The column to filter on
-       * @param value - The value to filter with
-       */
-      eq(column, value) {
-        this.url.searchParams.append(column, `eq.${value}`);
-        return this;
-      }
-      /**
-       * Match only rows where `column` is not equal to `value`.
-       *
-       * @param column - The column to filter on
-       * @param value - The value to filter with
-       */
-      neq(column, value) {
-        this.url.searchParams.append(column, `neq.${value}`);
-        return this;
-      }
-      /**
-       * Match only rows where `column` is greater than `value`.
-       *
-       * @param column - The column to filter on
-       * @param value - The value to filter with
-       */
-      gt(column, value) {
-        this.url.searchParams.append(column, `gt.${value}`);
-        return this;
-      }
-      /**
-       * Match only rows where `column` is greater than or equal to `value`.
-       *
-       * @param column - The column to filter on
-       * @param value - The value to filter with
-       */
-      gte(column, value) {
-        this.url.searchParams.append(column, `gte.${value}`);
-        return this;
-      }
-      /**
-       * Match only rows where `column` is less than `value`.
-       *
-       * @param column - The column to filter on
-       * @param value - The value to filter with
-       */
-      lt(column, value) {
-        this.url.searchParams.append(column, `lt.${value}`);
-        return this;
-      }
-      /**
-       * Match only rows where `column` is less than or equal to `value`.
-       *
-       * @param column - The column to filter on
-       * @param value - The value to filter with
-       */
-      lte(column, value) {
-        this.url.searchParams.append(column, `lte.${value}`);
-        return this;
-      }
-      /**
-       * Match only rows where `column` matches `pattern` case-sensitively.
-       *
-       * @param column - The column to filter on
-       * @param pattern - The pattern to match with
-       */
-      like(column, pattern2) {
-        this.url.searchParams.append(column, `like.${pattern2}`);
-        return this;
-      }
-      /**
-       * Match only rows where `column` matches all of `patterns` case-sensitively.
-       *
-       * @param column - The column to filter on
-       * @param patterns - The patterns to match with
-       */
-      likeAllOf(column, patterns) {
-        this.url.searchParams.append(column, `like(all).{${patterns.join(",")}}`);
-        return this;
-      }
-      /**
-       * Match only rows where `column` matches any of `patterns` case-sensitively.
-       *
-       * @param column - The column to filter on
-       * @param patterns - The patterns to match with
-       */
-      likeAnyOf(column, patterns) {
-        this.url.searchParams.append(column, `like(any).{${patterns.join(",")}}`);
-        return this;
-      }
-      /**
-       * Match only rows where `column` matches `pattern` case-insensitively.
-       *
-       * @param column - The column to filter on
-       * @param pattern - The pattern to match with
-       */
-      ilike(column, pattern2) {
-        this.url.searchParams.append(column, `ilike.${pattern2}`);
-        return this;
-      }
-      /**
-       * Match only rows where `column` matches all of `patterns` case-insensitively.
-       *
-       * @param column - The column to filter on
-       * @param patterns - The patterns to match with
-       */
-      ilikeAllOf(column, patterns) {
-        this.url.searchParams.append(column, `ilike(all).{${patterns.join(",")}}`);
-        return this;
-      }
-      /**
-       * Match only rows where `column` matches any of `patterns` case-insensitively.
-       *
-       * @param column - The column to filter on
-       * @param patterns - The patterns to match with
-       */
-      ilikeAnyOf(column, patterns) {
-        this.url.searchParams.append(column, `ilike(any).{${patterns.join(",")}}`);
-        return this;
-      }
-      /**
-       * Match only rows where `column` IS `value`.
-       *
-       * For non-boolean columns, this is only relevant for checking if the value of
-       * `column` is NULL by setting `value` to `null`.
-       *
-       * For boolean columns, you can also set `value` to `true` or `false` and it
-       * will behave the same way as `.eq()`.
-       *
-       * @param column - The column to filter on
-       * @param value - The value to filter with
-       */
-      is(column, value) {
-        this.url.searchParams.append(column, `is.${value}`);
-        return this;
-      }
-      /**
-       * Match only rows where `column` is included in the `values` array.
-       *
-       * @param column - The column to filter on
-       * @param values - The values array to filter with
-       */
-      in(column, values) {
-        const cleanedValues = values.map((s2) => {
-          if (typeof s2 === "string" && new RegExp("[,()]").test(s2))
-            return `"${s2}"`;
-          else
-            return `${s2}`;
-        }).join(",");
-        this.url.searchParams.append(column, `in.(${cleanedValues})`);
-        return this;
-      }
-      /**
-       * Only relevant for jsonb, array, and range columns. Match only rows where
-       * `column` contains every element appearing in `value`.
-       *
-       * @param column - The jsonb, array, or range column to filter on
-       * @param value - The jsonb, array, or range value to filter with
-       */
-      contains(column, value) {
-        if (typeof value === "string") {
-          this.url.searchParams.append(column, `cs.${value}`);
-        } else if (Array.isArray(value)) {
-          this.url.searchParams.append(column, `cs.{${value.join(",")}}`);
-        } else {
-          this.url.searchParams.append(column, `cs.${JSON.stringify(value)}`);
-        }
-        return this;
-      }
-      /**
-       * Only relevant for jsonb, array, and range columns. Match only rows where
-       * every element appearing in `column` is contained by `value`.
-       *
-       * @param column - The jsonb, array, or range column to filter on
-       * @param value - The jsonb, array, or range value to filter with
-       */
-      containedBy(column, value) {
-        if (typeof value === "string") {
-          this.url.searchParams.append(column, `cd.${value}`);
-        } else if (Array.isArray(value)) {
-          this.url.searchParams.append(column, `cd.{${value.join(",")}}`);
-        } else {
-          this.url.searchParams.append(column, `cd.${JSON.stringify(value)}`);
-        }
-        return this;
-      }
-      /**
-       * Only relevant for range columns. Match only rows where every element in
-       * `column` is greater than any element in `range`.
-       *
-       * @param column - The range column to filter on
-       * @param range - The range to filter with
-       */
-      rangeGt(column, range) {
-        this.url.searchParams.append(column, `sr.${range}`);
-        return this;
-      }
-      /**
-       * Only relevant for range columns. Match only rows where every element in
-       * `column` is either contained in `range` or greater than any element in
-       * `range`.
-       *
-       * @param column - The range column to filter on
-       * @param range - The range to filter with
-       */
-      rangeGte(column, range) {
-        this.url.searchParams.append(column, `nxl.${range}`);
-        return this;
-      }
-      /**
-       * Only relevant for range columns. Match only rows where every element in
-       * `column` is less than any element in `range`.
-       *
-       * @param column - The range column to filter on
-       * @param range - The range to filter with
-       */
-      rangeLt(column, range) {
-        this.url.searchParams.append(column, `sl.${range}`);
-        return this;
-      }
-      /**
-       * Only relevant for range columns. Match only rows where every element in
-       * `column` is either contained in `range` or less than any element in
-       * `range`.
-       *
-       * @param column - The range column to filter on
-       * @param range - The range to filter with
-       */
-      rangeLte(column, range) {
-        this.url.searchParams.append(column, `nxr.${range}`);
-        return this;
-      }
-      /**
-       * Only relevant for range columns. Match only rows where `column` is
-       * mutually exclusive to `range` and there can be no element between the two
-       * ranges.
-       *
-       * @param column - The range column to filter on
-       * @param range - The range to filter with
-       */
-      rangeAdjacent(column, range) {
-        this.url.searchParams.append(column, `adj.${range}`);
-        return this;
-      }
-      /**
-       * Only relevant for array and range columns. Match only rows where
-       * `column` and `value` have an element in common.
-       *
-       * @param column - The array or range column to filter on
-       * @param value - The array or range value to filter with
-       */
-      overlaps(column, value) {
-        if (typeof value === "string") {
-          this.url.searchParams.append(column, `ov.${value}`);
-        } else {
-          this.url.searchParams.append(column, `ov.{${value.join(",")}}`);
-        }
-        return this;
-      }
-      /**
-       * Only relevant for text and tsvector columns. Match only rows where
-       * `column` matches the query string in `query`.
-       *
-       * @param column - The text or tsvector column to filter on
-       * @param query - The query text to match with
-       * @param options - Named parameters
-       * @param options.config - The text search configuration to use
-       * @param options.type - Change how the `query` text is interpreted
-       */
-      textSearch(column, query, { config: config2, type } = {}) {
-        let typePart = "";
-        if (type === "plain") {
-          typePart = "pl";
-        } else if (type === "phrase") {
-          typePart = "ph";
-        } else if (type === "websearch") {
-          typePart = "w";
-        }
-        const configPart = config2 === void 0 ? "" : `(${config2})`;
-        this.url.searchParams.append(column, `${typePart}fts${configPart}.${query}`);
-        return this;
-      }
-      /**
-       * Match only rows where each column in `query` keys is equal to its
-       * associated value. Shorthand for multiple `.eq()`s.
-       *
-       * @param query - The object to filter with, with column names as keys mapped
-       * to their filter values
-       */
-      match(query) {
-        Object.entries(query).forEach(([column, value]) => {
-          this.url.searchParams.append(column, `eq.${value}`);
-        });
-        return this;
-      }
-      /**
-       * Match only rows which doesn't satisfy the filter.
-       *
-       * Unlike most filters, `opearator` and `value` are used as-is and need to
-       * follow [PostgREST
-       * syntax](https://postgrest.org/en/stable/api.html#operators). You also need
-       * to make sure they are properly sanitized.
-       *
-       * @param column - The column to filter on
-       * @param operator - The operator to be negated to filter with, following
-       * PostgREST syntax
-       * @param value - The value to filter with, following PostgREST syntax
-       */
-      not(column, operator, value) {
-        this.url.searchParams.append(column, `not.${operator}.${value}`);
-        return this;
-      }
-      /**
-       * Match only rows which satisfy at least one of the filters.
-       *
-       * Unlike most filters, `filters` is used as-is and needs to follow [PostgREST
-       * syntax](https://postgrest.org/en/stable/api.html#operators). You also need
-       * to make sure it's properly sanitized.
-       *
-       * It's currently not possible to do an `.or()` filter across multiple tables.
-       *
-       * @param filters - The filters to use, following PostgREST syntax
-       * @param options - Named parameters
-       * @param options.referencedTable - Set this to filter on referenced tables
-       * instead of the parent table
-       * @param options.foreignTable - Deprecated, use `referencedTable` instead
-       */
-      or(filters, { foreignTable, referencedTable = foreignTable } = {}) {
-        const key2 = referencedTable ? `${referencedTable}.or` : "or";
-        this.url.searchParams.append(key2, `(${filters})`);
-        return this;
-      }
-      /**
-       * Match only rows which satisfy the filter. This is an escape hatch - you
-       * should use the specific filter methods wherever possible.
-       *
-       * Unlike most filters, `opearator` and `value` are used as-is and need to
-       * follow [PostgREST
-       * syntax](https://postgrest.org/en/stable/api.html#operators). You also need
-       * to make sure they are properly sanitized.
-       *
-       * @param column - The column to filter on
-       * @param operator - The operator to filter with, following PostgREST syntax
-       * @param value - The value to filter with, following PostgREST syntax
-       */
-      filter(column, operator, value) {
-        this.url.searchParams.append(column, `${operator}.${value}`);
-        return this;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestQueryBuilder.js
-var PostgrestQueryBuilder;
-var init_PostgrestQueryBuilder = __esm({
-  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestQueryBuilder.js"() {
-    init_PostgrestFilterBuilder();
-    PostgrestQueryBuilder = class {
-      constructor(url, { headers: headers2 = {}, schema, fetch: fetch3 }) {
-        this.url = url;
-        this.headers = headers2;
-        this.schema = schema;
-        this.fetch = fetch3;
-      }
-      /**
-       * Perform a SELECT query on the table or view.
-       *
-       * @param columns - The columns to retrieve, separated by commas. Columns can be renamed when returned with `customName:columnName`
-       *
-       * @param options - Named parameters
-       *
-       * @param options.head - When set to `true`, `data` will not be returned.
-       * Useful if you only need the count.
-       *
-       * @param options.count - Count algorithm to use to count rows in the table or view.
-       *
-       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
-       * hood.
-       *
-       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
-       * statistics under the hood.
-       *
-       * `"estimated"`: Uses exact count for low numbers and planned count for high
-       * numbers.
-       */
-      select(columns, { head = false, count } = {}) {
-        const method = head ? "HEAD" : "GET";
-        let quoted2 = false;
-        const cleanedColumns = (columns !== null && columns !== void 0 ? columns : "*").split("").map((c) => {
-          if (/\s/.test(c) && !quoted2) {
-            return "";
-          }
-          if (c === '"') {
-            quoted2 = !quoted2;
-          }
-          return c;
-        }).join("");
-        this.url.searchParams.set("select", cleanedColumns);
-        if (count) {
-          this.headers["Prefer"] = `count=${count}`;
-        }
-        return new PostgrestFilterBuilder({
-          method,
-          url: this.url,
-          headers: this.headers,
-          schema: this.schema,
-          fetch: this.fetch,
-          allowEmpty: false
-        });
-      }
-      /**
-       * Perform an INSERT into the table or view.
-       *
-       * By default, inserted rows are not returned. To return it, chain the call
-       * with `.select()`.
-       *
-       * @param values - The values to insert. Pass an object to insert a single row
-       * or an array to insert multiple rows.
-       *
-       * @param options - Named parameters
-       *
-       * @param options.count - Count algorithm to use to count inserted rows.
-       *
-       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
-       * hood.
-       *
-       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
-       * statistics under the hood.
-       *
-       * `"estimated"`: Uses exact count for low numbers and planned count for high
-       * numbers.
-       *
-       * @param options.defaultToNull - Make missing fields default to `null`.
-       * Otherwise, use the default value for the column. Only applies for bulk
-       * inserts.
-       */
-      insert(values, { count, defaultToNull = true } = {}) {
-        const method = "POST";
-        const prefersHeaders = [];
-        if (this.headers["Prefer"]) {
-          prefersHeaders.push(this.headers["Prefer"]);
-        }
-        if (count) {
-          prefersHeaders.push(`count=${count}`);
-        }
-        if (!defaultToNull) {
-          prefersHeaders.push("missing=default");
-        }
-        this.headers["Prefer"] = prefersHeaders.join(",");
-        if (Array.isArray(values)) {
-          const columns = values.reduce((acc, x) => acc.concat(Object.keys(x)), []);
-          if (columns.length > 0) {
-            const uniqueColumns = [...new Set(columns)].map((column) => `"${column}"`);
-            this.url.searchParams.set("columns", uniqueColumns.join(","));
-          }
-        }
-        return new PostgrestFilterBuilder({
-          method,
-          url: this.url,
-          headers: this.headers,
-          schema: this.schema,
-          body: values,
-          fetch: this.fetch,
-          allowEmpty: false
-        });
-      }
-      /**
-       * Perform an UPSERT on the table or view. Depending on the column(s) passed
-       * to `onConflict`, `.upsert()` allows you to perform the equivalent of
-       * `.insert()` if a row with the corresponding `onConflict` columns doesn't
-       * exist, or if it does exist, perform an alternative action depending on
-       * `ignoreDuplicates`.
-       *
-       * By default, upserted rows are not returned. To return it, chain the call
-       * with `.select()`.
-       *
-       * @param values - The values to upsert with. Pass an object to upsert a
-       * single row or an array to upsert multiple rows.
-       *
-       * @param options - Named parameters
-       *
-       * @param options.onConflict - Comma-separated UNIQUE column(s) to specify how
-       * duplicate rows are determined. Two rows are duplicates if all the
-       * `onConflict` columns are equal.
-       *
-       * @param options.ignoreDuplicates - If `true`, duplicate rows are ignored. If
-       * `false`, duplicate rows are merged with existing rows.
-       *
-       * @param options.count - Count algorithm to use to count upserted rows.
-       *
-       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
-       * hood.
-       *
-       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
-       * statistics under the hood.
-       *
-       * `"estimated"`: Uses exact count for low numbers and planned count for high
-       * numbers.
-       *
-       * @param options.defaultToNull - Make missing fields default to `null`.
-       * Otherwise, use the default value for the column. This only applies when
-       * inserting new rows, not when merging with existing rows under
-       * `ignoreDuplicates: false`. This also only applies when doing bulk upserts.
-       */
-      upsert(values, { onConflict, ignoreDuplicates = false, count, defaultToNull = true } = {}) {
-        const method = "POST";
-        const prefersHeaders = [`resolution=${ignoreDuplicates ? "ignore" : "merge"}-duplicates`];
-        if (onConflict !== void 0)
-          this.url.searchParams.set("on_conflict", onConflict);
-        if (this.headers["Prefer"]) {
-          prefersHeaders.push(this.headers["Prefer"]);
-        }
-        if (count) {
-          prefersHeaders.push(`count=${count}`);
-        }
-        if (!defaultToNull) {
-          prefersHeaders.push("missing=default");
-        }
-        this.headers["Prefer"] = prefersHeaders.join(",");
-        if (Array.isArray(values)) {
-          const columns = values.reduce((acc, x) => acc.concat(Object.keys(x)), []);
-          if (columns.length > 0) {
-            const uniqueColumns = [...new Set(columns)].map((column) => `"${column}"`);
-            this.url.searchParams.set("columns", uniqueColumns.join(","));
-          }
-        }
-        return new PostgrestFilterBuilder({
-          method,
-          url: this.url,
-          headers: this.headers,
-          schema: this.schema,
-          body: values,
-          fetch: this.fetch,
-          allowEmpty: false
-        });
-      }
-      /**
-       * Perform an UPDATE on the table or view.
-       *
-       * By default, updated rows are not returned. To return it, chain the call
-       * with `.select()` after filters.
-       *
-       * @param values - The values to update with
-       *
-       * @param options - Named parameters
-       *
-       * @param options.count - Count algorithm to use to count updated rows.
-       *
-       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
-       * hood.
-       *
-       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
-       * statistics under the hood.
-       *
-       * `"estimated"`: Uses exact count for low numbers and planned count for high
-       * numbers.
-       */
-      update(values, { count } = {}) {
-        const method = "PATCH";
-        const prefersHeaders = [];
-        if (this.headers["Prefer"]) {
-          prefersHeaders.push(this.headers["Prefer"]);
-        }
-        if (count) {
-          prefersHeaders.push(`count=${count}`);
-        }
-        this.headers["Prefer"] = prefersHeaders.join(",");
-        return new PostgrestFilterBuilder({
-          method,
-          url: this.url,
-          headers: this.headers,
-          schema: this.schema,
-          body: values,
-          fetch: this.fetch,
-          allowEmpty: false
-        });
-      }
-      /**
-       * Perform a DELETE on the table or view.
-       *
-       * By default, deleted rows are not returned. To return it, chain the call
-       * with `.select()` after filters.
-       *
-       * @param options - Named parameters
-       *
-       * @param options.count - Count algorithm to use to count deleted rows.
-       *
-       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
-       * hood.
-       *
-       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
-       * statistics under the hood.
-       *
-       * `"estimated"`: Uses exact count for low numbers and planned count for high
-       * numbers.
-       */
-      delete({ count } = {}) {
-        const method = "DELETE";
-        const prefersHeaders = [];
-        if (count) {
-          prefersHeaders.push(`count=${count}`);
-        }
-        if (this.headers["Prefer"]) {
-          prefersHeaders.unshift(this.headers["Prefer"]);
-        }
-        this.headers["Prefer"] = prefersHeaders.join(",");
-        return new PostgrestFilterBuilder({
-          method,
-          url: this.url,
-          headers: this.headers,
-          schema: this.schema,
-          fetch: this.fetch,
-          allowEmpty: false
-        });
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/version.js
-var version2;
-var init_version = __esm({
-  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/version.js"() {
-    version2 = "1.9.2";
-  }
-});
-
-// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/constants.js
-var DEFAULT_HEADERS;
-var init_constants = __esm({
-  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/constants.js"() {
-    init_version();
-    DEFAULT_HEADERS = { "X-Client-Info": `postgrest-js/${version2}` };
-  }
-});
-
-// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestClient.js
-var PostgrestClient;
-var init_PostgrestClient = __esm({
-  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/PostgrestClient.js"() {
-    init_PostgrestQueryBuilder();
-    init_PostgrestFilterBuilder();
-    init_constants();
-    PostgrestClient = class _PostgrestClient {
-      // TODO: Add back shouldThrowOnError once we figure out the typings
-      /**
-       * Creates a PostgREST client.
-       *
-       * @param url - URL of the PostgREST endpoint
-       * @param options - Named parameters
-       * @param options.headers - Custom headers
-       * @param options.schema - Postgres schema to switch to
-       * @param options.fetch - Custom fetch
-       */
-      constructor(url, { headers: headers2 = {}, schema, fetch: fetch3 } = {}) {
-        this.url = url;
-        this.headers = Object.assign(Object.assign({}, DEFAULT_HEADERS), headers2);
-        this.schemaName = schema;
-        this.fetch = fetch3;
-      }
-      /**
-       * Perform a query on a table or a view.
-       *
-       * @param relation - The table or view name to query
-       */
-      from(relation) {
-        const url = new URL(`${this.url}/${relation}`);
-        return new PostgrestQueryBuilder(url, {
-          headers: Object.assign({}, this.headers),
-          schema: this.schemaName,
-          fetch: this.fetch
-        });
-      }
-      /**
-       * Select a schema to query or perform an function (rpc) call.
-       *
-       * The schema needs to be on the list of exposed schemas inside Supabase.
-       *
-       * @param schema - The schema to query
-       */
-      schema(schema) {
-        return new _PostgrestClient(this.url, {
-          headers: this.headers,
-          schema,
-          fetch: this.fetch
-        });
-      }
-      /**
-       * Perform a function call.
-       *
-       * @param fn - The function name to call
-       * @param args - The arguments to pass to the function call
-       * @param options - Named parameters
-       * @param options.head - When set to `true`, `data` will not be returned.
-       * Useful if you only need the count.
-       * @param options.count - Count algorithm to use to count rows returned by the
-       * function. Only applicable for [set-returning
-       * functions](https://www.postgresql.org/docs/current/functions-srf.html).
-       *
-       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
-       * hood.
-       *
-       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
-       * statistics under the hood.
-       *
-       * `"estimated"`: Uses exact count for low numbers and planned count for high
-       * numbers.
-       */
-      rpc(fn, args = {}, { head = false, count } = {}) {
-        let method;
-        const url = new URL(`${this.url}/rpc/${fn}`);
-        let body2;
-        if (head) {
-          method = "HEAD";
-          Object.entries(args).forEach(([name2, value]) => {
-            url.searchParams.append(name2, `${value}`);
-          });
-        } else {
-          method = "POST";
-          body2 = args;
-        }
-        const headers2 = Object.assign({}, this.headers);
-        if (count) {
-          headers2["Prefer"] = `count=${count}`;
-        }
-        return new PostgrestFilterBuilder({
-          method,
-          url,
-          headers: headers2,
-          schema: this.schemaName,
-          body: body2,
-          fetch: this.fetch,
-          allowEmpty: false
-        });
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/index.js
-var init_module2 = __esm({
-  "node_modules/.pnpm/@supabase+postgrest-js@1.9.2/node_modules/@supabase/postgrest-js/dist/module/index.js"() {
-    init_PostgrestClient();
-    init_PostgrestQueryBuilder();
-    init_PostgrestFilterBuilder();
-    init_PostgrestTransformBuilder();
-    init_PostgrestBuilder();
-  }
-});
-
-// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/version.js
-var version3;
-var init_version2 = __esm({
-  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/version.js"() {
-    version3 = "2.9.3";
-  }
-});
-
-// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/constants.js
-var DEFAULT_HEADERS2, VSN, DEFAULT_TIMEOUT, WS_CLOSE_NORMAL, SOCKET_STATES, CHANNEL_STATES, CHANNEL_EVENTS, TRANSPORTS, CONNECTION_STATE;
-var init_constants2 = __esm({
-  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/constants.js"() {
-    init_version2();
-    DEFAULT_HEADERS2 = { "X-Client-Info": `realtime-js/${version3}` };
-    VSN = "1.0.0";
-    DEFAULT_TIMEOUT = 1e4;
-    WS_CLOSE_NORMAL = 1e3;
-    (function(SOCKET_STATES2) {
-      SOCKET_STATES2[SOCKET_STATES2["connecting"] = 0] = "connecting";
-      SOCKET_STATES2[SOCKET_STATES2["open"] = 1] = "open";
-      SOCKET_STATES2[SOCKET_STATES2["closing"] = 2] = "closing";
-      SOCKET_STATES2[SOCKET_STATES2["closed"] = 3] = "closed";
-    })(SOCKET_STATES || (SOCKET_STATES = {}));
-    (function(CHANNEL_STATES2) {
-      CHANNEL_STATES2["closed"] = "closed";
-      CHANNEL_STATES2["errored"] = "errored";
-      CHANNEL_STATES2["joined"] = "joined";
-      CHANNEL_STATES2["joining"] = "joining";
-      CHANNEL_STATES2["leaving"] = "leaving";
-    })(CHANNEL_STATES || (CHANNEL_STATES = {}));
-    (function(CHANNEL_EVENTS2) {
-      CHANNEL_EVENTS2["close"] = "phx_close";
-      CHANNEL_EVENTS2["error"] = "phx_error";
-      CHANNEL_EVENTS2["join"] = "phx_join";
-      CHANNEL_EVENTS2["reply"] = "phx_reply";
-      CHANNEL_EVENTS2["leave"] = "phx_leave";
-      CHANNEL_EVENTS2["access_token"] = "access_token";
-    })(CHANNEL_EVENTS || (CHANNEL_EVENTS = {}));
-    (function(TRANSPORTS2) {
-      TRANSPORTS2["websocket"] = "websocket";
-    })(TRANSPORTS || (TRANSPORTS = {}));
-    (function(CONNECTION_STATE2) {
-      CONNECTION_STATE2["Connecting"] = "connecting";
-      CONNECTION_STATE2["Open"] = "open";
-      CONNECTION_STATE2["Closing"] = "closing";
-      CONNECTION_STATE2["Closed"] = "closed";
-    })(CONNECTION_STATE || (CONNECTION_STATE = {}));
-  }
-});
-
-// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/timer.js
-var Timer;
-var init_timer = __esm({
-  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/timer.js"() {
-    Timer = class {
-      constructor(callback, timerCalc) {
-        this.callback = callback;
-        this.timerCalc = timerCalc;
-        this.timer = void 0;
-        this.tries = 0;
-        this.callback = callback;
-        this.timerCalc = timerCalc;
-      }
-      reset() {
-        this.tries = 0;
-        clearTimeout(this.timer);
-      }
-      // Cancels any previous scheduleTimeout and schedules callback
-      scheduleTimeout() {
-        clearTimeout(this.timer);
-        this.timer = setTimeout(() => {
-          this.tries = this.tries + 1;
-          this.callback();
-        }, this.timerCalc(this.tries + 1));
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/serializer.js
-var Serializer;
-var init_serializer = __esm({
-  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/serializer.js"() {
-    Serializer = class {
-      constructor() {
-        this.HEADER_LENGTH = 1;
-      }
-      decode(rawPayload, callback) {
-        if (rawPayload.constructor === ArrayBuffer) {
-          return callback(this._binaryDecode(rawPayload));
-        }
-        if (typeof rawPayload === "string") {
-          return callback(JSON.parse(rawPayload));
-        }
-        return callback({});
-      }
-      _binaryDecode(buffer) {
-        const view = new DataView(buffer);
-        const decoder = new TextDecoder();
-        return this._decodeBroadcast(buffer, view, decoder);
-      }
-      _decodeBroadcast(buffer, view, decoder) {
-        const topicSize = view.getUint8(1);
-        const eventSize = view.getUint8(2);
-        let offset = this.HEADER_LENGTH + 2;
-        const topic = decoder.decode(buffer.slice(offset, offset + topicSize));
-        offset = offset + topicSize;
-        const event = decoder.decode(buffer.slice(offset, offset + eventSize));
-        offset = offset + eventSize;
-        const data = JSON.parse(decoder.decode(buffer.slice(offset, buffer.byteLength)));
-        return { ref: null, topic, event, payload: data };
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/push.js
-var Push;
-var init_push = __esm({
-  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/push.js"() {
-    init_constants2();
-    Push = class {
-      /**
-       * Initializes the Push
-       *
-       * @param channel The Channel
-       * @param event The event, for example `"phx_join"`
-       * @param payload The payload, for example `{user_id: 123}`
-       * @param timeout The push timeout in milliseconds
-       */
-      constructor(channel, event, payload = {}, timeout = DEFAULT_TIMEOUT) {
-        this.channel = channel;
-        this.event = event;
-        this.payload = payload;
-        this.timeout = timeout;
-        this.sent = false;
-        this.timeoutTimer = void 0;
-        this.ref = "";
-        this.receivedResp = null;
-        this.recHooks = [];
-        this.refEvent = null;
-      }
-      resend(timeout) {
-        this.timeout = timeout;
-        this._cancelRefEvent();
-        this.ref = "";
-        this.refEvent = null;
-        this.receivedResp = null;
-        this.sent = false;
-        this.send();
-      }
-      send() {
-        if (this._hasReceived("timeout")) {
-          return;
-        }
-        this.startTimeout();
-        this.sent = true;
-        this.channel.socket.push({
-          topic: this.channel.topic,
-          event: this.event,
-          payload: this.payload,
-          ref: this.ref,
-          join_ref: this.channel._joinRef()
-        });
-      }
-      updatePayload(payload) {
-        this.payload = Object.assign(Object.assign({}, this.payload), payload);
-      }
-      receive(status, callback) {
-        var _a;
-        if (this._hasReceived(status)) {
-          callback((_a = this.receivedResp) === null || _a === void 0 ? void 0 : _a.response);
-        }
-        this.recHooks.push({ status, callback });
-        return this;
-      }
-      startTimeout() {
-        if (this.timeoutTimer) {
-          return;
-        }
-        this.ref = this.channel.socket._makeRef();
-        this.refEvent = this.channel._replyEventName(this.ref);
-        const callback = (payload) => {
-          this._cancelRefEvent();
-          this._cancelTimeout();
-          this.receivedResp = payload;
-          this._matchReceive(payload);
-        };
-        this.channel._on(this.refEvent, {}, callback);
-        this.timeoutTimer = setTimeout(() => {
-          this.trigger("timeout", {});
-        }, this.timeout);
-      }
-      trigger(status, response) {
-        if (this.refEvent)
-          this.channel._trigger(this.refEvent, { status, response });
-      }
-      destroy() {
-        this._cancelRefEvent();
-        this._cancelTimeout();
-      }
-      _cancelRefEvent() {
-        if (!this.refEvent) {
-          return;
-        }
-        this.channel._off(this.refEvent, {});
-      }
-      _cancelTimeout() {
-        clearTimeout(this.timeoutTimer);
-        this.timeoutTimer = void 0;
-      }
-      _matchReceive({ status, response }) {
-        this.recHooks.filter((h) => h.status === status).forEach((h) => h.callback(response));
-      }
-      _hasReceived(status) {
-        return this.receivedResp && this.receivedResp.status === status;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimePresence.js
-var REALTIME_PRESENCE_LISTEN_EVENTS, RealtimePresence;
-var init_RealtimePresence = __esm({
-  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimePresence.js"() {
-    (function(REALTIME_PRESENCE_LISTEN_EVENTS2) {
-      REALTIME_PRESENCE_LISTEN_EVENTS2["SYNC"] = "sync";
-      REALTIME_PRESENCE_LISTEN_EVENTS2["JOIN"] = "join";
-      REALTIME_PRESENCE_LISTEN_EVENTS2["LEAVE"] = "leave";
-    })(REALTIME_PRESENCE_LISTEN_EVENTS || (REALTIME_PRESENCE_LISTEN_EVENTS = {}));
-    RealtimePresence = class _RealtimePresence {
-      /**
-       * Initializes the Presence.
-       *
-       * @param channel - The RealtimeChannel
-       * @param opts - The options,
-       *        for example `{events: {state: 'state', diff: 'diff'}}`
-       */
-      constructor(channel, opts) {
-        this.channel = channel;
-        this.state = {};
-        this.pendingDiffs = [];
-        this.joinRef = null;
-        this.caller = {
-          onJoin: () => {
-          },
-          onLeave: () => {
-          },
-          onSync: () => {
-          }
-        };
-        const events = (opts === null || opts === void 0 ? void 0 : opts.events) || {
-          state: "presence_state",
-          diff: "presence_diff"
-        };
-        this.channel._on(events.state, {}, (newState) => {
-          const { onJoin, onLeave, onSync } = this.caller;
-          this.joinRef = this.channel._joinRef();
-          this.state = _RealtimePresence.syncState(this.state, newState, onJoin, onLeave);
-          this.pendingDiffs.forEach((diff) => {
-            this.state = _RealtimePresence.syncDiff(this.state, diff, onJoin, onLeave);
-          });
-          this.pendingDiffs = [];
-          onSync();
-        });
-        this.channel._on(events.diff, {}, (diff) => {
-          const { onJoin, onLeave, onSync } = this.caller;
-          if (this.inPendingSyncState()) {
-            this.pendingDiffs.push(diff);
-          } else {
-            this.state = _RealtimePresence.syncDiff(this.state, diff, onJoin, onLeave);
-            onSync();
-          }
-        });
-        this.onJoin((key2, currentPresences, newPresences) => {
-          this.channel._trigger("presence", {
-            event: "join",
-            key: key2,
-            currentPresences,
-            newPresences
-          });
-        });
-        this.onLeave((key2, currentPresences, leftPresences) => {
-          this.channel._trigger("presence", {
-            event: "leave",
-            key: key2,
-            currentPresences,
-            leftPresences
-          });
-        });
-        this.onSync(() => {
-          this.channel._trigger("presence", { event: "sync" });
-        });
-      }
-      /**
-       * Used to sync the list of presences on the server with the
-       * client's state.
-       *
-       * An optional `onJoin` and `onLeave` callback can be provided to
-       * react to changes in the client's local presences across
-       * disconnects and reconnects with the server.
-       *
-       * @internal
-       */
-      static syncState(currentState, newState, onJoin, onLeave) {
-        const state = this.cloneDeep(currentState);
-        const transformedState = this.transformState(newState);
-        const joins = {};
-        const leaves = {};
-        this.map(state, (key2, presences) => {
-          if (!transformedState[key2]) {
-            leaves[key2] = presences;
-          }
-        });
-        this.map(transformedState, (key2, newPresences) => {
-          const currentPresences = state[key2];
-          if (currentPresences) {
-            const newPresenceRefs = newPresences.map((m) => m.presence_ref);
-            const curPresenceRefs = currentPresences.map((m) => m.presence_ref);
-            const joinedPresences = newPresences.filter((m) => curPresenceRefs.indexOf(m.presence_ref) < 0);
-            const leftPresences = currentPresences.filter((m) => newPresenceRefs.indexOf(m.presence_ref) < 0);
-            if (joinedPresences.length > 0) {
-              joins[key2] = joinedPresences;
-            }
-            if (leftPresences.length > 0) {
-              leaves[key2] = leftPresences;
-            }
-          } else {
-            joins[key2] = newPresences;
-          }
-        });
-        return this.syncDiff(state, { joins, leaves }, onJoin, onLeave);
-      }
-      /**
-       * Used to sync a diff of presence join and leave events from the
-       * server, as they happen.
-       *
-       * Like `syncState`, `syncDiff` accepts optional `onJoin` and
-       * `onLeave` callbacks to react to a user joining or leaving from a
-       * device.
-       *
-       * @internal
-       */
-      static syncDiff(state, diff, onJoin, onLeave) {
-        const { joins, leaves } = {
-          joins: this.transformState(diff.joins),
-          leaves: this.transformState(diff.leaves)
-        };
-        if (!onJoin) {
-          onJoin = () => {
-          };
-        }
-        if (!onLeave) {
-          onLeave = () => {
-          };
-        }
-        this.map(joins, (key2, newPresences) => {
-          var _a;
-          const currentPresences = (_a = state[key2]) !== null && _a !== void 0 ? _a : [];
-          state[key2] = this.cloneDeep(newPresences);
-          if (currentPresences.length > 0) {
-            const joinedPresenceRefs = state[key2].map((m) => m.presence_ref);
-            const curPresences = currentPresences.filter((m) => joinedPresenceRefs.indexOf(m.presence_ref) < 0);
-            state[key2].unshift(...curPresences);
-          }
-          onJoin(key2, currentPresences, newPresences);
-        });
-        this.map(leaves, (key2, leftPresences) => {
-          let currentPresences = state[key2];
-          if (!currentPresences)
-            return;
-          const presenceRefsToRemove = leftPresences.map((m) => m.presence_ref);
-          currentPresences = currentPresences.filter((m) => presenceRefsToRemove.indexOf(m.presence_ref) < 0);
-          state[key2] = currentPresences;
-          onLeave(key2, currentPresences, leftPresences);
-          if (currentPresences.length === 0)
-            delete state[key2];
-        });
-        return state;
-      }
-      /** @internal */
-      static map(obj, func) {
-        return Object.getOwnPropertyNames(obj).map((key2) => func(key2, obj[key2]));
-      }
-      /**
-       * Remove 'metas' key
-       * Change 'phx_ref' to 'presence_ref'
-       * Remove 'phx_ref' and 'phx_ref_prev'
-       *
-       * @example
-       * // returns {
-       *  abc123: [
-       *    { presence_ref: '2', user_id: 1 },
-       *    { presence_ref: '3', user_id: 2 }
-       *  ]
-       * }
-       * RealtimePresence.transformState({
-       *  abc123: {
-       *    metas: [
-       *      { phx_ref: '2', phx_ref_prev: '1' user_id: 1 },
-       *      { phx_ref: '3', user_id: 2 }
-       *    ]
-       *  }
-       * })
-       *
-       * @internal
-       */
-      static transformState(state) {
-        state = this.cloneDeep(state);
-        return Object.getOwnPropertyNames(state).reduce((newState, key2) => {
-          const presences = state[key2];
-          if ("metas" in presences) {
-            newState[key2] = presences.metas.map((presence) => {
-              presence["presence_ref"] = presence["phx_ref"];
-              delete presence["phx_ref"];
-              delete presence["phx_ref_prev"];
-              return presence;
-            });
-          } else {
-            newState[key2] = presences;
-          }
-          return newState;
-        }, {});
-      }
-      /** @internal */
-      static cloneDeep(obj) {
-        return JSON.parse(JSON.stringify(obj));
-      }
-      /** @internal */
-      onJoin(callback) {
-        this.caller.onJoin = callback;
-      }
-      /** @internal */
-      onLeave(callback) {
-        this.caller.onLeave = callback;
-      }
-      /** @internal */
-      onSync(callback) {
-        this.caller.onSync = callback;
-      }
-      /** @internal */
-      inPendingSyncState() {
-        return !this.joinRef || this.joinRef !== this.channel._joinRef();
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/transformers.js
-var PostgresTypes, convertChangeData, convertColumn, convertCell, noop2, toBoolean, toNumber, toJson, toArray, toTimestampString;
-var init_transformers = __esm({
-  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/lib/transformers.js"() {
-    (function(PostgresTypes2) {
-      PostgresTypes2["abstime"] = "abstime";
-      PostgresTypes2["bool"] = "bool";
-      PostgresTypes2["date"] = "date";
-      PostgresTypes2["daterange"] = "daterange";
-      PostgresTypes2["float4"] = "float4";
-      PostgresTypes2["float8"] = "float8";
-      PostgresTypes2["int2"] = "int2";
-      PostgresTypes2["int4"] = "int4";
-      PostgresTypes2["int4range"] = "int4range";
-      PostgresTypes2["int8"] = "int8";
-      PostgresTypes2["int8range"] = "int8range";
-      PostgresTypes2["json"] = "json";
-      PostgresTypes2["jsonb"] = "jsonb";
-      PostgresTypes2["money"] = "money";
-      PostgresTypes2["numeric"] = "numeric";
-      PostgresTypes2["oid"] = "oid";
-      PostgresTypes2["reltime"] = "reltime";
-      PostgresTypes2["text"] = "text";
-      PostgresTypes2["time"] = "time";
-      PostgresTypes2["timestamp"] = "timestamp";
-      PostgresTypes2["timestamptz"] = "timestamptz";
-      PostgresTypes2["timetz"] = "timetz";
-      PostgresTypes2["tsrange"] = "tsrange";
-      PostgresTypes2["tstzrange"] = "tstzrange";
-    })(PostgresTypes || (PostgresTypes = {}));
-    convertChangeData = (columns, record, options2 = {}) => {
-      var _a;
-      const skipTypes = (_a = options2.skipTypes) !== null && _a !== void 0 ? _a : [];
-      return Object.keys(record).reduce((acc, rec_key) => {
-        acc[rec_key] = convertColumn(rec_key, columns, record, skipTypes);
-        return acc;
-      }, {});
-    };
-    convertColumn = (columnName, columns, record, skipTypes) => {
-      const column = columns.find((x) => x.name === columnName);
-      const colType = column === null || column === void 0 ? void 0 : column.type;
-      const value = record[columnName];
-      if (colType && !skipTypes.includes(colType)) {
-        return convertCell(colType, value);
-      }
-      return noop2(value);
-    };
-    convertCell = (type, value) => {
-      if (type.charAt(0) === "_") {
-        const dataType = type.slice(1, type.length);
-        return toArray(value, dataType);
-      }
-      switch (type) {
-        case PostgresTypes.bool:
-          return toBoolean(value);
-        case PostgresTypes.float4:
-        case PostgresTypes.float8:
-        case PostgresTypes.int2:
-        case PostgresTypes.int4:
-        case PostgresTypes.int8:
-        case PostgresTypes.numeric:
-        case PostgresTypes.oid:
-          return toNumber(value);
-        case PostgresTypes.json:
-        case PostgresTypes.jsonb:
-          return toJson(value);
-        case PostgresTypes.timestamp:
-          return toTimestampString(value);
-        case PostgresTypes.abstime:
-        case PostgresTypes.date:
-        case PostgresTypes.daterange:
-        case PostgresTypes.int4range:
-        case PostgresTypes.int8range:
-        case PostgresTypes.money:
-        case PostgresTypes.reltime:
-        case PostgresTypes.text:
-        case PostgresTypes.time:
-        case PostgresTypes.timestamptz:
-        case PostgresTypes.timetz:
-        case PostgresTypes.tsrange:
-        case PostgresTypes.tstzrange:
-          return noop2(value);
-        default:
-          return noop2(value);
-      }
-    };
-    noop2 = (value) => {
-      return value;
-    };
-    toBoolean = (value) => {
-      switch (value) {
-        case "t":
-          return true;
-        case "f":
-          return false;
-        default:
-          return value;
-      }
-    };
-    toNumber = (value) => {
-      if (typeof value === "string") {
-        const parsedValue = parseFloat(value);
-        if (!Number.isNaN(parsedValue)) {
-          return parsedValue;
-        }
-      }
-      return value;
-    };
-    toJson = (value) => {
-      if (typeof value === "string") {
-        try {
-          return JSON.parse(value);
-        } catch (error) {
-          console.log(`JSON parse error: ${error}`);
-          return value;
-        }
-      }
-      return value;
-    };
-    toArray = (value, type) => {
-      if (typeof value !== "string") {
-        return value;
-      }
-      const lastIdx = value.length - 1;
-      const closeBrace = value[lastIdx];
-      const openBrace = value[0];
-      if (openBrace === "{" && closeBrace === "}") {
-        let arr;
-        const valTrim = value.slice(1, lastIdx);
-        try {
-          arr = JSON.parse("[" + valTrim + "]");
-        } catch (_) {
-          arr = valTrim ? valTrim.split(",") : [];
-        }
-        return arr.map((val) => convertCell(type, val));
-      }
-      return value;
-    };
-    toTimestampString = (value) => {
-      if (typeof value === "string") {
-        return value.replace(" ", "T");
-      }
-      return value;
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimeChannel.js
-var REALTIME_POSTGRES_CHANGES_LISTEN_EVENT, REALTIME_LISTEN_TYPES, REALTIME_SUBSCRIBE_STATES, RealtimeChannel;
-var init_RealtimeChannel = __esm({
-  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimeChannel.js"() {
-    init_constants2();
-    init_push();
-    init_timer();
-    init_RealtimePresence();
-    init_transformers();
-    (function(REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2) {
-      REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["ALL"] = "*";
-      REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["INSERT"] = "INSERT";
-      REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["UPDATE"] = "UPDATE";
-      REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["DELETE"] = "DELETE";
-    })(REALTIME_POSTGRES_CHANGES_LISTEN_EVENT || (REALTIME_POSTGRES_CHANGES_LISTEN_EVENT = {}));
-    (function(REALTIME_LISTEN_TYPES2) {
-      REALTIME_LISTEN_TYPES2["BROADCAST"] = "broadcast";
-      REALTIME_LISTEN_TYPES2["PRESENCE"] = "presence";
-      REALTIME_LISTEN_TYPES2["POSTGRES_CHANGES"] = "postgres_changes";
-    })(REALTIME_LISTEN_TYPES || (REALTIME_LISTEN_TYPES = {}));
-    (function(REALTIME_SUBSCRIBE_STATES2) {
-      REALTIME_SUBSCRIBE_STATES2["SUBSCRIBED"] = "SUBSCRIBED";
-      REALTIME_SUBSCRIBE_STATES2["TIMED_OUT"] = "TIMED_OUT";
-      REALTIME_SUBSCRIBE_STATES2["CLOSED"] = "CLOSED";
-      REALTIME_SUBSCRIBE_STATES2["CHANNEL_ERROR"] = "CHANNEL_ERROR";
-    })(REALTIME_SUBSCRIBE_STATES || (REALTIME_SUBSCRIBE_STATES = {}));
-    RealtimeChannel = class _RealtimeChannel {
-      constructor(topic, params = { config: {} }, socket) {
-        this.topic = topic;
-        this.params = params;
-        this.socket = socket;
-        this.bindings = {};
-        this.state = CHANNEL_STATES.closed;
-        this.joinedOnce = false;
-        this.pushBuffer = [];
-        this.subTopic = topic.replace(/^realtime:/i, "");
-        this.params.config = Object.assign({
-          broadcast: { ack: false, self: false },
-          presence: { key: "" }
-        }, params.config);
-        this.timeout = this.socket.timeout;
-        this.joinPush = new Push(this, CHANNEL_EVENTS.join, this.params, this.timeout);
-        this.rejoinTimer = new Timer(() => this._rejoinUntilConnected(), this.socket.reconnectAfterMs);
-        this.joinPush.receive("ok", () => {
-          this.state = CHANNEL_STATES.joined;
-          this.rejoinTimer.reset();
-          this.pushBuffer.forEach((pushEvent) => pushEvent.send());
-          this.pushBuffer = [];
-        });
-        this._onClose(() => {
-          this.rejoinTimer.reset();
-          this.socket.log("channel", `close ${this.topic} ${this._joinRef()}`);
-          this.state = CHANNEL_STATES.closed;
-          this.socket._remove(this);
-        });
-        this._onError((reason) => {
-          if (this._isLeaving() || this._isClosed()) {
-            return;
-          }
-          this.socket.log("channel", `error ${this.topic}`, reason);
-          this.state = CHANNEL_STATES.errored;
-          this.rejoinTimer.scheduleTimeout();
-        });
-        this.joinPush.receive("timeout", () => {
-          if (!this._isJoining()) {
-            return;
-          }
-          this.socket.log("channel", `timeout ${this.topic}`, this.joinPush.timeout);
-          this.state = CHANNEL_STATES.errored;
-          this.rejoinTimer.scheduleTimeout();
-        });
-        this._on(CHANNEL_EVENTS.reply, {}, (payload, ref) => {
-          this._trigger(this._replyEventName(ref), payload);
-        });
-        this.presence = new RealtimePresence(this);
-        this.broadcastEndpointURL = this._broadcastEndpointURL();
-      }
-      /** Subscribe registers your client with the server */
-      subscribe(callback, timeout = this.timeout) {
-        var _a, _b;
-        if (!this.socket.isConnected()) {
-          this.socket.connect();
-        }
-        if (this.joinedOnce) {
-          throw `tried to subscribe multiple times. 'subscribe' can only be called a single time per channel instance`;
-        } else {
-          const { config: { broadcast, presence } } = this.params;
-          this._onError((e) => callback && callback("CHANNEL_ERROR", e));
-          this._onClose(() => callback && callback("CLOSED"));
-          const accessTokenPayload = {};
-          const config2 = {
-            broadcast,
-            presence,
-            postgres_changes: (_b = (_a = this.bindings.postgres_changes) === null || _a === void 0 ? void 0 : _a.map((r) => r.filter)) !== null && _b !== void 0 ? _b : []
-          };
-          if (this.socket.accessToken) {
-            accessTokenPayload.access_token = this.socket.accessToken;
-          }
-          this.updateJoinPayload(Object.assign({ config: config2 }, accessTokenPayload));
-          this.joinedOnce = true;
-          this._rejoin(timeout);
-          this.joinPush.receive("ok", ({ postgres_changes: serverPostgresFilters }) => {
-            var _a2;
-            this.socket.accessToken && this.socket.setAuth(this.socket.accessToken);
-            if (serverPostgresFilters === void 0) {
-              callback && callback("SUBSCRIBED");
-              return;
-            } else {
-              const clientPostgresBindings = this.bindings.postgres_changes;
-              const bindingsLen = (_a2 = clientPostgresBindings === null || clientPostgresBindings === void 0 ? void 0 : clientPostgresBindings.length) !== null && _a2 !== void 0 ? _a2 : 0;
-              const newPostgresBindings = [];
-              for (let i = 0; i < bindingsLen; i++) {
-                const clientPostgresBinding = clientPostgresBindings[i];
-                const { filter: { event, schema, table, filter } } = clientPostgresBinding;
-                const serverPostgresFilter = serverPostgresFilters && serverPostgresFilters[i];
-                if (serverPostgresFilter && serverPostgresFilter.event === event && serverPostgresFilter.schema === schema && serverPostgresFilter.table === table && serverPostgresFilter.filter === filter) {
-                  newPostgresBindings.push(Object.assign(Object.assign({}, clientPostgresBinding), { id: serverPostgresFilter.id }));
-                } else {
-                  this.unsubscribe();
-                  callback && callback("CHANNEL_ERROR", new Error("mismatch between server and client bindings for postgres changes"));
-                  return;
-                }
-              }
-              this.bindings.postgres_changes = newPostgresBindings;
-              callback && callback("SUBSCRIBED");
-              return;
-            }
-          }).receive("error", (error) => {
-            callback && callback("CHANNEL_ERROR", new Error(JSON.stringify(Object.values(error).join(", ") || "error")));
-            return;
-          }).receive("timeout", () => {
-            callback && callback("TIMED_OUT");
-            return;
-          });
-        }
-        return this;
-      }
-      presenceState() {
-        return this.presence.state;
-      }
-      async track(payload, opts = {}) {
-        return await this.send({
-          type: "presence",
-          event: "track",
-          payload
-        }, opts.timeout || this.timeout);
-      }
-      async untrack(opts = {}) {
-        return await this.send({
-          type: "presence",
-          event: "untrack"
-        }, opts);
-      }
-      on(type, filter, callback) {
-        return this._on(type, filter, callback);
-      }
-      /**
-       * Sends a message into the channel.
-       *
-       * @param args Arguments to send to channel
-       * @param args.type The type of event to send
-       * @param args.event The name of the event being sent
-       * @param args.payload Payload to be sent
-       * @param opts Options to be used during the send process
-       */
-      async send(args, opts = {}) {
-        var _a, _b;
-        if (!this._canPush() && args.type === "broadcast") {
-          const { event, payload: endpoint_payload } = args;
-          const options2 = {
-            method: "POST",
-            headers: {
-              apikey: (_a = this.socket.apiKey) !== null && _a !== void 0 ? _a : "",
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              messages: [
-                { topic: this.subTopic, event, payload: endpoint_payload }
-              ]
-            })
-          };
-          try {
-            const response = await this._fetchWithTimeout(this.broadcastEndpointURL, options2, (_b = opts.timeout) !== null && _b !== void 0 ? _b : this.timeout);
-            if (response.ok) {
-              return "ok";
-            } else {
-              return "error";
-            }
-          } catch (error) {
-            if (error.name === "AbortError") {
-              return "timed out";
-            } else {
-              return "error";
-            }
-          }
-        } else {
-          return new Promise((resolve2) => {
-            var _a2, _b2, _c;
-            const push = this._push(args.type, args, opts.timeout || this.timeout);
-            if (args.type === "broadcast" && !((_c = (_b2 = (_a2 = this.params) === null || _a2 === void 0 ? void 0 : _a2.config) === null || _b2 === void 0 ? void 0 : _b2.broadcast) === null || _c === void 0 ? void 0 : _c.ack)) {
-              resolve2("ok");
-            }
-            push.receive("ok", () => resolve2("ok"));
-            push.receive("timeout", () => resolve2("timed out"));
-          });
-        }
-      }
-      updateJoinPayload(payload) {
-        this.joinPush.updatePayload(payload);
-      }
-      /**
-       * Leaves the channel.
-       *
-       * Unsubscribes from server events, and instructs channel to terminate on server.
-       * Triggers onClose() hooks.
-       *
-       * To receive leave acknowledgements, use the a `receive` hook to bind to the server ack, ie:
-       * channel.unsubscribe().receive("ok", () => alert("left!") )
-       */
-      unsubscribe(timeout = this.timeout) {
-        this.state = CHANNEL_STATES.leaving;
-        const onClose = () => {
-          this.socket.log("channel", `leave ${this.topic}`);
-          this._trigger(CHANNEL_EVENTS.close, "leave", this._joinRef());
-        };
-        this.rejoinTimer.reset();
-        this.joinPush.destroy();
-        return new Promise((resolve2) => {
-          const leavePush = new Push(this, CHANNEL_EVENTS.leave, {}, timeout);
-          leavePush.receive("ok", () => {
-            onClose();
-            resolve2("ok");
-          }).receive("timeout", () => {
-            onClose();
-            resolve2("timed out");
-          }).receive("error", () => {
-            resolve2("error");
-          });
-          leavePush.send();
-          if (!this._canPush()) {
-            leavePush.trigger("ok", {});
-          }
-        });
-      }
-      /** @internal */
-      _broadcastEndpointURL() {
-        let url = this.socket.endPoint;
-        url = url.replace(/^ws/i, "http");
-        url = url.replace(/(\/socket\/websocket|\/socket|\/websocket)\/?$/i, "");
-        return url.replace(/\/+$/, "") + "/api/broadcast";
-      }
-      async _fetchWithTimeout(url, options2, timeout) {
-        const controller = new AbortController();
-        const id = setTimeout(() => controller.abort(), timeout);
-        const response = await this.socket.fetch(url, Object.assign(Object.assign({}, options2), { signal: controller.signal }));
-        clearTimeout(id);
-        return response;
-      }
-      /** @internal */
-      _push(event, payload, timeout = this.timeout) {
-        if (!this.joinedOnce) {
-          throw `tried to push '${event}' to '${this.topic}' before joining. Use channel.subscribe() before pushing events`;
-        }
-        let pushEvent = new Push(this, event, payload, timeout);
-        if (this._canPush()) {
-          pushEvent.send();
-        } else {
-          pushEvent.startTimeout();
-          this.pushBuffer.push(pushEvent);
-        }
-        return pushEvent;
-      }
-      /**
-       * Overridable message hook
-       *
-       * Receives all events for specialized message handling before dispatching to the channel callbacks.
-       * Must return the payload, modified or unmodified.
-       *
-       * @internal
-       */
-      _onMessage(_event, payload, _ref) {
-        return payload;
-      }
-      /** @internal */
-      _isMember(topic) {
-        return this.topic === topic;
-      }
-      /** @internal */
-      _joinRef() {
-        return this.joinPush.ref;
-      }
-      /** @internal */
-      _trigger(type, payload, ref) {
-        var _a, _b;
-        const typeLower = type.toLocaleLowerCase();
-        const { close, error, leave, join } = CHANNEL_EVENTS;
-        const events = [close, error, leave, join];
-        if (ref && events.indexOf(typeLower) >= 0 && ref !== this._joinRef()) {
-          return;
-        }
-        let handledPayload = this._onMessage(typeLower, payload, ref);
-        if (payload && !handledPayload) {
-          throw "channel onMessage callbacks must return the payload, modified or unmodified";
-        }
-        if (["insert", "update", "delete"].includes(typeLower)) {
-          (_a = this.bindings.postgres_changes) === null || _a === void 0 ? void 0 : _a.filter((bind) => {
-            var _a2, _b2, _c;
-            return ((_a2 = bind.filter) === null || _a2 === void 0 ? void 0 : _a2.event) === "*" || ((_c = (_b2 = bind.filter) === null || _b2 === void 0 ? void 0 : _b2.event) === null || _c === void 0 ? void 0 : _c.toLocaleLowerCase()) === typeLower;
-          }).map((bind) => bind.callback(handledPayload, ref));
-        } else {
-          (_b = this.bindings[typeLower]) === null || _b === void 0 ? void 0 : _b.filter((bind) => {
-            var _a2, _b2, _c, _d, _e, _f;
-            if (["broadcast", "presence", "postgres_changes"].includes(typeLower)) {
-              if ("id" in bind) {
-                const bindId = bind.id;
-                const bindEvent = (_a2 = bind.filter) === null || _a2 === void 0 ? void 0 : _a2.event;
-                return bindId && ((_b2 = payload.ids) === null || _b2 === void 0 ? void 0 : _b2.includes(bindId)) && (bindEvent === "*" || (bindEvent === null || bindEvent === void 0 ? void 0 : bindEvent.toLocaleLowerCase()) === ((_c = payload.data) === null || _c === void 0 ? void 0 : _c.type.toLocaleLowerCase()));
-              } else {
-                const bindEvent = (_e = (_d = bind === null || bind === void 0 ? void 0 : bind.filter) === null || _d === void 0 ? void 0 : _d.event) === null || _e === void 0 ? void 0 : _e.toLocaleLowerCase();
-                return bindEvent === "*" || bindEvent === ((_f = payload === null || payload === void 0 ? void 0 : payload.event) === null || _f === void 0 ? void 0 : _f.toLocaleLowerCase());
-              }
-            } else {
-              return bind.type.toLocaleLowerCase() === typeLower;
-            }
-          }).map((bind) => {
-            if (typeof handledPayload === "object" && "ids" in handledPayload) {
-              const postgresChanges = handledPayload.data;
-              const { schema, table, commit_timestamp, type: type2, errors } = postgresChanges;
-              const enrichedPayload = {
-                schema,
-                table,
-                commit_timestamp,
-                eventType: type2,
-                new: {},
-                old: {},
-                errors
-              };
-              handledPayload = Object.assign(Object.assign({}, enrichedPayload), this._getPayloadRecords(postgresChanges));
-            }
-            bind.callback(handledPayload, ref);
-          });
-        }
-      }
-      /** @internal */
-      _isClosed() {
-        return this.state === CHANNEL_STATES.closed;
-      }
-      /** @internal */
-      _isJoined() {
-        return this.state === CHANNEL_STATES.joined;
-      }
-      /** @internal */
-      _isJoining() {
-        return this.state === CHANNEL_STATES.joining;
-      }
-      /** @internal */
-      _isLeaving() {
-        return this.state === CHANNEL_STATES.leaving;
-      }
-      /** @internal */
-      _replyEventName(ref) {
-        return `chan_reply_${ref}`;
-      }
-      /** @internal */
-      _on(type, filter, callback) {
-        const typeLower = type.toLocaleLowerCase();
-        const binding = {
-          type: typeLower,
-          filter,
-          callback
-        };
-        if (this.bindings[typeLower]) {
-          this.bindings[typeLower].push(binding);
-        } else {
-          this.bindings[typeLower] = [binding];
-        }
-        return this;
-      }
-      /** @internal */
-      _off(type, filter) {
-        const typeLower = type.toLocaleLowerCase();
-        this.bindings[typeLower] = this.bindings[typeLower].filter((bind) => {
-          var _a;
-          return !(((_a = bind.type) === null || _a === void 0 ? void 0 : _a.toLocaleLowerCase()) === typeLower && _RealtimeChannel.isEqual(bind.filter, filter));
-        });
-        return this;
-      }
-      /** @internal */
-      static isEqual(obj1, obj2) {
-        if (Object.keys(obj1).length !== Object.keys(obj2).length) {
-          return false;
-        }
-        for (const k in obj1) {
-          if (obj1[k] !== obj2[k]) {
-            return false;
-          }
-        }
-        return true;
-      }
-      /** @internal */
-      _rejoinUntilConnected() {
-        this.rejoinTimer.scheduleTimeout();
-        if (this.socket.isConnected()) {
-          this._rejoin();
-        }
-      }
-      /**
-       * Registers a callback that will be executed when the channel closes.
-       *
-       * @internal
-       */
-      _onClose(callback) {
-        this._on(CHANNEL_EVENTS.close, {}, callback);
-      }
-      /**
-       * Registers a callback that will be executed when the channel encounteres an error.
-       *
-       * @internal
-       */
-      _onError(callback) {
-        this._on(CHANNEL_EVENTS.error, {}, (reason) => callback(reason));
-      }
-      /**
-       * Returns `true` if the socket is connected and the channel has been joined.
-       *
-       * @internal
-       */
-      _canPush() {
-        return this.socket.isConnected() && this._isJoined();
-      }
-      /** @internal */
-      _rejoin(timeout = this.timeout) {
-        if (this._isLeaving()) {
-          return;
-        }
-        this.socket._leaveOpenTopic(this.topic);
-        this.state = CHANNEL_STATES.joining;
-        this.joinPush.resend(timeout);
-      }
-      /** @internal */
-      _getPayloadRecords(payload) {
-        const records = {
-          new: {},
-          old: {}
-        };
-        if (payload.type === "INSERT" || payload.type === "UPDATE") {
-          records.new = convertChangeData(payload.columns, payload.record);
-        }
-        if (payload.type === "UPDATE" || payload.type === "DELETE") {
-          records.old = convertChangeData(payload.columns, payload.old_record);
-        }
-        return records;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/ws@8.16.0/node_modules/ws/browser.js
-var require_browser = __commonJS({
-  "node_modules/.pnpm/ws@8.16.0/node_modules/ws/browser.js"(exports, module) {
-    "use strict";
-    module.exports = function() {
-      throw new Error(
-        "ws does not work in the browser. Browser clients must use the native WebSocket object"
-      );
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimeClient.js
-var noop3, NATIVE_WEBSOCKET_AVAILABLE, RealtimeClient, WSWebSocketDummy;
-var init_RealtimeClient = __esm({
-  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/RealtimeClient.js"() {
-    init_constants2();
-    init_timer();
-    init_serializer();
-    init_RealtimeChannel();
-    noop3 = () => {
-    };
-    NATIVE_WEBSOCKET_AVAILABLE = typeof WebSocket !== "undefined";
-    RealtimeClient = class {
-      /**
-       * Initializes the Socket.
-       *
-       * @param endPoint The string WebSocket endpoint, ie, "ws://example.com/socket", "wss://example.com", "/socket" (inherited host & protocol)
-       * @param options.transport The Websocket Transport, for example WebSocket.
-       * @param options.timeout The default timeout in milliseconds to trigger push timeouts.
-       * @param options.params The optional params to pass when connecting.
-       * @param options.headers The optional headers to pass when connecting.
-       * @param options.heartbeatIntervalMs The millisec interval to send a heartbeat message.
-       * @param options.logger The optional function for specialized logging, ie: logger: (kind, msg, data) => { console.log(`${kind}: ${msg}`, data) }
-       * @param options.encode The function to encode outgoing messages. Defaults to JSON: (payload, callback) => callback(JSON.stringify(payload))
-       * @param options.decode The function to decode incoming messages. Defaults to Serializer's decode.
-       * @param options.reconnectAfterMs he optional function that returns the millsec reconnect interval. Defaults to stepped backoff off.
-       */
-      constructor(endPoint, options2) {
-        var _a;
-        this.accessToken = null;
-        this.apiKey = null;
-        this.channels = [];
-        this.endPoint = "";
-        this.headers = DEFAULT_HEADERS2;
-        this.params = {};
-        this.timeout = DEFAULT_TIMEOUT;
-        this.heartbeatIntervalMs = 3e4;
-        this.heartbeatTimer = void 0;
-        this.pendingHeartbeatRef = null;
-        this.ref = 0;
-        this.logger = noop3;
-        this.conn = null;
-        this.sendBuffer = [];
-        this.serializer = new Serializer();
-        this.stateChangeCallbacks = {
-          open: [],
-          close: [],
-          error: [],
-          message: []
-        };
-        this._resolveFetch = (customFetch) => {
-          let _fetch;
-          if (customFetch) {
-            _fetch = customFetch;
-          } else if (typeof fetch === "undefined") {
-            _fetch = (...args) => Promise.resolve().then(() => (init_browser(), browser_exports)).then(({ default: fetch3 }) => fetch3(...args));
-          } else {
-            _fetch = fetch;
-          }
-          return (...args) => _fetch(...args);
-        };
-        this.endPoint = `${endPoint}/${TRANSPORTS.websocket}`;
-        if (options2 === null || options2 === void 0 ? void 0 : options2.transport) {
-          this.transport = options2.transport;
-        } else {
-          this.transport = null;
-        }
-        if (options2 === null || options2 === void 0 ? void 0 : options2.params)
-          this.params = options2.params;
-        if (options2 === null || options2 === void 0 ? void 0 : options2.headers)
-          this.headers = Object.assign(Object.assign({}, this.headers), options2.headers);
-        if (options2 === null || options2 === void 0 ? void 0 : options2.timeout)
-          this.timeout = options2.timeout;
-        if (options2 === null || options2 === void 0 ? void 0 : options2.logger)
-          this.logger = options2.logger;
-        if (options2 === null || options2 === void 0 ? void 0 : options2.heartbeatIntervalMs)
-          this.heartbeatIntervalMs = options2.heartbeatIntervalMs;
-        const accessToken = (_a = options2 === null || options2 === void 0 ? void 0 : options2.params) === null || _a === void 0 ? void 0 : _a.apikey;
-        if (accessToken) {
-          this.accessToken = accessToken;
-          this.apiKey = accessToken;
-        }
-        this.reconnectAfterMs = (options2 === null || options2 === void 0 ? void 0 : options2.reconnectAfterMs) ? options2.reconnectAfterMs : (tries) => {
-          return [1e3, 2e3, 5e3, 1e4][tries - 1] || 1e4;
-        };
-        this.encode = (options2 === null || options2 === void 0 ? void 0 : options2.encode) ? options2.encode : (payload, callback) => {
-          return callback(JSON.stringify(payload));
-        };
-        this.decode = (options2 === null || options2 === void 0 ? void 0 : options2.decode) ? options2.decode : this.serializer.decode.bind(this.serializer);
-        this.reconnectTimer = new Timer(async () => {
-          this.disconnect();
-          this.connect();
-        }, this.reconnectAfterMs);
-        this.fetch = this._resolveFetch(options2 === null || options2 === void 0 ? void 0 : options2.fetch);
-      }
-      /**
-       * Connects the socket, unless already connected.
-       */
-      connect() {
-        if (this.conn) {
-          return;
-        }
-        if (this.transport) {
-          this.conn = new this.transport(this._endPointURL(), void 0, {
-            headers: this.headers
-          });
-          return;
-        }
-        if (NATIVE_WEBSOCKET_AVAILABLE) {
-          this.conn = new WebSocket(this._endPointURL());
-          this.setupConnection();
-          return;
-        }
-        this.conn = new WSWebSocketDummy(this._endPointURL(), void 0, {
-          close: () => {
-            this.conn = null;
-          }
-        });
-        Promise.resolve().then(() => __toESM(require_browser())).then(({ default: WS }) => {
-          this.conn = new WS(this._endPointURL(), void 0, {
-            headers: this.headers
-          });
-          this.setupConnection();
-        });
-      }
-      /**
-       * Disconnects the socket.
-       *
-       * @param code A numeric status code to send on disconnect.
-       * @param reason A custom reason for the disconnect.
-       */
-      disconnect(code, reason) {
-        if (this.conn) {
-          this.conn.onclose = function() {
-          };
-          if (code) {
-            this.conn.close(code, reason !== null && reason !== void 0 ? reason : "");
-          } else {
-            this.conn.close();
-          }
-          this.conn = null;
-          this.heartbeatTimer && clearInterval(this.heartbeatTimer);
-          this.reconnectTimer.reset();
-        }
-      }
-      /**
-       * Returns all created channels
-       */
-      getChannels() {
-        return this.channels;
-      }
-      /**
-       * Unsubscribes and removes a single channel
-       * @param channel A RealtimeChannel instance
-       */
-      async removeChannel(channel) {
-        const status = await channel.unsubscribe();
-        if (this.channels.length === 0) {
-          this.disconnect();
-        }
-        return status;
-      }
-      /**
-       * Unsubscribes and removes all channels
-       */
-      async removeAllChannels() {
-        const values_1 = await Promise.all(this.channels.map((channel) => channel.unsubscribe()));
-        this.disconnect();
-        return values_1;
-      }
-      /**
-       * Logs the message.
-       *
-       * For customized logging, `this.logger` can be overridden.
-       */
-      log(kind, msg, data) {
-        this.logger(kind, msg, data);
-      }
-      /**
-       * Returns the current state of the socket.
-       */
-      connectionState() {
-        switch (this.conn && this.conn.readyState) {
-          case SOCKET_STATES.connecting:
-            return CONNECTION_STATE.Connecting;
-          case SOCKET_STATES.open:
-            return CONNECTION_STATE.Open;
-          case SOCKET_STATES.closing:
-            return CONNECTION_STATE.Closing;
-          default:
-            return CONNECTION_STATE.Closed;
-        }
-      }
-      /**
-       * Returns `true` is the connection is open.
-       */
-      isConnected() {
-        return this.connectionState() === CONNECTION_STATE.Open;
-      }
-      channel(topic, params = { config: {} }) {
-        const chan = new RealtimeChannel(`realtime:${topic}`, params, this);
-        this.channels.push(chan);
-        return chan;
-      }
-      /**
-       * Push out a message if the socket is connected.
-       *
-       * If the socket is not connected, the message gets enqueued within a local buffer, and sent out when a connection is next established.
-       */
-      push(data) {
-        const { topic, event, payload, ref } = data;
-        const callback = () => {
-          this.encode(data, (result) => {
-            var _a;
-            (_a = this.conn) === null || _a === void 0 ? void 0 : _a.send(result);
-          });
-        };
-        this.log("push", `${topic} ${event} (${ref})`, payload);
-        if (this.isConnected()) {
-          callback();
-        } else {
-          this.sendBuffer.push(callback);
-        }
-      }
-      /**
-       * Sets the JWT access token used for channel subscription authorization and Realtime RLS.
-       *
-       * @param token A JWT string.
-       */
-      setAuth(token) {
-        this.accessToken = token;
-        this.channels.forEach((channel) => {
-          token && channel.updateJoinPayload({ access_token: token });
-          if (channel.joinedOnce && channel._isJoined()) {
-            channel._push(CHANNEL_EVENTS.access_token, { access_token: token });
-          }
-        });
-      }
-      /**
-       * Return the next message ref, accounting for overflows
-       *
-       * @internal
-       */
-      _makeRef() {
-        let newRef = this.ref + 1;
-        if (newRef === this.ref) {
-          this.ref = 0;
-        } else {
-          this.ref = newRef;
-        }
-        return this.ref.toString();
-      }
-      /**
-       * Unsubscribe from channels with the specified topic.
-       *
-       * @internal
-       */
-      _leaveOpenTopic(topic) {
-        let dupChannel = this.channels.find((c) => c.topic === topic && (c._isJoined() || c._isJoining()));
-        if (dupChannel) {
-          this.log("transport", `leaving duplicate topic "${topic}"`);
-          dupChannel.unsubscribe();
-        }
-      }
-      /**
-       * Removes a subscription from the socket.
-       *
-       * @param channel An open subscription.
-       *
-       * @internal
-       */
-      _remove(channel) {
-        this.channels = this.channels.filter((c) => c._joinRef() !== channel._joinRef());
-      }
-      /**
-       * Sets up connection handlers.
-       *
-       * @internal
-       */
-      setupConnection() {
-        if (this.conn) {
-          this.conn.binaryType = "arraybuffer";
-          this.conn.onopen = () => this._onConnOpen();
-          this.conn.onerror = (error) => this._onConnError(error);
-          this.conn.onmessage = (event) => this._onConnMessage(event);
-          this.conn.onclose = (event) => this._onConnClose(event);
-        }
-      }
-      /**
-       * Returns the URL of the websocket.
-       *
-       * @internal
-       */
-      _endPointURL() {
-        return this._appendParams(this.endPoint, Object.assign({}, this.params, { vsn: VSN }));
-      }
-      /** @internal */
-      _onConnMessage(rawMessage) {
-        this.decode(rawMessage.data, (msg) => {
-          let { topic, event, payload, ref } = msg;
-          if (ref && ref === this.pendingHeartbeatRef || event === (payload === null || payload === void 0 ? void 0 : payload.type)) {
-            this.pendingHeartbeatRef = null;
-          }
-          this.log("receive", `${payload.status || ""} ${topic} ${event} ${ref && "(" + ref + ")" || ""}`, payload);
-          this.channels.filter((channel) => channel._isMember(topic)).forEach((channel) => channel._trigger(event, payload, ref));
-          this.stateChangeCallbacks.message.forEach((callback) => callback(msg));
-        });
-      }
-      /** @internal */
-      _onConnOpen() {
-        this.log("transport", `connected to ${this._endPointURL()}`);
-        this._flushSendBuffer();
-        this.reconnectTimer.reset();
-        this.heartbeatTimer && clearInterval(this.heartbeatTimer);
-        this.heartbeatTimer = setInterval(() => this._sendHeartbeat(), this.heartbeatIntervalMs);
-        this.stateChangeCallbacks.open.forEach((callback) => callback());
-      }
-      /** @internal */
-      _onConnClose(event) {
-        this.log("transport", "close", event);
-        this._triggerChanError();
-        this.heartbeatTimer && clearInterval(this.heartbeatTimer);
-        this.reconnectTimer.scheduleTimeout();
-        this.stateChangeCallbacks.close.forEach((callback) => callback(event));
-      }
-      /** @internal */
-      _onConnError(error) {
-        this.log("transport", error.message);
-        this._triggerChanError();
-        this.stateChangeCallbacks.error.forEach((callback) => callback(error));
-      }
-      /** @internal */
-      _triggerChanError() {
-        this.channels.forEach((channel) => channel._trigger(CHANNEL_EVENTS.error));
-      }
-      /** @internal */
-      _appendParams(url, params) {
-        if (Object.keys(params).length === 0) {
-          return url;
-        }
-        const prefix = url.match(/\?/) ? "&" : "?";
-        const query = new URLSearchParams(params);
-        return `${url}${prefix}${query}`;
-      }
-      /** @internal */
-      _flushSendBuffer() {
-        if (this.isConnected() && this.sendBuffer.length > 0) {
-          this.sendBuffer.forEach((callback) => callback());
-          this.sendBuffer = [];
-        }
-      }
-      /** @internal */
-      _sendHeartbeat() {
-        var _a;
-        if (!this.isConnected()) {
-          return;
-        }
-        if (this.pendingHeartbeatRef) {
-          this.pendingHeartbeatRef = null;
-          this.log("transport", "heartbeat timeout. Attempting to re-establish connection");
-          (_a = this.conn) === null || _a === void 0 ? void 0 : _a.close(WS_CLOSE_NORMAL, "hearbeat timeout");
-          return;
-        }
-        this.pendingHeartbeatRef = this._makeRef();
-        this.push({
-          topic: "phoenix",
-          event: "heartbeat",
-          payload: {},
-          ref: this.pendingHeartbeatRef
-        });
-        this.setAuth(this.accessToken);
-      }
-    };
-    WSWebSocketDummy = class {
-      constructor(address, _protocols, options2) {
-        this.binaryType = "arraybuffer";
-        this.onclose = () => {
-        };
-        this.onerror = () => {
-        };
-        this.onmessage = () => {
-        };
-        this.onopen = () => {
-        };
-        this.readyState = SOCKET_STATES.connecting;
-        this.send = () => {
-        };
-        this.url = null;
-        this.url = address;
-        this.close = options2.close;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/index.js
-var init_module3 = __esm({
-  "node_modules/.pnpm/@supabase+realtime-js@2.9.3/node_modules/@supabase/realtime-js/dist/module/index.js"() {
-    init_RealtimeClient();
-    init_RealtimeChannel();
-    init_RealtimePresence();
-  }
-});
-
-// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/errors.js
-function isStorageError(error) {
-  return typeof error === "object" && error !== null && "__isStorageError" in error;
-}
-var StorageError, StorageApiError, StorageUnknownError;
-var init_errors = __esm({
-  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/errors.js"() {
-    StorageError = class extends Error {
-      constructor(message) {
-        super(message);
-        this.__isStorageError = true;
-        this.name = "StorageError";
-      }
-    };
-    StorageApiError = class extends StorageError {
-      constructor(message, status) {
-        super(message);
-        this.name = "StorageApiError";
-        this.status = status;
-      }
-      toJSON() {
-        return {
-          name: this.name,
-          message: this.message,
-          status: this.status
-        };
-      }
-    };
-    StorageUnknownError = class extends StorageError {
-      constructor(message, originalError) {
-        super(message);
-        this.name = "StorageUnknownError";
-        this.originalError = originalError;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/helpers.js
-var __awaiter2, resolveFetch2, resolveResponse;
-var init_helpers = __esm({
-  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/helpers.js"() {
-    __awaiter2 = function(thisArg, _arguments, P2, generator) {
-      function adopt(value) {
-        return value instanceof P2 ? value : new P2(function(resolve2) {
-          resolve2(value);
-        });
-      }
-      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
-        function fulfilled(value) {
-          try {
-            step(generator.next(value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function rejected(value) {
-          try {
-            step(generator["throw"](value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function step(result) {
-          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
-        }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-      });
-    };
-    resolveFetch2 = (customFetch) => {
-      let _fetch;
-      if (customFetch) {
-        _fetch = customFetch;
-      } else if (typeof fetch === "undefined") {
-        _fetch = (...args) => Promise.resolve().then(() => (init_browser(), browser_exports)).then(({ default: fetch3 }) => fetch3(...args));
-      } else {
-        _fetch = fetch;
-      }
-      return (...args) => _fetch(...args);
-    };
-    resolveResponse = () => __awaiter2(void 0, void 0, void 0, function* () {
-      if (typeof Response === "undefined") {
-        return (yield Promise.resolve().then(() => (init_browser(), browser_exports))).Response;
-      }
-      return Response;
-    });
-  }
-});
-
-// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/fetch.js
-function _handleRequest(fetcher, method, url, options2, parameters, body2) {
-  return __awaiter3(this, void 0, void 0, function* () {
-    return new Promise((resolve2, reject) => {
-      fetcher(url, _getRequestParams(method, options2, parameters, body2)).then((result) => {
-        if (!result.ok)
-          throw result;
-        if (options2 === null || options2 === void 0 ? void 0 : options2.noResolveJson)
-          return result;
-        return result.json();
-      }).then((data) => resolve2(data)).catch((error) => handleError(error, reject));
-    });
-  });
-}
-function get2(fetcher, url, options2, parameters) {
-  return __awaiter3(this, void 0, void 0, function* () {
-    return _handleRequest(fetcher, "GET", url, options2, parameters);
-  });
-}
-function post(fetcher, url, body2, options2, parameters) {
-  return __awaiter3(this, void 0, void 0, function* () {
-    return _handleRequest(fetcher, "POST", url, options2, parameters, body2);
-  });
-}
-function put(fetcher, url, body2, options2, parameters) {
-  return __awaiter3(this, void 0, void 0, function* () {
-    return _handleRequest(fetcher, "PUT", url, options2, parameters, body2);
-  });
-}
-function remove(fetcher, url, body2, options2, parameters) {
-  return __awaiter3(this, void 0, void 0, function* () {
-    return _handleRequest(fetcher, "DELETE", url, options2, parameters, body2);
-  });
-}
-var __awaiter3, _getErrorMessage, handleError, _getRequestParams;
-var init_fetch = __esm({
-  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/fetch.js"() {
-    init_errors();
-    init_helpers();
-    __awaiter3 = function(thisArg, _arguments, P2, generator) {
-      function adopt(value) {
-        return value instanceof P2 ? value : new P2(function(resolve2) {
-          resolve2(value);
-        });
-      }
-      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
-        function fulfilled(value) {
-          try {
-            step(generator.next(value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function rejected(value) {
-          try {
-            step(generator["throw"](value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function step(result) {
-          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
-        }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-      });
-    };
-    _getErrorMessage = (err) => err.msg || err.message || err.error_description || err.error || JSON.stringify(err);
-    handleError = (error, reject) => __awaiter3(void 0, void 0, void 0, function* () {
-      const Res = yield resolveResponse();
-      if (error instanceof Res) {
-        error.json().then((err) => {
-          reject(new StorageApiError(_getErrorMessage(err), error.status || 500));
-        }).catch((err) => {
-          reject(new StorageUnknownError(_getErrorMessage(err), err));
-        });
-      } else {
-        reject(new StorageUnknownError(_getErrorMessage(error), error));
-      }
-    });
-    _getRequestParams = (method, options2, parameters, body2) => {
-      const params = { method, headers: (options2 === null || options2 === void 0 ? void 0 : options2.headers) || {} };
-      if (method === "GET") {
-        return params;
-      }
-      params.headers = Object.assign({ "Content-Type": "application/json" }, options2 === null || options2 === void 0 ? void 0 : options2.headers);
-      params.body = JSON.stringify(body2);
-      return Object.assign(Object.assign({}, params), parameters);
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js
-var __awaiter4, DEFAULT_SEARCH_OPTIONS, DEFAULT_FILE_OPTIONS, StorageFileApi;
-var init_StorageFileApi = __esm({
-  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js"() {
-    init_errors();
-    init_fetch();
-    init_helpers();
-    __awaiter4 = function(thisArg, _arguments, P2, generator) {
-      function adopt(value) {
-        return value instanceof P2 ? value : new P2(function(resolve2) {
-          resolve2(value);
-        });
-      }
-      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
-        function fulfilled(value) {
-          try {
-            step(generator.next(value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function rejected(value) {
-          try {
-            step(generator["throw"](value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function step(result) {
-          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
-        }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-      });
-    };
-    DEFAULT_SEARCH_OPTIONS = {
-      limit: 100,
-      offset: 0,
-      sortBy: {
-        column: "name",
-        order: "asc"
-      }
-    };
-    DEFAULT_FILE_OPTIONS = {
-      cacheControl: "3600",
-      contentType: "text/plain;charset=UTF-8",
-      upsert: false
-    };
-    StorageFileApi = class {
-      constructor(url, headers2 = {}, bucketId, fetch3) {
-        this.url = url;
-        this.headers = headers2;
-        this.bucketId = bucketId;
-        this.fetch = resolveFetch2(fetch3);
-      }
-      /**
-       * Uploads a file to an existing bucket or replaces an existing file at the specified path with a new one.
-       *
-       * @param method HTTP method.
-       * @param path The relative file path. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload.
-       * @param fileBody The body of the file to be stored in the bucket.
-       */
-      uploadOrUpdate(method, path, fileBody, fileOptions) {
-        return __awaiter4(this, void 0, void 0, function* () {
-          try {
-            let body2;
-            const options2 = Object.assign(Object.assign({}, DEFAULT_FILE_OPTIONS), fileOptions);
-            const headers2 = Object.assign(Object.assign({}, this.headers), method === "POST" && { "x-upsert": String(options2.upsert) });
-            if (typeof Blob !== "undefined" && fileBody instanceof Blob) {
-              body2 = new FormData();
-              body2.append("cacheControl", options2.cacheControl);
-              body2.append("", fileBody);
-            } else if (typeof FormData !== "undefined" && fileBody instanceof FormData) {
-              body2 = fileBody;
-              body2.append("cacheControl", options2.cacheControl);
-            } else {
-              body2 = fileBody;
-              headers2["cache-control"] = `max-age=${options2.cacheControl}`;
-              headers2["content-type"] = options2.contentType;
-            }
-            const cleanPath = this._removeEmptyFolders(path);
-            const _path = this._getFinalPath(cleanPath);
-            const res = yield this.fetch(`${this.url}/object/${_path}`, Object.assign({ method, body: body2, headers: headers2 }, (options2 === null || options2 === void 0 ? void 0 : options2.duplex) ? { duplex: options2.duplex } : {}));
-            const data = yield res.json();
-            if (res.ok) {
-              return {
-                data: { path: cleanPath, id: data.Id, fullPath: data.Key },
-                error: null
-              };
-            } else {
-              const error = data;
-              return { data: null, error };
-            }
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * Uploads a file to an existing bucket.
-       *
-       * @param path The file path, including the file name. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload.
-       * @param fileBody The body of the file to be stored in the bucket.
-       */
-      upload(path, fileBody, fileOptions) {
-        return __awaiter4(this, void 0, void 0, function* () {
-          return this.uploadOrUpdate("POST", path, fileBody, fileOptions);
-        });
-      }
-      /**
-       * Upload a file with a token generated from `createSignedUploadUrl`.
-       * @param path The file path, including the file name. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload.
-       * @param token The token generated from `createSignedUploadUrl`
-       * @param fileBody The body of the file to be stored in the bucket.
-       */
-      uploadToSignedUrl(path, token, fileBody, fileOptions) {
-        return __awaiter4(this, void 0, void 0, function* () {
-          const cleanPath = this._removeEmptyFolders(path);
-          const _path = this._getFinalPath(cleanPath);
-          const url = new URL(this.url + `/object/upload/sign/${_path}`);
-          url.searchParams.set("token", token);
-          try {
-            let body2;
-            const options2 = Object.assign({ upsert: DEFAULT_FILE_OPTIONS.upsert }, fileOptions);
-            const headers2 = Object.assign(Object.assign({}, this.headers), { "x-upsert": String(options2.upsert) });
-            if (typeof Blob !== "undefined" && fileBody instanceof Blob) {
-              body2 = new FormData();
-              body2.append("cacheControl", options2.cacheControl);
-              body2.append("", fileBody);
-            } else if (typeof FormData !== "undefined" && fileBody instanceof FormData) {
-              body2 = fileBody;
-              body2.append("cacheControl", options2.cacheControl);
-            } else {
-              body2 = fileBody;
-              headers2["cache-control"] = `max-age=${options2.cacheControl}`;
-              headers2["content-type"] = options2.contentType;
-            }
-            const res = yield this.fetch(url.toString(), {
-              method: "PUT",
-              body: body2,
-              headers: headers2
-            });
-            const data = yield res.json();
-            if (res.ok) {
-              return {
-                data: { path: cleanPath, fullPath: data.Key },
-                error: null
-              };
-            } else {
-              const error = data;
-              return { data: null, error };
-            }
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * Creates a signed upload URL.
-       * Signed upload URLs can be used to upload files to the bucket without further authentication.
-       * They are valid for 2 hours.
-       * @param path The file path, including the current file name. For example `folder/image.png`.
-       */
-      createSignedUploadUrl(path) {
-        return __awaiter4(this, void 0, void 0, function* () {
-          try {
-            let _path = this._getFinalPath(path);
-            const data = yield post(this.fetch, `${this.url}/object/upload/sign/${_path}`, {}, { headers: this.headers });
-            const url = new URL(this.url + data.url);
-            const token = url.searchParams.get("token");
-            if (!token) {
-              throw new StorageError("No token returned by API");
-            }
-            return { data: { signedUrl: url.toString(), path, token }, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * Replaces an existing file at the specified path with a new one.
-       *
-       * @param path The relative file path. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to update.
-       * @param fileBody The body of the file to be stored in the bucket.
-       */
-      update(path, fileBody, fileOptions) {
-        return __awaiter4(this, void 0, void 0, function* () {
-          return this.uploadOrUpdate("PUT", path, fileBody, fileOptions);
-        });
-      }
-      /**
-       * Moves an existing file to a new path in the same bucket.
-       *
-       * @param fromPath The original file path, including the current file name. For example `folder/image.png`.
-       * @param toPath The new file path, including the new file name. For example `folder/image-new.png`.
-       */
-      move(fromPath, toPath) {
-        return __awaiter4(this, void 0, void 0, function* () {
-          try {
-            const data = yield post(this.fetch, `${this.url}/object/move`, { bucketId: this.bucketId, sourceKey: fromPath, destinationKey: toPath }, { headers: this.headers });
-            return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * Copies an existing file to a new path in the same bucket.
-       *
-       * @param fromPath The original file path, including the current file name. For example `folder/image.png`.
-       * @param toPath The new file path, including the new file name. For example `folder/image-copy.png`.
-       */
-      copy(fromPath, toPath) {
-        return __awaiter4(this, void 0, void 0, function* () {
-          try {
-            const data = yield post(this.fetch, `${this.url}/object/copy`, { bucketId: this.bucketId, sourceKey: fromPath, destinationKey: toPath }, { headers: this.headers });
-            return { data: { path: data.Key }, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * Creates a signed URL. Use a signed URL to share a file for a fixed amount of time.
-       *
-       * @param path The file path, including the current file name. For example `folder/image.png`.
-       * @param expiresIn The number of seconds until the signed URL expires. For example, `60` for a URL which is valid for one minute.
-       * @param options.download triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
-       * @param options.transform Transform the asset before serving it to the client.
-       */
-      createSignedUrl(path, expiresIn, options2) {
-        return __awaiter4(this, void 0, void 0, function* () {
-          try {
-            let _path = this._getFinalPath(path);
-            let data = yield post(this.fetch, `${this.url}/object/sign/${_path}`, Object.assign({ expiresIn }, (options2 === null || options2 === void 0 ? void 0 : options2.transform) ? { transform: options2.transform } : {}), { headers: this.headers });
-            const downloadQueryParam = (options2 === null || options2 === void 0 ? void 0 : options2.download) ? `&download=${options2.download === true ? "" : options2.download}` : "";
-            const signedUrl = encodeURI(`${this.url}${data.signedURL}${downloadQueryParam}`);
-            data = { signedUrl };
-            return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * Creates multiple signed URLs. Use a signed URL to share a file for a fixed amount of time.
-       *
-       * @param paths The file paths to be downloaded, including the current file names. For example `['folder/image.png', 'folder2/image2.png']`.
-       * @param expiresIn The number of seconds until the signed URLs expire. For example, `60` for URLs which are valid for one minute.
-       * @param options.download triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
-       */
-      createSignedUrls(paths, expiresIn, options2) {
-        return __awaiter4(this, void 0, void 0, function* () {
-          try {
-            const data = yield post(this.fetch, `${this.url}/object/sign/${this.bucketId}`, { expiresIn, paths }, { headers: this.headers });
-            const downloadQueryParam = (options2 === null || options2 === void 0 ? void 0 : options2.download) ? `&download=${options2.download === true ? "" : options2.download}` : "";
-            return {
-              data: data.map((datum) => Object.assign(Object.assign({}, datum), { signedUrl: datum.signedURL ? encodeURI(`${this.url}${datum.signedURL}${downloadQueryParam}`) : null })),
-              error: null
-            };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * Downloads a file from a private bucket. For public buckets, make a request to the URL returned from `getPublicUrl` instead.
-       *
-       * @param path The full path and file name of the file to be downloaded. For example `folder/image.png`.
-       * @param options.transform Transform the asset before serving it to the client.
-       */
-      download(path, options2) {
-        return __awaiter4(this, void 0, void 0, function* () {
-          const wantsTransformation = typeof (options2 === null || options2 === void 0 ? void 0 : options2.transform) !== "undefined";
-          const renderPath = wantsTransformation ? "render/image/authenticated" : "object";
-          const transformationQuery = this.transformOptsToQueryString((options2 === null || options2 === void 0 ? void 0 : options2.transform) || {});
-          const queryString = transformationQuery ? `?${transformationQuery}` : "";
-          try {
-            const _path = this._getFinalPath(path);
-            const res = yield get2(this.fetch, `${this.url}/${renderPath}/${_path}${queryString}`, {
-              headers: this.headers,
-              noResolveJson: true
-            });
-            const data = yield res.blob();
-            return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * A simple convenience function to get the URL for an asset in a public bucket. If you do not want to use this function, you can construct the public URL by concatenating the bucket URL with the path to the asset.
-       * This function does not verify if the bucket is public. If a public URL is created for a bucket which is not public, you will not be able to download the asset.
-       *
-       * @param path The path and name of the file to generate the public URL for. For example `folder/image.png`.
-       * @param options.download Triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
-       * @param options.transform Transform the asset before serving it to the client.
-       */
-      getPublicUrl(path, options2) {
-        const _path = this._getFinalPath(path);
-        const _queryString = [];
-        const downloadQueryParam = (options2 === null || options2 === void 0 ? void 0 : options2.download) ? `download=${options2.download === true ? "" : options2.download}` : "";
-        if (downloadQueryParam !== "") {
-          _queryString.push(downloadQueryParam);
-        }
-        const wantsTransformation = typeof (options2 === null || options2 === void 0 ? void 0 : options2.transform) !== "undefined";
-        const renderPath = wantsTransformation ? "render/image" : "object";
-        const transformationQuery = this.transformOptsToQueryString((options2 === null || options2 === void 0 ? void 0 : options2.transform) || {});
-        if (transformationQuery !== "") {
-          _queryString.push(transformationQuery);
-        }
-        let queryString = _queryString.join("&");
-        if (queryString !== "") {
-          queryString = `?${queryString}`;
-        }
-        return {
-          data: { publicUrl: encodeURI(`${this.url}/${renderPath}/public/${_path}${queryString}`) }
-        };
-      }
-      /**
-       * Deletes files within the same bucket
-       *
-       * @param paths An array of files to delete, including the path and file name. For example [`'folder/image.png'`].
-       */
-      remove(paths) {
-        return __awaiter4(this, void 0, void 0, function* () {
-          try {
-            const data = yield remove(this.fetch, `${this.url}/object/${this.bucketId}`, { prefixes: paths }, { headers: this.headers });
-            return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * Get file metadata
-       * @param id the file id to retrieve metadata
-       */
-      // async getMetadata(
-      //   id: string
-      // ): Promise<
-      //   | {
-      //       data: Metadata
-      //       error: null
-      //     }
-      //   | {
-      //       data: null
-      //       error: StorageError
-      //     }
-      // > {
-      //   try {
-      //     const data = await get(this.fetch, `${this.url}/metadata/${id}`, { headers: this.headers })
-      //     return { data, error: null }
-      //   } catch (error) {
-      //     if (isStorageError(error)) {
-      //       return { data: null, error }
-      //     }
-      //     throw error
-      //   }
-      // }
-      /**
-       * Update file metadata
-       * @param id the file id to update metadata
-       * @param meta the new file metadata
-       */
-      // async updateMetadata(
-      //   id: string,
-      //   meta: Metadata
-      // ): Promise<
-      //   | {
-      //       data: Metadata
-      //       error: null
-      //     }
-      //   | {
-      //       data: null
-      //       error: StorageError
-      //     }
-      // > {
-      //   try {
-      //     const data = await post(
-      //       this.fetch,
-      //       `${this.url}/metadata/${id}`,
-      //       { ...meta },
-      //       { headers: this.headers }
-      //     )
-      //     return { data, error: null }
-      //   } catch (error) {
-      //     if (isStorageError(error)) {
-      //       return { data: null, error }
-      //     }
-      //     throw error
-      //   }
-      // }
-      /**
-       * Lists all the files within a bucket.
-       * @param path The folder path.
-       */
-      list(path, options2, parameters) {
-        return __awaiter4(this, void 0, void 0, function* () {
-          try {
-            const body2 = Object.assign(Object.assign(Object.assign({}, DEFAULT_SEARCH_OPTIONS), options2), { prefix: path || "" });
-            const data = yield post(this.fetch, `${this.url}/object/list/${this.bucketId}`, body2, { headers: this.headers }, parameters);
-            return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      _getFinalPath(path) {
-        return `${this.bucketId}/${path}`;
-      }
-      _removeEmptyFolders(path) {
-        return path.replace(/^\/|\/$/g, "").replace(/\/+/g, "/");
-      }
-      transformOptsToQueryString(transform) {
-        const params = [];
-        if (transform.width) {
-          params.push(`width=${transform.width}`);
-        }
-        if (transform.height) {
-          params.push(`height=${transform.height}`);
-        }
-        if (transform.resize) {
-          params.push(`resize=${transform.resize}`);
-        }
-        if (transform.format) {
-          params.push(`format=${transform.format}`);
-        }
-        if (transform.quality) {
-          params.push(`quality=${transform.quality}`);
-        }
-        return params.join("&");
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/version.js
-var version4;
-var init_version3 = __esm({
-  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/version.js"() {
-    version4 = "2.5.5";
-  }
-});
-
-// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/constants.js
-var DEFAULT_HEADERS3;
-var init_constants3 = __esm({
-  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/constants.js"() {
-    init_version3();
-    DEFAULT_HEADERS3 = { "X-Client-Info": `storage-js/${version4}` };
-  }
-});
-
-// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/packages/StorageBucketApi.js
-var __awaiter5, StorageBucketApi;
-var init_StorageBucketApi = __esm({
-  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/packages/StorageBucketApi.js"() {
-    init_constants3();
-    init_errors();
-    init_fetch();
-    init_helpers();
-    __awaiter5 = function(thisArg, _arguments, P2, generator) {
-      function adopt(value) {
-        return value instanceof P2 ? value : new P2(function(resolve2) {
-          resolve2(value);
-        });
-      }
-      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
-        function fulfilled(value) {
-          try {
-            step(generator.next(value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function rejected(value) {
-          try {
-            step(generator["throw"](value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function step(result) {
-          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
-        }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-      });
-    };
-    StorageBucketApi = class {
-      constructor(url, headers2 = {}, fetch3) {
-        this.url = url;
-        this.headers = Object.assign(Object.assign({}, DEFAULT_HEADERS3), headers2);
-        this.fetch = resolveFetch2(fetch3);
-      }
-      /**
-       * Retrieves the details of all Storage buckets within an existing project.
-       */
-      listBuckets() {
-        return __awaiter5(this, void 0, void 0, function* () {
-          try {
-            const data = yield get2(this.fetch, `${this.url}/bucket`, { headers: this.headers });
-            return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * Retrieves the details of an existing Storage bucket.
-       *
-       * @param id The unique identifier of the bucket you would like to retrieve.
-       */
-      getBucket(id) {
-        return __awaiter5(this, void 0, void 0, function* () {
-          try {
-            const data = yield get2(this.fetch, `${this.url}/bucket/${id}`, { headers: this.headers });
-            return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * Creates a new Storage bucket
-       *
-       * @param id A unique identifier for the bucket you are creating.
-       * @param options.public The visibility of the bucket. Public buckets don't require an authorization token to download objects, but still require a valid token for all other operations. By default, buckets are private.
-       * @param options.fileSizeLimit specifies the max file size in bytes that can be uploaded to this bucket.
-       * The global file size limit takes precedence over this value.
-       * The default value is null, which doesn't set a per bucket file size limit.
-       * @param options.allowedMimeTypes specifies the allowed mime types that this bucket can accept during upload.
-       * The default value is null, which allows files with all mime types to be uploaded.
-       * Each mime type specified can be a wildcard, e.g. image/*, or a specific mime type, e.g. image/png.
-       * @returns newly created bucket id
-       */
-      createBucket(id, options2 = {
-        public: false
-      }) {
-        return __awaiter5(this, void 0, void 0, function* () {
-          try {
-            const data = yield post(this.fetch, `${this.url}/bucket`, {
-              id,
-              name: id,
-              public: options2.public,
-              file_size_limit: options2.fileSizeLimit,
-              allowed_mime_types: options2.allowedMimeTypes
-            }, { headers: this.headers });
-            return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * Updates a Storage bucket
-       *
-       * @param id A unique identifier for the bucket you are updating.
-       * @param options.public The visibility of the bucket. Public buckets don't require an authorization token to download objects, but still require a valid token for all other operations.
-       * @param options.fileSizeLimit specifies the max file size in bytes that can be uploaded to this bucket.
-       * The global file size limit takes precedence over this value.
-       * The default value is null, which doesn't set a per bucket file size limit.
-       * @param options.allowedMimeTypes specifies the allowed mime types that this bucket can accept during upload.
-       * The default value is null, which allows files with all mime types to be uploaded.
-       * Each mime type specified can be a wildcard, e.g. image/*, or a specific mime type, e.g. image/png.
-       */
-      updateBucket(id, options2) {
-        return __awaiter5(this, void 0, void 0, function* () {
-          try {
-            const data = yield put(this.fetch, `${this.url}/bucket/${id}`, {
-              id,
-              name: id,
-              public: options2.public,
-              file_size_limit: options2.fileSizeLimit,
-              allowed_mime_types: options2.allowedMimeTypes
-            }, { headers: this.headers });
-            return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * Removes all objects inside a single bucket.
-       *
-       * @param id The unique identifier of the bucket you would like to empty.
-       */
-      emptyBucket(id) {
-        return __awaiter5(this, void 0, void 0, function* () {
-          try {
-            const data = yield post(this.fetch, `${this.url}/bucket/${id}/empty`, {}, { headers: this.headers });
-            return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * Deletes an existing bucket. A bucket can't be deleted with existing objects inside it.
-       * You must first `empty()` the bucket.
-       *
-       * @param id The unique identifier of the bucket you would like to delete.
-       */
-      deleteBucket(id) {
-        return __awaiter5(this, void 0, void 0, function* () {
-          try {
-            const data = yield remove(this.fetch, `${this.url}/bucket/${id}`, {}, { headers: this.headers });
-            return { data, error: null };
-          } catch (error) {
-            if (isStorageError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/StorageClient.js
-var StorageClient;
-var init_StorageClient = __esm({
-  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/StorageClient.js"() {
-    init_StorageFileApi();
-    init_StorageBucketApi();
-    StorageClient = class extends StorageBucketApi {
-      constructor(url, headers2 = {}, fetch3) {
-        super(url, headers2, fetch3);
-      }
-      /**
-       * Perform file operation in a bucket.
-       *
-       * @param id The bucket id to operate on.
-       */
-      from(id) {
-        return new StorageFileApi(this.url, this.headers, id, this.fetch);
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/types.js
-var init_types2 = __esm({
-  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/lib/types.js"() {
-  }
-});
-
-// node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/index.js
-var init_module4 = __esm({
-  "node_modules/.pnpm/@supabase+storage-js@2.5.5/node_modules/@supabase/storage-js/dist/module/index.js"() {
-    init_StorageClient();
-    init_types2();
-    init_errors();
-  }
-});
-
-// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/version.js
-var version5;
-var init_version4 = __esm({
-  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/version.js"() {
-    version5 = "2.39.8";
-  }
-});
-
-// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/constants.js
-var JS_ENV, DEFAULT_HEADERS4, DEFAULT_GLOBAL_OPTIONS, DEFAULT_DB_OPTIONS, DEFAULT_AUTH_OPTIONS, DEFAULT_REALTIME_OPTIONS;
-var init_constants4 = __esm({
-  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/constants.js"() {
-    init_version4();
-    JS_ENV = "";
-    if (typeof Deno !== "undefined") {
-      JS_ENV = "deno";
-    } else if (typeof document !== "undefined") {
-      JS_ENV = "web";
-    } else if (typeof navigator !== "undefined" && navigator.product === "ReactNative") {
-      JS_ENV = "react-native";
-    } else {
-      JS_ENV = "node";
-    }
-    DEFAULT_HEADERS4 = { "X-Client-Info": `supabase-js-${JS_ENV}/${version5}` };
-    DEFAULT_GLOBAL_OPTIONS = {
-      headers: DEFAULT_HEADERS4
-    };
-    DEFAULT_DB_OPTIONS = {
-      schema: "public"
-    };
-    DEFAULT_AUTH_OPTIONS = {
-      autoRefreshToken: true,
-      persistSession: true,
-      detectSessionInUrl: true,
-      flowType: "implicit"
-    };
-    DEFAULT_REALTIME_OPTIONS = {};
-  }
-});
-
-// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/fetch.js
-var __awaiter6, resolveFetch3, resolveHeadersConstructor, fetchWithAuth;
-var init_fetch2 = __esm({
-  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/fetch.js"() {
-    init_browser();
-    __awaiter6 = function(thisArg, _arguments, P2, generator) {
-      function adopt(value) {
-        return value instanceof P2 ? value : new P2(function(resolve2) {
-          resolve2(value);
-        });
-      }
-      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
-        function fulfilled(value) {
-          try {
-            step(generator.next(value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function rejected(value) {
-          try {
-            step(generator["throw"](value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function step(result) {
-          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
-        }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-      });
-    };
-    resolveFetch3 = (customFetch) => {
-      let _fetch;
-      if (customFetch) {
-        _fetch = customFetch;
-      } else if (typeof fetch === "undefined") {
-        _fetch = browser_default;
-      } else {
-        _fetch = fetch;
-      }
-      return (...args) => _fetch(...args);
-    };
-    resolveHeadersConstructor = () => {
-      if (typeof Headers === "undefined") {
-        return Headers2;
-      }
-      return Headers;
-    };
-    fetchWithAuth = (supabaseKey, getAccessToken, customFetch) => {
-      const fetch3 = resolveFetch3(customFetch);
-      const HeadersConstructor = resolveHeadersConstructor();
-      return (input, init2) => __awaiter6(void 0, void 0, void 0, function* () {
-        var _a;
-        const accessToken = (_a = yield getAccessToken()) !== null && _a !== void 0 ? _a : supabaseKey;
-        let headers2 = new HeadersConstructor(init2 === null || init2 === void 0 ? void 0 : init2.headers);
-        if (!headers2.has("apikey")) {
-          headers2.set("apikey", supabaseKey);
-        }
-        if (!headers2.has("Authorization")) {
-          headers2.set("Authorization", `Bearer ${accessToken}`);
-        }
-        return fetch3(input, Object.assign(Object.assign({}, init2), { headers: headers2 }));
-      });
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/helpers.js
-function stripTrailingSlash(url) {
-  return url.replace(/\/$/, "");
-}
-function applySettingDefaults(options2, defaults) {
-  const { db: dbOptions, auth: authOptions, realtime: realtimeOptions, global: globalOptions } = options2;
-  const { db: DEFAULT_DB_OPTIONS2, auth: DEFAULT_AUTH_OPTIONS2, realtime: DEFAULT_REALTIME_OPTIONS2, global: DEFAULT_GLOBAL_OPTIONS2 } = defaults;
-  return {
-    db: Object.assign(Object.assign({}, DEFAULT_DB_OPTIONS2), dbOptions),
-    auth: Object.assign(Object.assign({}, DEFAULT_AUTH_OPTIONS2), authOptions),
-    realtime: Object.assign(Object.assign({}, DEFAULT_REALTIME_OPTIONS2), realtimeOptions),
-    global: Object.assign(Object.assign({}, DEFAULT_GLOBAL_OPTIONS2), globalOptions)
-  };
-}
-var init_helpers2 = __esm({
-  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/helpers.js"() {
-  }
-});
-
-// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/helpers.js
-function expiresAt(expiresIn) {
-  const timeNow = Math.round(Date.now() / 1e3);
-  return timeNow + expiresIn;
-}
-function uuid() {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
-    const r = Math.random() * 16 | 0, v = c == "x" ? r : r & 3 | 8;
-    return v.toString(16);
-  });
-}
-function parseParametersFromURL(href) {
-  const result = {};
-  const url = new URL(href);
-  if (url.hash && url.hash[0] === "#") {
-    try {
-      const hashSearchParams = new URLSearchParams(url.hash.substring(1));
-      hashSearchParams.forEach((value, key2) => {
-        result[key2] = value;
-      });
-    } catch (e) {
-    }
-  }
-  url.searchParams.forEach((value, key2) => {
-    result[key2] = value;
-  });
-  return result;
-}
-function decodeBase64URL(value) {
-  const key2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-  let base642 = "";
-  let chr1, chr2, chr3;
-  let enc1, enc2, enc3, enc4;
-  let i = 0;
-  value = value.replace("-", "+").replace("_", "/");
-  while (i < value.length) {
-    enc1 = key2.indexOf(value.charAt(i++));
-    enc2 = key2.indexOf(value.charAt(i++));
-    enc3 = key2.indexOf(value.charAt(i++));
-    enc4 = key2.indexOf(value.charAt(i++));
-    chr1 = enc1 << 2 | enc2 >> 4;
-    chr2 = (enc2 & 15) << 4 | enc3 >> 2;
-    chr3 = (enc3 & 3) << 6 | enc4;
-    base642 = base642 + String.fromCharCode(chr1);
-    if (enc3 != 64 && chr2 != 0) {
-      base642 = base642 + String.fromCharCode(chr2);
-    }
-    if (enc4 != 64 && chr3 != 0) {
-      base642 = base642 + String.fromCharCode(chr3);
-    }
-  }
-  return base642;
-}
-function decodeJWTPayload(token) {
-  const base64UrlRegex = /^([a-z0-9_-]{4})*($|[a-z0-9_-]{3}=?$|[a-z0-9_-]{2}(==)?$)$/i;
-  const parts = token.split(".");
-  if (parts.length !== 3) {
-    throw new Error("JWT is not valid: not a JWT structure");
-  }
-  if (!base64UrlRegex.test(parts[1])) {
-    throw new Error("JWT is not valid: payload is not in base64url format");
-  }
-  const base64Url = parts[1];
-  return JSON.parse(decodeBase64URL(base64Url));
-}
-async function sleep(time) {
-  return await new Promise((accept) => {
-    setTimeout(() => accept(null), time);
-  });
-}
-function retryable(fn, isRetryable) {
-  const promise = new Promise((accept, reject) => {
-    ;
-    (async () => {
-      for (let attempt = 0; attempt < Infinity; attempt++) {
-        try {
-          const result = await fn(attempt);
-          if (!isRetryable(attempt, null, result)) {
-            accept(result);
-            return;
-          }
-        } catch (e) {
-          if (!isRetryable(attempt, e)) {
-            reject(e);
-            return;
-          }
-        }
-      }
-    })();
-  });
-  return promise;
-}
-function dec2hex(dec) {
-  return ("0" + dec.toString(16)).substr(-2);
-}
-function generatePKCEVerifier() {
-  const verifierLength = 56;
-  const array2 = new Uint32Array(verifierLength);
-  if (typeof crypto === "undefined") {
-    const charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
-    const charSetLen = charSet.length;
-    let verifier = "";
-    for (let i = 0; i < verifierLength; i++) {
-      verifier += charSet.charAt(Math.floor(Math.random() * charSetLen));
-    }
-    return verifier;
-  }
-  crypto.getRandomValues(array2);
-  return Array.from(array2, dec2hex).join("");
-}
-async function sha2562(randomString) {
-  const encoder2 = new TextEncoder();
-  const encodedData = encoder2.encode(randomString);
-  const hash2 = await crypto.subtle.digest("SHA-256", encodedData);
-  const bytes = new Uint8Array(hash2);
-  return Array.from(bytes).map((c) => String.fromCharCode(c)).join("");
-}
-function base64urlencode(str) {
-  return btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-}
-async function generatePKCEChallenge(verifier) {
-  const hasCryptoSupport = typeof crypto !== "undefined" && typeof crypto.subtle !== "undefined" && typeof TextEncoder !== "undefined";
-  if (!hasCryptoSupport) {
-    console.warn("WebCrypto API is not supported. Code challenge method will default to use plain instead of sha256.");
-    return verifier;
-  }
-  const hashed = await sha2562(verifier);
-  return base64urlencode(hashed);
-}
-var isBrowser2, localStorageWriteTests, supportsLocalStorage, resolveFetch4, looksLikeFetchResponse, setItemAsync, getItemAsync, removeItemAsync, Deferred;
-var init_helpers3 = __esm({
-  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/helpers.js"() {
-    isBrowser2 = () => typeof document !== "undefined";
-    localStorageWriteTests = {
-      tested: false,
-      writable: false
-    };
-    supportsLocalStorage = () => {
-      if (!isBrowser2()) {
-        return false;
-      }
-      try {
-        if (typeof globalThis.localStorage !== "object") {
-          return false;
-        }
-      } catch (e) {
-        return false;
-      }
-      if (localStorageWriteTests.tested) {
-        return localStorageWriteTests.writable;
-      }
-      const randomKey = `lswt-${Math.random()}${Math.random()}`;
-      try {
-        globalThis.localStorage.setItem(randomKey, randomKey);
-        globalThis.localStorage.removeItem(randomKey);
-        localStorageWriteTests.tested = true;
-        localStorageWriteTests.writable = true;
-      } catch (e) {
-        localStorageWriteTests.tested = true;
-        localStorageWriteTests.writable = false;
-      }
-      return localStorageWriteTests.writable;
-    };
-    resolveFetch4 = (customFetch) => {
-      let _fetch;
-      if (customFetch) {
-        _fetch = customFetch;
-      } else if (typeof fetch === "undefined") {
-        _fetch = (...args) => Promise.resolve().then(() => (init_browser(), browser_exports)).then(({ default: fetch3 }) => fetch3(...args));
-      } else {
-        _fetch = fetch;
-      }
-      return (...args) => _fetch(...args);
-    };
-    looksLikeFetchResponse = (maybeResponse) => {
-      return typeof maybeResponse === "object" && maybeResponse !== null && "status" in maybeResponse && "ok" in maybeResponse && "json" in maybeResponse && typeof maybeResponse.json === "function";
-    };
-    setItemAsync = async (storage2, key2, data) => {
-      await storage2.setItem(key2, JSON.stringify(data));
-    };
-    getItemAsync = async (storage2, key2) => {
-      const value = await storage2.getItem(key2);
-      if (!value) {
-        return null;
-      }
-      try {
-        return JSON.parse(value);
-      } catch (_a) {
-        return value;
-      }
-    };
-    removeItemAsync = async (storage2, key2) => {
-      await storage2.removeItem(key2);
-    };
-    Deferred = class _Deferred {
-      constructor() {
-        ;
-        this.promise = new _Deferred.promiseConstructor((res, rej) => {
-          ;
-          this.resolve = res;
-          this.reject = rej;
-        });
-      }
-    };
-    Deferred.promiseConstructor = Promise;
-  }
-});
-
-// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/errors.js
-function isAuthError(error) {
-  return typeof error === "object" && error !== null && "__isAuthError" in error;
-}
-function isAuthApiError(error) {
-  return isAuthError(error) && error.name === "AuthApiError";
-}
-function isAuthRetryableFetchError(error) {
-  return isAuthError(error) && error.name === "AuthRetryableFetchError";
-}
-var AuthError, AuthApiError, AuthUnknownError, CustomAuthError, AuthSessionMissingError, AuthInvalidTokenResponseError, AuthInvalidCredentialsError, AuthImplicitGrantRedirectError, AuthPKCEGrantCodeExchangeError, AuthRetryableFetchError, AuthWeakPasswordError;
-var init_errors2 = __esm({
-  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/errors.js"() {
-    AuthError = class extends Error {
-      constructor(message, status) {
-        super(message);
-        this.__isAuthError = true;
-        this.name = "AuthError";
-        this.status = status;
-      }
-    };
-    AuthApiError = class extends AuthError {
-      constructor(message, status) {
-        super(message, status);
-        this.name = "AuthApiError";
-        this.status = status;
-      }
-      toJSON() {
-        return {
-          name: this.name,
-          message: this.message,
-          status: this.status
-        };
-      }
-    };
-    AuthUnknownError = class extends AuthError {
-      constructor(message, originalError) {
-        super(message);
-        this.name = "AuthUnknownError";
-        this.originalError = originalError;
-      }
-    };
-    CustomAuthError = class extends AuthError {
-      constructor(message, name2, status) {
-        super(message);
-        this.name = name2;
-        this.status = status;
-      }
-      toJSON() {
-        return {
-          name: this.name,
-          message: this.message,
-          status: this.status
-        };
-      }
-    };
-    AuthSessionMissingError = class extends CustomAuthError {
-      constructor() {
-        super("Auth session missing!", "AuthSessionMissingError", 400);
-      }
-    };
-    AuthInvalidTokenResponseError = class extends CustomAuthError {
-      constructor() {
-        super("Auth session or user missing", "AuthInvalidTokenResponseError", 500);
-      }
-    };
-    AuthInvalidCredentialsError = class extends CustomAuthError {
-      constructor(message) {
-        super(message, "AuthInvalidCredentialsError", 400);
-      }
-    };
-    AuthImplicitGrantRedirectError = class extends CustomAuthError {
-      constructor(message, details = null) {
-        super(message, "AuthImplicitGrantRedirectError", 500);
-        this.details = null;
-        this.details = details;
-      }
-      toJSON() {
-        return {
-          name: this.name,
-          message: this.message,
-          status: this.status,
-          details: this.details
-        };
-      }
-    };
-    AuthPKCEGrantCodeExchangeError = class extends CustomAuthError {
-      constructor(message, details = null) {
-        super(message, "AuthPKCEGrantCodeExchangeError", 500);
-        this.details = null;
-        this.details = details;
-      }
-      toJSON() {
-        return {
-          name: this.name,
-          message: this.message,
-          status: this.status,
-          details: this.details
-        };
-      }
-    };
-    AuthRetryableFetchError = class extends CustomAuthError {
-      constructor(message, status) {
-        super(message, "AuthRetryableFetchError", status);
-      }
-    };
-    AuthWeakPasswordError = class extends CustomAuthError {
-      constructor(message, status, reasons) {
-        super(message, "AuthWeakPasswordError", status);
-        this.reasons = reasons;
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/fetch.js
-async function handleError2(error) {
-  if (!looksLikeFetchResponse(error)) {
-    throw new AuthRetryableFetchError(_getErrorMessage2(error), 0);
-  }
-  if (NETWORK_ERROR_CODES.includes(error.status)) {
-    throw new AuthRetryableFetchError(_getErrorMessage2(error), error.status);
-  }
-  let data;
-  try {
-    data = await error.json();
-  } catch (e) {
-    throw new AuthUnknownError(_getErrorMessage2(e), e);
-  }
-  if (typeof data === "object" && data && typeof data.weak_password === "object" && data.weak_password && Array.isArray(data.weak_password.reasons) && data.weak_password.reasons.length && data.weak_password.reasons.reduce((a, i) => a && typeof i === "string", true)) {
-    throw new AuthWeakPasswordError(_getErrorMessage2(data), error.status, data.weak_password.reasons);
-  }
-  throw new AuthApiError(_getErrorMessage2(data), error.status || 500);
-}
-async function _request(fetcher, method, url, options2) {
-  var _a;
-  const headers2 = Object.assign({}, options2 === null || options2 === void 0 ? void 0 : options2.headers);
-  if (options2 === null || options2 === void 0 ? void 0 : options2.jwt) {
-    headers2["Authorization"] = `Bearer ${options2.jwt}`;
-  }
-  const qs = (_a = options2 === null || options2 === void 0 ? void 0 : options2.query) !== null && _a !== void 0 ? _a : {};
-  if (options2 === null || options2 === void 0 ? void 0 : options2.redirectTo) {
-    qs["redirect_to"] = options2.redirectTo;
-  }
-  const queryString = Object.keys(qs).length ? "?" + new URLSearchParams(qs).toString() : "";
-  const data = await _handleRequest2(fetcher, method, url + queryString, { headers: headers2, noResolveJson: options2 === null || options2 === void 0 ? void 0 : options2.noResolveJson }, {}, options2 === null || options2 === void 0 ? void 0 : options2.body);
-  return (options2 === null || options2 === void 0 ? void 0 : options2.xform) ? options2 === null || options2 === void 0 ? void 0 : options2.xform(data) : { data: Object.assign({}, data), error: null };
-}
-async function _handleRequest2(fetcher, method, url, options2, parameters, body2) {
-  const requestParams = _getRequestParams2(method, options2, parameters, body2);
-  let result;
-  try {
-    result = await fetcher(url, requestParams);
-  } catch (e) {
-    console.error(e);
-    throw new AuthRetryableFetchError(_getErrorMessage2(e), 0);
-  }
-  if (!result.ok) {
-    await handleError2(result);
-  }
-  if (options2 === null || options2 === void 0 ? void 0 : options2.noResolveJson) {
-    return result;
-  }
-  try {
-    return await result.json();
-  } catch (e) {
-    await handleError2(e);
-  }
-}
-function _sessionResponse(data) {
-  var _a;
-  let session = null;
-  if (hasSession(data)) {
-    session = Object.assign({}, data);
-    if (!data.expires_at) {
-      session.expires_at = expiresAt(data.expires_in);
-    }
-  }
-  const user = (_a = data.user) !== null && _a !== void 0 ? _a : data;
-  return { data: { session, user }, error: null };
-}
-function _sessionResponsePassword(data) {
-  const response = _sessionResponse(data);
-  if (!response.error && data.weak_password && typeof data.weak_password === "object" && Array.isArray(data.weak_password.reasons) && data.weak_password.reasons.length && data.weak_password.message && typeof data.weak_password.message === "string" && data.weak_password.reasons.reduce((a, i) => a && typeof i === "string", true)) {
-    response.data.weak_password = data.weak_password;
-  }
-  return response;
-}
-function _userResponse(data) {
-  var _a;
-  const user = (_a = data.user) !== null && _a !== void 0 ? _a : data;
-  return { data: { user }, error: null };
-}
-function _ssoResponse(data) {
-  return { data, error: null };
-}
-function _generateLinkResponse(data) {
-  const { action_link, email_otp, hashed_token, redirect_to, verification_type } = data, rest = __rest(data, ["action_link", "email_otp", "hashed_token", "redirect_to", "verification_type"]);
-  const properties = {
-    action_link,
-    email_otp,
-    hashed_token,
-    redirect_to,
-    verification_type
-  };
-  const user = Object.assign({}, rest);
-  return {
-    data: {
-      properties,
-      user
-    },
-    error: null
-  };
-}
-function _noResolveJsonResponse(data) {
-  return data;
-}
-function hasSession(data) {
-  return data.access_token && data.refresh_token && data.expires_in;
-}
-var __rest, _getErrorMessage2, NETWORK_ERROR_CODES, _getRequestParams2;
-var init_fetch3 = __esm({
-  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/fetch.js"() {
-    init_helpers3();
-    init_errors2();
-    __rest = function(s2, e) {
-      var t = {};
-      for (var p in s2)
-        if (Object.prototype.hasOwnProperty.call(s2, p) && e.indexOf(p) < 0)
-          t[p] = s2[p];
-      if (s2 != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s2); i < p.length; i++) {
-          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s2, p[i]))
-            t[p[i]] = s2[p[i]];
-        }
-      return t;
-    };
-    _getErrorMessage2 = (err) => err.msg || err.message || err.error_description || err.error || JSON.stringify(err);
-    NETWORK_ERROR_CODES = [502, 503, 504];
-    _getRequestParams2 = (method, options2, parameters, body2) => {
-      const params = { method, headers: (options2 === null || options2 === void 0 ? void 0 : options2.headers) || {} };
-      if (method === "GET") {
-        return params;
-      }
-      params.headers = Object.assign({ "Content-Type": "application/json;charset=UTF-8" }, options2 === null || options2 === void 0 ? void 0 : options2.headers);
-      params.body = JSON.stringify(body2);
-      return Object.assign(Object.assign({}, params), parameters);
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/GoTrueAdminApi.js
-var __rest2, GoTrueAdminApi;
-var init_GoTrueAdminApi = __esm({
-  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/GoTrueAdminApi.js"() {
-    init_fetch3();
-    init_helpers3();
-    init_errors2();
-    __rest2 = function(s2, e) {
-      var t = {};
-      for (var p in s2)
-        if (Object.prototype.hasOwnProperty.call(s2, p) && e.indexOf(p) < 0)
-          t[p] = s2[p];
-      if (s2 != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s2); i < p.length; i++) {
-          if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s2, p[i]))
-            t[p[i]] = s2[p[i]];
-        }
-      return t;
-    };
-    GoTrueAdminApi = class {
-      constructor({ url = "", headers: headers2 = {}, fetch: fetch3 }) {
-        this.url = url;
-        this.headers = headers2;
-        this.fetch = resolveFetch4(fetch3);
-        this.mfa = {
-          listFactors: this._listFactors.bind(this),
-          deleteFactor: this._deleteFactor.bind(this)
-        };
-      }
-      /**
-       * Removes a logged-in session.
-       * @param jwt A valid, logged-in JWT.
-       * @param scope The logout sope.
-       */
-      async signOut(jwt, scope = "global") {
-        try {
-          await _request(this.fetch, "POST", `${this.url}/logout?scope=${scope}`, {
-            headers: this.headers,
-            jwt,
-            noResolveJson: true
-          });
-          return { data: null, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Sends an invite link to an email address.
-       * @param email The email address of the user.
-       * @param options Additional options to be included when inviting.
-       */
-      async inviteUserByEmail(email, options2 = {}) {
-        try {
-          return await _request(this.fetch, "POST", `${this.url}/invite`, {
-            body: { email, data: options2.data },
-            headers: this.headers,
-            redirectTo: options2.redirectTo,
-            xform: _userResponse
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Generates email links and OTPs to be sent via a custom email provider.
-       * @param email The user's email.
-       * @param options.password User password. For signup only.
-       * @param options.data Optional user metadata. For signup only.
-       * @param options.redirectTo The redirect url which should be appended to the generated link
-       */
-      async generateLink(params) {
-        try {
-          const { options: options2 } = params, rest = __rest2(params, ["options"]);
-          const body2 = Object.assign(Object.assign({}, rest), options2);
-          if ("newEmail" in rest) {
-            body2.new_email = rest === null || rest === void 0 ? void 0 : rest.newEmail;
-            delete body2["newEmail"];
-          }
-          return await _request(this.fetch, "POST", `${this.url}/admin/generate_link`, {
-            body: body2,
-            headers: this.headers,
-            xform: _generateLinkResponse,
-            redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.redirectTo
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return {
-              data: {
-                properties: null,
-                user: null
-              },
-              error
-            };
-          }
-          throw error;
-        }
-      }
-      // User Admin API
-      /**
-       * Creates a new user.
-       * This function should only be called on a server. Never expose your `service_role` key in the browser.
-       */
-      async createUser(attributes) {
-        try {
-          return await _request(this.fetch, "POST", `${this.url}/admin/users`, {
-            body: attributes,
-            headers: this.headers,
-            xform: _userResponse
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Get a list of users.
-       *
-       * This function should only be called on a server. Never expose your `service_role` key in the browser.
-       * @param params An object which supports `page` and `perPage` as numbers, to alter the paginated results.
-       */
-      async listUsers(params) {
-        var _a, _b, _c, _d, _e, _f, _g;
-        try {
-          const pagination = { nextPage: null, lastPage: 0, total: 0 };
-          const response = await _request(this.fetch, "GET", `${this.url}/admin/users`, {
-            headers: this.headers,
-            noResolveJson: true,
-            query: {
-              page: (_b = (_a = params === null || params === void 0 ? void 0 : params.page) === null || _a === void 0 ? void 0 : _a.toString()) !== null && _b !== void 0 ? _b : "",
-              per_page: (_d = (_c = params === null || params === void 0 ? void 0 : params.perPage) === null || _c === void 0 ? void 0 : _c.toString()) !== null && _d !== void 0 ? _d : ""
-            },
-            xform: _noResolveJsonResponse
-          });
-          if (response.error)
-            throw response.error;
-          const users = await response.json();
-          const total = (_e = response.headers.get("x-total-count")) !== null && _e !== void 0 ? _e : 0;
-          const links = (_g = (_f = response.headers.get("link")) === null || _f === void 0 ? void 0 : _f.split(",")) !== null && _g !== void 0 ? _g : [];
-          if (links.length > 0) {
-            links.forEach((link) => {
-              const page2 = parseInt(link.split(";")[0].split("=")[1].substring(0, 1));
-              const rel = JSON.parse(link.split(";")[1].split("=")[1]);
-              pagination[`${rel}Page`] = page2;
-            });
-            pagination.total = parseInt(total);
-          }
-          return { data: Object.assign(Object.assign({}, users), pagination), error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { users: [] }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Get user by id.
-       *
-       * @param uid The user's unique identifier
-       *
-       * This function should only be called on a server. Never expose your `service_role` key in the browser.
-       */
-      async getUserById(uid) {
-        try {
-          return await _request(this.fetch, "GET", `${this.url}/admin/users/${uid}`, {
-            headers: this.headers,
-            xform: _userResponse
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Updates the user data.
-       *
-       * @param attributes The data you want to update.
-       *
-       * This function should only be called on a server. Never expose your `service_role` key in the browser.
-       */
-      async updateUserById(uid, attributes) {
-        try {
-          return await _request(this.fetch, "PUT", `${this.url}/admin/users/${uid}`, {
-            body: attributes,
-            headers: this.headers,
-            xform: _userResponse
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Delete a user. Requires a `service_role` key.
-       *
-       * @param id The user id you want to remove.
-       * @param shouldSoftDelete If true, then the user will be soft-deleted (setting `deleted_at` to the current timestamp and disabling their account while preserving their data) from the auth schema.
-       * Defaults to false for backward compatibility.
-       *
-       * This function should only be called on a server. Never expose your `service_role` key in the browser.
-       */
-      async deleteUser(id, shouldSoftDelete = false) {
-        try {
-          return await _request(this.fetch, "DELETE", `${this.url}/admin/users/${id}`, {
-            headers: this.headers,
-            body: {
-              should_soft_delete: shouldSoftDelete
-            },
-            xform: _userResponse
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null }, error };
-          }
-          throw error;
-        }
-      }
-      async _listFactors(params) {
-        try {
-          const { data, error } = await _request(this.fetch, "GET", `${this.url}/admin/users/${params.userId}/factors`, {
-            headers: this.headers,
-            xform: (factors) => {
-              return { data: { factors }, error: null };
-            }
-          });
-          return { data, error };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
-          }
-          throw error;
-        }
-      }
-      async _deleteFactor(params) {
-        try {
-          const data = await _request(this.fetch, "DELETE", `${this.url}/admin/users/${params.userId}/factors/${params.id}`, {
-            headers: this.headers
-          });
-          return { data, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
-          }
-          throw error;
-        }
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/version.js
-var version6;
-var init_version5 = __esm({
-  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/version.js"() {
-    version6 = "0.0.0";
-  }
-});
-
-// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/constants.js
-var GOTRUE_URL, STORAGE_KEY, DEFAULT_HEADERS5, EXPIRY_MARGIN;
-var init_constants5 = __esm({
-  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/constants.js"() {
-    init_version5();
-    GOTRUE_URL = "http://localhost:9999";
-    STORAGE_KEY = "supabase.auth.token";
-    DEFAULT_HEADERS5 = { "X-Client-Info": `gotrue-js/${version6}` };
-    EXPIRY_MARGIN = 10;
-  }
-});
-
-// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/local-storage.js
-function memoryLocalStorageAdapter(store = {}) {
-  return {
-    getItem: (key2) => {
-      return store[key2] || null;
-    },
-    setItem: (key2, value) => {
-      store[key2] = value;
-    },
-    removeItem: (key2) => {
-      delete store[key2];
-    }
-  };
-}
-var localStorageAdapter;
-var init_local_storage = __esm({
-  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/local-storage.js"() {
-    init_helpers3();
-    localStorageAdapter = {
-      getItem: (key2) => {
-        if (!supportsLocalStorage()) {
-          return null;
-        }
-        return globalThis.localStorage.getItem(key2);
-      },
-      setItem: (key2, value) => {
-        if (!supportsLocalStorage()) {
-          return;
-        }
-        globalThis.localStorage.setItem(key2, value);
-      },
-      removeItem: (key2) => {
-        if (!supportsLocalStorage()) {
-          return;
-        }
-        globalThis.localStorage.removeItem(key2);
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/polyfills.js
-function polyfillGlobalThis() {
-  if (typeof globalThis === "object")
-    return;
-  try {
-    Object.defineProperty(Object.prototype, "__magic__", {
-      get: function() {
-        return this;
-      },
-      configurable: true
-    });
-    __magic__.globalThis = __magic__;
-    delete Object.prototype.__magic__;
-  } catch (e) {
-    if (typeof self !== "undefined") {
-      self.globalThis = self;
-    }
-  }
-}
-var init_polyfills = __esm({
-  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/polyfills.js"() {
-  }
-});
-
-// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/locks.js
-async function navigatorLock(name2, acquireTimeout, fn) {
-  if (internals.debug) {
-    console.log("@supabase/gotrue-js: navigatorLock: acquire lock", name2, acquireTimeout);
-  }
-  const abortController = new globalThis.AbortController();
-  if (acquireTimeout > 0) {
-    setTimeout(() => {
-      abortController.abort();
-      if (internals.debug) {
-        console.log("@supabase/gotrue-js: navigatorLock acquire timed out", name2);
-      }
-    }, acquireTimeout);
-  }
-  return await globalThis.navigator.locks.request(name2, acquireTimeout === 0 ? {
-    mode: "exclusive",
-    ifAvailable: true
-  } : {
-    mode: "exclusive",
-    signal: abortController.signal
-  }, async (lock) => {
-    if (lock) {
-      if (internals.debug) {
-        console.log("@supabase/gotrue-js: navigatorLock: acquired", name2, lock.name);
-      }
-      try {
-        return await fn();
-      } finally {
-        if (internals.debug) {
-          console.log("@supabase/gotrue-js: navigatorLock: released", name2, lock.name);
-        }
-      }
-    } else {
-      if (acquireTimeout === 0) {
-        if (internals.debug) {
-          console.log("@supabase/gotrue-js: navigatorLock: not immediately available", name2);
-        }
-        throw new NavigatorLockAcquireTimeoutError(`Acquiring an exclusive Navigator LockManager lock "${name2}" immediately failed`);
-      } else {
-        if (internals.debug) {
-          try {
-            const result = await globalThis.navigator.locks.query();
-            console.log("@supabase/gotrue-js: Navigator LockManager state", JSON.stringify(result, null, "  "));
-          } catch (e) {
-            console.warn("@supabase/gotrue-js: Error when querying Navigator LockManager state", e);
-          }
-        }
-        console.warn("@supabase/gotrue-js: Navigator LockManager returned a null lock when using #request without ifAvailable set to true, it appears this browser is not following the LockManager spec https://developer.mozilla.org/en-US/docs/Web/API/LockManager/request");
-        return await fn();
-      }
-    }
-  });
-}
-var internals, LockAcquireTimeoutError, NavigatorLockAcquireTimeoutError;
-var init_locks = __esm({
-  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/locks.js"() {
-    init_helpers3();
-    internals = {
-      /**
-       * @experimental
-       */
-      debug: !!(globalThis && supportsLocalStorage() && globalThis.localStorage && globalThis.localStorage.getItem("supabase.gotrue-js.locks.debug") === "true")
-    };
-    LockAcquireTimeoutError = class extends Error {
-      constructor(message) {
-        super(message);
-        this.isAcquireTimeout = true;
-      }
-    };
-    NavigatorLockAcquireTimeoutError = class extends LockAcquireTimeoutError {
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/GoTrueClient.js
-async function lockNoOp(name2, acquireTimeout, fn) {
-  return await fn();
-}
-var DEFAULT_OPTIONS, AUTO_REFRESH_TICK_DURATION, AUTO_REFRESH_TICK_THRESHOLD, GoTrueClient;
-var init_GoTrueClient = __esm({
-  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/GoTrueClient.js"() {
-    init_GoTrueAdminApi();
-    init_constants5();
-    init_errors2();
-    init_fetch3();
-    init_helpers3();
-    init_local_storage();
-    init_polyfills();
-    init_version5();
-    init_locks();
-    polyfillGlobalThis();
-    DEFAULT_OPTIONS = {
-      url: GOTRUE_URL,
-      storageKey: STORAGE_KEY,
-      autoRefreshToken: true,
-      persistSession: true,
-      detectSessionInUrl: true,
-      headers: DEFAULT_HEADERS5,
-      flowType: "implicit",
-      debug: false
-    };
-    AUTO_REFRESH_TICK_DURATION = 30 * 1e3;
-    AUTO_REFRESH_TICK_THRESHOLD = 3;
-    GoTrueClient = class _GoTrueClient {
-      /**
-       * Create a new client for use in the browser.
-       */
-      constructor(options2) {
-        var _a, _b;
-        this.memoryStorage = null;
-        this.stateChangeEmitters = /* @__PURE__ */ new Map();
-        this.autoRefreshTicker = null;
-        this.visibilityChangedCallback = null;
-        this.refreshingDeferred = null;
-        this.initializePromise = null;
-        this.detectSessionInUrl = true;
-        this.lockAcquired = false;
-        this.pendingInLock = [];
-        this.broadcastChannel = null;
-        this.logger = console.log;
-        this.instanceID = _GoTrueClient.nextInstanceID;
-        _GoTrueClient.nextInstanceID += 1;
-        if (this.instanceID > 0 && isBrowser2()) {
-          console.warn("Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key.");
-        }
-        const settings = Object.assign(Object.assign({}, DEFAULT_OPTIONS), options2);
-        this.logDebugMessages = !!settings.debug;
-        if (typeof settings.debug === "function") {
-          this.logger = settings.debug;
-        }
-        this.persistSession = settings.persistSession;
-        this.storageKey = settings.storageKey;
-        this.autoRefreshToken = settings.autoRefreshToken;
-        this.admin = new GoTrueAdminApi({
-          url: settings.url,
-          headers: settings.headers,
-          fetch: settings.fetch
-        });
-        this.url = settings.url;
-        this.headers = settings.headers;
-        this.fetch = resolveFetch4(settings.fetch);
-        this.lock = settings.lock || lockNoOp;
-        this.detectSessionInUrl = settings.detectSessionInUrl;
-        this.flowType = settings.flowType;
-        if (settings.lock) {
-          this.lock = settings.lock;
-        } else if (isBrowser2() && ((_a = globalThis === null || globalThis === void 0 ? void 0 : globalThis.navigator) === null || _a === void 0 ? void 0 : _a.locks)) {
-          this.lock = navigatorLock;
-        } else {
-          this.lock = lockNoOp;
-        }
-        this.mfa = {
-          verify: this._verify.bind(this),
-          enroll: this._enroll.bind(this),
-          unenroll: this._unenroll.bind(this),
-          challenge: this._challenge.bind(this),
-          listFactors: this._listFactors.bind(this),
-          challengeAndVerify: this._challengeAndVerify.bind(this),
-          getAuthenticatorAssuranceLevel: this._getAuthenticatorAssuranceLevel.bind(this)
-        };
-        if (this.persistSession) {
-          if (settings.storage) {
-            this.storage = settings.storage;
-          } else {
-            if (supportsLocalStorage()) {
-              this.storage = localStorageAdapter;
-            } else {
-              this.memoryStorage = {};
-              this.storage = memoryLocalStorageAdapter(this.memoryStorage);
-            }
-          }
-        } else {
-          this.memoryStorage = {};
-          this.storage = memoryLocalStorageAdapter(this.memoryStorage);
-        }
-        if (isBrowser2() && globalThis.BroadcastChannel && this.persistSession && this.storageKey) {
-          try {
-            this.broadcastChannel = new globalThis.BroadcastChannel(this.storageKey);
-          } catch (e) {
-            console.error("Failed to create a new BroadcastChannel, multi-tab state changes will not be available", e);
-          }
-          (_b = this.broadcastChannel) === null || _b === void 0 ? void 0 : _b.addEventListener("message", async (event) => {
-            this._debug("received broadcast notification from other tab or client", event);
-            await this._notifyAllSubscribers(event.data.event, event.data.session, false);
-          });
-        }
-        this.initialize();
-      }
-      _debug(...args) {
-        if (this.logDebugMessages) {
-          this.logger(`GoTrueClient@${this.instanceID} (${version6}) ${(/* @__PURE__ */ new Date()).toISOString()}`, ...args);
-        }
-        return this;
-      }
-      /**
-       * Initializes the client session either from the url or from storage.
-       * This method is automatically called when instantiating the client, but should also be called
-       * manually when checking for an error from an auth redirect (oauth, magiclink, password recovery, etc).
-       */
-      async initialize() {
-        if (this.initializePromise) {
-          return await this.initializePromise;
-        }
-        this.initializePromise = (async () => {
-          return await this._acquireLock(-1, async () => {
-            return await this._initialize();
-          });
-        })();
-        return await this.initializePromise;
-      }
-      /**
-       * IMPORTANT:
-       * 1. Never throw in this method, as it is called from the constructor
-       * 2. Never return a session from this method as it would be cached over
-       *    the whole lifetime of the client
-       */
-      async _initialize() {
-        try {
-          const isPKCEFlow = isBrowser2() ? await this._isPKCEFlow() : false;
-          this._debug("#_initialize()", "begin", "is PKCE flow", isPKCEFlow);
-          if (isPKCEFlow || this.detectSessionInUrl && this._isImplicitGrantFlow()) {
-            const { data, error } = await this._getSessionFromURL(isPKCEFlow);
-            if (error) {
-              this._debug("#_initialize()", "error detecting session from URL", error);
-              if ((error === null || error === void 0 ? void 0 : error.message) === "Identity is already linked" || (error === null || error === void 0 ? void 0 : error.message) === "Identity is already linked to another user") {
-                return { error };
-              }
-              await this._removeSession();
-              return { error };
-            }
-            const { session, redirectType } = data;
-            this._debug("#_initialize()", "detected session in URL", session, "redirect type", redirectType);
-            await this._saveSession(session);
-            setTimeout(async () => {
-              if (redirectType === "recovery") {
-                await this._notifyAllSubscribers("PASSWORD_RECOVERY", session);
-              } else {
-                await this._notifyAllSubscribers("SIGNED_IN", session);
-              }
-            }, 0);
-            return { error: null };
-          }
-          await this._recoverAndRefresh();
-          return { error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { error };
-          }
-          return {
-            error: new AuthUnknownError("Unexpected error during initialization", error)
-          };
-        } finally {
-          await this._handleVisibilityChange();
-          this._debug("#_initialize()", "end");
-        }
-      }
-      /**
-       * Creates a new user.
-       *
-       * Be aware that if a user account exists in the system you may get back an
-       * error message that attempts to hide this information from the user.
-       * This method has support for PKCE via email signups. The PKCE flow cannot be used when autoconfirm is enabled.
-       *
-       * @returns A logged-in session if the server has "autoconfirm" ON
-       * @returns A user if the server has "autoconfirm" OFF
-       */
-      async signUp(credentials) {
-        var _a, _b, _c;
-        try {
-          await this._removeSession();
-          let res;
-          if ("email" in credentials) {
-            const { email, password, options: options2 } = credentials;
-            let codeChallenge = null;
-            let codeChallengeMethod = null;
-            if (this.flowType === "pkce") {
-              const codeVerifier = generatePKCEVerifier();
-              await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, codeVerifier);
-              codeChallenge = await generatePKCEChallenge(codeVerifier);
-              codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
-            }
-            res = await _request(this.fetch, "POST", `${this.url}/signup`, {
-              headers: this.headers,
-              redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.emailRedirectTo,
-              body: {
-                email,
-                password,
-                data: (_a = options2 === null || options2 === void 0 ? void 0 : options2.data) !== null && _a !== void 0 ? _a : {},
-                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken },
-                code_challenge: codeChallenge,
-                code_challenge_method: codeChallengeMethod
-              },
-              xform: _sessionResponse
-            });
-          } else if ("phone" in credentials) {
-            const { phone, password, options: options2 } = credentials;
-            res = await _request(this.fetch, "POST", `${this.url}/signup`, {
-              headers: this.headers,
-              body: {
-                phone,
-                password,
-                data: (_b = options2 === null || options2 === void 0 ? void 0 : options2.data) !== null && _b !== void 0 ? _b : {},
-                channel: (_c = options2 === null || options2 === void 0 ? void 0 : options2.channel) !== null && _c !== void 0 ? _c : "sms",
-                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
-              },
-              xform: _sessionResponse
-            });
-          } else {
-            throw new AuthInvalidCredentialsError("You must provide either an email or phone number and a password");
-          }
-          const { data, error } = res;
-          if (error || !data) {
-            return { data: { user: null, session: null }, error };
-          }
-          const session = data.session;
-          const user = data.user;
-          if (data.session) {
-            await this._saveSession(data.session);
-            await this._notifyAllSubscribers("SIGNED_IN", session);
-          }
-          return { data: { user, session }, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Log in an existing user with an email and password or phone and password.
-       *
-       * Be aware that you may get back an error message that will not distinguish
-       * between the cases where the account does not exist or that the
-       * email/phone and password combination is wrong or that the account can only
-       * be accessed via social login.
-       */
-      async signInWithPassword(credentials) {
-        try {
-          await this._removeSession();
-          let res;
-          if ("email" in credentials) {
-            const { email, password, options: options2 } = credentials;
-            res = await _request(this.fetch, "POST", `${this.url}/token?grant_type=password`, {
-              headers: this.headers,
-              body: {
-                email,
-                password,
-                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
-              },
-              xform: _sessionResponsePassword
-            });
-          } else if ("phone" in credentials) {
-            const { phone, password, options: options2 } = credentials;
-            res = await _request(this.fetch, "POST", `${this.url}/token?grant_type=password`, {
-              headers: this.headers,
-              body: {
-                phone,
-                password,
-                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
-              },
-              xform: _sessionResponsePassword
-            });
-          } else {
-            throw new AuthInvalidCredentialsError("You must provide either an email or phone number and a password");
-          }
-          const { data, error } = res;
-          if (error) {
-            return { data: { user: null, session: null }, error };
-          } else if (!data || !data.session || !data.user) {
-            return { data: { user: null, session: null }, error: new AuthInvalidTokenResponseError() };
-          }
-          if (data.session) {
-            await this._saveSession(data.session);
-            await this._notifyAllSubscribers("SIGNED_IN", data.session);
-          }
-          return {
-            data: Object.assign({ user: data.user, session: data.session }, data.weak_password ? { weakPassword: data.weak_password } : null),
-            error
-          };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Log in an existing user via a third-party provider.
-       * This method supports the PKCE flow.
-       */
-      async signInWithOAuth(credentials) {
-        var _a, _b, _c, _d;
-        await this._removeSession();
-        return await this._handleProviderSignIn(credentials.provider, {
-          redirectTo: (_a = credentials.options) === null || _a === void 0 ? void 0 : _a.redirectTo,
-          scopes: (_b = credentials.options) === null || _b === void 0 ? void 0 : _b.scopes,
-          queryParams: (_c = credentials.options) === null || _c === void 0 ? void 0 : _c.queryParams,
-          skipBrowserRedirect: (_d = credentials.options) === null || _d === void 0 ? void 0 : _d.skipBrowserRedirect
-        });
-      }
-      /**
-       * Log in an existing user by exchanging an Auth Code issued during the PKCE flow.
-       */
-      async exchangeCodeForSession(authCode) {
-        await this.initializePromise;
-        return this._acquireLock(-1, async () => {
-          return this._exchangeCodeForSession(authCode);
-        });
-      }
-      async _exchangeCodeForSession(authCode) {
-        const storageItem = await getItemAsync(this.storage, `${this.storageKey}-code-verifier`);
-        const [codeVerifier, redirectType] = (storageItem !== null && storageItem !== void 0 ? storageItem : "").split("/");
-        const { data, error } = await _request(this.fetch, "POST", `${this.url}/token?grant_type=pkce`, {
-          headers: this.headers,
-          body: {
-            auth_code: authCode,
-            code_verifier: codeVerifier
-          },
-          xform: _sessionResponse
-        });
-        await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
-        if (error) {
-          return { data: { user: null, session: null, redirectType: null }, error };
-        } else if (!data || !data.session || !data.user) {
-          return {
-            data: { user: null, session: null, redirectType: null },
-            error: new AuthInvalidTokenResponseError()
-          };
-        }
-        if (data.session) {
-          await this._saveSession(data.session);
-          await this._notifyAllSubscribers("SIGNED_IN", data.session);
-        }
-        return { data: Object.assign(Object.assign({}, data), { redirectType: redirectType !== null && redirectType !== void 0 ? redirectType : null }), error };
-      }
-      /**
-       * Allows signing in with an OIDC ID token. The authentication provider used
-       * should be enabled and configured.
-       */
-      async signInWithIdToken(credentials) {
-        await this._removeSession();
-        try {
-          const { options: options2, provider, token, access_token, nonce } = credentials;
-          const res = await _request(this.fetch, "POST", `${this.url}/token?grant_type=id_token`, {
-            headers: this.headers,
-            body: {
-              provider,
-              id_token: token,
-              access_token,
-              nonce,
-              gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
-            },
-            xform: _sessionResponse
-          });
-          const { data, error } = res;
-          if (error) {
-            return { data: { user: null, session: null }, error };
-          } else if (!data || !data.session || !data.user) {
-            return {
-              data: { user: null, session: null },
-              error: new AuthInvalidTokenResponseError()
-            };
-          }
-          if (data.session) {
-            await this._saveSession(data.session);
-            await this._notifyAllSubscribers("SIGNED_IN", data.session);
-          }
-          return { data, error };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Log in a user using magiclink or a one-time password (OTP).
-       *
-       * If the `{{ .ConfirmationURL }}` variable is specified in the email template, a magiclink will be sent.
-       * If the `{{ .Token }}` variable is specified in the email template, an OTP will be sent.
-       * If you're using phone sign-ins, only an OTP will be sent. You won't be able to send a magiclink for phone sign-ins.
-       *
-       * Be aware that you may get back an error message that will not distinguish
-       * between the cases where the account does not exist or, that the account
-       * can only be accessed via social login.
-       *
-       * Do note that you will need to configure a Whatsapp sender on Twilio
-       * if you are using phone sign in with the 'whatsapp' channel. The whatsapp
-       * channel is not supported on other providers
-       * at this time.
-       * This method supports PKCE when an email is passed.
-       */
-      async signInWithOtp(credentials) {
-        var _a, _b, _c, _d, _e;
-        try {
-          await this._removeSession();
-          if ("email" in credentials) {
-            const { email, options: options2 } = credentials;
-            let codeChallenge = null;
-            let codeChallengeMethod = null;
-            if (this.flowType === "pkce") {
-              const codeVerifier = generatePKCEVerifier();
-              await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, codeVerifier);
-              codeChallenge = await generatePKCEChallenge(codeVerifier);
-              codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
-            }
-            const { error } = await _request(this.fetch, "POST", `${this.url}/otp`, {
-              headers: this.headers,
-              body: {
-                email,
-                data: (_a = options2 === null || options2 === void 0 ? void 0 : options2.data) !== null && _a !== void 0 ? _a : {},
-                create_user: (_b = options2 === null || options2 === void 0 ? void 0 : options2.shouldCreateUser) !== null && _b !== void 0 ? _b : true,
-                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken },
-                code_challenge: codeChallenge,
-                code_challenge_method: codeChallengeMethod
-              },
-              redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.emailRedirectTo
-            });
-            return { data: { user: null, session: null }, error };
-          }
-          if ("phone" in credentials) {
-            const { phone, options: options2 } = credentials;
-            const { data, error } = await _request(this.fetch, "POST", `${this.url}/otp`, {
-              headers: this.headers,
-              body: {
-                phone,
-                data: (_c = options2 === null || options2 === void 0 ? void 0 : options2.data) !== null && _c !== void 0 ? _c : {},
-                create_user: (_d = options2 === null || options2 === void 0 ? void 0 : options2.shouldCreateUser) !== null && _d !== void 0 ? _d : true,
-                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken },
-                channel: (_e = options2 === null || options2 === void 0 ? void 0 : options2.channel) !== null && _e !== void 0 ? _e : "sms"
-              }
-            });
-            return { data: { user: null, session: null, messageId: data === null || data === void 0 ? void 0 : data.message_id }, error };
-          }
-          throw new AuthInvalidCredentialsError("You must provide either an email or phone number.");
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Log in a user given a User supplied OTP or TokenHash received through mobile or email.
-       */
-      async verifyOtp(params) {
-        var _a, _b;
-        try {
-          if (params.type !== "email_change" && params.type !== "phone_change") {
-            await this._removeSession();
-          }
-          let redirectTo = void 0;
-          let captchaToken = void 0;
-          if ("options" in params) {
-            redirectTo = (_a = params.options) === null || _a === void 0 ? void 0 : _a.redirectTo;
-            captchaToken = (_b = params.options) === null || _b === void 0 ? void 0 : _b.captchaToken;
-          }
-          const { data, error } = await _request(this.fetch, "POST", `${this.url}/verify`, {
-            headers: this.headers,
-            body: Object.assign(Object.assign({}, params), { gotrue_meta_security: { captcha_token: captchaToken } }),
-            redirectTo,
-            xform: _sessionResponse
-          });
-          if (error) {
-            throw error;
-          }
-          if (!data) {
-            throw new Error("An error occurred on token verification.");
-          }
-          const session = data.session;
-          const user = data.user;
-          if (session === null || session === void 0 ? void 0 : session.access_token) {
-            await this._saveSession(session);
-            await this._notifyAllSubscribers(params.type == "recovery" ? "PASSWORD_RECOVERY" : "SIGNED_IN", session);
-          }
-          return { data: { user, session }, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Attempts a single-sign on using an enterprise Identity Provider. A
-       * successful SSO attempt will redirect the current page to the identity
-       * provider authorization page. The redirect URL is implementation and SSO
-       * protocol specific.
-       *
-       * You can use it by providing a SSO domain. Typically you can extract this
-       * domain by asking users for their email address. If this domain is
-       * registered on the Auth instance the redirect will use that organization's
-       * currently active SSO Identity Provider for the login.
-       *
-       * If you have built an organization-specific login page, you can use the
-       * organization's SSO Identity Provider UUID directly instead.
-       */
-      async signInWithSSO(params) {
-        var _a, _b, _c;
-        try {
-          await this._removeSession();
-          let codeChallenge = null;
-          let codeChallengeMethod = null;
-          if (this.flowType === "pkce") {
-            const codeVerifier = generatePKCEVerifier();
-            await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, codeVerifier);
-            codeChallenge = await generatePKCEChallenge(codeVerifier);
-            codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
-          }
-          return await _request(this.fetch, "POST", `${this.url}/sso`, {
-            body: Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, "providerId" in params ? { provider_id: params.providerId } : null), "domain" in params ? { domain: params.domain } : null), { redirect_to: (_b = (_a = params.options) === null || _a === void 0 ? void 0 : _a.redirectTo) !== null && _b !== void 0 ? _b : void 0 }), ((_c = params === null || params === void 0 ? void 0 : params.options) === null || _c === void 0 ? void 0 : _c.captchaToken) ? { gotrue_meta_security: { captcha_token: params.options.captchaToken } } : null), { skip_http_redirect: true, code_challenge: codeChallenge, code_challenge_method: codeChallengeMethod }),
-            headers: this.headers,
-            xform: _ssoResponse
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Sends a reauthentication OTP to the user's email or phone number.
-       * Requires the user to be signed-in.
-       */
-      async reauthenticate() {
-        await this.initializePromise;
-        return await this._acquireLock(-1, async () => {
-          return await this._reauthenticate();
-        });
-      }
-      async _reauthenticate() {
-        try {
-          return await this._useSession(async (result) => {
-            const { data: { session }, error: sessionError } = result;
-            if (sessionError)
-              throw sessionError;
-            if (!session)
-              throw new AuthSessionMissingError();
-            const { error } = await _request(this.fetch, "GET", `${this.url}/reauthenticate`, {
-              headers: this.headers,
-              jwt: session.access_token
-            });
-            return { data: { user: null, session: null }, error };
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Resends an existing signup confirmation email, email change email, SMS OTP or phone change OTP.
-       */
-      async resend(credentials) {
-        try {
-          if (credentials.type != "email_change" && credentials.type != "phone_change") {
-            await this._removeSession();
-          }
-          const endpoint = `${this.url}/resend`;
-          if ("email" in credentials) {
-            const { email, type, options: options2 } = credentials;
-            const { error } = await _request(this.fetch, "POST", endpoint, {
-              headers: this.headers,
-              body: {
-                email,
-                type,
-                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
-              },
-              redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.emailRedirectTo
-            });
-            return { data: { user: null, session: null }, error };
-          } else if ("phone" in credentials) {
-            const { phone, type, options: options2 } = credentials;
-            const { data, error } = await _request(this.fetch, "POST", endpoint, {
-              headers: this.headers,
-              body: {
-                phone,
-                type,
-                gotrue_meta_security: { captcha_token: options2 === null || options2 === void 0 ? void 0 : options2.captchaToken }
-              }
-            });
-            return { data: { user: null, session: null, messageId: data === null || data === void 0 ? void 0 : data.message_id }, error };
-          }
-          throw new AuthInvalidCredentialsError("You must provide either an email or phone number and a type");
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Returns the session, refreshing it if necessary.
-       * The session returned can be null if the session is not detected which can happen in the event a user is not signed-in or has logged out.
-       */
-      async getSession() {
-        await this.initializePromise;
-        return this._acquireLock(-1, async () => {
-          return this._useSession(async (result) => {
-            return result;
-          });
-        });
-      }
-      /**
-       * Acquires a global lock based on the storage key.
-       */
-      async _acquireLock(acquireTimeout, fn) {
-        this._debug("#_acquireLock", "begin", acquireTimeout);
-        try {
-          if (this.lockAcquired) {
-            const last = this.pendingInLock.length ? this.pendingInLock[this.pendingInLock.length - 1] : Promise.resolve();
-            const result = (async () => {
-              await last;
-              return await fn();
-            })();
-            this.pendingInLock.push((async () => {
-              try {
-                await result;
-              } catch (e) {
-              }
-            })());
-            return result;
-          }
-          return await this.lock(`lock:${this.storageKey}`, acquireTimeout, async () => {
-            this._debug("#_acquireLock", "lock acquired for storage key", this.storageKey);
-            try {
-              this.lockAcquired = true;
-              const result = fn();
-              this.pendingInLock.push((async () => {
-                try {
-                  await result;
-                } catch (e) {
-                }
-              })());
-              await result;
-              while (this.pendingInLock.length) {
-                const waitOn = [...this.pendingInLock];
-                await Promise.all(waitOn);
-                this.pendingInLock.splice(0, waitOn.length);
-              }
-              return await result;
-            } finally {
-              this._debug("#_acquireLock", "lock released for storage key", this.storageKey);
-              this.lockAcquired = false;
-            }
-          });
-        } finally {
-          this._debug("#_acquireLock", "end");
-        }
-      }
-      /**
-       * Use instead of {@link #getSession} inside the library. It is
-       * semantically usually what you want, as getting a session involves some
-       * processing afterwards that requires only one client operating on the
-       * session at once across multiple tabs or processes.
-       */
-      async _useSession(fn) {
-        this._debug("#_useSession", "begin");
-        try {
-          const result = await this.__loadSession();
-          return await fn(result);
-        } finally {
-          this._debug("#_useSession", "end");
-        }
-      }
-      /**
-       * NEVER USE DIRECTLY!
-       *
-       * Always use {@link #_useSession}.
-       */
-      async __loadSession() {
-        this._debug("#__loadSession()", "begin");
-        if (!this.lockAcquired) {
-          this._debug("#__loadSession()", "used outside of an acquired lock!", new Error().stack);
-        }
-        try {
-          let currentSession = null;
-          const maybeSession = await getItemAsync(this.storage, this.storageKey);
-          this._debug("#getSession()", "session from storage", maybeSession);
-          if (maybeSession !== null) {
-            if (this._isValidSession(maybeSession)) {
-              currentSession = maybeSession;
-            } else {
-              this._debug("#getSession()", "session from storage is not valid");
-              await this._removeSession();
-            }
-          }
-          if (!currentSession) {
-            return { data: { session: null }, error: null };
-          }
-          const hasExpired = currentSession.expires_at ? currentSession.expires_at <= Date.now() / 1e3 : false;
-          this._debug("#__loadSession()", `session has${hasExpired ? "" : " not"} expired`, "expires_at", currentSession.expires_at);
-          if (!hasExpired) {
-            return { data: { session: currentSession }, error: null };
-          }
-          const { session, error } = await this._callRefreshToken(currentSession.refresh_token);
-          if (error) {
-            return { data: { session: null }, error };
-          }
-          return { data: { session }, error: null };
-        } finally {
-          this._debug("#__loadSession()", "end");
-        }
-      }
-      /**
-       * Gets the current user details if there is an existing session.
-       * @param jwt Takes in an optional access token jwt. If no jwt is provided, getUser() will attempt to get the jwt from the current session.
-       */
-      async getUser(jwt) {
-        if (jwt) {
-          return await this._getUser(jwt);
-        }
-        await this.initializePromise;
-        return this._acquireLock(-1, async () => {
-          return await this._getUser();
-        });
-      }
-      async _getUser(jwt) {
-        try {
-          if (jwt) {
-            return await _request(this.fetch, "GET", `${this.url}/user`, {
-              headers: this.headers,
-              jwt,
-              xform: _userResponse
-            });
-          }
-          return await this._useSession(async (result) => {
-            var _a, _b;
-            const { data, error } = result;
-            if (error) {
-              throw error;
-            }
-            return await _request(this.fetch, "GET", `${this.url}/user`, {
-              headers: this.headers,
-              jwt: (_b = (_a = data.session) === null || _a === void 0 ? void 0 : _a.access_token) !== null && _b !== void 0 ? _b : void 0,
-              xform: _userResponse
-            });
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Updates user data for a logged in user.
-       */
-      async updateUser(attributes, options2 = {}) {
-        await this.initializePromise;
-        return await this._acquireLock(-1, async () => {
-          return await this._updateUser(attributes, options2);
-        });
-      }
-      async _updateUser(attributes, options2 = {}) {
-        try {
-          return await this._useSession(async (result) => {
-            const { data: sessionData, error: sessionError } = result;
-            if (sessionError) {
-              throw sessionError;
-            }
-            if (!sessionData.session) {
-              throw new AuthSessionMissingError();
-            }
-            const session = sessionData.session;
-            let codeChallenge = null;
-            let codeChallengeMethod = null;
-            if (this.flowType === "pkce" && attributes.email != null) {
-              const codeVerifier = generatePKCEVerifier();
-              await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, codeVerifier);
-              codeChallenge = await generatePKCEChallenge(codeVerifier);
-              codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
-            }
-            const { data, error: userError } = await _request(this.fetch, "PUT", `${this.url}/user`, {
-              headers: this.headers,
-              redirectTo: options2 === null || options2 === void 0 ? void 0 : options2.emailRedirectTo,
-              body: Object.assign(Object.assign({}, attributes), { code_challenge: codeChallenge, code_challenge_method: codeChallengeMethod }),
-              jwt: session.access_token,
-              xform: _userResponse
-            });
-            if (userError)
-              throw userError;
-            session.user = data.user;
-            await this._saveSession(session);
-            await this._notifyAllSubscribers("USER_UPDATED", session);
-            return { data: { user: session.user }, error: null };
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Decodes a JWT (without performing any validation).
-       */
-      _decodeJWT(jwt) {
-        return decodeJWTPayload(jwt);
-      }
-      /**
-       * Sets the session data from the current session. If the current session is expired, setSession will take care of refreshing it to obtain a new session.
-       * If the refresh token or access token in the current session is invalid, an error will be thrown.
-       * @param currentSession The current session that minimally contains an access token and refresh token.
-       */
-      async setSession(currentSession) {
-        await this.initializePromise;
-        return await this._acquireLock(-1, async () => {
-          return await this._setSession(currentSession);
-        });
-      }
-      async _setSession(currentSession) {
-        try {
-          if (!currentSession.access_token || !currentSession.refresh_token) {
-            throw new AuthSessionMissingError();
-          }
-          const timeNow = Date.now() / 1e3;
-          let expiresAt2 = timeNow;
-          let hasExpired = true;
-          let session = null;
-          const payload = decodeJWTPayload(currentSession.access_token);
-          if (payload.exp) {
-            expiresAt2 = payload.exp;
-            hasExpired = expiresAt2 <= timeNow;
-          }
-          if (hasExpired) {
-            const { session: refreshedSession, error } = await this._callRefreshToken(currentSession.refresh_token);
-            if (error) {
-              return { data: { user: null, session: null }, error };
-            }
-            if (!refreshedSession) {
-              return { data: { user: null, session: null }, error: null };
-            }
-            session = refreshedSession;
-          } else {
-            const { data, error } = await this._getUser(currentSession.access_token);
-            if (error) {
-              throw error;
-            }
-            session = {
-              access_token: currentSession.access_token,
-              refresh_token: currentSession.refresh_token,
-              user: data.user,
-              token_type: "bearer",
-              expires_in: expiresAt2 - timeNow,
-              expires_at: expiresAt2
-            };
-            await this._saveSession(session);
-            await this._notifyAllSubscribers("SIGNED_IN", session);
-          }
-          return { data: { user: session.user, session }, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { session: null, user: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Returns a new session, regardless of expiry status.
-       * Takes in an optional current session. If not passed in, then refreshSession() will attempt to retrieve it from getSession().
-       * If the current session's refresh token is invalid, an error will be thrown.
-       * @param currentSession The current session. If passed in, it must contain a refresh token.
-       */
-      async refreshSession(currentSession) {
-        await this.initializePromise;
-        return await this._acquireLock(-1, async () => {
-          return await this._refreshSession(currentSession);
-        });
-      }
-      async _refreshSession(currentSession) {
-        try {
-          return await this._useSession(async (result) => {
-            var _a;
-            if (!currentSession) {
-              const { data, error: error2 } = result;
-              if (error2) {
-                throw error2;
-              }
-              currentSession = (_a = data.session) !== null && _a !== void 0 ? _a : void 0;
-            }
-            if (!(currentSession === null || currentSession === void 0 ? void 0 : currentSession.refresh_token)) {
-              throw new AuthSessionMissingError();
-            }
-            const { session, error } = await this._callRefreshToken(currentSession.refresh_token);
-            if (error) {
-              return { data: { user: null, session: null }, error };
-            }
-            if (!session) {
-              return { data: { user: null, session: null }, error: null };
-            }
-            return { data: { user: session.user, session }, error: null };
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { user: null, session: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Gets the session data from a URL string
-       */
-      async _getSessionFromURL(isPKCEFlow) {
-        try {
-          if (!isBrowser2())
-            throw new AuthImplicitGrantRedirectError("No browser detected.");
-          if (this.flowType === "implicit" && !this._isImplicitGrantFlow()) {
-            throw new AuthImplicitGrantRedirectError("Not a valid implicit grant flow url.");
-          } else if (this.flowType == "pkce" && !isPKCEFlow) {
-            throw new AuthPKCEGrantCodeExchangeError("Not a valid PKCE flow url.");
-          }
-          const params = parseParametersFromURL(window.location.href);
-          if (isPKCEFlow) {
-            if (!params.code)
-              throw new AuthPKCEGrantCodeExchangeError("No code detected.");
-            const { data: data2, error: error2 } = await this._exchangeCodeForSession(params.code);
-            if (error2)
-              throw error2;
-            const url = new URL(window.location.href);
-            url.searchParams.delete("code");
-            window.history.replaceState(window.history.state, "", url.toString());
-            return { data: { session: data2.session, redirectType: null }, error: null };
-          }
-          if (params.error || params.error_description || params.error_code) {
-            throw new AuthImplicitGrantRedirectError(params.error_description || "Error in URL with unspecified error_description", {
-              error: params.error || "unspecified_error",
-              code: params.error_code || "unspecified_code"
-            });
-          }
-          const { provider_token, provider_refresh_token, access_token, refresh_token, expires_in, expires_at, token_type } = params;
-          if (!access_token || !expires_in || !refresh_token || !token_type) {
-            throw new AuthImplicitGrantRedirectError("No session defined in URL");
-          }
-          const timeNow = Math.round(Date.now() / 1e3);
-          const expiresIn = parseInt(expires_in);
-          let expiresAt2 = timeNow + expiresIn;
-          if (expires_at) {
-            expiresAt2 = parseInt(expires_at);
-          }
-          const actuallyExpiresIn = expiresAt2 - timeNow;
-          if (actuallyExpiresIn * 1e3 <= AUTO_REFRESH_TICK_DURATION) {
-            console.warn(`@supabase/gotrue-js: Session as retrieved from URL expires in ${actuallyExpiresIn}s, should have been closer to ${expiresIn}s`);
-          }
-          const issuedAt = expiresAt2 - expiresIn;
-          if (timeNow - issuedAt >= 120) {
-            console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued over 120s ago, URL could be stale", issuedAt, expiresAt2, timeNow);
-          } else if (timeNow - issuedAt < 0) {
-            console.warn("@supabase/gotrue-js: Session as retrieved from URL was issued in the future? Check the device clok for skew", issuedAt, expiresAt2, timeNow);
-          }
-          const { data, error } = await this._getUser(access_token);
-          if (error)
-            throw error;
-          const session = {
-            provider_token,
-            provider_refresh_token,
-            access_token,
-            expires_in: expiresIn,
-            expires_at: expiresAt2,
-            refresh_token,
-            token_type,
-            user: data.user
-          };
-          window.location.hash = "";
-          this._debug("#_getSessionFromURL()", "clearing window.location.hash");
-          return { data: { session, redirectType: params.type }, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { session: null, redirectType: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Checks if the current URL contains parameters given by an implicit oauth grant flow (https://www.rfc-editor.org/rfc/rfc6749.html#section-4.2)
-       */
-      _isImplicitGrantFlow() {
-        const params = parseParametersFromURL(window.location.href);
-        return !!(isBrowser2() && (params.access_token || params.error_description));
-      }
-      /**
-       * Checks if the current URL and backing storage contain parameters given by a PKCE flow
-       */
-      async _isPKCEFlow() {
-        const params = parseParametersFromURL(window.location.href);
-        const currentStorageContent = await getItemAsync(this.storage, `${this.storageKey}-code-verifier`);
-        return !!(params.code && currentStorageContent);
-      }
-      /**
-       * Inside a browser context, `signOut()` will remove the logged in user from the browser session and log them out - removing all items from localstorage and then trigger a `"SIGNED_OUT"` event.
-       *
-       * For server-side management, you can revoke all refresh tokens for a user by passing a user's JWT through to `auth.api.signOut(JWT: string)`.
-       * There is no way to revoke a user's access token jwt until it expires. It is recommended to set a shorter expiry on the jwt for this reason.
-       *
-       * If using `others` scope, no `SIGNED_OUT` event is fired!
-       */
-      async signOut(options2 = { scope: "global" }) {
-        await this.initializePromise;
-        return await this._acquireLock(-1, async () => {
-          return await this._signOut(options2);
-        });
-      }
-      async _signOut({ scope } = { scope: "global" }) {
-        return await this._useSession(async (result) => {
-          var _a;
-          const { data, error: sessionError } = result;
-          if (sessionError) {
-            return { error: sessionError };
-          }
-          const accessToken = (_a = data.session) === null || _a === void 0 ? void 0 : _a.access_token;
-          if (accessToken) {
-            const { error } = await this.admin.signOut(accessToken, scope);
-            if (error) {
-              if (!(isAuthApiError(error) && (error.status === 404 || error.status === 401))) {
-                return { error };
-              }
-            }
-          }
-          if (scope !== "others") {
-            await this._removeSession();
-            await removeItemAsync(this.storage, `${this.storageKey}-code-verifier`);
-            await this._notifyAllSubscribers("SIGNED_OUT", null);
-          }
-          return { error: null };
-        });
-      }
-      /**
-       * Receive a notification every time an auth event happens.
-       * @param callback A callback function to be invoked when an auth event happens.
-       */
-      onAuthStateChange(callback) {
-        const id = uuid();
-        const subscription = {
-          id,
-          callback,
-          unsubscribe: () => {
-            this._debug("#unsubscribe()", "state change callback with id removed", id);
-            this.stateChangeEmitters.delete(id);
-          }
-        };
-        this._debug("#onAuthStateChange()", "registered callback with id", id);
-        this.stateChangeEmitters.set(id, subscription);
-        (async () => {
-          await this.initializePromise;
-          await this._acquireLock(-1, async () => {
-            this._emitInitialSession(id);
-          });
-        })();
-        return { data: { subscription } };
-      }
-      async _emitInitialSession(id) {
-        return await this._useSession(async (result) => {
-          var _a, _b;
-          try {
-            const { data: { session }, error } = result;
-            if (error)
-              throw error;
-            await ((_a = this.stateChangeEmitters.get(id)) === null || _a === void 0 ? void 0 : _a.callback("INITIAL_SESSION", session));
-            this._debug("INITIAL_SESSION", "callback id", id, "session", session);
-          } catch (err) {
-            await ((_b = this.stateChangeEmitters.get(id)) === null || _b === void 0 ? void 0 : _b.callback("INITIAL_SESSION", null));
-            this._debug("INITIAL_SESSION", "callback id", id, "error", err);
-            console.error(err);
-          }
-        });
-      }
-      /**
-       * Sends a password reset request to an email address. This method supports the PKCE flow.
-       *
-       * @param email The email address of the user.
-       * @param options.redirectTo The URL to send the user to after they click the password reset link.
-       * @param options.captchaToken Verification token received when the user completes the captcha on the site.
-       */
-      async resetPasswordForEmail(email, options2 = {}) {
-        let codeChallenge = null;
-        let codeChallengeMethod = null;
-        if (this.flowType === "pkce") {
-          const codeVerifier = generatePKCEVerifier();
-          await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, `${codeVerifier}/PASSWORD_RECOVERY`);
-          codeChallenge = await generatePKCEChallenge(codeVerifier);
-          codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
-        }
-        try {
-          return await _request(this.fetch, "POST", `${this.url}/recover`, {
-            body: {
-              email,
-              code_challenge: codeChallenge,
-              code_challenge_method: codeChallengeMethod,
-              gotrue_meta_security: { captcha_token: options2.captchaToken }
-            },
-            headers: this.headers,
-            redirectTo: options2.redirectTo
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Gets all the identities linked to a user.
-       */
-      async getUserIdentities() {
-        var _a;
-        try {
-          const { data, error } = await this.getUser();
-          if (error)
-            throw error;
-          return { data: { identities: (_a = data.user.identities) !== null && _a !== void 0 ? _a : [] }, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Links an oauth identity to an existing user.
-       * This method supports the PKCE flow.
-       */
-      async linkIdentity(credentials) {
-        var _a;
-        try {
-          const { data, error } = await this._useSession(async (result) => {
-            var _a2, _b, _c, _d, _e;
-            const { data: data2, error: error2 } = result;
-            if (error2)
-              throw error2;
-            const url = await this._getUrlForProvider(`${this.url}/user/identities/authorize`, credentials.provider, {
-              redirectTo: (_a2 = credentials.options) === null || _a2 === void 0 ? void 0 : _a2.redirectTo,
-              scopes: (_b = credentials.options) === null || _b === void 0 ? void 0 : _b.scopes,
-              queryParams: (_c = credentials.options) === null || _c === void 0 ? void 0 : _c.queryParams,
-              skipBrowserRedirect: true
-            });
-            return await _request(this.fetch, "GET", url, {
-              headers: this.headers,
-              jwt: (_e = (_d = data2.session) === null || _d === void 0 ? void 0 : _d.access_token) !== null && _e !== void 0 ? _e : void 0
-            });
-          });
-          if (error)
-            throw error;
-          if (isBrowser2() && !((_a = credentials.options) === null || _a === void 0 ? void 0 : _a.skipBrowserRedirect)) {
-            window.location.assign(data === null || data === void 0 ? void 0 : data.url);
-          }
-          return { data: { provider: credentials.provider, url: data === null || data === void 0 ? void 0 : data.url }, error: null };
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: { provider: credentials.provider, url: null }, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Unlinks an identity from a user by deleting it. The user will no longer be able to sign in with that identity once it's unlinked.
-       */
-      async unlinkIdentity(identity2) {
-        try {
-          return await this._useSession(async (result) => {
-            var _a, _b;
-            const { data, error } = result;
-            if (error) {
-              throw error;
-            }
-            return await _request(this.fetch, "DELETE", `${this.url}/user/identities/${identity2.identity_id}`, {
-              headers: this.headers,
-              jwt: (_b = (_a = data.session) === null || _a === void 0 ? void 0 : _a.access_token) !== null && _b !== void 0 ? _b : void 0
-            });
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * Generates a new JWT.
-       * @param refreshToken A valid refresh token that was returned on login.
-       */
-      async _refreshAccessToken(refreshToken) {
-        const debugName = `#_refreshAccessToken(${refreshToken.substring(0, 5)}...)`;
-        this._debug(debugName, "begin");
-        try {
-          const startedAt = Date.now();
-          return await retryable(async (attempt) => {
-            await sleep(attempt * 200);
-            this._debug(debugName, "refreshing attempt", attempt);
-            return await _request(this.fetch, "POST", `${this.url}/token?grant_type=refresh_token`, {
-              body: { refresh_token: refreshToken },
-              headers: this.headers,
-              xform: _sessionResponse
-            });
-          }, (attempt, _, result) => result && result.error && isAuthRetryableFetchError(result.error) && // retryable only if the request can be sent before the backoff overflows the tick duration
-          Date.now() + (attempt + 1) * 200 - startedAt < AUTO_REFRESH_TICK_DURATION);
-        } catch (error) {
-          this._debug(debugName, "error", error);
-          if (isAuthError(error)) {
-            return { data: { session: null, user: null }, error };
-          }
-          throw error;
-        } finally {
-          this._debug(debugName, "end");
-        }
-      }
-      _isValidSession(maybeSession) {
-        const isValidSession = typeof maybeSession === "object" && maybeSession !== null && "access_token" in maybeSession && "refresh_token" in maybeSession && "expires_at" in maybeSession;
-        return isValidSession;
-      }
-      async _handleProviderSignIn(provider, options2) {
-        const url = await this._getUrlForProvider(`${this.url}/authorize`, provider, {
-          redirectTo: options2.redirectTo,
-          scopes: options2.scopes,
-          queryParams: options2.queryParams
-        });
-        this._debug("#_handleProviderSignIn()", "provider", provider, "options", options2, "url", url);
-        if (isBrowser2() && !options2.skipBrowserRedirect) {
-          window.location.assign(url);
-        }
-        return { data: { provider, url }, error: null };
-      }
-      /**
-       * Recovers the session from LocalStorage and refreshes
-       * Note: this method is async to accommodate for AsyncStorage e.g. in React native.
-       */
-      async _recoverAndRefresh() {
-        var _a;
-        const debugName = "#_recoverAndRefresh()";
-        this._debug(debugName, "begin");
-        try {
-          const currentSession = await getItemAsync(this.storage, this.storageKey);
-          this._debug(debugName, "session from storage", currentSession);
-          if (!this._isValidSession(currentSession)) {
-            this._debug(debugName, "session is not valid");
-            if (currentSession !== null) {
-              await this._removeSession();
-            }
-            return;
-          }
-          const timeNow = Math.round(Date.now() / 1e3);
-          const expiresWithMargin = ((_a = currentSession.expires_at) !== null && _a !== void 0 ? _a : Infinity) < timeNow + EXPIRY_MARGIN;
-          this._debug(debugName, `session has${expiresWithMargin ? "" : " not"} expired with margin of ${EXPIRY_MARGIN}s`);
-          if (expiresWithMargin) {
-            if (this.autoRefreshToken && currentSession.refresh_token) {
-              const { error } = await this._callRefreshToken(currentSession.refresh_token);
-              if (error) {
-                console.error(error);
-                if (!isAuthRetryableFetchError(error)) {
-                  this._debug(debugName, "refresh failed with a non-retryable error, removing the session", error);
-                  await this._removeSession();
-                }
-              }
-            }
-          } else {
-            await this._notifyAllSubscribers("SIGNED_IN", currentSession);
-          }
-        } catch (err) {
-          this._debug(debugName, "error", err);
-          console.error(err);
-          return;
-        } finally {
-          this._debug(debugName, "end");
-        }
-      }
-      async _callRefreshToken(refreshToken) {
-        var _a, _b;
-        if (!refreshToken) {
-          throw new AuthSessionMissingError();
-        }
-        if (this.refreshingDeferred) {
-          return this.refreshingDeferred.promise;
-        }
-        const debugName = `#_callRefreshToken(${refreshToken.substring(0, 5)}...)`;
-        this._debug(debugName, "begin");
-        try {
-          this.refreshingDeferred = new Deferred();
-          const { data, error } = await this._refreshAccessToken(refreshToken);
-          if (error)
-            throw error;
-          if (!data.session)
-            throw new AuthSessionMissingError();
-          await this._saveSession(data.session);
-          await this._notifyAllSubscribers("TOKEN_REFRESHED", data.session);
-          const result = { session: data.session, error: null };
-          this.refreshingDeferred.resolve(result);
-          return result;
-        } catch (error) {
-          this._debug(debugName, "error", error);
-          if (isAuthError(error)) {
-            const result = { session: null, error };
-            if (!isAuthRetryableFetchError(error)) {
-              await this._removeSession();
-              await this._notifyAllSubscribers("SIGNED_OUT", null);
-            }
-            (_a = this.refreshingDeferred) === null || _a === void 0 ? void 0 : _a.resolve(result);
-            return result;
-          }
-          (_b = this.refreshingDeferred) === null || _b === void 0 ? void 0 : _b.reject(error);
-          throw error;
-        } finally {
-          this.refreshingDeferred = null;
-          this._debug(debugName, "end");
-        }
-      }
-      async _notifyAllSubscribers(event, session, broadcast = true) {
-        const debugName = `#_notifyAllSubscribers(${event})`;
-        this._debug(debugName, "begin", session, `broadcast = ${broadcast}`);
-        try {
-          if (this.broadcastChannel && broadcast) {
-            this.broadcastChannel.postMessage({ event, session });
-          }
-          const errors = [];
-          const promises = Array.from(this.stateChangeEmitters.values()).map(async (x) => {
-            try {
-              await x.callback(event, session);
-            } catch (e) {
-              errors.push(e);
-            }
-          });
-          await Promise.all(promises);
-          if (errors.length > 0) {
-            for (let i = 0; i < errors.length; i += 1) {
-              console.error(errors[i]);
-            }
-            throw errors[0];
-          }
-        } finally {
-          this._debug(debugName, "end");
-        }
-      }
-      /**
-       * set currentSession and currentUser
-       * process to _startAutoRefreshToken if possible
-       */
-      async _saveSession(session) {
-        this._debug("#_saveSession()", session);
-        await setItemAsync(this.storage, this.storageKey, session);
-      }
-      async _removeSession() {
-        this._debug("#_removeSession()");
-        await removeItemAsync(this.storage, this.storageKey);
-      }
-      /**
-       * Removes any registered visibilitychange callback.
-       *
-       * {@see #startAutoRefresh}
-       * {@see #stopAutoRefresh}
-       */
-      _removeVisibilityChangedCallback() {
-        this._debug("#_removeVisibilityChangedCallback()");
-        const callback = this.visibilityChangedCallback;
-        this.visibilityChangedCallback = null;
-        try {
-          if (callback && isBrowser2() && (window === null || window === void 0 ? void 0 : window.removeEventListener)) {
-            window.removeEventListener("visibilitychange", callback);
-          }
-        } catch (e) {
-          console.error("removing visibilitychange callback failed", e);
-        }
-      }
-      /**
-       * This is the private implementation of {@link #startAutoRefresh}. Use this
-       * within the library.
-       */
-      async _startAutoRefresh() {
-        await this._stopAutoRefresh();
-        this._debug("#_startAutoRefresh()");
-        const ticker = setInterval(() => this._autoRefreshTokenTick(), AUTO_REFRESH_TICK_DURATION);
-        this.autoRefreshTicker = ticker;
-        if (ticker && typeof ticker === "object" && typeof ticker.unref === "function") {
-          ticker.unref();
-        } else if (typeof Deno !== "undefined" && typeof Deno.unrefTimer === "function") {
-          Deno.unrefTimer(ticker);
-        }
-        setTimeout(async () => {
-          await this.initializePromise;
-          await this._autoRefreshTokenTick();
-        }, 0);
-      }
-      /**
-       * This is the private implementation of {@link #stopAutoRefresh}. Use this
-       * within the library.
-       */
-      async _stopAutoRefresh() {
-        this._debug("#_stopAutoRefresh()");
-        const ticker = this.autoRefreshTicker;
-        this.autoRefreshTicker = null;
-        if (ticker) {
-          clearInterval(ticker);
-        }
-      }
-      /**
-       * Starts an auto-refresh process in the background. The session is checked
-       * every few seconds. Close to the time of expiration a process is started to
-       * refresh the session. If refreshing fails it will be retried for as long as
-       * necessary.
-       *
-       * If you set the {@link GoTrueClientOptions#autoRefreshToken} you don't need
-       * to call this function, it will be called for you.
-       *
-       * On browsers the refresh process works only when the tab/window is in the
-       * foreground to conserve resources as well as prevent race conditions and
-       * flooding auth with requests. If you call this method any managed
-       * visibility change callback will be removed and you must manage visibility
-       * changes on your own.
-       *
-       * On non-browser platforms the refresh process works *continuously* in the
-       * background, which may not be desirable. You should hook into your
-       * platform's foreground indication mechanism and call these methods
-       * appropriately to conserve resources.
-       *
-       * {@see #stopAutoRefresh}
-       */
-      async startAutoRefresh() {
-        this._removeVisibilityChangedCallback();
-        await this._startAutoRefresh();
-      }
-      /**
-       * Stops an active auto refresh process running in the background (if any).
-       *
-       * If you call this method any managed visibility change callback will be
-       * removed and you must manage visibility changes on your own.
-       *
-       * See {@link #startAutoRefresh} for more details.
-       */
-      async stopAutoRefresh() {
-        this._removeVisibilityChangedCallback();
-        await this._stopAutoRefresh();
-      }
-      /**
-       * Runs the auto refresh token tick.
-       */
-      async _autoRefreshTokenTick() {
-        this._debug("#_autoRefreshTokenTick()", "begin");
-        try {
-          await this._acquireLock(0, async () => {
-            try {
-              const now = Date.now();
-              try {
-                return await this._useSession(async (result) => {
-                  const { data: { session } } = result;
-                  if (!session || !session.refresh_token || !session.expires_at) {
-                    this._debug("#_autoRefreshTokenTick()", "no session");
-                    return;
-                  }
-                  const expiresInTicks = Math.floor((session.expires_at * 1e3 - now) / AUTO_REFRESH_TICK_DURATION);
-                  this._debug("#_autoRefreshTokenTick()", `access token expires in ${expiresInTicks} ticks, a tick lasts ${AUTO_REFRESH_TICK_DURATION}ms, refresh threshold is ${AUTO_REFRESH_TICK_THRESHOLD} ticks`);
-                  if (expiresInTicks <= AUTO_REFRESH_TICK_THRESHOLD) {
-                    await this._callRefreshToken(session.refresh_token);
-                  }
-                });
-              } catch (e) {
-                console.error("Auto refresh tick failed with error. This is likely a transient error.", e);
-              }
-            } finally {
-              this._debug("#_autoRefreshTokenTick()", "end");
-            }
-          });
-        } catch (e) {
-          if (e.isAcquireTimeout || e instanceof LockAcquireTimeoutError) {
-            this._debug("auto refresh token tick lock not available");
-          } else {
-            throw e;
-          }
-        }
-      }
-      /**
-       * Registers callbacks on the browser / platform, which in-turn run
-       * algorithms when the browser window/tab are in foreground. On non-browser
-       * platforms it assumes always foreground.
-       */
-      async _handleVisibilityChange() {
-        this._debug("#_handleVisibilityChange()");
-        if (!isBrowser2() || !(window === null || window === void 0 ? void 0 : window.addEventListener)) {
-          if (this.autoRefreshToken) {
-            this.startAutoRefresh();
-          }
-          return false;
-        }
-        try {
-          this.visibilityChangedCallback = async () => await this._onVisibilityChanged(false);
-          window === null || window === void 0 ? void 0 : window.addEventListener("visibilitychange", this.visibilityChangedCallback);
-          await this._onVisibilityChanged(true);
-        } catch (error) {
-          console.error("_handleVisibilityChange", error);
-        }
-      }
-      /**
-       * Callback registered with `window.addEventListener('visibilitychange')`.
-       */
-      async _onVisibilityChanged(calledFromInitialize) {
-        const methodName = `#_onVisibilityChanged(${calledFromInitialize})`;
-        this._debug(methodName, "visibilityState", document.visibilityState);
-        if (document.visibilityState === "visible") {
-          if (this.autoRefreshToken) {
-            this._startAutoRefresh();
-          }
-          if (!calledFromInitialize) {
-            await this.initializePromise;
-            await this._acquireLock(-1, async () => {
-              if (document.visibilityState !== "visible") {
-                this._debug(methodName, "acquired the lock to recover the session, but the browser visibilityState is no longer visible, aborting");
-                return;
-              }
-              await this._recoverAndRefresh();
-            });
-          }
-        } else if (document.visibilityState === "hidden") {
-          if (this.autoRefreshToken) {
-            this._stopAutoRefresh();
-          }
-        }
-      }
-      /**
-       * Generates the relevant login URL for a third-party provider.
-       * @param options.redirectTo A URL or mobile address to send the user to after they are confirmed.
-       * @param options.scopes A space-separated list of scopes granted to the OAuth application.
-       * @param options.queryParams An object of key-value pairs containing query parameters granted to the OAuth application.
-       */
-      async _getUrlForProvider(url, provider, options2) {
-        const urlParams = [`provider=${encodeURIComponent(provider)}`];
-        if (options2 === null || options2 === void 0 ? void 0 : options2.redirectTo) {
-          urlParams.push(`redirect_to=${encodeURIComponent(options2.redirectTo)}`);
-        }
-        if (options2 === null || options2 === void 0 ? void 0 : options2.scopes) {
-          urlParams.push(`scopes=${encodeURIComponent(options2.scopes)}`);
-        }
-        if (this.flowType === "pkce") {
-          const codeVerifier = generatePKCEVerifier();
-          await setItemAsync(this.storage, `${this.storageKey}-code-verifier`, codeVerifier);
-          const codeChallenge = await generatePKCEChallenge(codeVerifier);
-          const codeChallengeMethod = codeVerifier === codeChallenge ? "plain" : "s256";
-          this._debug("PKCE", "code verifier", `${codeVerifier.substring(0, 5)}...`, "code challenge", codeChallenge, "method", codeChallengeMethod);
-          const flowParams = new URLSearchParams({
-            code_challenge: `${encodeURIComponent(codeChallenge)}`,
-            code_challenge_method: `${encodeURIComponent(codeChallengeMethod)}`
-          });
-          urlParams.push(flowParams.toString());
-        }
-        if (options2 === null || options2 === void 0 ? void 0 : options2.queryParams) {
-          const query = new URLSearchParams(options2.queryParams);
-          urlParams.push(query.toString());
-        }
-        if (options2 === null || options2 === void 0 ? void 0 : options2.skipBrowserRedirect) {
-          urlParams.push(`skip_http_redirect=${options2.skipBrowserRedirect}`);
-        }
-        return `${url}?${urlParams.join("&")}`;
-      }
-      async _unenroll(params) {
-        try {
-          return await this._useSession(async (result) => {
-            var _a;
-            const { data: sessionData, error: sessionError } = result;
-            if (sessionError) {
-              return { data: null, error: sessionError };
-            }
-            return await _request(this.fetch, "DELETE", `${this.url}/factors/${params.factorId}`, {
-              headers: this.headers,
-              jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
-            });
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * {@see GoTrueMFAApi#enroll}
-       */
-      async _enroll(params) {
-        try {
-          return await this._useSession(async (result) => {
-            var _a, _b;
-            const { data: sessionData, error: sessionError } = result;
-            if (sessionError) {
-              return { data: null, error: sessionError };
-            }
-            const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors`, {
-              body: {
-                friendly_name: params.friendlyName,
-                factor_type: params.factorType,
-                issuer: params.issuer
-              },
-              headers: this.headers,
-              jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
-            });
-            if (error) {
-              return { data: null, error };
-            }
-            if ((_b = data === null || data === void 0 ? void 0 : data.totp) === null || _b === void 0 ? void 0 : _b.qr_code) {
-              data.totp.qr_code = `data:image/svg+xml;utf-8,${data.totp.qr_code}`;
-            }
-            return { data, error: null };
-          });
-        } catch (error) {
-          if (isAuthError(error)) {
-            return { data: null, error };
-          }
-          throw error;
-        }
-      }
-      /**
-       * {@see GoTrueMFAApi#verify}
-       */
-      async _verify(params) {
-        return this._acquireLock(-1, async () => {
-          try {
-            return await this._useSession(async (result) => {
-              var _a;
-              const { data: sessionData, error: sessionError } = result;
-              if (sessionError) {
-                return { data: null, error: sessionError };
-              }
-              const { data, error } = await _request(this.fetch, "POST", `${this.url}/factors/${params.factorId}/verify`, {
-                body: { code: params.code, challenge_id: params.challengeId },
-                headers: this.headers,
-                jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
-              });
-              if (error) {
-                return { data: null, error };
-              }
-              await this._saveSession(Object.assign({ expires_at: Math.round(Date.now() / 1e3) + data.expires_in }, data));
-              await this._notifyAllSubscribers("MFA_CHALLENGE_VERIFIED", data);
-              return { data, error };
-            });
-          } catch (error) {
-            if (isAuthError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * {@see GoTrueMFAApi#challenge}
-       */
-      async _challenge(params) {
-        return this._acquireLock(-1, async () => {
-          try {
-            return await this._useSession(async (result) => {
-              var _a;
-              const { data: sessionData, error: sessionError } = result;
-              if (sessionError) {
-                return { data: null, error: sessionError };
-              }
-              return await _request(this.fetch, "POST", `${this.url}/factors/${params.factorId}/challenge`, {
-                headers: this.headers,
-                jwt: (_a = sessionData === null || sessionData === void 0 ? void 0 : sessionData.session) === null || _a === void 0 ? void 0 : _a.access_token
-              });
-            });
-          } catch (error) {
-            if (isAuthError(error)) {
-              return { data: null, error };
-            }
-            throw error;
-          }
-        });
-      }
-      /**
-       * {@see GoTrueMFAApi#challengeAndVerify}
-       */
-      async _challengeAndVerify(params) {
-        const { data: challengeData, error: challengeError } = await this._challenge({
-          factorId: params.factorId
-        });
-        if (challengeError) {
-          return { data: null, error: challengeError };
-        }
-        return await this._verify({
-          factorId: params.factorId,
-          challengeId: challengeData.id,
-          code: params.code
-        });
-      }
-      /**
-       * {@see GoTrueMFAApi#listFactors}
-       */
-      async _listFactors() {
-        const { data: { user }, error: userError } = await this.getUser();
-        if (userError) {
-          return { data: null, error: userError };
-        }
-        const factors = (user === null || user === void 0 ? void 0 : user.factors) || [];
-        const totp = factors.filter((factor) => factor.factor_type === "totp" && factor.status === "verified");
-        return {
-          data: {
-            all: factors,
-            totp
-          },
-          error: null
-        };
-      }
-      /**
-       * {@see GoTrueMFAApi#getAuthenticatorAssuranceLevel}
-       */
-      async _getAuthenticatorAssuranceLevel() {
-        return this._acquireLock(-1, async () => {
-          return await this._useSession(async (result) => {
-            var _a, _b;
-            const { data: { session }, error: sessionError } = result;
-            if (sessionError) {
-              return { data: null, error: sessionError };
-            }
-            if (!session) {
-              return {
-                data: { currentLevel: null, nextLevel: null, currentAuthenticationMethods: [] },
-                error: null
-              };
-            }
-            const payload = this._decodeJWT(session.access_token);
-            let currentLevel = null;
-            if (payload.aal) {
-              currentLevel = payload.aal;
-            }
-            let nextLevel = currentLevel;
-            const verifiedFactors = (_b = (_a = session.user.factors) === null || _a === void 0 ? void 0 : _a.filter((factor) => factor.status === "verified")) !== null && _b !== void 0 ? _b : [];
-            if (verifiedFactors.length > 0) {
-              nextLevel = "aal2";
-            }
-            const currentAuthenticationMethods = payload.amr || [];
-            return { data: { currentLevel, nextLevel, currentAuthenticationMethods }, error: null };
-          });
-        });
-      }
-    };
-    GoTrueClient.nextInstanceID = 0;
-  }
-});
-
-// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/AuthAdminApi.js
-var init_AuthAdminApi = __esm({
-  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/AuthAdminApi.js"() {
-    init_GoTrueAdminApi();
-  }
-});
-
-// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/AuthClient.js
-var init_AuthClient = __esm({
-  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/AuthClient.js"() {
-    init_GoTrueClient();
-  }
-});
-
-// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/types.js
-var init_types3 = __esm({
-  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/lib/types.js"() {
-  }
-});
-
-// node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/index.js
-var init_module5 = __esm({
-  "node_modules/.pnpm/@supabase+gotrue-js@2.62.2/node_modules/@supabase/gotrue-js/dist/module/index.js"() {
-    init_GoTrueAdminApi();
-    init_GoTrueClient();
-    init_AuthAdminApi();
-    init_AuthClient();
-    init_types3();
-    init_errors2();
-    init_locks();
-  }
-});
-
-// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/SupabaseAuthClient.js
-var SupabaseAuthClient;
-var init_SupabaseAuthClient = __esm({
-  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/lib/SupabaseAuthClient.js"() {
-    init_module5();
-    SupabaseAuthClient = class extends GoTrueClient {
-      constructor(options2) {
-        super(options2);
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js
-var __awaiter7, SupabaseClient;
-var init_SupabaseClient = __esm({
-  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js"() {
-    init_module();
-    init_module2();
-    init_module3();
-    init_module4();
-    init_constants4();
-    init_fetch2();
-    init_helpers2();
-    init_SupabaseAuthClient();
-    __awaiter7 = function(thisArg, _arguments, P2, generator) {
-      function adopt(value) {
-        return value instanceof P2 ? value : new P2(function(resolve2) {
-          resolve2(value);
-        });
-      }
-      return new (P2 || (P2 = Promise))(function(resolve2, reject) {
-        function fulfilled(value) {
-          try {
-            step(generator.next(value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function rejected(value) {
-          try {
-            step(generator["throw"](value));
-          } catch (e) {
-            reject(e);
-          }
-        }
-        function step(result) {
-          result.done ? resolve2(result.value) : adopt(result.value).then(fulfilled, rejected);
-        }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-      });
-    };
-    SupabaseClient = class {
-      /**
-       * Create a new client for use in the browser.
-       * @param supabaseUrl The unique Supabase URL which is supplied when you create a new project in your project dashboard.
-       * @param supabaseKey The unique Supabase Key which is supplied when you create a new project in your project dashboard.
-       * @param options.db.schema You can switch in between schemas. The schema needs to be on the list of exposed schemas inside Supabase.
-       * @param options.auth.autoRefreshToken Set to "true" if you want to automatically refresh the token before expiring.
-       * @param options.auth.persistSession Set to "true" if you want to automatically save the user session into local storage.
-       * @param options.auth.detectSessionInUrl Set to "true" if you want to automatically detects OAuth grants in the URL and signs in the user.
-       * @param options.realtime Options passed along to realtime-js constructor.
-       * @param options.global.fetch A custom fetch implementation.
-       * @param options.global.headers Any additional headers to send with each network request.
-       */
-      constructor(supabaseUrl, supabaseKey, options2) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
-        this.supabaseUrl = supabaseUrl;
-        this.supabaseKey = supabaseKey;
-        if (!supabaseUrl)
-          throw new Error("supabaseUrl is required.");
-        if (!supabaseKey)
-          throw new Error("supabaseKey is required.");
-        const _supabaseUrl = stripTrailingSlash(supabaseUrl);
-        this.realtimeUrl = `${_supabaseUrl}/realtime/v1`.replace(/^http/i, "ws");
-        this.authUrl = `${_supabaseUrl}/auth/v1`;
-        this.storageUrl = `${_supabaseUrl}/storage/v1`;
-        this.functionsUrl = `${_supabaseUrl}/functions/v1`;
-        const defaultStorageKey = `sb-${new URL(this.authUrl).hostname.split(".")[0]}-auth-token`;
-        const DEFAULTS = {
-          db: DEFAULT_DB_OPTIONS,
-          realtime: DEFAULT_REALTIME_OPTIONS,
-          auth: Object.assign(Object.assign({}, DEFAULT_AUTH_OPTIONS), { storageKey: defaultStorageKey }),
-          global: DEFAULT_GLOBAL_OPTIONS
-        };
-        const settings = applySettingDefaults(options2 !== null && options2 !== void 0 ? options2 : {}, DEFAULTS);
-        this.storageKey = (_b = (_a = settings.auth) === null || _a === void 0 ? void 0 : _a.storageKey) !== null && _b !== void 0 ? _b : "";
-        this.headers = (_d = (_c = settings.global) === null || _c === void 0 ? void 0 : _c.headers) !== null && _d !== void 0 ? _d : {};
-        this.auth = this._initSupabaseAuthClient((_e = settings.auth) !== null && _e !== void 0 ? _e : {}, this.headers, (_f = settings.global) === null || _f === void 0 ? void 0 : _f.fetch);
-        this.fetch = fetchWithAuth(supabaseKey, this._getAccessToken.bind(this), (_g = settings.global) === null || _g === void 0 ? void 0 : _g.fetch);
-        this.realtime = this._initRealtimeClient(Object.assign({ headers: this.headers }, settings.realtime));
-        this.rest = new PostgrestClient(`${_supabaseUrl}/rest/v1`, {
-          headers: this.headers,
-          schema: (_h = settings.db) === null || _h === void 0 ? void 0 : _h.schema,
-          fetch: this.fetch
-        });
-        this._listenForAuthEvents();
-      }
-      /**
-       * Supabase Functions allows you to deploy and invoke edge functions.
-       */
-      get functions() {
-        return new FunctionsClient(this.functionsUrl, {
-          headers: this.headers,
-          customFetch: this.fetch
-        });
-      }
-      /**
-       * Supabase Storage allows you to manage user-generated content, such as photos or videos.
-       */
-      get storage() {
-        return new StorageClient(this.storageUrl, this.headers, this.fetch);
-      }
-      /**
-       * Perform a query on a table or a view.
-       *
-       * @param relation - The table or view name to query
-       */
-      from(relation) {
-        return this.rest.from(relation);
-      }
-      // NOTE: signatures must be kept in sync with PostgrestClient.schema
-      /**
-       * Select a schema to query or perform an function (rpc) call.
-       *
-       * The schema needs to be on the list of exposed schemas inside Supabase.
-       *
-       * @param schema - The schema to query
-       */
-      schema(schema) {
-        return this.rest.schema(schema);
-      }
-      // NOTE: signatures must be kept in sync with PostgrestClient.rpc
-      /**
-       * Perform a function call.
-       *
-       * @param fn - The function name to call
-       * @param args - The arguments to pass to the function call
-       * @param options - Named parameters
-       * @param options.head - When set to `true`, `data` will not be returned.
-       * Useful if you only need the count.
-       * @param options.count - Count algorithm to use to count rows returned by the
-       * function. Only applicable for [set-returning
-       * functions](https://www.postgresql.org/docs/current/functions-srf.html).
-       *
-       * `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
-       * hood.
-       *
-       * `"planned"`: Approximated but fast count algorithm. Uses the Postgres
-       * statistics under the hood.
-       *
-       * `"estimated"`: Uses exact count for low numbers and planned count for high
-       * numbers.
-       */
-      rpc(fn, args = {}, options2 = {}) {
-        return this.rest.rpc(fn, args, options2);
-      }
-      /**
-       * Creates a Realtime channel with Broadcast, Presence, and Postgres Changes.
-       *
-       * @param {string} name - The name of the Realtime channel.
-       * @param {Object} opts - The options to pass to the Realtime channel.
-       *
-       */
-      channel(name2, opts = { config: {} }) {
-        return this.realtime.channel(name2, opts);
-      }
-      /**
-       * Returns all Realtime channels.
-       */
-      getChannels() {
-        return this.realtime.getChannels();
-      }
-      /**
-       * Unsubscribes and removes Realtime channel from Realtime client.
-       *
-       * @param {RealtimeChannel} channel - The name of the Realtime channel.
-       *
-       */
-      removeChannel(channel) {
-        return this.realtime.removeChannel(channel);
-      }
-      /**
-       * Unsubscribes and removes all Realtime channels from Realtime client.
-       */
-      removeAllChannels() {
-        return this.realtime.removeAllChannels();
-      }
-      _getAccessToken() {
-        var _a, _b;
-        return __awaiter7(this, void 0, void 0, function* () {
-          const { data } = yield this.auth.getSession();
-          return (_b = (_a = data.session) === null || _a === void 0 ? void 0 : _a.access_token) !== null && _b !== void 0 ? _b : null;
-        });
-      }
-      _initSupabaseAuthClient({ autoRefreshToken, persistSession, detectSessionInUrl, storage: storage2, storageKey, flowType, debug }, headers2, fetch3) {
-        const authHeaders = {
-          Authorization: `Bearer ${this.supabaseKey}`,
-          apikey: `${this.supabaseKey}`
-        };
-        return new SupabaseAuthClient({
-          url: this.authUrl,
-          headers: Object.assign(Object.assign({}, authHeaders), headers2),
-          storageKey,
-          autoRefreshToken,
-          persistSession,
-          detectSessionInUrl,
-          storage: storage2,
-          flowType,
-          debug,
-          fetch: fetch3
-        });
-      }
-      _initRealtimeClient(options2) {
-        return new RealtimeClient(this.realtimeUrl, Object.assign(Object.assign({}, options2), { params: Object.assign({ apikey: this.supabaseKey }, options2 === null || options2 === void 0 ? void 0 : options2.params) }));
-      }
-      _listenForAuthEvents() {
-        let data = this.auth.onAuthStateChange((event, session) => {
-          this._handleTokenChanged(event, "CLIENT", session === null || session === void 0 ? void 0 : session.access_token);
-        });
-        return data;
-      }
-      _handleTokenChanged(event, source, token) {
-        if ((event === "TOKEN_REFRESHED" || event === "SIGNED_IN") && this.changedAccessToken !== token) {
-          this.realtime.setAuth(token !== null && token !== void 0 ? token : null);
-          this.changedAccessToken = token;
-        } else if (event === "SIGNED_OUT") {
-          this.realtime.setAuth(this.supabaseKey);
-          if (source == "STORAGE")
-            this.auth.signOut();
-          this.changedAccessToken = void 0;
-        }
-      }
-    };
-  }
-});
-
-// node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/index.js
-var createClient;
-var init_module6 = __esm({
-  "node_modules/.pnpm/@supabase+supabase-js@2.39.8/node_modules/@supabase/supabase-js/dist/module/index.js"() {
-    init_SupabaseClient();
-    init_module5();
-    init_module3();
-    createClient = (supabaseUrl, supabaseKey, options2) => {
-      return new SupabaseClient(supabaseUrl, supabaseKey, options2);
-    };
   }
 });
 
@@ -12065,7 +13528,7 @@ var init_supabaseClient = __esm({
 // .svelte-kit/output/server/entries/pages/produkte/_layout.ts.js
 var layout_ts_exports2 = {};
 __export(layout_ts_exports2, {
-  load: () => load2
+  load: () => load4
 });
 async function fetchCategories() {
   if (!cachedCategories) {
@@ -12078,7 +13541,7 @@ async function fetchCategories() {
   console.log("Getting Categories from Cache");
   return cachedCategories;
 }
-async function load2() {
+async function load4() {
   const { count } = await supabase.from("products").select("*", { count: "exact", head: true });
   const categories2 = await fetchCategories();
   return {
@@ -12140,7 +13603,7 @@ var init__4 = __esm({
     index4 = 3;
     component4 = async () => component_cache4 ?? (component_cache4 = (await Promise.resolve().then(() => (init_layout_svelte3(), layout_svelte_exports3))).default);
     universal_id3 = "src/routes/produkte/+layout.ts";
-    imports4 = ["_app/immutable/nodes/3.XXqyP00s.js", "_app/immutable/chunks/supabaseClient.-wfdu3WJ.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/index.emHA90Ds.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/getHashtags.Beph7Bi3.js"];
+    imports4 = ["_app/immutable/nodes/3.5ndOarXh.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/getHashtags.DsRrQDEt.js"];
     stylesheets4 = [];
     fonts4 = [];
   }
@@ -12200,18 +13663,234 @@ var init__5 = __esm({
   ".svelte-kit/output/server/nodes/4.js"() {
     index5 = 4;
     component5 = async () => component_cache5 ?? (component_cache5 = (await Promise.resolve().then(() => (init_page_svelte(), page_svelte_exports))).default);
-    imports5 = ["_app/immutable/nodes/4.C01MW9qz.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/index.emHA90Ds.js"];
+    imports5 = ["_app/immutable/nodes/4.Ba669PUs.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js"];
     stylesheets5 = [];
     fonts5 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/admin/_page.svelte.js
+var page_svelte_exports2 = {};
+__export(page_svelte_exports2, {
+  default: () => Page2
+});
+var Page2;
+var init_page_svelte2 = __esm({
+  ".svelte-kit/output/server/entries/pages/admin/_page.svelte.js"() {
+    init_ssr();
+    init_client();
+    init_supabaseClient();
+    Page2 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      async function getSession() {
+        console.log("BEFORE getSession");
+        const { data, error } = await supabase.auth.getSession();
+        console.log("after get Session");
+        return data;
+      }
+      async function getUser() {
+        console.log("before getUser");
+        const { data: { user: user2 } } = await supabase.auth.getUser();
+        console.log("after getUser");
+        return user2;
+      }
+      async function signinUser() {
+        console.log("Signing in User");
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: "hanniboy@gmail.com",
+          password: "291276168"
+        });
+        console.log("sign in user data ", data);
+        console.log("sign in user error ", error);
+      }
+      console.log("now signing in user");
+      signinUser().then(getSession);
+      console.log("now getting user");
+      let user = getUser();
+      console.log("now getting session. ");
+      let session = getSession();
+      console.log("session is ", session);
+      console.log("user is ", user);
+      const isAuthenticated = supabase.auth.getSession() !== null;
+      console.log("Authenticated is ", isAuthenticated);
+      if (!isAuthenticated) {
+        goto();
+      }
+      return `${isAuthenticated ? ` <h1 data-svelte-h="svelte-csxq8s">Willkommen zur Admin-Seite</h1> ` : ` <p data-svelte-h="svelte-14anymq">Du musst angemeldet sein, um auf diese Seite zuzugreifen. Bitte melde dich an.</p>`}`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/5.js
+var __exports6 = {};
+__export(__exports6, {
+  component: () => component6,
+  fonts: () => fonts6,
+  imports: () => imports6,
+  index: () => index6,
+  stylesheets: () => stylesheets6
+});
+var index6, component_cache6, component6, imports6, stylesheets6, fonts6;
+var init__6 = __esm({
+  ".svelte-kit/output/server/nodes/5.js"() {
+    index6 = 5;
+    component6 = async () => component_cache6 ?? (component_cache6 = (await Promise.resolve().then(() => (init_page_svelte2(), page_svelte_exports2))).default);
+    imports6 = ["_app/immutable/nodes/5.BmmWwKEx.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/entry.B_oBJj3n.js", "_app/immutable/chunks/index.DYca1GoS.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js"];
+    stylesheets6 = [];
+    fonts6 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/admin/books/_page.server.ts.js
+var page_server_ts_exports = {};
+__export(page_server_ts_exports, {
+  actions: () => actions
+});
+async function extractFormData(formData) {
+  const title = String(formData.get("title"));
+  const img = new Array(String(formData.get("img")));
+  const desc = String(formData.get("desc"));
+  const label = String(formData.get("label"));
+  const link = String(formData.get("link"));
+  const tag = String(formData.get("tag"));
+  const category = Number(formData.get("category"));
+  return { title, img, desc, label, link, tag, category };
+}
+async function checkData(formData) {
+  let isValid = true;
+  const { title, img, desc, label, link, tag, category } = await extractFormData(formData);
+  if (!title || !img || !desc || !label || !link || !tag || !category) {
+    console.log("not valid");
+    isValid = false;
+  }
+  return isValid;
+}
+async function getNewId(table) {
+  console.log("neue id ermitteln");
+  const { data: maxid, error } = await supabase.from(table).select("id").order("id", { ascending: false }).limit(1).single();
+  if (error) {
+    console.log("es gab einen fehler bei der ermittlung der id ", error);
+    return fail(400);
+  }
+  const id = Number(maxid.id) + 1;
+  console.log("neue id ist ", table, id);
+  return id;
+}
+async function createBook(formData) {
+  const { title, img, desc } = await extractFormData(formData);
+  const id = await getNewId("books");
+  const { data, error } = await supabase.from("books").insert({
+    id,
+    title,
+    img,
+    desc,
+    active: true
+  }).select();
+  if (error)
+    console.log("There was an error creating the book", error);
+  console.log("data is ", data);
+  return id;
+}
+async function addBookToCategories(formData, bookid) {
+  const id = await getNewId("books_categories");
+  const { category } = await extractFormData(formData);
+  const { data, error } = await supabase.from("books_categories").insert({
+    id,
+    book_id: bookid,
+    category_id: category
+  });
+  if (error) {
+    console.log("Fehler in addBookToCategories ", error);
+    return fail(404);
+  } else
+    return true;
+}
+async function addBookLink(formData, bookid) {
+  const id = await getNewId("booklinks");
+  const { label, link } = await extractFormData(formData);
+  const { data, error } = await supabase.from("booklinks").insert({
+    id,
+    book_id: bookid,
+    label,
+    link
+  });
+  if (error) {
+    console.log("Fehler in addBookLink ", error);
+    return fail(404);
+  } else
+    return true;
+}
+var actions;
+var init_page_server_ts = __esm({
+  ".svelte-kit/output/server/entries/pages/admin/books/_page.server.ts.js"() {
+    init_chunks();
+    init_supabaseClient();
+    console.log("adding Book");
+    actions = {
+      addBook: async ({ request }) => {
+        const formData = await request.formData();
+        if (await checkData(formData) == false) {
+          console.log("fehlerhafte daten");
+          return fail(400);
+        }
+        const id = await createBook(formData);
+        addBookToCategories(formData, id);
+        addBookLink(formData, id);
+        console.log("neu erzeugte book id: ", id);
+      }
+    };
+  }
+});
+
+// .svelte-kit/output/server/entries/pages/admin/books/_page.svelte.js
+var page_svelte_exports3 = {};
+__export(page_svelte_exports3, {
+  default: () => Page3
+});
+var css2, Page3;
+var init_page_svelte3 = __esm({
+  ".svelte-kit/output/server/entries/pages/admin/books/_page.svelte.js"() {
+    init_ssr();
+    css2 = {
+      code: "form.svelte-t6kczv.svelte-t6kczv.svelte-t6kczv{margin:2.5rem\n}form.svelte-t6kczv>.svelte-t6kczv:not([hidden])~.svelte-t6kczv:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.25rem * var(--tw-space-y-reverse))\n}button.svelte-t6kczv.svelte-t6kczv.svelte-t6kczv{--tw-bg-opacity:1;background-color:rgb(100 116 139 / var(--tw-bg-opacity));padding:0.75rem;--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))\n}",
+      map: null
+    };
+    Page3 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+      $$result.css.add(css2);
+      return `<h2 data-svelte-h="svelte-fv14bl">Add a new Book</h2> <form method="POST" action="?/addBook" class="grid grid-cols-1 svelte-t6kczv" data-svelte-h="svelte-1tzk7ca"><input type="text" name="title" placeholder="Titel" class="svelte-t6kczv"> <input type="text" name="img" placeholder="Bilder, kommasepariert" class="svelte-t6kczv"> <textarea name="desc" placeholder="Description" class="svelte-t6kczv"></textarea> <fieldset class="flex gap-5 svelte-t6kczv"><input name="label" type="text" placeholder="Label" class="w-1/4"> <input name="link" type="text" placeholder="Link" class="w-full"></fieldset> <input name="tag" type="text" placeholder="hashtags, kommasepariert" class="svelte-t6kczv"> <fieldset class="svelte-t6kczv"><input type="checkbox" id="gesundheit" name="category" value="1"> <label for="gesundheit">Gesundheit</label><br> <input type="checkbox" id="krisenvorsorge" name="category" value="2"> <label for="gesundheit">Krisenvorsorge</label><br> <input type="checkbox" id="medizinskandale" name="category" value="3"> <label for="gesundheit">Medizinskandale</label><br> <input type="checkbox" id="tiergesundheit" name="category" value="4"> <label for="tiergesundheit">Tiergesundheit</label><br></fieldset> <div class="svelte-t6kczv"><button class="svelte-t6kczv">Add Book</button></div> </form>`;
+    });
+  }
+});
+
+// .svelte-kit/output/server/nodes/6.js
+var __exports7 = {};
+__export(__exports7, {
+  component: () => component7,
+  fonts: () => fonts7,
+  imports: () => imports7,
+  index: () => index7,
+  server: () => page_server_ts_exports,
+  server_id: () => server_id2,
+  stylesheets: () => stylesheets7
+});
+var index7, component_cache7, component7, server_id2, imports7, stylesheets7, fonts7;
+var init__7 = __esm({
+  ".svelte-kit/output/server/nodes/6.js"() {
+    init_page_server_ts();
+    index7 = 6;
+    component7 = async () => component_cache7 ?? (component_cache7 = (await Promise.resolve().then(() => (init_page_svelte3(), page_svelte_exports3))).default);
+    server_id2 = "src/routes/admin/books/+page.server.ts";
+    imports7 = ["_app/immutable/nodes/6.Dzx8Kig3.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js"];
+    stylesheets7 = ["_app/immutable/assets/6.a2MriB7A.css"];
+    fonts7 = [];
   }
 });
 
 // .svelte-kit/output/server/entries/pages/buecher/_page.server.js
 var page_server_exports = {};
 __export(page_server_exports, {
-  load: () => load3
+  load: () => load5
 });
-async function load3() {
+async function load5() {
   const title = "Buchempfehlungen. W\xE4hle eine der Kategorien um schneller das passende Buch zu finden. ";
   const { data } = await supabase.from("books").select().eq("active", true);
   return {
@@ -12311,17 +13990,17 @@ var init_Spinner = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/buecher/_page.svelte.js
-var page_svelte_exports2 = {};
-__export(page_svelte_exports2, {
-  default: () => Page2
+var page_svelte_exports4 = {};
+__export(page_svelte_exports4, {
+  default: () => Page4
 });
-var Page2;
-var init_page_svelte2 = __esm({
+var Page4;
+var init_page_svelte4 = __esm({
   ".svelte-kit/output/server/entries/pages/buecher/_page.svelte.js"() {
     init_ssr();
     init_book();
     init_Spinner();
-    Page2 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page4 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let { data } = $$props;
       if ($$props.data === void 0 && $$bindings.data && data !== void 0)
         $$bindings.data(data);
@@ -12352,27 +14031,27 @@ var init_page_svelte2 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/5.js
-var __exports6 = {};
-__export(__exports6, {
-  component: () => component6,
-  fonts: () => fonts6,
-  imports: () => imports6,
-  index: () => index6,
+// .svelte-kit/output/server/nodes/7.js
+var __exports8 = {};
+__export(__exports8, {
+  component: () => component8,
+  fonts: () => fonts8,
+  imports: () => imports8,
+  index: () => index8,
   server: () => page_server_exports,
-  server_id: () => server_id,
-  stylesheets: () => stylesheets6
+  server_id: () => server_id3,
+  stylesheets: () => stylesheets8
 });
-var index6, component_cache6, component6, server_id, imports6, stylesheets6, fonts6;
-var init__6 = __esm({
-  ".svelte-kit/output/server/nodes/5.js"() {
+var index8, component_cache8, component8, server_id3, imports8, stylesheets8, fonts8;
+var init__8 = __esm({
+  ".svelte-kit/output/server/nodes/7.js"() {
     init_page_server();
-    index6 = 5;
-    component6 = async () => component_cache6 ?? (component_cache6 = (await Promise.resolve().then(() => (init_page_svelte2(), page_svelte_exports2))).default);
-    server_id = "src/routes/buecher/+page.server.js";
-    imports6 = ["_app/immutable/nodes/5.BqHLbvsg.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/await_block.a23N6D01.js", "_app/immutable/chunks/index.emHA90Ds.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/book.CbBQ-j6o.js", "_app/immutable/chunks/Spinner.CTviAzxb.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
-    stylesheets6 = [];
-    fonts6 = [];
+    index8 = 7;
+    component8 = async () => component_cache8 ?? (component_cache8 = (await Promise.resolve().then(() => (init_page_svelte4(), page_svelte_exports4))).default);
+    server_id3 = "src/routes/buecher/+page.server.js";
+    imports8 = ["_app/immutable/nodes/7.PjCkqXR2.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/await_block.Bi0vZFtD.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/book.SrHokJ9s.js", "_app/immutable/chunks/Spinner.B5hr5GDg.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
+    stylesheets8 = [];
+    fonts8 = [];
   }
 });
 
@@ -12459,7 +14138,7 @@ var init_getHashtags = __esm({
 // .svelte-kit/output/server/entries/pages/buecher/_bookId_/_page.js
 var page_exports = {};
 __export(page_exports, {
-  load: () => load4
+  load: () => load6
 });
 async function getBookDetails(bookId) {
   try {
@@ -12477,7 +14156,7 @@ async function getBooklinks(bookid) {
     return {};
   }
 }
-async function load4({ params }) {
+async function load6({ params }) {
   let buchid = parseInt(params.bookId);
   let { data } = await getBookDetails(buchid);
   let hashtagIds = await getHashtagIds(buchid);
@@ -12619,9 +14298,9 @@ var init_Frame = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/buecher/_bookId_/_page.svelte.js
-var page_svelte_exports3 = {};
-__export(page_svelte_exports3, {
-  default: () => Page3
+var page_svelte_exports5 = {};
+__export(page_svelte_exports5, {
+  default: () => Page5
 });
 function fade(node, { delay = 0, duration = 400, easing = identity } = {}) {
   const o = +getComputedStyle(node).opacity;
@@ -12632,8 +14311,8 @@ function fade(node, { delay = 0, duration = 400, easing = identity } = {}) {
     css: (t) => `opacity: ${t * o}`
   };
 }
-var TransitionFrame, ToolbarButton, CloseButton, baseClass, Badge, Page3;
-var init_page_svelte3 = __esm({
+var TransitionFrame, ToolbarButton, CloseButton, baseClass, Badge, Page5;
+var init_page_svelte5 = __esm({
   ".svelte-kit/output/server/entries/pages/buecher/_bookId_/_page.svelte.js"() {
     init_ssr();
     init_Frame();
@@ -12836,7 +14515,7 @@ var init_page_svelte3 = __esm({
         }
       })} `;
     });
-    Page3 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page5 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let book;
       let title;
       let img;
@@ -12914,36 +14593,36 @@ var init_page_svelte3 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/6.js
-var __exports7 = {};
-__export(__exports7, {
-  component: () => component7,
-  fonts: () => fonts7,
-  imports: () => imports7,
-  index: () => index7,
-  stylesheets: () => stylesheets7,
+// .svelte-kit/output/server/nodes/8.js
+var __exports9 = {};
+__export(__exports9, {
+  component: () => component9,
+  fonts: () => fonts9,
+  imports: () => imports9,
+  index: () => index9,
+  stylesheets: () => stylesheets9,
   universal: () => page_exports,
   universal_id: () => universal_id4
 });
-var index7, component_cache7, component7, universal_id4, imports7, stylesheets7, fonts7;
-var init__7 = __esm({
-  ".svelte-kit/output/server/nodes/6.js"() {
+var index9, component_cache9, component9, universal_id4, imports9, stylesheets9, fonts9;
+var init__9 = __esm({
+  ".svelte-kit/output/server/nodes/8.js"() {
     init_page();
-    index7 = 6;
-    component7 = async () => component_cache7 ?? (component_cache7 = (await Promise.resolve().then(() => (init_page_svelte3(), page_svelte_exports3))).default);
+    index9 = 8;
+    component9 = async () => component_cache9 ?? (component_cache9 = (await Promise.resolve().then(() => (init_page_svelte5(), page_svelte_exports5))).default);
     universal_id4 = "src/routes/buecher/[bookId]/+page.js";
-    imports7 = ["_app/immutable/nodes/6.DhYAKE6V.js", "_app/immutable/chunks/supabaseClient.-wfdu3WJ.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/books.F4t3Awnz.js", "_app/immutable/chunks/getHashtags.Beph7Bi3.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/await_block.a23N6D01.js", "_app/immutable/chunks/index.emHA90Ds.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/index.BzcCSpCT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js", "_app/immutable/chunks/Button.CUI7bz6L.js", "_app/immutable/chunks/Spinner.CTviAzxb.js", "_app/immutable/chunks/book.CbBQ-j6o.js"];
-    stylesheets7 = [];
-    fonts7 = [];
+    imports9 = ["_app/immutable/nodes/8.CQwKiwyw.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/books.DUWMxUuU.js", "_app/immutable/chunks/getHashtags.DsRrQDEt.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/await_block.Bi0vZFtD.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/index.Bp1NzK8i.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js", "_app/immutable/chunks/Button.Bl_UZ5qz.js", "_app/immutable/chunks/Spinner.B5hr5GDg.js", "_app/immutable/chunks/book.SrHokJ9s.js"];
+    stylesheets9 = [];
+    fonts9 = [];
   }
 });
 
 // .svelte-kit/output/server/entries/pages/buecher/cat/_catid_/_page.ts.js
 var page_ts_exports = {};
 __export(page_ts_exports, {
-  load: () => load5
+  load: () => load7
 });
-async function load5({ params }) {
+async function load7({ params }) {
   const catid = params.catid;
   const bookIds = await getBookIdsFromCatId(parseInt(catid));
   const catname = await getCategoryNameById(parseInt(catid));
@@ -12965,17 +14644,17 @@ var init_page_ts = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/buecher/cat/_catid_/_page.svelte.js
-var page_svelte_exports4 = {};
-__export(page_svelte_exports4, {
-  default: () => Page4
+var page_svelte_exports6 = {};
+__export(page_svelte_exports6, {
+  default: () => Page6
 });
-var Page4;
-var init_page_svelte4 = __esm({
+var Page6;
+var init_page_svelte6 = __esm({
   ".svelte-kit/output/server/entries/pages/buecher/cat/_catid_/_page.svelte.js"() {
     init_ssr();
     init_book();
     init_Spinner();
-    Page4 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page6 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let catid;
       let { data } = $$props;
       if ($$props.data === void 0 && $$bindings.data && data !== void 0)
@@ -13008,40 +14687,40 @@ var init_page_svelte4 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/7.js
-var __exports8 = {};
-__export(__exports8, {
-  component: () => component8,
-  fonts: () => fonts8,
-  imports: () => imports8,
-  index: () => index8,
-  stylesheets: () => stylesheets8,
+// .svelte-kit/output/server/nodes/9.js
+var __exports10 = {};
+__export(__exports10, {
+  component: () => component10,
+  fonts: () => fonts10,
+  imports: () => imports10,
+  index: () => index10,
+  stylesheets: () => stylesheets10,
   universal: () => page_ts_exports,
   universal_id: () => universal_id5
 });
-var index8, component_cache8, component8, universal_id5, imports8, stylesheets8, fonts8;
-var init__8 = __esm({
-  ".svelte-kit/output/server/nodes/7.js"() {
+var index10, component_cache10, component10, universal_id5, imports10, stylesheets10, fonts10;
+var init__10 = __esm({
+  ".svelte-kit/output/server/nodes/9.js"() {
     init_page_ts();
-    index8 = 7;
-    component8 = async () => component_cache8 ?? (component_cache8 = (await Promise.resolve().then(() => (init_page_svelte4(), page_svelte_exports4))).default);
+    index10 = 9;
+    component10 = async () => component_cache10 ?? (component_cache10 = (await Promise.resolve().then(() => (init_page_svelte6(), page_svelte_exports6))).default);
     universal_id5 = "src/routes/buecher/cat/[catid]/+page.ts";
-    imports8 = ["_app/immutable/nodes/7.D_WWQYSL.js", "_app/immutable/chunks/books.F4t3Awnz.js", "_app/immutable/chunks/supabaseClient.-wfdu3WJ.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/await_block.a23N6D01.js", "_app/immutable/chunks/index.emHA90Ds.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/book.CbBQ-j6o.js", "_app/immutable/chunks/Spinner.CTviAzxb.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
-    stylesheets8 = [];
-    fonts8 = [];
+    imports10 = ["_app/immutable/nodes/9.B3VD-2dk.js", "_app/immutable/chunks/books.DUWMxUuU.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/await_block.Bi0vZFtD.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/book.SrHokJ9s.js", "_app/immutable/chunks/Spinner.B5hr5GDg.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
+    stylesheets10 = [];
+    fonts10 = [];
   }
 });
 
 // .svelte-kit/output/server/entries/pages/cdl-protokolle/_page.svelte.js
-var page_svelte_exports5 = {};
-__export(page_svelte_exports5, {
-  default: () => Page5
+var page_svelte_exports7 = {};
+__export(page_svelte_exports7, {
+  default: () => Page7
 });
-var Accordion, AccordionItem, telegram, Fraguns, css$r, A, css$q, Ai, css$p, B, css$o, C, css$n, D, css$m, E, css$l, F, css$k, G, css$j, H, css$i, I, css$h, J, css$g, K, css$f, L, css$e, M, css$d, N, css$c, O, css$b, P, css$a, Pzwei, css$9, Q, css$8, R, css$7, S, css$6, T, css$5, U, css$4, V, css$3, W, css$2, X, css$1, Y, css2, Z, Page5;
-var init_page_svelte5 = __esm({
+var Accordion, AccordionItem, telegram, Fraguns, css$r, A, css$q, Ai, css$p, B, css$o, C, css$n, D, css$m, E, css$l, F, css$k, G, css$j, H, css$i, I, css$h, J, css$g, K, css$f, L, css$e, M, css$d, N, css$c, O, css$b, P, css$a, Pzwei, css$9, Q, css$8, R, css$7, S, css$6, T, css$5, U, css$4, V, css$3, W, css$2, X, css$1, Y, css3, Z, Page7;
+var init_page_svelte7 = __esm({
   ".svelte-kit/output/server/entries/pages/cdl-protokolle/_page.svelte.js"() {
     init_ssr();
-    init_chunks();
+    init_index2();
     init_Frame();
     init_bundle_mjs();
     Accordion = create_ssr_component(($$result, $$props, $$bindings, slots) => {
@@ -13428,18 +15107,18 @@ Sie finden dieses und viele andere wertvolle Informationen in seinem Buch <a hre
 
 </div>`;
     });
-    css2 = {
+    css3 = {
       code: "div.svelte-v6hy84{margin-top:1.25rem;margin-bottom:1.25rem\n}a.svelte-v6hy84{font-weight:500;--tw-text-opacity:1;color:rgb(28 100 242 / var(--tw-text-opacity))\n}a.svelte-v6hy84:hover{text-decoration-line:underline\n}.svelte-v6hy84:is(.dark a){--tw-text-opacity:1;color:rgb(63 131 248 / var(--tw-text-opacity))\n}",
       map: null
     };
     Z = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-      $$result.css.add(css2);
+      $$result.css.add(css3);
       return `<div class="svelte-v6hy84" data-svelte-h="svelte-jsjowu">Dieses Protokoll hat der Autor Andreas Kalcker leider nicht f\xFCr die Online Publikation freigegeben. 
 Sie finden dieses und viele andere wertvolle Informationen in seinem Buch <a href="/buecher/4" class="svelte-v6hy84">\u{1F4D5} Gesundheit verboten</a>. 
 
 </div>`;
     });
-    Page5 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page7 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `${validate_component(Accordion, "Accordion").$$render($$result, { activeClass: "bg-white" }, {}, {
         default: () => {
           return `${validate_component(AccordionItem, "AccordionItem").$$render($$result, {}, {}, {
@@ -13645,33 +15324,33 @@ Sie finden dieses und viele andere wertvolle Informationen in seinem Buch <a hre
   }
 });
 
-// .svelte-kit/output/server/nodes/8.js
-var __exports9 = {};
-__export(__exports9, {
-  component: () => component9,
-  fonts: () => fonts9,
-  imports: () => imports9,
-  index: () => index9,
-  stylesheets: () => stylesheets9
+// .svelte-kit/output/server/nodes/10.js
+var __exports11 = {};
+__export(__exports11, {
+  component: () => component11,
+  fonts: () => fonts11,
+  imports: () => imports11,
+  index: () => index11,
+  stylesheets: () => stylesheets11
 });
-var index9, component_cache9, component9, imports9, stylesheets9, fonts9;
-var init__9 = __esm({
-  ".svelte-kit/output/server/nodes/8.js"() {
-    index9 = 8;
-    component9 = async () => component_cache9 ?? (component_cache9 = (await Promise.resolve().then(() => (init_page_svelte5(), page_svelte_exports5))).default);
-    imports9 = ["_app/immutable/nodes/8.Dr_G4Vms.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/index.emHA90Ds.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/index.BDBoGLXD.js", "_app/immutable/chunks/index.BzcCSpCT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
-    stylesheets9 = ["_app/immutable/assets/8.DXC0YuUL.css"];
-    fonts9 = [];
+var index11, component_cache11, component11, imports11, stylesheets11, fonts11;
+var init__11 = __esm({
+  ".svelte-kit/output/server/nodes/10.js"() {
+    index11 = 10;
+    component11 = async () => component_cache11 ?? (component_cache11 = (await Promise.resolve().then(() => (init_page_svelte7(), page_svelte_exports7))).default);
+    imports11 = ["_app/immutable/nodes/10.eL5-8Bjp.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/index.DYca1GoS.js", "_app/immutable/chunks/index.Bp1NzK8i.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js"];
+    stylesheets11 = ["_app/immutable/assets/10.DXC0YuUL.css"];
+    fonts11 = [];
   }
 });
 
 // .svelte-kit/output/server/entries/pages/gutscheine/_page.svelte.js
-var page_svelte_exports6 = {};
-__export(page_svelte_exports6, {
-  default: () => Page6
+var page_svelte_exports8 = {};
+__export(page_svelte_exports8, {
+  default: () => Page8
 });
-var Gutschein, Page6;
-var init_page_svelte6 = __esm({
+var Gutschein, Page8;
+var init_page_svelte8 = __esm({
   ".svelte-kit/output/server/entries/pages/gutscheine/_page.svelte.js"() {
     init_ssr();
     init_Icon();
@@ -13709,7 +15388,7 @@ var init_page_svelte6 = __esm({
         {}
       )} <div class="border-[4px] h-full relative z-30 p-2 border-white border-dotted "><div class="overflow-auto"><h2>${escape(shop)}</h2> <h3>${escape(desc)}</h3> <div>Code: <b>${escape(code)}</b></div> <span>G\xFCltig: ${escape(gueltig)}</span></div></div></div></a>`;
     });
-    Page6 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page8 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `<div class="p-2"><h2 data-svelte-h="svelte-717o1w">Gutscheine f\xFCr alternative Heilmittel und Nahrungserg\xE4nzungsmittel</h2> <div class="grid grid-cols-2 lg:grid-cols-4">${validate_component(Gutschein, "Gutschein").$$render(
         $$result,
         {
@@ -13819,32 +15498,32 @@ var init_page_svelte6 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/9.js
-var __exports10 = {};
-__export(__exports10, {
-  component: () => component10,
-  fonts: () => fonts10,
-  imports: () => imports10,
-  index: () => index10,
-  stylesheets: () => stylesheets10
+// .svelte-kit/output/server/nodes/11.js
+var __exports12 = {};
+__export(__exports12, {
+  component: () => component12,
+  fonts: () => fonts12,
+  imports: () => imports12,
+  index: () => index12,
+  stylesheets: () => stylesheets12
 });
-var index10, component_cache10, component10, imports10, stylesheets10, fonts10;
-var init__10 = __esm({
-  ".svelte-kit/output/server/nodes/9.js"() {
-    index10 = 9;
-    component10 = async () => component_cache10 ?? (component_cache10 = (await Promise.resolve().then(() => (init_page_svelte6(), page_svelte_exports6))).default);
-    imports10 = ["_app/immutable/nodes/9.BtbpVMcj.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/index.emHA90Ds.js", "_app/immutable/chunks/Icon.kDC1fZp9.js", "_app/immutable/chunks/spread.CgU5AtxT.js"];
-    stylesheets10 = [];
-    fonts10 = [];
+var index12, component_cache12, component12, imports12, stylesheets12, fonts12;
+var init__12 = __esm({
+  ".svelte-kit/output/server/nodes/11.js"() {
+    index12 = 11;
+    component12 = async () => component_cache12 ?? (component_cache12 = (await Promise.resolve().then(() => (init_page_svelte8(), page_svelte_exports8))).default);
+    imports12 = ["_app/immutable/nodes/11.vg5AoFmn.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/Icon.CJ8UdO_k.js", "_app/immutable/chunks/spread.CgU5AtxT.js"];
+    stylesheets12 = [];
+    fonts12 = [];
   }
 });
 
 // .svelte-kit/output/server/entries/pages/produkte/_page.server.js
 var page_server_exports2 = {};
 __export(page_server_exports2, {
-  load: () => load6
+  load: () => load8
 });
-async function load6() {
+async function load8() {
   const title = "Produktempfehlungen. W\xE4hle eine der Kategorien um schneller das passende Produkt zu finden. ";
   const { data } = await supabase.from("products").select().limit(12);
   return {
@@ -13915,16 +15594,16 @@ var init_shops = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/produkte/_page.svelte.js
-var page_svelte_exports7 = {};
-__export(page_svelte_exports7, {
-  default: () => Page7
+var page_svelte_exports9 = {};
+__export(page_svelte_exports9, {
+  default: () => Page9
 });
-var Page7;
-var init_page_svelte7 = __esm({
+var Page9;
+var init_page_svelte9 = __esm({
   ".svelte-kit/output/server/entries/pages/produkte/_page.svelte.js"() {
     init_ssr();
     init_shops();
-    Page7 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page9 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let { data } = $$props;
       if ($$props.data === void 0 && $$bindings.data && data !== void 0)
         $$bindings.data(data);
@@ -13956,36 +15635,36 @@ var init_page_svelte7 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/10.js
-var __exports11 = {};
-__export(__exports11, {
-  component: () => component11,
-  fonts: () => fonts11,
-  imports: () => imports11,
-  index: () => index11,
+// .svelte-kit/output/server/nodes/12.js
+var __exports13 = {};
+__export(__exports13, {
+  component: () => component13,
+  fonts: () => fonts13,
+  imports: () => imports13,
+  index: () => index13,
   server: () => page_server_exports2,
-  server_id: () => server_id2,
-  stylesheets: () => stylesheets11
+  server_id: () => server_id4,
+  stylesheets: () => stylesheets13
 });
-var index11, component_cache11, component11, server_id2, imports11, stylesheets11, fonts11;
-var init__11 = __esm({
-  ".svelte-kit/output/server/nodes/10.js"() {
+var index13, component_cache13, component13, server_id4, imports13, stylesheets13, fonts13;
+var init__13 = __esm({
+  ".svelte-kit/output/server/nodes/12.js"() {
     init_page_server2();
-    index11 = 10;
-    component11 = async () => component_cache11 ?? (component_cache11 = (await Promise.resolve().then(() => (init_page_svelte7(), page_svelte_exports7))).default);
-    server_id2 = "src/routes/produkte/+page.server.js";
-    imports11 = ["_app/immutable/nodes/10.DsztFMGu.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/await_block.a23N6D01.js", "_app/immutable/chunks/index.emHA90Ds.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Dgucz_Dd.js"];
-    stylesheets11 = [];
-    fonts11 = [];
+    index13 = 12;
+    component13 = async () => component_cache13 ?? (component_cache13 = (await Promise.resolve().then(() => (init_page_svelte9(), page_svelte_exports9))).default);
+    server_id4 = "src/routes/produkte/+page.server.js";
+    imports13 = ["_app/immutable/nodes/12.9PKGSes-.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/await_block.Bi0vZFtD.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Du49zGtT.js"];
+    stylesheets13 = [];
+    fonts13 = [];
   }
 });
 
 // .svelte-kit/output/server/entries/pages/produkte/_productid_/_page.js
 var page_exports2 = {};
 __export(page_exports2, {
-  load: () => load7
+  load: () => load9
 });
-async function load7({ params }) {
+async function load9({ params }) {
   let pid = params.productid;
   let select = `id, name, image, description, link, products_categories(category_id)`;
   let { data } = await supabase.from("products").select(select).eq("id", pid).limit(1).single();
@@ -14026,18 +15705,18 @@ var init_page2 = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/produkte/_productid_/_page.svelte.js
-var page_svelte_exports8 = {};
-__export(page_svelte_exports8, {
-  default: () => Page8
+var page_svelte_exports10 = {};
+__export(page_svelte_exports10, {
+  default: () => Page10
 });
-var Page8;
-var init_page_svelte8 = __esm({
+var Page10;
+var init_page_svelte10 = __esm({
   ".svelte-kit/output/server/entries/pages/produkte/_productid_/_page.svelte.js"() {
     init_ssr();
     init_Button();
     init_Spinner();
     init_shops();
-    Page8 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page10 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let img;
       let name2;
       let id;
@@ -14096,34 +15775,34 @@ var init_page_svelte8 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/11.js
-var __exports12 = {};
-__export(__exports12, {
-  component: () => component12,
-  fonts: () => fonts12,
-  imports: () => imports12,
-  index: () => index12,
-  stylesheets: () => stylesheets12,
+// .svelte-kit/output/server/nodes/13.js
+var __exports14 = {};
+__export(__exports14, {
+  component: () => component14,
+  fonts: () => fonts14,
+  imports: () => imports14,
+  index: () => index14,
+  stylesheets: () => stylesheets14,
   universal: () => page_exports2,
   universal_id: () => universal_id6
 });
-var index12, component_cache12, component12, universal_id6, imports12, stylesheets12, fonts12;
-var init__12 = __esm({
-  ".svelte-kit/output/server/nodes/11.js"() {
+var index14, component_cache14, component14, universal_id6, imports14, stylesheets14, fonts14;
+var init__14 = __esm({
+  ".svelte-kit/output/server/nodes/13.js"() {
     init_page2();
-    index12 = 11;
-    component12 = async () => component_cache12 ?? (component_cache12 = (await Promise.resolve().then(() => (init_page_svelte8(), page_svelte_exports8))).default);
+    index14 = 13;
+    component14 = async () => component_cache14 ?? (component_cache14 = (await Promise.resolve().then(() => (init_page_svelte10(), page_svelte_exports10))).default);
     universal_id6 = "src/routes/produkte/[productid]/+page.js";
-    imports12 = ["_app/immutable/nodes/11.BDF4moVx.js", "_app/immutable/chunks/supabaseClient.-wfdu3WJ.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/await_block.a23N6D01.js", "_app/immutable/chunks/index.emHA90Ds.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/Button.CUI7bz6L.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js", "_app/immutable/chunks/Spinner.CTviAzxb.js", "_app/immutable/chunks/shops.Dgucz_Dd.js"];
-    stylesheets12 = [];
-    fonts12 = [];
+    imports14 = ["_app/immutable/nodes/13.5UQSUv9w.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/await_block.Bi0vZFtD.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/Button.Bl_UZ5qz.js", "_app/immutable/chunks/spread.CgU5AtxT.js", "_app/immutable/chunks/bundle-mjs.BTwrKG5i.js", "_app/immutable/chunks/Spinner.B5hr5GDg.js", "_app/immutable/chunks/shops.Du49zGtT.js"];
+    stylesheets14 = [];
+    fonts14 = [];
   }
 });
 
 // .svelte-kit/output/server/entries/pages/produkte/cat/_catid_/_page.ts.js
 var page_ts_exports2 = {};
 __export(page_ts_exports2, {
-  load: () => load8,
+  load: () => load10,
   prerender: () => prerender
 });
 async function getCategoryNameById2(catid) {
@@ -14143,7 +15822,7 @@ async function getCategoryDescription(catid) {
     return null;
   }
 }
-async function load8({ params }) {
+async function load10({ params }) {
   const catid = params.catid;
   console.log("Lade Cat Parameter ...", catid);
   const category = await getCategoryNameById2(parseInt(catid));
@@ -14168,21 +15847,21 @@ var init_page_ts2 = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/produkte/cat/_catid_/_page.svelte.js
-var page_svelte_exports9 = {};
-__export(page_svelte_exports9, {
-  default: () => Page9
+var page_svelte_exports11 = {};
+__export(page_svelte_exports11, {
+  default: () => Page11
 });
-var css3, maxProductsPerPage, Page9;
-var init_page_svelte9 = __esm({
+var css4, maxProductsPerPage, Page11;
+var init_page_svelte11 = __esm({
   ".svelte-kit/output/server/entries/pages/produkte/cat/_catid_/_page.svelte.js"() {
     init_ssr();
     init_shops();
-    css3 = {
+    css4 = {
       code: ".page-selector.svelte-ra8vou{margin-top:2.5rem;margin-bottom:2.5rem;display:flex;justify-content:center\n}.page-number.svelte-ra8vou{margin-left:1.25rem;cursor:pointer;border-width:2px;padding:0.5rem\n}.page-number.svelte-ra8vou:hover{--tw-bg-opacity:1;background-color:rgb(31 41 55 / var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity));text-decoration-line:underline\n}.current-page.svelte-ra8vou{--tw-bg-opacity:1;background-color:rgb(63 131 248 / var(--tw-bg-opacity));--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))\n}",
       map: null
     };
     maxProductsPerPage = 50;
-    Page9 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page11 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let pageproducts;
       let length;
       let category;
@@ -14206,7 +15885,7 @@ var init_page_svelte9 = __esm({
       pageproducts = goToPage(1);
       if ($$props.data === void 0 && $$bindings.data && data !== void 0)
         $$bindings.data(data);
-      $$result.css.add(css3);
+      $$result.css.add(css4);
       pageproducts = data.products.slice(0, 10);
       length = data.products.length;
       category = data.category;
@@ -14225,41 +15904,41 @@ var init_page_svelte9 = __esm({
           {},
           {}
         )}</li> </div>`;
-      })}</ul>  ${totalPages() > 1 ? `<div class="page-selector svelte-ra8vou">${each(Array.from({ length: totalPages() }).map((_, index17) => index17 + 1), (page2) => {
+      })}</ul>  ${totalPages() > 1 ? `<div class="page-selector svelte-ra8vou">${each(Array.from({ length: totalPages() }).map((_, index19) => index19 + 1), (page2) => {
         return `${page2 == currentPage ? `<span class="page-number current-page svelte-ra8vou">${escape(page2)}</span>` : `<a class="page-number svelte-ra8vou">${escape(page2)}</a>`}`;
       })}</div>` : ``}`;
     });
   }
 });
 
-// .svelte-kit/output/server/nodes/12.js
-var __exports13 = {};
-__export(__exports13, {
-  component: () => component13,
-  fonts: () => fonts13,
-  imports: () => imports13,
-  index: () => index13,
-  stylesheets: () => stylesheets13,
+// .svelte-kit/output/server/nodes/14.js
+var __exports15 = {};
+__export(__exports15, {
+  component: () => component15,
+  fonts: () => fonts15,
+  imports: () => imports15,
+  index: () => index15,
+  stylesheets: () => stylesheets15,
   universal: () => page_ts_exports2,
   universal_id: () => universal_id7
 });
-var index13, component_cache13, component13, universal_id7, imports13, stylesheets13, fonts13;
-var init__13 = __esm({
-  ".svelte-kit/output/server/nodes/12.js"() {
+var index15, component_cache15, component15, universal_id7, imports15, stylesheets15, fonts15;
+var init__15 = __esm({
+  ".svelte-kit/output/server/nodes/14.js"() {
     init_page_ts2();
-    index13 = 12;
-    component13 = async () => component_cache13 ?? (component_cache13 = (await Promise.resolve().then(() => (init_page_svelte9(), page_svelte_exports9))).default);
+    index15 = 14;
+    component15 = async () => component_cache15 ?? (component_cache15 = (await Promise.resolve().then(() => (init_page_svelte11(), page_svelte_exports11))).default);
     universal_id7 = "src/routes/produkte/cat/[catid]/+page.ts";
-    imports13 = ["_app/immutable/nodes/12.D3JQG145.js", "_app/immutable/chunks/supabaseClient.-wfdu3WJ.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/index.emHA90Ds.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Dgucz_Dd.js"];
-    stylesheets13 = ["_app/immutable/assets/12.9luic-sZ.css"];
-    fonts13 = [];
+    imports15 = ["_app/immutable/nodes/14.BzfBQpTd.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Du49zGtT.js"];
+    stylesheets15 = ["_app/immutable/assets/14.9luic-sZ.css"];
+    fonts15 = [];
   }
 });
 
 // .svelte-kit/output/server/entries/pages/produkte/hashtag/_tag_/_page.ts.js
 var page_ts_exports3 = {};
 __export(page_ts_exports3, {
-  load: () => load9
+  load: () => load11
 });
 async function getProductsByName(name2) {
   console.log("getProductsByName", name2);
@@ -14269,7 +15948,7 @@ async function getProductsByName(name2) {
   } else
     return data;
 }
-async function load9({ params }) {
+async function load11({ params }) {
   console.log("hashtags:");
   let products = [];
   const hashtagid = params.tag;
@@ -14290,16 +15969,16 @@ var init_page_ts3 = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/produkte/hashtag/_tag_/_page.svelte.js
-var page_svelte_exports10 = {};
-__export(page_svelte_exports10, {
-  default: () => Page10
+var page_svelte_exports12 = {};
+__export(page_svelte_exports12, {
+  default: () => Page12
 });
-var Page10;
-var init_page_svelte10 = __esm({
+var Page12;
+var init_page_svelte12 = __esm({
   ".svelte-kit/output/server/entries/pages/produkte/hashtag/_tag_/_page.svelte.js"() {
     init_ssr();
     init_shops();
-    Page10 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page12 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let hashtag;
       let products;
       let { data } = $$props;
@@ -14325,34 +16004,34 @@ var init_page_svelte10 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/13.js
-var __exports14 = {};
-__export(__exports14, {
-  component: () => component14,
-  fonts: () => fonts14,
-  imports: () => imports14,
-  index: () => index14,
-  stylesheets: () => stylesheets14,
+// .svelte-kit/output/server/nodes/15.js
+var __exports16 = {};
+__export(__exports16, {
+  component: () => component16,
+  fonts: () => fonts16,
+  imports: () => imports16,
+  index: () => index16,
+  stylesheets: () => stylesheets16,
   universal: () => page_ts_exports3,
   universal_id: () => universal_id8
 });
-var index14, component_cache14, component14, universal_id8, imports14, stylesheets14, fonts14;
-var init__14 = __esm({
-  ".svelte-kit/output/server/nodes/13.js"() {
+var index16, component_cache16, component16, universal_id8, imports16, stylesheets16, fonts16;
+var init__16 = __esm({
+  ".svelte-kit/output/server/nodes/15.js"() {
     init_page_ts3();
-    index14 = 13;
-    component14 = async () => component_cache14 ?? (component_cache14 = (await Promise.resolve().then(() => (init_page_svelte10(), page_svelte_exports10))).default);
+    index16 = 15;
+    component16 = async () => component_cache16 ?? (component_cache16 = (await Promise.resolve().then(() => (init_page_svelte12(), page_svelte_exports12))).default);
     universal_id8 = "src/routes/produkte/hashtag/[tag]/+page.ts";
-    imports14 = ["_app/immutable/nodes/13.CGhCPKHM.js", "_app/immutable/chunks/supabaseClient.-wfdu3WJ.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/getHashtags.Beph7Bi3.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/index.emHA90Ds.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Dgucz_Dd.js"];
-    stylesheets14 = [];
-    fonts14 = [];
+    imports16 = ["_app/immutable/nodes/15.WIob5Fse.js", "_app/immutable/chunks/supabaseClient.CCJhsT86.js", "_app/immutable/chunks/index.C1t3ibtX.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/getHashtags.DsRrQDEt.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Du49zGtT.js"];
+    stylesheets16 = [];
+    fonts16 = [];
   }
 });
 
 // .svelte-kit/output/server/entries/pages/search/_page.server.ts.js
-var page_server_ts_exports = {};
-__export(page_server_ts_exports, {
-  load: () => load10,
+var page_server_ts_exports2 = {};
+__export(page_server_ts_exports2, {
+  load: () => load12,
   prerender: () => prerender2
 });
 async function getBooks(q) {
@@ -14379,14 +16058,14 @@ async function getProducts(q) {
     return [];
   }
 }
-async function load10({ params, url }) {
+async function load12({ params, url }) {
   let q = url.searchParams.get("q");
   const books = await getBooks(q);
   const products = await getProducts(q);
   return { q, books, products };
 }
 var prerender2;
-var init_page_server_ts = __esm({
+var init_page_server_ts2 = __esm({
   ".svelte-kit/output/server/entries/pages/search/_page.server.ts.js"() {
     init_supabaseClient();
     prerender2 = false;
@@ -14394,17 +16073,17 @@ var init_page_server_ts = __esm({
 });
 
 // .svelte-kit/output/server/entries/pages/search/_page.svelte.js
-var page_svelte_exports11 = {};
-__export(page_svelte_exports11, {
-  default: () => Page11
+var page_svelte_exports13 = {};
+__export(page_svelte_exports13, {
+  default: () => Page13
 });
-var Page11;
-var init_page_svelte11 = __esm({
+var Page13;
+var init_page_svelte13 = __esm({
   ".svelte-kit/output/server/entries/pages/search/_page.svelte.js"() {
     init_ssr();
     init_shops();
     init_book();
-    Page11 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page13 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       let books;
       let qtyBooks;
       let products;
@@ -14456,62 +16135,81 @@ var init_page_svelte11 = __esm({
   }
 });
 
-// .svelte-kit/output/server/nodes/14.js
-var __exports15 = {};
-__export(__exports15, {
-  component: () => component15,
-  fonts: () => fonts15,
-  imports: () => imports15,
-  index: () => index15,
-  server: () => page_server_ts_exports,
-  server_id: () => server_id3,
-  stylesheets: () => stylesheets15
+// .svelte-kit/output/server/nodes/16.js
+var __exports17 = {};
+__export(__exports17, {
+  component: () => component17,
+  fonts: () => fonts17,
+  imports: () => imports17,
+  index: () => index17,
+  server: () => page_server_ts_exports2,
+  server_id: () => server_id5,
+  stylesheets: () => stylesheets17
 });
-var index15, component_cache15, component15, server_id3, imports15, stylesheets15, fonts15;
-var init__15 = __esm({
-  ".svelte-kit/output/server/nodes/14.js"() {
-    init_page_server_ts();
-    index15 = 14;
-    component15 = async () => component_cache15 ?? (component_cache15 = (await Promise.resolve().then(() => (init_page_svelte11(), page_svelte_exports11))).default);
-    server_id3 = "src/routes/search/+page.server.ts";
-    imports15 = ["_app/immutable/nodes/14.BojsHoFo.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/index.emHA90Ds.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Dgucz_Dd.js", "_app/immutable/chunks/book.CbBQ-j6o.js"];
-    stylesheets15 = [];
-    fonts15 = [];
+var index17, component_cache17, component17, server_id5, imports17, stylesheets17, fonts17;
+var init__17 = __esm({
+  ".svelte-kit/output/server/nodes/16.js"() {
+    init_page_server_ts2();
+    index17 = 16;
+    component17 = async () => component_cache17 ?? (component_cache17 = (await Promise.resolve().then(() => (init_page_svelte13(), page_svelte_exports13))).default);
+    server_id5 = "src/routes/search/+page.server.ts";
+    imports17 = ["_app/immutable/nodes/16.BjACXCdd.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js", "_app/immutable/chunks/each.D6YF6ztN.js", "_app/immutable/chunks/shops.Du49zGtT.js", "_app/immutable/chunks/book.SrHokJ9s.js"];
+    stylesheets17 = [];
+    fonts17 = [];
   }
 });
 
 // .svelte-kit/output/server/entries/pages/test/_page.svelte.js
-var page_svelte_exports12 = {};
-__export(page_svelte_exports12, {
-  default: () => Page12
+var page_svelte_exports14 = {};
+__export(page_svelte_exports14, {
+  default: () => Page14
 });
-var Page12;
-var init_page_svelte12 = __esm({
+var Page14;
+var init_page_svelte14 = __esm({
   ".svelte-kit/output/server/entries/pages/test/_page.svelte.js"() {
     init_ssr();
-    Page12 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+    Page14 = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       return `<h2 data-svelte-h="svelte-3u76de">Hello World</h2>`;
     });
   }
 });
 
-// .svelte-kit/output/server/nodes/15.js
-var __exports16 = {};
-__export(__exports16, {
-  component: () => component16,
-  fonts: () => fonts16,
-  imports: () => imports16,
-  index: () => index16,
-  stylesheets: () => stylesheets16
+// .svelte-kit/output/server/nodes/17.js
+var __exports18 = {};
+__export(__exports18, {
+  component: () => component18,
+  fonts: () => fonts18,
+  imports: () => imports18,
+  index: () => index18,
+  stylesheets: () => stylesheets18
 });
-var index16, component_cache16, component16, imports16, stylesheets16, fonts16;
-var init__16 = __esm({
-  ".svelte-kit/output/server/nodes/15.js"() {
-    index16 = 15;
-    component16 = async () => component_cache16 ?? (component_cache16 = (await Promise.resolve().then(() => (init_page_svelte12(), page_svelte_exports12))).default);
-    imports16 = ["_app/immutable/nodes/15.DmVsJV6W.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/index.emHA90Ds.js"];
-    stylesheets16 = [];
-    fonts16 = [];
+var index18, component_cache18, component18, imports18, stylesheets18, fonts18;
+var init__18 = __esm({
+  ".svelte-kit/output/server/nodes/17.js"() {
+    index18 = 17;
+    component18 = async () => component_cache18 ?? (component_cache18 = (await Promise.resolve().then(() => (init_page_svelte14(), page_svelte_exports14))).default);
+    imports18 = ["_app/immutable/nodes/17.BJ87fn34.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js"];
+    stylesheets18 = [];
+    fonts18 = [];
+  }
+});
+
+// .svelte-kit/output/server/entries/endpoints/auth/callback/_server.js
+var server_exports = {};
+__export(server_exports, {
+  GET: () => GET
+});
+var GET;
+var init_server = __esm({
+  ".svelte-kit/output/server/entries/endpoints/auth/callback/_server.js"() {
+    init_chunks();
+    GET = async ({ url, locals: { supabase: supabase2 } }) => {
+      const code = url.searchParams.get("code");
+      if (code) {
+        await supabase2.auth.exchangeCodeForSession(code);
+      }
+      redirect(303, "/");
+    };
   }
 });
 
@@ -14727,20 +16425,23 @@ var options = {
 		<div class="error">
 			<span class="status">` + status + '</span>\n			<div class="message">\n				<h1>' + message + "</h1>\n			</div>\n		</div>\n	</body>\n</html>\n"
   },
-  version_hash: "1a9dxdo"
+  version_hash: "zgfvao"
 };
 async function get_hooks() {
-  return {};
+  return {
+    ...await Promise.resolve().then(() => (init_hooks_server(), hooks_server_exports))
+  };
 }
 
 // .svelte-kit/output/server/index.js
-init_exports();
 init_chunks();
+init_exports();
+init_index2();
 var DEV = false;
 var SVELTE_KIT_ASSETS = "/_svelte_kit_assets";
 var ENDPOINT_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"];
 var PAGE_METHODS = ["GET", "POST", "HEAD"];
-function negotiate(accept, types) {
+function negotiate(accept, types2) {
   const parts = [];
   accept.split(",").forEach((str, i) => {
     const match = /([^/]+)\/([^;]+)(?:;q=([0-9.]+))?/.exec(str);
@@ -14763,7 +16464,7 @@ function negotiate(accept, types) {
   });
   let accepted;
   let min_priority = Infinity;
-  for (const mimetype of types) {
+  for (const mimetype of types2) {
     const [type, subtype] = mimetype.split("/");
     const priority = parts.findIndex(
       (part) => (part.type === type || part.type === "*") && (part.subtype === subtype || part.subtype === "*")
@@ -14775,9 +16476,9 @@ function negotiate(accept, types) {
   }
   return accepted;
 }
-function is_content_type(request, ...types) {
+function is_content_type(request, ...types2) {
   const type = request.headers.get("content-type")?.split(";", 1)[0].trim() ?? "";
-  return types.includes(type.toLowerCase());
+  return types2.includes(type.toLowerCase());
 }
 function is_form_content_type(request) {
   return is_content_type(
@@ -14786,87 +16487,6 @@ function is_form_content_type(request) {
     "multipart/form-data",
     "text/plain"
   );
-}
-var HttpError = class {
-  /**
-   * @param {number} status
-   * @param {{message: string} extends App.Error ? (App.Error | string | undefined) : App.Error} body
-   */
-  constructor(status, body2) {
-    this.status = status;
-    if (typeof body2 === "string") {
-      this.body = { message: body2 };
-    } else if (body2) {
-      this.body = body2;
-    } else {
-      this.body = { message: `Error: ${status}` };
-    }
-  }
-  toString() {
-    return JSON.stringify(this.body);
-  }
-};
-var Redirect = class {
-  /**
-   * @param {300 | 301 | 302 | 303 | 304 | 305 | 306 | 307 | 308} status
-   * @param {string} location
-   */
-  constructor(status, location) {
-    this.status = status;
-    this.location = location;
-  }
-};
-var SvelteKitError = class extends Error {
-  /**
-   * @param {number} status
-   * @param {string} text
-   * @param {string} message
-   */
-  constructor(status, text2, message) {
-    super(message);
-    this.status = status;
-    this.text = text2;
-  }
-};
-var ActionFailure = class {
-  /**
-   * @param {number} status
-   * @param {T} data
-   */
-  constructor(status, data) {
-    this.status = status;
-    this.data = data;
-  }
-};
-function json(data, init2) {
-  const body2 = JSON.stringify(data);
-  const headers2 = new Headers(init2?.headers);
-  if (!headers2.has("content-length")) {
-    headers2.set("content-length", encoder$3.encode(body2).byteLength.toString());
-  }
-  if (!headers2.has("content-type")) {
-    headers2.set("content-type", "application/json");
-  }
-  return new Response(body2, {
-    ...init2,
-    headers: headers2
-  });
-}
-var encoder$3 = new TextEncoder();
-function text(body2, init2) {
-  const headers2 = new Headers(init2?.headers);
-  if (!headers2.has("content-length")) {
-    const encoded = encoder$3.encode(body2);
-    headers2.set("content-length", encoded.byteLength.toString());
-    return new Response(encoded, {
-      ...init2,
-      headers: headers2
-    });
-  }
-  return new Response(body2, {
-    ...init2,
-    headers: headers2
-  });
 }
 function coalesce_to_error(err) {
   return err instanceof Error || err && /** @type {any} */
@@ -15465,9 +17085,9 @@ function stringify(value, reducers) {
     stringified[index22] = str;
     return index22;
   }
-  const index17 = flatten(value);
-  if (index17 < 0)
-    return `${index17}`;
+  const index19 = flatten(value);
+  if (index19 < 0)
+    return `${index19}`;
   return `[${stringified.join(",")}]`;
 }
 function stringify_primitive(thing) {
@@ -15492,8 +17112,8 @@ function is_action_json_request(event) {
   return accept === "application/json" && event.request.method === "POST";
 }
 async function handle_action_json_request(event, options2, server2) {
-  const actions = server2?.actions;
-  if (!actions) {
+  const actions2 = server2?.actions;
+  if (!actions2) {
     const no_actions_error = new SvelteKitError(
       405,
       "Method Not Allowed",
@@ -15514,9 +17134,9 @@ async function handle_action_json_request(event, options2, server2) {
       }
     );
   }
-  check_named_default_separate(actions);
+  check_named_default_separate(actions2);
   try {
-    const data = await call_action(event, actions);
+    const data = await call_action(event, actions2);
     if (false)
       ;
     if (data instanceof ActionFailure) {
@@ -15563,11 +17183,11 @@ async function handle_action_json_request(event, options2, server2) {
 function check_incorrect_fail_use(error) {
   return error instanceof ActionFailure ? new Error('Cannot "throw fail()". Use "return fail()"') : error;
 }
-function action_json_redirect(redirect) {
+function action_json_redirect(redirect2) {
   return action_json({
     type: "redirect",
-    status: redirect.status,
-    location: redirect.location
+    status: redirect2.status,
+    location: redirect2.location
   });
 }
 function action_json(data, init2) {
@@ -15577,8 +17197,8 @@ function is_action_request(event) {
   return event.request.method === "POST";
 }
 async function handle_action_request(event, server2) {
-  const actions = server2?.actions;
-  if (!actions) {
+  const actions2 = server2?.actions;
+  if (!actions2) {
     event.setHeaders({
       // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/405
       // "The server must generate an Allow header field in a 405 status code response"
@@ -15593,9 +17213,9 @@ async function handle_action_request(event, server2) {
       )
     };
   }
-  check_named_default_separate(actions);
+  check_named_default_separate(actions2);
   try {
-    const data = await call_action(event, actions);
+    const data = await call_action(event, actions2);
     if (false)
       ;
     if (data instanceof ActionFailure) {
@@ -15627,14 +17247,14 @@ async function handle_action_request(event, server2) {
     };
   }
 }
-function check_named_default_separate(actions) {
-  if (actions.default && Object.keys(actions).length > 1) {
+function check_named_default_separate(actions2) {
+  if (actions2.default && Object.keys(actions2).length > 1) {
     throw new Error(
       "When using named actions, the default action cannot be used. See the docs for more info: https://kit.svelte.dev/docs/form-actions#named-actions"
     );
   }
 }
-async function call_action(event, actions) {
+async function call_action(event, actions2) {
   const url = new URL(event.request.url);
   let name2 = "default";
   for (const param of url.searchParams) {
@@ -15646,7 +17266,7 @@ async function call_action(event, actions) {
       break;
     }
   }
-  const action = actions[name2];
+  const action = actions2[name2];
   if (!action) {
     throw new SvelteKitError(404, "Not Found", `No action with name '${name2}' found`);
   }
@@ -15924,13 +17544,13 @@ function create_universal_fetch(event, state, fetched, csr, resolve_opts) {
 async function stream_to_string(stream) {
   let result = "";
   const reader = stream.getReader();
-  const decoder = new TextDecoder();
+  const decoder2 = new TextDecoder();
   while (true) {
     const { done, value } = await reader.read();
     if (done) {
       break;
     }
-    result += decoder.decode(value);
+    result += decoder2.decode(value);
   }
   return result;
 }
@@ -16028,7 +17648,7 @@ function serialize_data(fetched, filter, prerendering2 = false) {
 }
 var s = JSON.stringify;
 var encoder$2 = new TextEncoder();
-function sha256(data) {
+function sha2562(data) {
   if (!key[0])
     precompute();
   const out = init.slice(0);
@@ -16219,7 +17839,7 @@ var BaseProvider = class {
     if (__privateGet(this, _script_needs_csp)) {
       const d = __privateGet(this, _directives);
       if (__privateGet(this, _use_hashes)) {
-        const hash2 = sha256(content);
+        const hash2 = sha2562(content);
         __privateGet(this, _script_src).push(`sha256-${hash2}`);
         if (d["script-src-elem"]?.length) {
           __privateGet(this, _script_src_elem).push(`sha256-${hash2}`);
@@ -16240,7 +17860,7 @@ var BaseProvider = class {
       const empty_comment_hash = "9OlNO0DNEeaVzHL4RZwCLsBHA8WBQ8toBp/4F5XV2nc=";
       const d = __privateGet(this, _directives);
       if (__privateGet(this, _use_hashes)) {
-        const hash2 = sha256(content);
+        const hash2 = sha2562(content);
         __privateGet(this, _style_src).push(`sha256-${hash2}`);
         if (d["style-src-attr"]?.length) {
           __privateGet(this, _style_src_attr).push(`sha256-${hash2}`);
@@ -16463,8 +18083,8 @@ async function render_response({
   }
   const { client } = manifest2._;
   const modulepreloads = new Set(client.imports);
-  const stylesheets17 = new Set(client.stylesheets);
-  const fonts17 = new Set(client.fonts);
+  const stylesheets19 = new Set(client.stylesheets);
+  const fonts19 = new Set(client.fonts);
   const link_header_preloads = /* @__PURE__ */ new Set();
   const inline_styles = /* @__PURE__ */ new Map();
   let rendered;
@@ -16520,9 +18140,9 @@ async function render_response({
       for (const url of node.imports)
         modulepreloads.add(url);
       for (const url of node.stylesheets)
-        stylesheets17.add(url);
+        stylesheets19.add(url);
       for (const url of node.fonts)
-        fonts17.add(url);
+        fonts19.add(url);
       if (node.inline_styles) {
         Object.entries(await node.inline_styles()).forEach(([k, v]) => inline_styles.set(k, v));
       }
@@ -16550,7 +18170,7 @@ async function render_response({
     head += `
 	<style${attributes.join("")}>${content}</style>`;
   }
-  for (const dep of stylesheets17) {
+  for (const dep of stylesheets19) {
     const path = prefixed(dep);
     const attributes = ['rel="stylesheet"'];
     if (inline_styles.has(dep)) {
@@ -16564,7 +18184,7 @@ async function render_response({
     head += `
 		<link href="${path}" ${attributes.join(" ")}>`;
   }
-  for (const dep of fonts17) {
+  for (const dep of fonts19) {
     const path = prefixed(dep);
     if (resolve_opts.preload({ type: "font", path })) {
       const ext = dep.slice(dep.lastIndexOf(".") + 1);
@@ -16937,7 +18557,7 @@ function once(fn) {
     return result = fn();
   };
 }
-var encoder = new TextEncoder();
+var encoder3 = new TextEncoder();
 async function render_data(event, route, options2, manifest2, state, invalidated_data_nodes, trailing_slash) {
   if (!route.page) {
     return new Response(void 0, {
@@ -17024,9 +18644,9 @@ async function render_data(event, route, options2, manifest2, state, invalidated
     return new Response(
       new ReadableStream({
         async start(controller) {
-          controller.enqueue(encoder.encode(data));
+          controller.enqueue(encoder3.encode(data));
           for await (const chunk of chunks) {
-            controller.enqueue(encoder.encode(chunk));
+            controller.enqueue(encoder3.encode(chunk));
           }
           controller.close();
         },
@@ -17059,10 +18679,10 @@ function json_response(json2, status = 200) {
     }
   });
 }
-function redirect_json_response(redirect) {
+function redirect_json_response(redirect2) {
   return json_response({
     type: "redirect",
-    location: redirect.location
+    location: redirect2.location
   });
 }
 function get_data_json(event, options2, nodes) {
@@ -17301,11 +18921,11 @@ async function render_page(event, page2, options2, manifest2, state, resolve_opt
           const error = await handle_error_and_jsonify(event, options2, err);
           while (i--) {
             if (page2.errors[i]) {
-              const index17 = (
+              const index19 = (
                 /** @type {number} */
                 page2.errors[i]
               );
-              const node2 = await manifest2._.nodes[index17]();
+              const node2 = await manifest2._.nodes[index19]();
               let j = i;
               while (!branch[j])
                 j -= 1;
@@ -17427,21 +19047,21 @@ function parse$1(str, options2) {
   }
   var obj = {};
   var opt = options2 || {};
-  var dec = opt.decode || decode;
-  var index17 = 0;
-  while (index17 < str.length) {
-    var eqIdx = str.indexOf("=", index17);
+  var dec = opt.decode || decode3;
+  var index19 = 0;
+  while (index19 < str.length) {
+    var eqIdx = str.indexOf("=", index19);
     if (eqIdx === -1) {
       break;
     }
-    var endIdx = str.indexOf(";", index17);
+    var endIdx = str.indexOf(";", index19);
     if (endIdx === -1) {
       endIdx = str.length;
     } else if (endIdx < eqIdx) {
-      index17 = str.lastIndexOf(";", eqIdx - 1) + 1;
+      index19 = str.lastIndexOf(";", eqIdx - 1) + 1;
       continue;
     }
-    var key2 = str.slice(index17, eqIdx).trim();
+    var key2 = str.slice(index19, eqIdx).trim();
     if (void 0 === obj[key2]) {
       var val = str.slice(eqIdx + 1, endIdx).trim();
       if (val.charCodeAt(0) === 34) {
@@ -17449,13 +19069,13 @@ function parse$1(str, options2) {
       }
       obj[key2] = tryDecode(val, dec);
     }
-    index17 = endIdx + 1;
+    index19 = endIdx + 1;
   }
   return obj;
 }
 function serialize(name2, val, options2) {
   var opt = options2 || {};
-  var enc = opt.encode || encode;
+  var enc = opt.encode || encode3;
   if (typeof enc !== "function") {
     throw new TypeError("option encode is invalid");
   }
@@ -17539,18 +19159,18 @@ function serialize(name2, val, options2) {
   }
   return str;
 }
-function decode(str) {
+function decode3(str) {
   return str.indexOf("%") !== -1 ? decodeURIComponent(str) : str;
 }
-function encode(val) {
+function encode3(val) {
   return encodeURIComponent(val);
 }
 function isDate(val) {
   return __toString.call(val) === "[object Date]" || val instanceof Date;
 }
-function tryDecode(str, decode2) {
+function tryDecode(str, decode22) {
   try {
-    return decode2(str);
+    return decode22(str);
   } catch (e) {
     return str;
   }
@@ -17584,8 +19204,8 @@ function get_cookies(request, url, trailing_slash) {
       if (c && domain_matches(url.hostname, c.options.domain) && path_matches(url.pathname, c.options.path)) {
         return c.value;
       }
-      const decoder = opts?.decode || decodeURIComponent;
-      const req_cookies = parse_1(header, { decode: decoder });
+      const decoder2 = opts?.decode || decodeURIComponent;
+      const req_cookies = parse_1(header, { decode: decoder2 });
       const cookie = req_cookies[name2];
       return cookie;
     },
@@ -17593,8 +19213,8 @@ function get_cookies(request, url, trailing_slash) {
      * @param {import('cookie').CookieParseOptions} opts
      */
     getAll(opts) {
-      const decoder = opts?.decode || decodeURIComponent;
-      const cookies2 = parse_1(header, { decode: decoder });
+      const decoder2 = opts?.decode || decodeURIComponent;
+      const cookies2 = parse_1(header, { decode: decoder2 });
       for (const c of Object.values(new_cookies)) {
         if (domain_matches(url.hostname, c.options.domain) && path_matches(url.pathname, c.options.path)) {
           cookies2[c.name] = c.value;
@@ -17644,8 +19264,8 @@ function get_cookies(request, url, trailing_slash) {
         continue;
       if (!path_matches(destination.pathname, cookie.options.path))
         continue;
-      const encoder2 = cookie.options.encode || encodeURIComponent;
-      combined_cookies[cookie.name] = encoder2(cookie.value);
+      const encoder22 = cookie.options.encode || encodeURIComponent;
+      combined_cookies[cookie.name] = encoder22(cookie.value);
     }
     if (header2) {
       const parsed = parse_1(header2, { decode: (value) => value });
@@ -18126,22 +19746,22 @@ async function respond(request, options2, manifest2, state) {
         }
       }
       if (state.before_handle || state.emulator?.platform) {
-        let config2 = {};
+        let config = {};
         let prerender3 = false;
         if (route.endpoint) {
           const node = await route.endpoint();
-          config2 = node.config ?? config2;
+          config = node.config ?? config;
           prerender3 = node.prerender ?? prerender3;
         } else if (route.page) {
           const nodes = await load_page_nodes(route.page, manifest2);
-          config2 = get_page_config(nodes) ?? config2;
+          config = get_page_config(nodes) ?? config;
           prerender3 = get_option(nodes, "prerender") ?? false;
         }
         if (state.before_handle) {
-          state.before_handle(event, config2, prerender3);
+          state.before_handle(event, config, prerender3);
         }
         if (state.emulator?.platform) {
-          event.platform = await state.emulator.platform({ config: config2, prerender: prerender3 });
+          event.platform = await state.emulator.platform({ config, prerender: prerender3 });
         }
       }
     }
@@ -18448,7 +20068,7 @@ var manifest = (() => {
     assets: /* @__PURE__ */ new Set(["favicon.png", "images/Intentional Health Color Palette - color-hex.com.png", "images/books/11/Download (1).jpeg", "images/books/12/41HNtcZrJIL._AC_SY780_.jpg", "images/books/13/vitaminum_buch-adipositas.jpg", "images/books/14/Download.jpeg", "images/books/15/61ttNVVSNGL._SL1200_.jpg", "images/books/16/615bfp88qmL._AC_UF1000,1000_QL80_.jpg", "images/books/19/81PGdHerZ7L._AC_UF1000,1000_QL80_.jpg", "images/books/20/61IZVC4ae7L._AC_UF894,1000_QL80_.jpg", "images/books/21/130877.jpg", "images/books/22/9783384006486.jpg", "images/books/23/LP_Desktop_Der-grosse-Cholesterin-Schwindel_968200.jpg", "images/books/24/134140.jpg", "images/books/25/Byebye-covid-2-1-1_600x600.png", "images/books/26/handbuch-der-kolloidalen-metalle_600x600.jpg", "images/books/27/Klinikhandbuch-Aromatherapie_600x600.png", "images/books/28/Arthrose_ist_heilbar_mockup_web-jpg_600x600.jpg", "images/books/29/Manuka_Buch_webshop-jpg_600x600.jpg", "images/books/3/Codex-Humanus_Band-400x400.png.webp", "images/books/30/em-eine-chance-fuer-unsere-erde-anne-lorch_600x600.jpg", "images/books/31/buch-borreliose-natuerlich-heilen-wolf-dieter-storl_600x600.jpg", "images/books/32/buch-pflanzliche-antibiotika-richtig-anwenden_600x600.jpg", "images/books/33/buch-die-leber-natuerlich-reinigen_600x600.jpg", "images/books/34/Borax_600x600.jpg", "images/books/35/CDL-Handbuch-LUBZ_600x600.jpg", "images/books/36/buch-cannabis-und-cannabidiol-cbd-richtig-anwenden_600x600.jpg", "images/books/37/DMSO-Handbuch_600x600.jpg", "images/books/38/9783742305466.jpg", "images/books/39/9783442136940.jpg", "images/books/4/48311634z.jpg", "images/books/6/csm_Bluthochdruck_sf_739bfc2751.png", "images/books/7/vitaminum_buch-alzheimer.png", "images/books/8/Download.jpeg", "images/books/9/61-3sI2vGcL.jpg", "images/books/no_cover.jpeg", "images/logos/Amazon.de-Logo.svg.png", "images/logos/EBay_logo.png", "images/products/bedrop/propolis/be-pp-1.webp", "images/products/bedrop/propolis/be-pp-10.webp", "images/products/bedrop/propolis/be-pp-11.webp", "images/products/bedrop/propolis/be-pp-12.webp", "images/products/bedrop/propolis/be-pp-13.webp", "images/products/bedrop/propolis/be-pp-14.webp", "images/products/bedrop/propolis/be-pp-15.webp", "images/products/bedrop/propolis/be-pp-16.webp", "images/products/bedrop/propolis/be-pp-17.webp", "images/products/bedrop/propolis/be-pp-18.webp", "images/products/bedrop/propolis/be-pp-19.webp", "images/products/bedrop/propolis/be-pp-2.webp", "images/products/bedrop/propolis/be-pp-20.webp", "images/products/bedrop/propolis/be-pp-21.webp", "images/products/bedrop/propolis/be-pp-22.webp", "images/products/bedrop/propolis/be-pp-23.webp", "images/products/bedrop/propolis/be-pp-24.webp", "images/products/bedrop/propolis/be-pp-3.webp", "images/products/bedrop/propolis/be-pp-4.webp", "images/products/bedrop/propolis/be-pp-5.webp", "images/products/bedrop/propolis/be-pp-6.webp", "images/products/bedrop/propolis/be-pp-7.webp", "images/products/bedrop/propolis/be-pp-8.webp", "images/products/bedrop/propolis/be-pp-9.webp", "images/products/cellavita/bio-lebensmittel/1-maca-rot-beutel-einzeln_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/1-maca-schwarzbeutel-einzeln_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/1-produktfoto-maca-rot-glas_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/1-produktfoto-maca-schwarz8ivHrtJaMogPC_600x600.jpg", "images/products/cellavita/bio-lebensmittel/beutel-einzeln_300-kapseln_25_600x600.jpg", "images/products/cellavita/bio-lebensmittel/beutel-einzeln_300-kapseln_26_600x600.jpg", "images/products/cellavita/bio-lebensmittel/beutel-einzeln__11_600x600.jpg", "images/products/cellavita/bio-lebensmittel/beutel-einzeln_acerola_300-kapseln_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/beutel-einzeln_maca-500-kapseln_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/bio-gerstengras-pulver_flasche-kopie_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/bio-gerstengrassaft-pulver_flasche_frei-kopie_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/bio-weizengras-pulver_flasche_frei-kopie_7_600x600.jpg", "images/products/cellavita/bio-lebensmittel/bratlinge-5-1-setSq74FWw0X6KAD_600x600.jpg", "images/products/cellavita/bio-lebensmittel/dinkelbild_neu_ohne_banner_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/flasche-acerola-180-kapseln-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/flasche-acerola-90g-neu-shop_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/flasche-tiere-acerola-90g-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-acerola-1-kg-beutel-shop_10_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-acerola-500g-beutel-shop_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-aufbau-gold-700g-beutel-shop_5_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-chlorella-spirulina-pferd-5kg-shop_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-cordyceps-500-kps-shop_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-curcuma-500-g-shop_15_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-curcuma-pferde-5kg-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-etikett-1kg-shop_10_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-flohsamenschalen-500-g-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-gerstengras-500-g-shop_7_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-gerstengrassaft-etikett-400-g-shop_14_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-hagebutte-500-g-shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-hagebutte-pferde-5kg-shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-heidelberger-7-krai-uter-350-g-beutel-shopGBZSSiCEdh2hA_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-leinmehl-tiere-5kg-shop_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/front-ling-zhi-bio-250g-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/gelee-royale-kapsen-frontal_1024x1024-2x_4_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-aufbau-gold-100g-shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-cordyceps-150k-shop_4_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-curcuma-100g-shop_10_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-curcuma-180k-shop_4_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-curcuma-tiere-180-kps-shop_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-flohsamenschalenpulver-150g-shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-granatapfel-extrakt-vita-150-kps-shop_9_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-hagebutte-vita-100g-shop_4_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-heidelberger-7-krai-uter-80g-shopLOjXAiJy6fMpD_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-ling-zhi-bio-120k-shop_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-ling-zhi-bio-70g-shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/glas-spirulina-pur-tabs-100g-shop_8_600x600.jpg", "images/products/cellavita/bio-lebensmittel/ksm66_glas_14_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto-maca-rot-180kapseln-glas_7_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto-maca-schwarz-glas_6_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_aprikosenkerne_250g_shop_7_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_bio-leinsamenmehl_500g_shop_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_buchweizenflocken_500g_3_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_cashewkerne_250g_shop_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_glas_kokos__l__2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_haferflocken_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_hanfsamen_250g_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_haseln__sse_250g_shop_1_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_k__rbiskerne_500g_2_600x600.jpg", "images/products/cellavita/bio-lebensmittel/produktfoto_leinsamen_500g_4_600x600.jpg", "images/products/cellavita/bio-lebensmittel/teezeit-20beutel_5_600x600.png", "images/products/cellavita/geraete/01_manschetten_zusammen_gebunden_3_600x600.jpg", "images/products/cellavita/geraete/02-mwo-antennen_18_600x600.jpg", "images/products/cellavita/geraete/094_klangwelten_gold_24_600x600.jpg", "images/products/cellavita/geraete/095_klangwelten_silver_25_600x600.jpg", "images/products/cellavita/geraete/099_koerpergleiter_2_600x600.jpg", "images/products/cellavita/geraete/1-geraet_27_600x600.jpg", "images/products/cellavita/geraete/100_eifix-260x260_600x600.jpg", "images/products/cellavita/geraete/10_5_600x600.jpg", "images/products/cellavita/geraete/11_5_600x600.jpg", "images/products/cellavita/geraete/20210119_114415_28_600x600.jpg", "images/products/cellavita/geraete/20220830_094145-shop_12_600x600.jpg", "images/products/cellavita/geraete/20220831_125727-shop_3_600x600.jpg", "images/products/cellavita/geraete/20230403_151119_28_600x600.jpg", "images/products/cellavita/geraete/20230403_151119_29_600x600.jpg", "images/products/cellavita/geraete/20230403_151119_30_600x600.jpg", "images/products/cellavita/geraete/2_26_600x600.jpg", "images/products/cellavita/geraete/3_40_600x600.jpg", "images/products/cellavita/geraete/ag-blanc_1_600x600.jpg", "images/products/cellavita/geraete/ag-cristal_1_600x600.jpg", "images/products/cellavita/geraete/ag-noir_1_600x600.jpg", "images/products/cellavita/geraete/ag_-_platin_600x600.jpg", "images/products/cellavita/geraete/airnergy-little-atmos-im-schlafzimmer-1030x1030_4_600x600.jpg", "images/products/cellavita/geraete/amfedilgpclmemgl_1_600x600.png", "images/products/cellavita/geraete/anschlusskabel-liegend_600x600.jpg", "images/products/cellavita/geraete/aromamischung_2500x2500_web_600x600.jpg", "images/products/cellavita/geraete/aromaset2shop_1_600x600.jpg", "images/products/cellavita/geraete/aromaset_1_2500x2500_web_600x600.jpg", "images/products/cellavita/geraete/aromaset_3_2500x2500thdgdybek5yqj_1_600x600.jpg", "images/products/cellavita/geraete/aromaset_4_2500x2500web_1_600x600.jpg", "images/products/cellavita/geraete/bild-1_27_600x600.png", "images/products/cellavita/geraete/bild-1_29_600x600.png", "images/products/cellavita/geraete/bild-1_32_600x600.png", "images/products/cellavita/geraete/bild-1_33_600x600.png", "images/products/cellavita/geraete/bild-winkelruten-4-1xHrOqHG9lLCsa_600x600.jpg", "images/products/cellavita/geraete/bp_4_600x600.jpg", "images/products/cellavita/geraete/cellalux-pulser-front-shop_2_600x600.jpg", "images/products/cellavita/geraete/eesm-elite-sleep-mat_10_600x600.jpeg", "images/products/cellavita/geraete/feinstrom_01_hr_7_600x600.jpg", "images/products/cellavita/geraete/filter_v2_2500x2500_2_600x600.jpg", "images/products/cellavita/geraete/filterset-k_11_600x600.jpg", "images/products/cellavita/geraete/filterset-k_12_600x600.jpg", "images/products/cellavita/geraete/filterset-k_13_600x600.jpg", "images/products/cellavita/geraete/frequenzen_shop_1_600x600.jpg", "images/products/cellavita/geraete/front-kapselhuellen-750-kps-shop_5_600x600.jpg", "images/products/cellavita/geraete/geno-neu_5_600x600.jpg", "images/products/cellavita/geraete/img_7988_3_600x600.jpg", "images/products/cellavita/geraete/kapselfuellmaschine-mit-beutel-shop_5_600x600.jpg", "images/products/cellavita/geraete/kornquetsche_nussbaum_9_600x600.png", "images/products/cellavita/geraete/kuechenfilter-k_3_600x600.jpg", "images/products/cellavita/geraete/kw_coverts_1280x1280_5_600x600.jpg", "images/products/cellavita/geraete/lr1_3_600x600.jpg", "images/products/cellavita/geraete/lrk4_4_600x600.jpg", "images/products/cellavita/geraete/luftreiniger-kueche-lrk2-ii_3_600x600.jpg", "images/products/cellavita/geraete/luftreiniger-lr4_52_0_2zbtmw1YVq9CZP_600x600.jpeg", "images/products/cellavita/geraete/luftreiniger-p-lr2-4_50_2_4_600x600.jpg", "images/products/cellavita/geraete/matresscover-calking-1_17_600x600.jpeg", "images/products/cellavita/geraete/matresscover-calking-1_18_600x600.jpeg", "images/products/cellavita/geraete/neowake_chromawatch_seitlich_aus_9_600x600.jpg", "images/products/cellavita/geraete/nfs4_8-schwarz_5_600x600.jpg", "images/products/cellavita/geraete/nfs4_8-weiss_7_600x600.jpg", "images/products/cellavita/geraete/nfs8-meile-119-22-300x217_14_600x600.jpg", "images/products/cellavita/geraete/nfs8-meile-1191-2-1-210x300_16_600x600.jpg", "images/products/cellavita/geraete/optimiererseitlichklein_7_600x600.jpg", "images/products/cellavita/geraete/piano-front_1_600x600.jpg", "images/products/cellavita/geraete/ppcynezllbjunybp_5_600x600.jpg", "images/products/cellavita/geraete/rute2_2_600x600.jpg", "images/products/cellavita/geraete/sativ-front-shop_2_600x600.jpg", "images/products/cellavita/geraete/saugnapf_1_600x600.jpg", "images/products/cellavita/geraete/set-basic_3_600x600.jpg", "images/products/cellavita/geraete/set-premium-freisteller_4_600x600.jpg", "images/products/cellavita/geraete/shop_0046-600x600_13_600x600.jpg", "images/products/cellavita/geraete/shop_0047_21_600x600.jpg", "images/products/cellavita/geraete/shop_brille_3_600x600.jpg", "images/products/cellavita/geraete/shop_nest_img_1306_2_600x600.jpg", "images/products/cellavita/geraete/shop_sd_cover_trilax_front_2_600x600.jpg", "images/products/cellavita/geraete/shop_vom-sandkorn-bis-zum-riesenstern_600x600.jpg", "images/products/cellavita/geraete/shop_wdr_front_600x600.jpg", "images/products/cellavita/geraete/smart_breathe_3_600x600.jpg", "images/products/cellavita/geraete/somnia-cover_600x600.jpg", "images/products/cellavita/geraete/stoffwechelprofis-flasche-blau-2_2_600x600.jpg", "images/products/cellavita/geraete/stoffwechelprofis-flasche-orange-2_2_600x600.jpg", "images/products/cellavita/geraete/stoffwechelprofis-flasche-silber-2_3_600x600.jpg", "images/products/cellavita/geraete/technik_12_4_600x600.jpg", "images/products/cellavita/geraete/tester-leitfaehigkeit_7_600x600.jpeg", "images/products/cellavita/geraete/therapiemagnet-2_600x600.jpg", "images/products/cellavita/geraete/um-universal-matte-2_16_600x600.jpg", "images/products/cellavita/geraete/v1_gold-1-600x600_17_600x600.jpg", "images/products/cellavita/geraete/v1_platin-600x600_27_600x600.jpg", "images/products/cellavita/geraete/voltmeter_einzeln_5_600x600.jpg", "images/products/cellavita/geraete/web_ms-foto_20221017_klangei_next_110_1_600x600.jpg", "images/products/cellavita/kinder/front-multi-c-kids-1250-t-shop_5_600x600.jpg", "images/products/cellavita/kinder/glas-calcium-kids-120g-neu-shop_6_600x600.jpg", "images/products/cellavita/kinder/glas-magnesium-kids-90g-shop_6_600x600.jpg", "images/products/cellavita/kinder/glas-multi-c-kids-180-ta-shop_3_600x600.jpg", "images/products/cellavita/kinder/nec_standard_NeutralTEHH9WAL8dwBy_600x600.png", "images/products/cellavita/kinder/vitamin-d3-kids_2_600x600.jpg", "images/products/cellavita/koerperpflege/01_bluetenfrische_glas_shop_10_600x600.jpg", "images/products/cellavita/koerperpflege/01_deocreme_vorteilspaket_10_600x600.jpg", "images/products/cellavita/koerperpflege/01_gingkolimette_glas_shop_10_600x600.jpg", "images/products/cellavita/koerperpflege/01_greentea_glas_shop_6_600x600.jpg", "images/products/cellavita/koerperpflege/01_mysticman_glas_shop_6_600x600.jpg", "images/products/cellavita/koerperpflege/Citovis-1_600x600.jpg", "images/products/cellavita/koerperpflege/Dermozym-2_600x600.jpg", "images/products/cellavita/koerperpflege/atheltic-fresh-2_1_600x600.jpg", "images/products/cellavita/koerperpflege/badeutensilien_mit_seife2_3_600x600.jpg", "images/products/cellavita/koerperpflege/beebalm_6_600x600.jpg", "images/products/cellavita/koerperpflege/beutel-einzeln__7_600x600.jpg", "images/products/cellavita/koerperpflege/bild6_kopie_1_600x600.jpg", "images/products/cellavita/koerperpflege/cellapure_haarseife_alge_01_7_600x600.jpg", "images/products/cellavita/koerperpflege/cellapure_haarseife_aloe_01_6_600x600.jpg", "images/products/cellavita/koerperpflege/cellapure_haarseife_brennnessel_01_8_600x600.jpg", "images/products/cellavita/koerperpflege/cellapure_haarseife_mango_01_5_600x600.jpg", "images/products/cellavita/koerperpflege/cellapure_haarseife_weizenkeim_01_3_600x600.jpg", "images/products/cellavita/koerperpflege/cellavita_artisan_rose_01_600x600.jpg", "images/products/cellavita/koerperpflege/cellavita_artisan_verveine_01_600x600.jpg", "images/products/cellavita/koerperpflege/front-basenbad-1kg-shop_5_600x600.jpg", "images/products/cellavita/koerperpflege/front-basenbad-5kg-shop_3_600x600.jpg", "images/products/cellavita/koerperpflege/glas-ohne-aufdruck_8_600x600.jpg", "images/products/cellavita/koerperpflege/haarseife_bier_front_5_600x600.jpg", "images/products/cellavita/koerperpflege/haarseife_bundle_v2_9_600x600.jpg", "images/products/cellavita/koerperpflege/image1_2_600x600.jpg", "images/products/cellavita/koerperpflege/jiaogulan-beutel-vorne_8_600x600.jpg", "images/products/cellavita/koerperpflege/jiaogulan-glas__9_600x600.jpg", "images/products/cellavita/koerperpflege/mineralgel_produktfoto_2_600x600.jpg", "images/products/cellavita/koerperpflege/mineralgel_produktfotos_vorrat_9_600x600.jpg", "images/products/cellavita/koerperpflege/nailserum-2_600x600.jpg", "images/products/cellavita/koerperpflege/produktfoto-teststreifen_6_600x600.jpg", "images/products/cellavita/koerperpflege/propolis-seife-1_3_600x600.jpg", "images/products/cellavita/koerperpflege/propolisdeo_1_600x600.jpg", "images/products/cellavita/kolloide/bild-kolloidales-germanium-50-ppm-200-ml_7_600x600.jpg", "images/products/cellavita/kolloide/bild-kolloidales-gold-30-ppm-200-ml_8_600x600.jpg", "images/products/cellavita/kolloide/nanosit-kolloidales-germanium-50-ppm-1000-ml_6_600x600.jpg", "images/products/cellavita/kolloide/nanosit-kolloidales-gold-30-ppm-1000-ml_1280x1280_6_600x600.jpg", "images/products/cellavita/kolloide/nanosit-kolloidales-kupfer-40-ppm-1000-ml_1280x1280_4_600x600.jpg", "images/products/cellavita/kolloide/nanosit-kolloidales-silber-100-ppm-1000-ml_1280x1280_7_600x600.jpg", "images/products/cellavita/kolloide/nanosit-kolloidales-zink-40-ppm-1000-ml_1280x1280_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/1-maca-rot-beutel-einzeln_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/1-maca-schwarzbeutel-einzeln_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/1-produktfoto-maca-rot-glas_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/1-produktfoto-maca-schwarz8ivHrtJaMogPC_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/1000x1000px_setsxlmefn7bmef1h_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/200mlikmv3cvyktayi_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/Brlauch200ml4er_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/Kardenwurzel200ml4er_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/Shaker_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/amino_beutel-einzeln__1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/ausleitungsprotokoll-klein-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beecreamnew_16_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_17_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_21_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_22_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_25_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300-kapseln_26_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln_12_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln_15_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__17_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__24_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__28_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__30_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__32_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_300_kapseln__8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln__11_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln__15_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_acerola_300-kapseln_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_maca-500-kapseln_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/beutel-einzeln_nac_300_kapseln_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/bio-gerstengras-pulver_flasche-kopie_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/bio-gerstengrassaft-pulver_flasche_frei-kopie_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/bio-weizengras-pulver_flasche_frei-kopie_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/brlauch100ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/brlauch200ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/calcium-1kg-beutel-einzeln__9_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/calcium-natur-glas-ohne-aufdruck_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/cilantrokoriander100ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/cilantrokoriander200ml4er3378_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/cilantrokoriander200ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/citexivir-3_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/citoethyl-gro-3_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/citovet-1_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/citovigor-1_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/citozym-1_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/d-tagatose_beutel-500g_einzelnuz0Tu8k97iZzK_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/d-tagatose_glas-160g_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/ducolzym-1_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/ergozym-1_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/ergozym-plus-3_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/flasche-acerola-180-kapseln-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/flasche-acerola-90g-neu-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/flasche-ackerschachtelhalm-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/flasche-alpha-liponsaeure-neu-180-kapseln_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-acerola-1-kg-beutel-shop_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-acerola-500g-beutel-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-ackerschachtelhalm-etikett-500-g-beutel-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-alpha-liponsaeure-500-neu-kps-beutel_13_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-aufbau-gold-700g-beutel-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-coenzym-q10-500-kps-beutel-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-cordyceps-500-kps-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-curcuma-500-g-shop_15_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-d-galactose-1kg-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-d-galactose-500g-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-d-mannose-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-d-ribose-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-etikett-1kg-shop_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-gehirn-1kg-shopFdlmIRv3V673C_600x600.jpeg", "images/products/cellavita/nahrungsergaenzung/front-gehirn-500-g-shop015MnnAAFSqhI_600x600.jpeg", "images/products/cellavita/nahrungsergaenzung/front-gerstengras-500-g-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-gerstengrassaft-etikett-400-g-shop_14_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-haut-haare-500-kps-beutel-shop8WYrJHTbKgiuu_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-kalium-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-kalium-500-kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-l-arginin-500-g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-l-carnitin-500-kps-shop_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-lein-protein-900-g-beutel-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-ling-zhi-bio-250g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-lithothamnium-1-kg-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-magnesium-classic-1-kg-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-magnesium-mild-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-msm-1-kg-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-msm-500-kps-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-msm-spezial-1-kg-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-multi-c-kids-1250-t-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-multi-c-kids-1250-t-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-opc-500-g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-pro-colon-420-g-2er-set-shaker-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-pro-colon-420-g-3er-set-shaker-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-pro-colon-420-g-set-shaker-shop_11_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-pro-immun-500-kps-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-sangokoralle-1kg-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-sangokoralle-500g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-superfood-365-500g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-superfood-triphala-500-g-kopie_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-vitamin-b-12-500-g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-vitamin-b-komplex-500-g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-weihrauch-myrrhe-vita-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-weihrauch-vita-500-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-weizengras-500-g-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/front-zink-selen-500-kps-shop_6_600x600.jpeg", "images/products/cellavita/nahrungsergaenzung/glas-astaxanthin-60-kaps-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-aufbau-gold-100g-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-bambus-extrakt-50g-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-bor-150-kapseln-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-calcium-kids-120g-neu-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-cellavita-forte-150k-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-coenzym-q10-180k-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-cordyceps-150k-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-curcuma-100g-shop_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-curcuma-180k-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-d-galactose-200g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-d-mannose-110g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-d-ribose-160g-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-eisen-mangan-kupfer-60kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-eisen-vitamin-c-90-kps-shopQsEfqPn0LOmjj_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-gehirn-200g-shopkqOL76y5F5cQA_600x600.jpeg", "images/products/cellavita/nahrungsergaenzung/glas-granatapfel-extrakt-vita-150-kps-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-griffonia-120k-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-haut-haare-150-kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-hyaluronsaeure-180k-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-jod-natur-120-kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-kalium-vita-120-kps-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-kalium-vita-250g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-knochen-bewegung-74g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-l-arginin-150g-shopK8mLU9bdEaZLX_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-l-carnitin-120-kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-ling-zhi-bio-120k-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-ling-zhi-bio-70g-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-lithothamnium-120g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-magnesium-120g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-magnesium-kids-90g-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-magnesium-mild-180-kps-shop_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-magnesium-mild-90-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-mariendistel-120kps-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-melatonin-60-kps-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-msm-spezial-200g-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-msm-vita-100g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-msm-vita-150-kps-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-multi-c-kids-180-ta-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-nattokinase-90-kps-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-ohne-aufdruck_9_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-olivenblattextrakt-90-kps-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-opc-100-g-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-opc-60kps-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-pro-immun-90-kps-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-sangokoralle-120g-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-spirulina-pur-tabs-100g-shop_8_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-superfood-365-150-kps-shop_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-vitamin-b-komplex-100g-shop_9_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-vitamin-b12-60-kps-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-weihrauch-120-g-shop_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-weihrauch-extrakt-150-kps-shop_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-weihrauch-extrakt-50-g-shop_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-weihrauch-myrrhe-120-g-shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/glas-wild-yam-150-kps-shop_20_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/kardanwurzel200ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/kardenwurzel100ml_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/l-lysin_glas_11_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/mineral-p450-1_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/nec_standard_NeutralTEHH9WAL8dwBy_600x600.png", "images/products/cellavita/nahrungsergaenzung/omega-3-100ml-shop_13_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/omega-kapseln-algen_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/probiotic-p450-1_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktbildems_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktbildemsvorsorgepaketnawlmitbuvkw2_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-glas-multi-c-180-tbl_11_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-granatapfel-vita_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-maca-rot-180kapseln-glas_7_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-maca-schwarz-glas_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-para-ex-shop_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-vir-ex-vita_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-vitamin-a_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-vitamin-e_16_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto-weihrauch-myrrhe-gold_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_d3_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_d3_vorrat_5er_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_glas_nac_kapseln_5_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_glas_zink_selen_90_kps_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_kiefernadelextrakt_1IR40HOZA3ONcP_600x600.jpeg", "images/products/cellavita/nahrungsergaenzung/produktfoto_lo__wenzahnextrakt_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_milchs__ure_500ml_shop_6_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_olivenblattextrakt_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_rosenwurz_3_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfoto_vitamin_k2_shop_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/produktfotomilchsure500ml5xvorsorgeshopkye8zvyqecidj_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/propoliscream_4_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/propolisdeo_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/propulzym-2_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/royallotion100ml-kopie_10_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/spruehflasche_2_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/vitamin-d3-hochdosiert_12_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/vitamin-d3-kids-vorsorge_1_600x600.jpg", "images/products/cellavita/nahrungsergaenzung/vitamin-d3-kids_2_600x600.jpg", "images/products/cellavita/natur/1-bottle-with-box-propolis-10aOfyOkhZ3AgZq_600x600.jpg", "images/products/cellavita/natur/1-bottle-with-box-propolis-mundspray_600x600.jpg", "images/products/cellavita/natur/1500ml-Sprossenglas_600x600.jpg", "images/products/cellavita/natur/1500mlglas_600x600.jpg", "images/products/cellavita/natur/20220321_hempamed_de_cbd_premiumoel_10ml_rz_10-_box_bottle_4000px_3_600x600.png", "images/products/cellavita/natur/20220321_hempamed_de_cbd_premiumoel_10ml_rz_20-_box-bottle_4000px_1_600x600.png", "images/products/cellavita/natur/20220321_hempamed_de_cbd_premiumoel_10ml_rz_5-_box-bottle_4000px_1_600x600.png", "images/products/cellavita/natur/20_-tinktur-frontal_1024x1024-2x_3_600x600.jpg", "images/products/cellavita/natur/Bluetenpollenpulver_600x600.jpg", "images/products/cellavita/natur/Deckel_gross_600x600.jpg", "images/products/cellavita/natur/Deckel_klein_600x600.jpg", "images/products/cellavita/natur/SG_1000ml_600x600.jpg", "images/products/cellavita/natur/SG_750_800x800_600x600.jpg", "images/products/cellavita/natur/Set_I_1000_800x800_600x600.jpg", "images/products/cellavita/natur/Set__750_800x800_600x600.jpg", "images/products/cellavita/natur/beebalm_6_600x600.jpg", "images/products/cellavita/natur/beecreamnew_16_600x600.jpg", "images/products/cellavita/natur/blau1_8_600x600.jpg", "images/products/cellavita/natur/brlauch100ml_1_600x600.jpg", "images/products/cellavita/natur/brlauch200ml_1_600x600.jpg", "images/products/cellavita/natur/cilantrokoriander100ml_1_600x600.jpg", "images/products/cellavita/natur/cilantrokoriander200ml_1_600x600.jpg", "images/products/cellavita/natur/front-apfelpektin-600g-shop_8_600x600.jpg", "images/products/cellavita/natur/front-bentonit-1-kg-beutel-shopiFkZHdcBVh1F2_600x600.jpg", "images/products/cellavita/natur/front-flohsamenschalen-500-g-shop_3_600x600.jpg", "images/products/cellavita/natur/front-heidelberger-7-krai-uter-350-g-beutel-shopGBZSSiCEdh2hA_600x600.jpg", "images/products/cellavita/natur/front-zeolith-1-kg-shop_4_600x600.jpg", "images/products/cellavita/natur/front-zeolith-500g-shop_5_600x600.jpg", "images/products/cellavita/natur/front-zeolith-bentonit-1-kg-shop9HoGn1LZqtoRD_600x600.jpg", "images/products/cellavita/natur/gelee-royale-kapsen-frontal_1024x1024-2x_4_600x600.jpg", "images/products/cellavita/natur/glas-bentonit-140g-shop_3_600x600.jpg", "images/products/cellavita/natur/glas-flohsamenschalenpulver-150g-shop_2_600x600.jpg", "images/products/cellavita/natur/glas-heidelberger-7-krai-uter-80g-shopLOjXAiJy6fMpD_600x600.jpg", "images/products/cellavita/natur/glas-zeolith-bentonit-140-g-shopFBo1AXfCVDvww_600x600.jpg", "images/products/cellavita/natur/h-loesung_kl-600x906_7_600x600.jpg", "images/products/cellavita/natur/kardanwurzel200ml_1_600x600.jpg", "images/products/cellavita/natur/kardenwurzel100ml_1_600x600.jpg", "images/products/cellavita/natur/keimkiste-gross_3_600x600.jpg", "images/products/cellavita/natur/keimkiste_klein_2_600x600.png", "images/products/cellavita/natur/manuka-honigwithhoneyspoon_bigger_new_8_600x600.jpg", "images/products/cellavita/natur/manuka_loffel_deckeloffen_2kopie_1024x1024-2x_7_600x600.jpg", "images/products/cellavita/natur/nec_standard_NeutralTEHH9WAL8dwBy_600x600.png", "images/products/cellavita/natur/ortho-2_5_600x600.jpg", "images/products/cellavita/natur/p3299231-quer-freigestellt_5_600x600.png", "images/products/cellavita/natur/produktfoto-granatapfel-vita_4_600x600.jpg", "images/products/cellavita/natur/produktfoto-para-ex-shop_2_600x600.jpg", "images/products/cellavita/natur/produktfoto_aprikosenkerne_250g_shop_7_600x600.jpg", "images/products/cellavita/natur/produktfoto_glas_kokos__l__2_600x600.jpg", "images/products/cellavita/natur/produktfoto_kiefernadelextrakt_1IR40HOZA3ONcP_600x600.jpeg", "images/products/cellavita/natur/produktfoto_lo__wenzahnextrakt_3_600x600.jpg", "images/products/cellavita/natur/produktfoto_olivenblattextrakt_2_600x600.jpg", "images/products/cellavita/natur/produktfoto_rosenwurz_3_600x600.jpg", "images/products/cellavita/natur/propolis-kapseln-frontal_1024x1024-2x_4_600x600.jpg", "images/products/cellavita/natur/propolis-seife-1_3_600x600.jpg", "images/products/cellavita/natur/propoliscream_4_600x600.jpg", "images/products/cellavita/natur/propolisdeo_1_600x600.jpg", "images/products/cellavita/natur/royallotion100ml-kopie_10_600x600.jpg", "images/products/cellavita/natur/sprossen_set_1500ml_600x600.jpg", "images/products/cellavita/natur/system_ii_1000_wei___800x800_600x600.jpg", "images/products/cellavita/natur/system_ii_750_wei___800x800_600x600.jpg", "images/products/cellavita/reinigung/allzweckreiniger-flasche-frei-2s98PTSdeOAk9O_600x600.png", "images/products/cellavita/reinigung/allzweckreiniger-set-frei-2ev5nfOTfhcA22_600x600.png", "images/products/cellavita/reinigung/atme-durch_5_600x600.png", "images/products/cellavita/reinigung/bewegungsfreude_5_600x600.png", "images/products/cellavita/reinigung/bild-cdl-100-ml-weiss-neu9YkuYw16AezcZ_600x600.jpg", "images/products/cellavita/reinigung/borellisan_5_600x600.png", "images/products/cellavita/reinigung/denkfit_6_600x600.png", "images/products/cellavita/reinigung/herzensbluete_16_600x600.png", "images/products/cellavita/reinigung/immuzauber_7_600x600.png", "images/products/cellavita/reinigung/magdasan_6_600x600.png", "images/products/cellavita/reinigung/p1033209_7_600x600.jpg", "images/products/cellavita/reinigung/produktfoto-c60-100ml_3_600x600.jpg", "images/products/cellavita/reinigung/produktfoto-cio-2-500ml_6_600x600.jpg", "images/products/cellavita/reinigung/produktfoto-dmso-500-ml_2_600x600.jpg", "images/products/cellavita/reinigung/produktfoto-dmso_600x600.jpg", "images/products/cellavita/reinigung/ruhepol_6_600x600.png", "images/products/kronenberg/Nahrungsergaenzung/agaricus-blazei-murrill-mandelpilz-120g.png", "images/products/kronenberg/Nahrungsergaenzung/aloe-vera-frischpflanzensaft-mit-honig-plus-vitamin-c.png", "images/products/kronenberg/Nahrungsergaenzung/amalaki-ayurveda-pulver-organisch.png", "images/products/kronenberg/Nahrungsergaenzung/amino-komplex-17-17-essentielle-aminosaeuren.png", "images/products/kronenberg/Nahrungsergaenzung/anorganischer-schwefel-min-999-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-einjaehriger-beifuss-pulver-das-echte.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-kapseln-einjaehriger-beifuss.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-oxymel-compositum-alkoholfrei.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-plus-rosmarin-vitamin-c.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-samen-qing-hao-gvk-spezial.png", "images/products/kronenberg/Nahrungsergaenzung/artemisia-annua-ultraschall-extraktion-mit-schungitwasser.png", "images/products/kronenberg/Nahrungsergaenzung/bernsteinsaeure-hpmc-kapseln-plus-vitamin-c.png", "images/products/kronenberg/Nahrungsergaenzung/bio-camu-camu-pulver-viel-vitamin-c.png", "images/products/kronenberg/Nahrungsergaenzung/biota-em-effektive-mikroorganismen-500ml.png", "images/products/kronenberg/Nahrungsergaenzung/bockshornklee-extrakt-ein-vielseitiges-kraut.png", "images/products/kronenberg/Nahrungsergaenzung/bockshornklee-kur-diffuser-haarausfall-kapseln-tee-tinktur.png", "images/products/kronenberg/Nahrungsergaenzung/bockshornklee-tee-samen-200g.png", "images/products/kronenberg/Nahrungsergaenzung/braunalge-knotentang-ascophyllum-nodosum.png", "images/products/kronenberg/Nahrungsergaenzung/calcium-kalium-magnesium-kombination.png", "images/products/kronenberg/Nahrungsergaenzung/catuaba-erythroxylum-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/catuaba-tee-der-tupi-indianer-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/Nahrungsergaenzung/catumupu-catuaba-muira-puama-tinktur.png", "images/products/kronenberg/Nahrungsergaenzung/chaga-pilz-tee-bio-qualitaet-wildsammlung.png", "images/products/kronenberg/Nahrungsergaenzung/chanca-piedra-steinbrecher.png", "images/products/kronenberg/Nahrungsergaenzung/coenzym-q10-vegan-90-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/copaiba-oel-100-natuerlich.png", "images/products/kronenberg/Nahrungsergaenzung/cordyceps-cordycepin-all-in-one-schmelzpastillen.png", "images/products/kronenberg/Nahrungsergaenzung/cordyceps-cordycepin-lyophilized-schmelzpastille-10mgpastille.png", "images/products/kronenberg/Nahrungsergaenzung/eisen-frucht-muttersaft-supermix-330-ml.png", "images/products/kronenberg/Nahrungsergaenzung/eisenbisglycinat-eisen-pulver-100g.png", "images/products/kronenberg/Nahrungsergaenzung/extase-aphrodisiakum-catuaba-muira-puama-rinden-tee.png", "images/products/kronenberg/Nahrungsergaenzung/goldene-milch-paste-kurkuma-power.png", "images/products/kronenberg/Nahrungsergaenzung/graviola-annona-muricata-blaetter-wildsammlung.png", "images/products/kronenberg/Nahrungsergaenzung/graviola-extrakt-annona-muricata-superfood.png", "images/products/kronenberg/Nahrungsergaenzung/gruenes-wunder-chlorella-gerstengras-spirulina-weizengras-.png", "images/products/kronenberg/Nahrungsergaenzung/hacheney-hyperwasser-mit-kolloidalem-silizium.png", "images/products/kronenberg/Nahrungsergaenzung/hagebutten-extrakt-100-natur.png", "images/products/kronenberg/Nahrungsergaenzung/hair-power-kur-bockshornklee-kapseln-60-stk.png", "images/products/kronenberg/Nahrungsergaenzung/holunder-beeren-extrakt-antioxidans.png", "images/products/kronenberg/Nahrungsergaenzung/hyaluronsaeure-plus-glucosamin-und-chondroitin-60-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/juglandis-kur-nach-dr-hulda-clark-kraeuter-tee-aperitif.png", "images/products/kronenberg/Nahrungsergaenzung/katzenkralle-sangre-de-grado-100g-tee-amazonas-regenwald-.png", "images/products/kronenberg/Nahrungsergaenzung/kiefernnadel-und-sprossen-wuerzeextrakt-ultraschall-extraktion.png", "images/products/kronenberg/Nahrungsergaenzung/koriander-co-schwermetall-ausleitung-im-sparpaket.png", "images/products/kronenberg/Nahrungsergaenzung/koriander-extrakt-ultraschall-extraktion-100ml.png", "images/products/kronenberg/Nahrungsergaenzung/kraeutertee-aperitif-lymphe-abies.png", "images/products/kronenberg/Nahrungsergaenzung/kraeutertee-aperitif-niere-ren.png", "images/products/kronenberg/Nahrungsergaenzung/l-arginin-base-pulver-vegan.png", "images/products/kronenberg/Nahrungsergaenzung/l-carnitin-base-pulver-100.png", "images/products/kronenberg/Nahrungsergaenzung/l-tryptophan-mit-b-vitaminen-und-folsaeure-60-hpmc-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/l-tryptophan-pulver-aus-fermentation.png", "images/products/kronenberg/Nahrungsergaenzung/lapacho-rinden-tee-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/Nahrungsergaenzung/licht-edel-schungit-wasser-energetikum.png", "images/products/kronenberg/Nahrungsergaenzung/liposomale-artemisia-annua-ultraschall-extraktion-50ml.png", "images/products/kronenberg/Nahrungsergaenzung/liposomale-moringa-morisana-ultraschall-extraktion.png", "images/products/kronenberg/Nahrungsergaenzung/loewenzahnkraut-wuerze-extrakt-ultraschall-extraktion.png", "images/products/kronenberg/Nahrungsergaenzung/magnesium-plus-b-vitamine-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/meerrettich-extract-ultraschall-extraktion.png", "images/products/kronenberg/Nahrungsergaenzung/meerwasser-agua-de-mar-mit-schungit-wasser.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-miracle-suppe-20-portionen-gmo-frei.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-morisana-gesundheit-spar-paket.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-morisana-plus-artemisia-annua-kombi-paket.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-morisana-premium-mit-vitamin-b12.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-morisana-premium-pulver-300g-monatspackung.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-samen-in-kapsel-100-pures-samenpulver.png", "images/products/kronenberg/Nahrungsergaenzung/moringa-samenpulver-100-fein-gemahlen-20g.png", "images/products/kronenberg/Nahrungsergaenzung/msm-organischer-schwefel-reinheitsgrad-999.png", "images/products/kronenberg/Nahrungsergaenzung/muira-puama-pulver-potenzbaum-im-amazonas-regenwald.png", "images/products/kronenberg/Nahrungsergaenzung/muira-puama-tee-aphrodisiakum-amazonas-regenwald.png", "images/products/kronenberg/Nahrungsergaenzung/multivitamin-mineral-60-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/mulungu-das-schlaf-elixier-der-indianer-90-stk.png", "images/products/kronenberg/Nahrungsergaenzung/natriumhydrogencarbonat-pharm-qualitaet.png", "images/products/kronenberg/Nahrungsergaenzung/noni-100-direktsaft.png", "images/products/kronenberg/Nahrungsergaenzung/nopal-kapseln-feigenkaktus-opuntia-ficus-indica-vegan.png", "images/products/kronenberg/Nahrungsergaenzung/omega-3-lachsoelkapseln-mit-vitamin-e.png", "images/products/kronenberg/Nahrungsergaenzung/oregano-oel-wilder-majoran-carvacrol-80.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-agnimantha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-ashwagandha-ayurveda-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-brahmi-ayurveda-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-giloy-ayurveda-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-patadi-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-shatavari-ayurveda-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-swastha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/Nahrungsergaenzung/organisches-trivala-ayurveda-pulver.png", "images/products/kronenberg/Nahrungsergaenzung/original-urs-surbeck-energetisches-wasser-gesunde-balance.png", "images/products/kronenberg/Nahrungsergaenzung/pure-formula-stoffwechsel-90-kapseln.png", "images/products/kronenberg/Nahrungsergaenzung/safran-extrakt-mit-curcumin-gueteklasse-1-15ml.png", "images/products/kronenberg/Nahrungsergaenzung/sango-meeres-korallen-pures-pulver-original-aus-okinawa.png", "images/products/kronenberg/Nahrungsergaenzung/sangre-de-drago-100-aus-wildsammlung.png", "images/products/kronenberg/Nahrungsergaenzung/schamblumenblueten-blau-clitoria-ternatea-flores-100g.png", "images/products/kronenberg/Nahrungsergaenzung/schatz-der-inkas-trunk-der-goetter-amazonas-regenwald-tee.png", "images/products/kronenberg/Nahrungsergaenzung/schwarzkuemmel-oel-kaltpressung-gefiltert-100ml.png", "images/products/kronenberg/Nahrungsergaenzung/schwarzkuemmel-pulver-nigella-sativa-premiumqualitaet.png", "images/products/kronenberg/Nahrungsergaenzung/spirulina-tropfenextrakt-100-ml.png", "images/products/kronenberg/Nahrungsergaenzung/stauden-sellerie-pulver-inspiriert-durch-medical-food-monatskur.png", "images/products/kronenberg/Nahrungsergaenzung/strophanthus-kombe-saatgut-strophanthin.png", "images/products/kronenberg/Nahrungsergaenzung/suessholzwurzel-natur-gemahlen-lakritzpulver.png", "images/products/kronenberg/Nahrungsergaenzung/traubenkern-opc-ultraschall-extrakt-mit-schungit-wasser.png", "images/products/kronenberg/Nahrungsergaenzung/tri-magnesiumdicitrat-zaehne-knochen-muskeln.png", "images/products/kronenberg/Nahrungsergaenzung/urs-surbeck-energetisches-wasser-wohlfuehlflasche-50ml.png", "images/products/kronenberg/Nahrungsergaenzung/vitalpilze-6-fach-pilzkomplex-extrakt.png", "images/products/kronenberg/Nahrungsergaenzung/vitamin-b12-pure-power-plus-l-carnitin-vitamin-d-und-c.png", "images/products/kronenberg/Nahrungsergaenzung/vitamin-k2-plus-vitamin-d3-plus-calcium.png", "images/products/kronenberg/Nahrungsergaenzung/weidenrinde-purpurweide-geschnitten-mit-nat-salicin.png", "images/products/kronenberg/Nahrungsergaenzung/weidenrinden-purpurweide-ultraschall-extrakt.png", "images/products/kronenberg/Nahrungsergaenzung/weidenroeschen-kleinbluetig-ultraschall-extraktion.png", "images/products/kronenberg/Nahrungsergaenzung/weih-muri-weihrauch-und-myrrhe-extrakt.png", "images/products/kronenberg/Nahrungsergaenzung/zimtblaetteroel-100-reines-aetherisches-oel-10ml.png", "images/products/kronenberg/TeeKr\xE4uterPulver/988-pures-artemisiaartemisinin-90-vegi-kapseln.png", "images/products/kronenberg/TeeKr\xE4uterPulver/agaricus-blazei-murrill-mandelpilz-120g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/amalaki-ayurveda-pulver-organisch.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-100-reine-blaetter-100g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-einjaehriger-beifuss-pulver-das-echte.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-kapseln-einjaehriger-beifuss.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-oxymel-compositum-alkoholfrei.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-salbe-moringa-samen-pulver-dmso.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-samen-qing-hao-gvk-spezial.png", "images/products/kronenberg/TeeKr\xE4uterPulver/artemisia-annua-ultraschall-extraktion-mit-schungitwasser.png", "images/products/kronenberg/TeeKr\xE4uterPulver/ayurveda-tee-mischung-harmonie.png", "images/products/kronenberg/TeeKr\xE4uterPulver/bio-camu-camu-pulver-viel-vitamin-c.png", "images/products/kronenberg/TeeKr\xE4uterPulver/bockshornklee-extrakt-ein-vielseitiges-kraut.png", "images/products/kronenberg/TeeKr\xE4uterPulver/bockshornklee-tee-samen-200g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/brennnesselblaetter-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/TeeKr\xE4uterPulver/brennnesselwurzel-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/TeeKr\xE4uterPulver/catuaba-erythroxylum-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/catuaba-tee-der-tupi-indianer-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/TeeKr\xE4uterPulver/catumupu-catuaba-muira-puama-tinktur.png", "images/products/kronenberg/TeeKr\xE4uterPulver/chaga-pilz-tee-bio-qualitaet-wildsammlung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/chanca-piedra-steinbrecher.png", "images/products/kronenberg/TeeKr\xE4uterPulver/cistus-incanus-zistrosenkraut.png", "images/products/kronenberg/TeeKr\xE4uterPulver/der-weltberuehmte-tee-der-ojibwa-indianer-essiac-blend.png", "images/products/kronenberg/TeeKr\xE4uterPulver/ebv-pulver-mixtur-30-tage-kur.png", "images/products/kronenberg/TeeKr\xE4uterPulver/eisenbisglycinat-eisen-pulver-100g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/extase-aphrodisiakum-catuaba-muira-puama-rinden-tee.png", "images/products/kronenberg/TeeKr\xE4uterPulver/graviola-annona-muricata-blaetter-wildsammlung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/gruenes-wunder-chlorella-gerstengras-spirulina-weizengras-.png", "images/products/kronenberg/TeeKr\xE4uterPulver/indioclean-100g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/jiaogulan-kraut-kraut-der-unsterblichkeit-kraeuterpotpourri.png", "images/products/kronenberg/TeeKr\xE4uterPulver/juglandis-kur-nach-dr-hulda-clark-kraeuter-tee-aperitif.png", "images/products/kronenberg/TeeKr\xE4uterPulver/katzenkralle-sangre-de-grado-100g-tee-amazonas-regenwald-.png", "images/products/kronenberg/TeeKr\xE4uterPulver/koriander-co-schwermetall-ausleitung-im-sparpaket.png", "images/products/kronenberg/TeeKr\xE4uterPulver/kraeutertee-aperitif-leber-lecur.png", "images/products/kronenberg/TeeKr\xE4uterPulver/kraeutertee-aperitif-lymphe-abies.png", "images/products/kronenberg/TeeKr\xE4uterPulver/kraeutertee-aperitif-niere-ren.png", "images/products/kronenberg/TeeKr\xE4uterPulver/kur-paket-premium-4-entgiftungreinigungverdauung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/l-arginin-base-pulver-vegan.png", "images/products/kronenberg/TeeKr\xE4uterPulver/l-carnitin-base-pulver-100.png", "images/products/kronenberg/TeeKr\xE4uterPulver/l-tryptophan-pulver-aus-fermentation.png", "images/products/kronenberg/TeeKr\xE4uterPulver/lapacho-rinden-tee-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/TeeKr\xE4uterPulver/lapacho-tinktur-ultraschall-extraktion-amazonas-regenwald.png", "images/products/kronenberg/TeeKr\xE4uterPulver/leinsamenextrakt-pulver-vegi-kapseln-90-stueck.png", "images/products/kronenberg/TeeKr\xE4uterPulver/liposomale-artemisia-annua-ultraschall-extraktion-50ml.png", "images/products/kronenberg/TeeKr\xE4uterPulver/loewenzahnblaetter-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/TeeKr\xE4uterPulver/loewenzahnwurzel-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/TeeKr\xE4uterPulver/lungenkraut-wuerzeextrakt-ultraschall-extraktion.png", "images/products/kronenberg/TeeKr\xE4uterPulver/moringa-morisana-plus-artemisia-annua-kombi-paket.png", "images/products/kronenberg/TeeKr\xE4uterPulver/moringa-morisana-premium-pulver-300g-monatspackung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/moringa-samenpulver-100-fein-gemahlen-20g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/moringa-spicy-gewuerz-mit-kalahari-wuesten-salz.png", "images/products/kronenberg/TeeKr\xE4uterPulver/muira-puama-pulver-potenzbaum-im-amazonas-regenwald.png", "images/products/kronenberg/TeeKr\xE4uterPulver/muira-puama-tee-aphrodisiakum-amazonas-regenwald.png", "images/products/kronenberg/TeeKr\xE4uterPulver/mulungu-das-schlaf-elixier-der-indianer-90-stk.png", "images/products/kronenberg/TeeKr\xE4uterPulver/natriumhydrogencarbonat-pharm-qualitaet.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-agnimantha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-ashwagandha-ayurveda-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-brahmi-ayurveda-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-giloy-ayurveda-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-patadi-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-shatavari-ayurveda-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-swastha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/organisches-trivala-ayurveda-pulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/papaya-blaetter-und-staengel-grob-100g-superfood.png", "images/products/kronenberg/TeeKr\xE4uterPulver/pure-formula-stoffwechsel-90-kapseln.png", "images/products/kronenberg/TeeKr\xE4uterPulver/schamblumenblueten-blau-clitoria-ternatea-flores-100g.png", "images/products/kronenberg/TeeKr\xE4uterPulver/schatz-der-inkas-trunk-der-goetter-amazonas-regenwald-tee.png", "images/products/kronenberg/TeeKr\xE4uterPulver/schilddruesen-kraeuter-mischung-pulver-inspiriert-durch-medical-food.png", "images/products/kronenberg/TeeKr\xE4uterPulver/schwarzkuemmel-pulver-nigella-sativa-premiumqualitaet.png", "images/products/kronenberg/TeeKr\xE4uterPulver/stauden-sellerie-pulver-inspiriert-durch-medical-food-monatskur.png", "images/products/kronenberg/TeeKr\xE4uterPulver/suessholzwurzel-natur-gemahlen-lakritzpulver.png", "images/products/kronenberg/TeeKr\xE4uterPulver/tantum-1-nierentee-reinigung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/tantum-2-lebertee-zur-leberreinigung.png", "images/products/kronenberg/TeeKr\xE4uterPulver/tantum-3-darm-sanierung-kur.png", "images/products/kronenberg/TeeKr\xE4uterPulver/tantum-6-tee-entgiftung-reinigung-verdauung-und-rheuma.png", "images/products/kronenberg/TeeKr\xE4uterPulver/teetox-stoffwechsel-tee-inspiriert-durch-medical-food.png", "images/products/kronenberg/TeeKr\xE4uterPulver/tri-magnesiumdicitrat-zaehne-knochen-muskeln.png", "images/products/kronenberg/TeeKr\xE4uterPulver/typ-2-pulver-bioaktive-verbindungen.png", "images/products/kronenberg/TeeKr\xE4uterPulver/vitalpilze-6-fach-pilzkomplex-extrakt.png", "images/products/kronenberg/TeeKr\xE4uterPulver/weidenrinde-purpurweide-geschnitten-mit-nat-salicin.png", "images/products/kronenberg/TeeKr\xE4uterPulver/weidenrinden-purpurweide-ultraschall-extrakt.png", "images/products/kronenberg/TeeKr\xE4uterPulver/zistrosenkraut-gemahlen-fuer-hunde-katzen-100-natur.png", "images/products/kronenberg/Therapeuteninfos/adsadhs-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/artemisia-annua-einjaehriger-beifuss-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/bockshornklee-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/catuaba-teetinktur-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/chaga-pilz-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/chlordioxid-loesung-chlorine-dioxide-solution-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/chlorellagerstengrasspirullina-und-weizengras-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/cinderella-das-moringa-oleifera-kindermalbuch-25-seiten.png", "images/products/kronenberg/Therapeuteninfos/cistrose-cistus-incanus-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/copaiba-copaifera-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/darmgesundheit-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/darmparasiten-therapeuteninfo-.png", "images/products/kronenberg/Therapeuteninfos/das-dmso-handbuch-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/das-ultimative-gesundungsprogramm.png", "images/products/kronenberg/Therapeuteninfos/der-weltberuehmte-tee-der-ojibwa-indianer-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/detaillierter-produktkatalog-der-graf-von-kronenberg-group.png", "images/products/kronenberg/Therapeuteninfos/detox-kraeuter-tee-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/e-book-organisches-germanium-raetselhaftes-elixier.png", "images/products/kronenberg/Therapeuteninfos/epstein-barr-virus-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/graviola-stachelannone-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/indo-green-kratom-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/kiefer-als-heilmittel-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/kleinbluetiges-weidenroeschen-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/knotentang-braunalge-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/kompendium-beruehmter-und-seltenervergessener-heilmittel.png", "images/products/kronenberg/Therapeuteninfos/koriander-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/l-arginin-base-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/l-carnitin-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/lapacho-teetinktur-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/liposomal-und-die-besondere-wirkung.png", "images/products/kronenberg/Therapeuteninfos/loewenzahn-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/lotus-bluete-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/lungenkraut-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/moringa-morisana-premium-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/msm-dimethylsulfon-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/muira-puama-teetinktur-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/multiple-sklerose-ms-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/mulungu-therapeuteninfo-14-seiten.png", "images/products/kronenberg/Therapeuteninfos/mumiyo-shilajit-maumasil-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/ozonisiertes-olivenoel-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/rote-wurzel-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/safran-das-besondere-heilmittel-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/sango-meeres-koralle-aus-okinawa-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/sangre-de-drago-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/schatz-der-inkas-tee-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/schungit-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/schwarzkuemmel-pulver-nigella-sativa-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/schwefel-kur-nach-dr-karl-j-probst-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/sellerie-saft-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/stachybotrys-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/strophanthin-schach-matt-dem-herzinfarkt.png", "images/products/kronenberg/Therapeuteninfos/strophanthin-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/superfood-cordyceps-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/superfood-meerrettich-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/vitamin-d3-cholecalciferol-ist-gar-kein-vitamin-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/vitamin-e-der-grosse-betrug-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/weidenrinde-therapeutheninfo.png", "images/products/kronenberg/Therapeuteninfos/zuordnung-der-heilkraeuter-zu-krankheiten-therapeuteninfo.png", "images/products/kronenberg/Therapeuteninfos/zytamin-bio-regulator-komplex-therapeuteninfo.png", "images/products/kronenberg/Vitalpilze/agaricus-blazei-murrill-mandelpilz-120g.png", "images/products/kronenberg/Vitalpilze/vitalpilze-6-fach-pilzkomplex-extrakt.png", "images/products/kronenberg/Zubeh\xF6r/100ml-braune-medizinflasche-mit-zerstaeuber.png", "images/products/kronenberg/Zubeh\xF6r/100ml-leere-braune-medizinflasche-mit-pipette.png", "images/products/kronenberg/Zubeh\xF6r/aktivierungssalz-fuer-elektrolyse-fussbad.png", "images/products/kronenberg/Zubeh\xF6r/bioenergiser-ionen-detox-fusselektrolysebad-kpl-set.png", "images/products/kronenberg/Zubeh\xF6r/blasenspritze-100-ml-sterile-einmalspritze.png", "images/products/kronenberg/Zubeh\xF6r/din-18-pipettenverschluss-fuer-100ml-tropfflaschen.png", "images/products/kronenberg/Zubeh\xF6r/nagelfeile-aus-glas-fuer-mani-und-pedikuere-die-revolution.png", "images/products/kronenberg/Zubeh\xF6r/spruehflasche-50-ml-braunes-glas-kompl-mit-zerstaeuber.png", "images/products/kronenberg/aphrodisiaka/catuaba-erythroxylum-pulver.png", "images/products/kronenberg/aphrodisiaka/catumupu-catuaba-muira-puama-tinktur.png", "images/products/kronenberg/aphrodisiaka/extase-aphrodisiakum-catuaba-muira-puama-rinden-tee.png", "images/products/kronenberg/aphrodisiaka/muira-puama-pulver-potenzbaum-im-amazonas-regenwald.png", "images/products/kronenberg/aphrodisiaka/muira-puama-tee-aphrodisiakum-amazonas-regenwald.png", "images/products/kronenberg/ayurveda/amalaki-ayurveda-pulver-organisch.png", "images/products/kronenberg/ayurveda/ayurveda-tee-mischung-harmonie.png", "images/products/kronenberg/ayurveda/organisches-agnimantha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/ayurveda/organisches-ashwagandha-ayurveda-pulver.png", "images/products/kronenberg/ayurveda/organisches-brahmi-ayurveda-pulver.png", "images/products/kronenberg/ayurveda/organisches-giloy-ayurveda-pulver.png", "images/products/kronenberg/ayurveda/organisches-patadi-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/ayurveda/organisches-shatavari-ayurveda-pulver.png", "images/products/kronenberg/ayurveda/organisches-swastha-churnaya-ayurveda-pulver-90g.png", "images/products/kronenberg/ayurveda/organisches-trivala-ayurveda-pulver.png", "images/products/kronenberg/ayurveda/schamblumenblueten-blau-clitoria-ternatea-flores-100g.png", "images/products/kronenberg/bestseller/artemisia-annua-100-reine-blaetter-100g.png", "images/products/kronenberg/bestseller/artemisia-annua-samen-qing-hao-gvk-spezial.png", "images/products/kronenberg/bestseller/biota-em-effektive-mikroorganismen-500ml.png", "images/products/kronenberg/bestseller/camu-camu-extrakt.png", "images/products/kronenberg/bestseller/chanca-piedra-steinbrecher.png", "images/products/kronenberg/bestseller/corona-hygiene-aroma-spray-200ml.png", "images/products/kronenberg/bestseller/der-weltberuehmte-tee-der-ojibwa-indianer-essiac-blend.png", "images/products/kronenberg/bestseller/dmso-60-plus-magnesium-oel-sportler-spray.png", "images/products/kronenberg/bestseller/dmso-schmerz-eukalyptus-balsam-40ml.png", "images/products/kronenberg/bestseller/dmso-schmerz-lavendel-balsam-40-ml.png", "images/products/kronenberg/bestseller/ebv-pulver-mixtur-30-tage-kur.png", "images/products/kronenberg/bestseller/l-carnitin-base-pulver-100.png", "images/products/kronenberg/bestseller/l-tryptophan-pulver-aus-fermentation.png", "images/products/kronenberg/bestseller/moringa-morisana-premium-pulver-300g-monatspackung.png", "images/products/kronenberg/bestseller/moringa-spicy-gewuerz-mit-kalahari-wuesten-salz.png", "images/products/kronenberg/bestseller/nagelfeile-aus-glas-fuer-mani-und-pedikuere-die-revolution.png", "images/products/kronenberg/bestseller/nano-glas-mani-pedikuere-die-revolution.png", "images/products/kronenberg/bestseller/pet-zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/bestseller/sangre-de-drago-100-aus-wildsammlung.png", "images/products/kronenberg/bestseller/schilddruesen-kraeuter-mischung-pulver-inspiriert-durch-medical-food.png", "images/products/kronenberg/bestseller/stauden-sellerie-pulver-inspiriert-durch-medical-food-monatskur.png", "images/products/kronenberg/bestseller/strophanthin-gratus-experimentier-set-100ml.png", "images/products/kronenberg/bestseller/strophanthin-kombe-experimentier-set-200ml.png", "images/products/kronenberg/bestseller/strophanthus-kombe-saatgut-strophanthin.png", "images/products/kronenberg/bestseller/teetox-stoffwechsel-tee-inspiriert-durch-medical-food.png", "images/products/kronenberg/bestseller/typ-2-pulver-bioaktive-verbindungen.png", "images/products/kronenberg/bestseller/zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/bioreiniger/bep-bio-enzym-power-reiniger-effizient-und-oekologisch-reinigen.png", "images/products/kronenberg/bioreiniger/corona-hygiene-aroma-spray-200ml.png", "images/products/kronenberg/chlordioxid/bake-desinfektion-fuer-189-liter-wasser-gallonen-wasserspender.png", "images/products/kronenberg/chlordioxid/cdl-cds-loesung-03-nach-dr-andreas-kalcker.png", "images/products/kronenberg/chlordioxid/cdlcds-100ml-loesung-03-clo2-mit-edel-schungit-wasser.png", "images/products/kronenberg/chlordioxid/desaircap-die-geniale-loesung-fuer-frisches-obst-und-gemuese.png", "images/products/kronenberg/chlordioxid/nagelpflege-napiad-soft-fluid-gel.png", "images/products/kronenberg/chlordioxid/nagelpflege-set-sorglos-paket.png", "images/products/kronenberg/cordyceps/cordyceps-cordycepin-all-in-one-schmelzpastillen.png", "images/products/kronenberg/cordyceps/cordyceps-cordycepin-lyophilized-schmelzpastille-10mgpastille.png", "images/products/kronenberg/darmleberniere/biota-em-effektive-mikroorganismen-500ml.png", "images/products/kronenberg/darmleberniere/juglandis-kur-nach-dr-hulda-clark-kraeuter-tee-aperitif.png", "images/products/kronenberg/darmleberniere/kraeutertee-aperitif-leber-lecur.png", "images/products/kronenberg/darmleberniere/kraeutertee-aperitif-niere-ren.png", "images/products/kronenberg/darmleberniere/tantum-1-nierentee-reinigung.png", "images/products/kronenberg/darmleberniere/tantum-2-lebertee-zur-leberreinigung.png", "images/products/kronenberg/darmleberniere/tantum-3-darm-sanierung-kur.png", "images/products/kronenberg/extrakte/artemisia-annua-oxymel-compositum-alkoholfrei.png", "images/products/kronenberg/extrakte/artemisia-annua-pures-100-oel-ultraschall-extraktion-100ml.png", "images/products/kronenberg/extrakte/artemisia-annua-ultraschall-extraktion-mit-schungitwasser.png", "images/products/kronenberg/extrakte/baerlauch-extrakt-ultraschall-extraktion-100ml.png", "images/products/kronenberg/extrakte/camu-camu-extrakt.png", "images/products/kronenberg/extrakte/catumupu-catuaba-muira-puama-tinktur.png", "images/products/kronenberg/extrakte/graviola-extrakt-annona-muricata-superfood.png", "images/products/kronenberg/extrakte/hacheney-hyperwasser-mit-kolloidalem-silizium.png", "images/products/kronenberg/extrakte/hagebutten-extrakt-100-natur.png", "images/products/kronenberg/extrakte/holunder-beeren-extrakt-antioxidans.png", "images/products/kronenberg/extrakte/kiefernnadel-und-sprossen-wuerzeextrakt-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/koriander-co-schwermetall-ausleitung-im-sparpaket.png", "images/products/kronenberg/extrakte/koriander-extrakt-ultraschall-extraktion-100ml.png", "images/products/kronenberg/extrakte/lapacho-tinktur-ultraschall-extraktion-amazonas-regenwald.png", "images/products/kronenberg/extrakte/liposomale-artemisia-annua-ultraschall-extraktion-50ml.png", "images/products/kronenberg/extrakte/liposomale-moringa-morisana-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/loewenzahnkraut-wuerze-extrakt-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/lungenkraut-wuerzeextrakt-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/meerrettich-extract-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/oregano-oel-wilder-majoran-carvacrol-80.png", "images/products/kronenberg/extrakte/parasitenkurkraeuterextrakt-100ml.png", "images/products/kronenberg/extrakte/safran-extrakt-mit-curcumin-gueteklasse-1-15ml.png", "images/products/kronenberg/extrakte/spirulina-tropfenextrakt-100-ml.png", "images/products/kronenberg/extrakte/strophanthin-gratus-experimentier-set-100ml.png", "images/products/kronenberg/extrakte/strophanthin-kombe-experimentier-set-200ml.png", "images/products/kronenberg/extrakte/traubenkern-opc-ultraschall-extrakt-mit-schungit-wasser.png", "images/products/kronenberg/extrakte/weidenrinden-purpurweide-ultraschall-extrakt.png", "images/products/kronenberg/extrakte/weidenroeschen-kleinbluetig-ultraschall-extraktion.png", "images/products/kronenberg/extrakte/weih-muri-weihrauch-und-myrrhe-extrakt.png", "images/products/kronenberg/extrakte/wilder-chaga-pilz-ultraschall-extraktion.png", "images/products/kronenberg/h2o2/wasserstoffperoxid-h2o2-3-loesung.png", "images/products/kronenberg/haare/100-arganoel-plus-mandeloel-haut-haar-und-massage.png", "images/products/kronenberg/haare/bockshornklee-extrakt-ein-vielseitiges-kraut.png", "images/products/kronenberg/haare/bockshornklee-kur-diffuser-haarausfall-kapseln-tee-tinktur.png", "images/products/kronenberg/haare/bockshornklee-tee-samen-200g.png", "images/products/kronenberg/haare/hair-power-kur-bockshornklee-kapseln-60-stk.png", "images/products/kronenberg/innovationen/988-pures-artemisiaartemisinin-90-vegi-kapseln.png", "images/products/kronenberg/innovationen/aloe-vera-frischpflanzensaft-mit-honig-plus-vitamin-c.png", "images/products/kronenberg/innovationen/aloe-vera-hair-body-shower-gel-200-ml.png", "images/products/kronenberg/innovationen/aloe-vera-hautgel-hair-body-shower-gel-400-ml.png", "images/products/kronenberg/innovationen/aloe-vera-hautgel-natur-983-pur.png", "images/products/kronenberg/innovationen/artemisia-annua-oxymel-compositum-alkoholfrei.png", "images/products/kronenberg/innovationen/artemisia-annua-plus-rosmarin-vitamin-c.png", "images/products/kronenberg/innovationen/artemisia-annua-pures-100-oel-ultraschall-extraktion-100ml.png", "images/products/kronenberg/innovationen/artemisia-annua-salbe-moringa-samen-pulver-dmso.png", "images/products/kronenberg/innovationen/artemisia-annua-ultraschall-extraktion-mit-schungitwasser.png", "images/products/kronenberg/innovationen/ayurveda-tee-mischung-harmonie.png", "images/products/kronenberg/innovationen/baerlauch-extrakt-ultraschall-extraktion-100ml.png", "images/products/kronenberg/innovationen/bernsteinsaeure-hpmc-kapseln-plus-vitamin-c.png", "images/products/kronenberg/innovationen/bockshornklee-extrakt-ein-vielseitiges-kraut.png", "images/products/kronenberg/innovationen/bockshornklee-kur-diffuser-haarausfall-kapseln-tee-tinktur.png", "images/products/kronenberg/innovationen/bockshornklee-tee-samen-200g.png", "images/products/kronenberg/innovationen/brennnesselblaetter-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/innovationen/brennnesselwurzel-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/innovationen/calcium-kalium-magnesium-kombination.png", "images/products/kronenberg/innovationen/camu-camu-extrakt.png", "images/products/kronenberg/innovationen/catuaba-erythroxylum-pulver.png", "images/products/kronenberg/innovationen/catuaba-tee-der-tupi-indianer-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/innovationen/catumupu-catuaba-muira-puama-tinktur.png", "images/products/kronenberg/innovationen/cdl-cds-loesung-03-nach-dr-andreas-kalcker.png", "images/products/kronenberg/innovationen/cdlcds-100ml-loesung-03-clo2-mit-edel-schungit-wasser.png", "images/products/kronenberg/innovationen/chaga-pilz-tee-bio-qualitaet-wildsammlung.png", "images/products/kronenberg/innovationen/copaiba-oel-100-natuerlich.png", "images/products/kronenberg/innovationen/cordyceps-cordycepin-all-in-one-schmelzpastillen.png", "images/products/kronenberg/innovationen/cordyceps-cordycepin-lyophilized-schmelzpastille-10mgpastille.png", "images/products/kronenberg/innovationen/corona-hygiene-aroma-spray-200ml.png", "images/products/kronenberg/innovationen/dmso-60-plus-magnesium-oel-sportler-spray.png", "images/products/kronenberg/innovationen/dmso-schmerz-eukalyptus-balsam-40ml.png", "images/products/kronenberg/innovationen/dmso-schmerz-lavendel-balsam-40-ml.png", "images/products/kronenberg/innovationen/ebv-pulver-mixtur-30-tage-kur.png", "images/products/kronenberg/innovationen/extase-aphrodisiakum-catuaba-muira-puama-rinden-tee.png", "images/products/kronenberg/innovationen/goldene-milch-paste-kurkuma-power.png", "images/products/kronenberg/innovationen/graviola-extrakt-annona-muricata-superfood.png", "images/products/kronenberg/innovationen/gruenes-wunder-chlorella-gerstengras-spirulina-weizengras-.png", "images/products/kronenberg/innovationen/hagebutten-extrakt-100-natur.png", "images/products/kronenberg/innovationen/hair-power-kur-bockshornklee-kapseln-60-stk.png", "images/products/kronenberg/innovationen/holunder-beeren-extrakt-antioxidans.png", "images/products/kronenberg/innovationen/hyaluronsaeure-plus-glucosamin-und-chondroitin-60-kapseln.png", "images/products/kronenberg/innovationen/ingwer-massage-und-bade-oel-therapie-lymphdrainage.png", "images/products/kronenberg/innovationen/juglandis-kur-nach-dr-hulda-clark-kraeuter-tee-aperitif.png", "images/products/kronenberg/innovationen/katzenkralle-sangre-de-grado-100g-tee-amazonas-regenwald-.png", "images/products/kronenberg/innovationen/kiefernnadel-und-sprossen-wuerzeextrakt-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/koriander-co-schwermetall-ausleitung-im-sparpaket.png", "images/products/kronenberg/innovationen/koriander-extrakt-ultraschall-extraktion-100ml.png", "images/products/kronenberg/innovationen/kraeutertee-aperitif-leber-lecur.png", "images/products/kronenberg/innovationen/kraeutertee-aperitif-lymphe-abies.png", "images/products/kronenberg/innovationen/kraeutertee-aperitif-niere-ren.png", "images/products/kronenberg/innovationen/kur-paket-premium-4-entgiftungreinigungverdauung.png", "images/products/kronenberg/innovationen/l-tryptophan-mit-b-vitaminen-und-folsaeure-60-hpmc-kapseln.png", "images/products/kronenberg/innovationen/lapacho-rinden-tee-aus-dem-amazonas-regenwald.png", "images/products/kronenberg/innovationen/lapacho-tinktur-ultraschall-extraktion-amazonas-regenwald.png", "images/products/kronenberg/innovationen/leinsamenextrakt-pulver-vegi-kapseln-90-stueck.png", "images/products/kronenberg/innovationen/licht-edel-schungit-wasser-energetikum.png", "images/products/kronenberg/innovationen/liposomale-artemisia-annua-ultraschall-extraktion-50ml.png", "images/products/kronenberg/innovationen/liposomale-moringa-morisana-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/loewenzahnblaetter-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/innovationen/loewenzahnkraut-wuerze-extrakt-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/loewenzahnwurzel-bio-qualitaet-100g-beutel.png", "images/products/kronenberg/innovationen/magnesium-oel-premium-vitalspray-31-mit-edel-schungit-wasser.png", "images/products/kronenberg/innovationen/meerrettich-extract-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/meerwasser-agua-de-mar-mit-schungit-wasser.png", "images/products/kronenberg/innovationen/moringa-miracle-suppe-20-portionen-gmo-frei.png", "images/products/kronenberg/innovationen/moringa-morisana-premium-mit-vitamin-b12.png", "images/products/kronenberg/innovationen/moringa-morisana-premium-pulver-300g-monatspackung.png", "images/products/kronenberg/innovationen/moringa-samen-in-kapsel-100-pures-samenpulver.png", "images/products/kronenberg/innovationen/moringa-samenpulver-100-fein-gemahlen-20g.png", "images/products/kronenberg/innovationen/moringa-spicy-gewuerz-mit-kalahari-wuesten-salz.png", "images/products/kronenberg/innovationen/muira-puama-pulver-potenzbaum-im-amazonas-regenwald.png", "images/products/kronenberg/innovationen/muira-puama-tee-aphrodisiakum-amazonas-regenwald.png", "images/products/kronenberg/innovationen/oregano-oel-wilder-majoran-carvacrol-80.png", "images/products/kronenberg/innovationen/original-urs-surbeck-energetisches-wasser-gesunde-balance.png", "images/products/kronenberg/innovationen/ozonisiertes-hochwertiges-distel-oel.png", "images/products/kronenberg/innovationen/ozonisiertes-manzanilla-oel-balsam-980g-ozonl.png", "images/products/kronenberg/innovationen/ozonisiertes-manzanilla-olivenoel-gesunde-haut.png", "images/products/kronenberg/innovationen/parasitenkurkraeuterextrakt-100ml.png", "images/products/kronenberg/innovationen/pet-zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/innovationen/schatz-der-inkas-trunk-der-goetter-amazonas-regenwald-tee.png", "images/products/kronenberg/innovationen/schilddruesen-kraeuter-mischung-pulver-inspiriert-durch-medical-food.png", "images/products/kronenberg/innovationen/schwarzkuemmel-oel-mit-mandel-oel-haut-haar-und-massage.png", "images/products/kronenberg/innovationen/skincaregold-aloe-vera-extrakt-anti-aging.png", "images/products/kronenberg/innovationen/skincareplus-aloe-vera-extrakt-mit-collagen-und-hyaluronsaeure.png", "images/products/kronenberg/innovationen/stauden-sellerie-pulver-inspiriert-durch-medical-food-monatskur.png", "images/products/kronenberg/innovationen/strophanthin-gratus-experimentier-set-100ml.png", "images/products/kronenberg/innovationen/strophanthin-kombe-experimentier-set-200ml.png", "images/products/kronenberg/innovationen/suessholzwurzel-natur-gemahlen-lakritzpulver.png", "images/products/kronenberg/innovationen/teetox-stoffwechsel-tee-inspiriert-durch-medical-food.png", "images/products/kronenberg/innovationen/traubenkern-opc-ultraschall-extrakt-mit-schungit-wasser.png", "images/products/kronenberg/innovationen/tri-magnesiumdicitrat-zaehne-knochen-muskeln.png", "images/products/kronenberg/innovationen/twostep-manikuerepedikuere-set.png", "images/products/kronenberg/innovationen/typ-2-pulver-bioaktive-verbindungen.png", "images/products/kronenberg/innovationen/urs-surbeck-energetisches-wasser-wohlfuehlflasche-50ml.png", "images/products/kronenberg/innovationen/weidenrinden-purpurweide-ultraschall-extrakt.png", "images/products/kronenberg/innovationen/weidenroeschen-kleinbluetig-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/weih-muri-weihrauch-und-myrrhe-extrakt.png", "images/products/kronenberg/innovationen/wilder-chaga-pilz-ultraschall-extraktion.png", "images/products/kronenberg/innovationen/zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/innovationen/zimtblaetteroel-100-reines-aetherisches-oel-10ml.png", "images/products/kronenberg/kosmetik/100-arganoel-plus-mandeloel-haut-haar-und-massage.png", "images/products/kronenberg/kosmetik/aloe-vera-hair-body-shower-gel-200-ml.png", "images/products/kronenberg/kosmetik/aloe-vera-hautgel-hair-body-shower-gel-400-ml.png", "images/products/kronenberg/kosmetik/aloe-vera-hautgel-natur-983-pur.png", "images/products/kronenberg/kosmetik/ingwer-massage-und-bade-oel-therapie-lymphdrainage.png", "images/products/kronenberg/kosmetik/magnesium-oel-premium-vitalspray-31-mit-edel-schungit-wasser.png", "images/products/kronenberg/kosmetik/nagelfeile-aus-glas-fuer-mani-und-pedikuere-die-revolution.png", "images/products/kronenberg/kosmetik/nano-glas-mani-pedikuere-die-revolution.png", "images/products/kronenberg/kosmetik/ozonisiertes-hochwertiges-distel-oel.png", "images/products/kronenberg/kosmetik/ozonisiertes-manzanilla-oel-balsam-980g-ozonl.png", "images/products/kronenberg/kosmetik/ozonisiertes-manzanilla-olivenoel-gesunde-haut.png", "images/products/kronenberg/kosmetik/pet-zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/kosmetik/schwarzkuemmel-oel-mit-mandel-oel-haut-haar-und-massage.png", "images/products/kronenberg/kosmetik/skincaregold-aloe-vera-extrakt-anti-aging.png", "images/products/kronenberg/kosmetik/skincareplus-aloe-vera-extrakt-mit-collagen-und-hyaluronsaeure.png", "images/products/kronenberg/kosmetik/twostep-manikuerepedikuere-set.png", "images/products/kronenberg/kosmetik/twostep-nagelfeile-aus-bambus-manikuere.png", "images/products/kronenberg/kosmetik/zahncreme-mit-schwarzkuemmel-ohne-fluor-und-pfefferminz.png", "images/products/kronenberg/kosmetik/zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/kraeutertee/juglandis-kur-nach-dr-hulda-clark-kraeuter-tee-aperitif.png", "images/products/kronenberg/kraeutertee/kraeutertee-aperitif-leber-lecur.png", "images/products/kronenberg/kraeutertee/kraeutertee-aperitif-lymphe-abies.png", "images/products/kronenberg/kraeutertee/kraeutertee-aperitif-niere-ren.png", "images/products/kronenberg/no_cover.jpeg", "images/products/kronenberg/schungit/edel-schungit-set-im-organza-beutel-10-g.png", "images/products/kronenberg/schungit/edel-schungit-steine-lose-50g-sonderangebot-limitierte-auflage.png", "images/products/kronenberg/schungit/harmonisierer-aus-schungit-und-talkchlorit.png", "images/products/kronenberg/schungit/licht-edel-schungit-wasser-energetikum.png", "images/products/kronenberg/schungit/limitiertes-schungit-set-8-auserlesene-produkte.png", "images/products/kronenberg/schungit/schungit-anhaenger-beschuetzer-frau.png", "images/products/kronenberg/schungit/schungit-anhaenger-beschuetzer-mann.png", "images/products/kronenberg/schungit/schungit-anhaenger-engel-mit-haematit.png", "images/products/kronenberg/schungit/schungit-anhaenger-perle-mit-einfassung.png", "images/products/kronenberg/schungit/schungit-anhaenger-scheibe-schmuckstueck-aus-handarbeit.png", "images/products/kronenberg/schungit/schungit-energetisierungsplatte-10x12cm.png", "images/products/kronenberg/schungit/schungit-engel-in-geschnitzter-handarbeit.png", "images/products/kronenberg/schungit/schungit-handy-schutz-schuetzt-vor-schaedlicher-strahlung.png", "images/products/kronenberg/schungit/schungit-kugel-mit-untersetzer-5cm-110g.png", "images/products/kronenberg/schungit/schungit-pulver-200g-aktivkohle-detox-drink.png", "images/products/kronenberg/schungit/schungit-pyramide-5cm-hoch-278g.png", "images/products/kronenberg/schungit/schungit-pyramide-poliert-ca-20cm-hoch.png", "images/products/kronenberg/schungit/schungit-pyramide-poliert-ca-3-cm-hoch.png", "images/products/kronenberg/schungit/schungit-radiaesthesie-pendel-mit-kette.png", "images/products/kronenberg/schungit/schungit-scheibe-ca-5cm-hoch-poliert-harmonisierung-und-wohlbefinden.png", "images/products/kronenberg/schungit/schungit-schluesselanhaenger-mit-2-perlen-8g-laenge-ca-8cm.png", "images/products/kronenberg/schungit/schungit-schluesselanhaenger-silberfarbig-mit-perle.png", "images/products/kronenberg/schungit/schungit-set-im-organza-beutel-100-g.png", "images/products/kronenberg/schungit/schungit-split-1000g.png", "images/products/kronenberg/schungit/schungit-split-500g.png", "images/products/kronenberg/schungit/schungit-uhr-500g-elektrosmog-und-strahlung.png", "images/products/kronenberg/schungit/schungit-wuerfel-65g-harmonie-und-schutz-in-fester-form.png", "images/products/kronenberg/schwefelkur/anorganischer-schwefel-min-999-pulver.png", "images/products/kronenberg/schwefelkur/schwefel-kur-nach-dr-probst-darmsanierung.png", "images/products/kronenberg/\xD6le/100-arganoel-plus-mandeloel-haut-haar-und-massage.png", "images/products/kronenberg/\xD6le/artemisia-annua-pures-100-oel-ultraschall-extraktion-100ml.png", "images/products/kronenberg/\xD6le/copaiba-oel-100-natuerlich.png", "images/products/kronenberg/\xD6le/dmso-60-plus-magnesium-oel-sportler-spray.png", "images/products/kronenberg/\xD6le/dmso-ph-eur-999-100ml-hochreines-dmso.png", "images/products/kronenberg/\xD6le/dmso-schmerz-eukalyptus-balsam-40ml.png", "images/products/kronenberg/\xD6le/dmso-schmerz-lavendel-balsam-40-ml.png", "images/products/kronenberg/\xD6le/ingwer-massage-und-bade-oel-therapie-lymphdrainage.png", "images/products/kronenberg/\xD6le/magnesium-oel-premium-vitalspray-31-mit-edel-schungit-wasser.png", "images/products/kronenberg/\xD6le/omega-3-lachsoelkapseln-mit-vitamin-e.png", "images/products/kronenberg/\xD6le/oregano-oel-wilder-majoran-carvacrol-80.png", "images/products/kronenberg/\xD6le/ozonisiertes-hochwertiges-distel-oel.png", "images/products/kronenberg/\xD6le/ozonisiertes-manzanilla-oel-balsam-980g-ozonl.png", "images/products/kronenberg/\xD6le/ozonisiertes-manzanilla-olivenoel-gesunde-haut.png", "images/products/kronenberg/\xD6le/pet-zahnfix-revital-liposomal-40ml.png", "images/products/kronenberg/\xD6le/schwarzkuemmel-oel-kaltpressung-gefiltert-100ml.png", "images/products/kronenberg/\xD6le/zahnfix-revital-liposomal-40ml.png", "images/products/waldkraft/ausleitungsorgane/Borax_Tropfen_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/L-Methionin_Mockup_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/Lebende-Chlorella-Algen-Mockup-Wp3t_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/Lungenkraut_Komplex_Mockup_175x62_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/NAC-N-Acetyl-L-Cystein_Pulver_Mockup_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/Sango_Koralle_Mockup_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/Spirulina-BIO-120-Kapseln_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/Zink-Histidin-Komplex-120-Kapseln_mockup_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/chanca-piedra-pulver-150g-4098-pa10500_600x600.jpg", "images/products/waldkraft/ausleitungsorgane/liposomales-glutathion-aus-reduziertem-l-glutathion-250ml-pa10047_600x600.jpg", "images/products/waldkraft/buecher/25/Byebye-covid-2-1-1_600x600.png", "images/products/waldkraft/buecher/26/handbuch-der-kolloidalen-metalle_600x600.jpg", "images/products/waldkraft/buecher/27/Klinikhandbuch-Aromatherapie_600x600.png", "images/products/waldkraft/buecher/28/Arthrose_ist_heilbar_mockup_web-jpg_600x600.jpg", "images/products/waldkraft/buecher/29/Manuka_Buch_webshop-jpg_600x600.jpg", "images/products/waldkraft/buecher/30/em-eine-chance-fuer-unsere-erde-anne-lorch_600x600.jpg", "images/products/waldkraft/buecher/31/buch-borreliose-natuerlich-heilen-wolf-dieter-storl_600x600.jpg", "images/products/waldkraft/buecher/32/buch-pflanzliche-antibiotika-richtig-anwenden_600x600.jpg", "images/products/waldkraft/buecher/33/buch-die-leber-natuerlich-reinigen_600x600.jpg", "images/products/waldkraft/buecher/34/Borax_600x600.jpg", "images/products/waldkraft/buecher/35/CDL-Handbuch-LUBZ_600x600.jpg", "images/products/waldkraft/buecher/36/buch-cannabis-und-cannabidiol-cbd-richtig-anwenden_600x600.jpg", "images/products/waldkraft/buecher/37/DMSO-Handbuch_600x600.jpg", "images/products/waldkraft/em-mikroorganismen/Floratur-EM-BIO_2-1_600x600.png", "images/products/waldkraft/em-mikroorganismen/Mockup-EM-Basis_600x600.png", "images/products/waldkraft/em-mikroorganismen/Mockup-Floratur-Premium-1_600x600.jpg", "images/products/waldkraft/energie/BIO-Chlorophyll-Extrakt-Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/energie/Kraftpilz-Energie-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/energie/Lungenkraut_Komplex_Mockup_175x62_600x600.jpg", "images/products/waldkraft/energie/Nattokinase_Komplex_Mockup_web-jpg_600x600.jpg", "images/products/waldkraft/energie/Nattokinase_Zink_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/energie/PEA_PUlver_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/energie/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/energie/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/energie/moor-elixier-pa10656-v_600x600.jpg", "images/products/waldkraft/energie/pea-palmitoylethanolamid-120-kapseln-4186-pa10621_600x600.jpg", "images/products/waldkraft/gehirn/B6_Wohlfu-hl_Erythrit_Drops_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/gehirn/Borax_Tropfen_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/gehirn/Kiefernnadel_Tinktur_mockup_600x600.jpg", "images/products/waldkraft/gehirn/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/gehirn/Magnesium_Komplex_Mockup_600x600.jpg", "images/products/waldkraft/gehirn/PEA_PUlver_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/gehirn/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/gehirn/Schwarzer-Maca-Extrakt-120-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/gehirn/Vitamin-B12-Komplex-Drops-Mockup_600x600.jpg", "images/products/waldkraft/gehirn/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/gutelaune/B6_Wohlfu-hl_Erythrit_Drops_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/gutelaune/Vitamin-B12-Komplex-Drops-Mockup_600x600.jpg", "images/products/waldkraft/gutelaune/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/gutelaune/melantonin-Drops-Mockup_600x600.jpg", "images/products/waldkraft/gutelaune/pea-palmitoylethanolamid-120-kapseln-4186-pa10621_600x600.jpg", "images/products/waldkraft/herz/BIO-Chlorophyll-Extrakt-Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/herz/Kraftpilz-Cordyceps-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/herz/Lungenkraut_Komplex_Mockup_175x62_600x600.jpg", "images/products/waldkraft/herz/NAC-N-Acetyl-L-Cystein_Pulver_Mockup_600x600.jpg", "images/products/waldkraft/herz/Nattokinase_Komplex_Mockup_web-jpg_600x600.jpg", "images/products/waldkraft/herz/Nattokinase_Zink_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/herz/OPC-Pycnogenol-60-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/herz/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/herz/Schwarzer-Maca-Extrakt-120-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/herz/Vitamin-B12-Komplex-Drops-Mockup_600x600.jpg", "images/products/waldkraft/herz/Weihrauch_Mockup_600x600.jpg", "images/products/waldkraft/herz/Zink-Histidin-Komplex-120-Kapseln_mockup_600x600.jpg", "images/products/waldkraft/immunsystem/30ml_Mironglas_Flasche_aktuell-Kopie_600x600.jpg", "images/products/waldkraft/immunsystem/Astaxanthin_100ml_Mopckup_600x600.jpg", "images/products/waldkraft/immunsystem/Borax_120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Borax_70g_Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Chlorella_Tabs_Mockup-Kopie_600x600.jpg", "images/products/waldkraft/immunsystem/Gerstengras-Saftpulver-BIO_mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Kelpalgen-Jod-BIO_mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Kiefernnadel_Tinktur_mockup_600x600.jpg", "images/products/waldkraft/immunsystem/L-Lysin_Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Lebende-Chlorella-Algen-Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Loewenzahn_Tinktur_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/immunsystem/Lungenkraut_Komplex_Mockup_175x62_600x600.jpg", "images/products/waldkraft/immunsystem/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/immunsystem/OPC-Pycnogenol-60-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/immunsystem/Schwarzer-Maca-Extrakt-120-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Selen-VitaminC_120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Spirulina-BIO-120-Kapseln_600x600.jpg", "images/products/waldkraft/immunsystem/Vitamin-B12-Komplex-Drops-Mockup_600x600.jpg", "images/products/waldkraft/immunsystem/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/immunsystem/Zink-Histidin-Komplex-120-Kapseln_mockup_600x600.jpg", "images/products/waldkraft/immunsystem/bio-kurkuma-extrakt-mit-gingerol-und-piperin-in-oxymel-250ml-pa10317_600x600.jpg", "images/products/waldkraft/immunsystem/liposomales-glutathion-aus-reduziertem-l-glutathion-250ml-pa10047_600x600.jpg", "images/products/waldkraft/immunsystem/manuka-honig-mgo-840-250g-4467-wk10500_600x600.png", "images/products/waldkraft/innere-ruhe/B6_Wohlfu-hl_Erythrit_Drops_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/innere-ruhe/KSM-Ashwagandha-BIO_Mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/Kraftpilz-Hericium-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/Kraftpilz-Regeneration-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/PEA_PUlver_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/innere-ruhe/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/innere-ruhe/Schwarzer-Maca-Extrakt-120-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/Vitamin-B12-Komplex-Drops-Mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/Zink-Histidin-Komplex-120-Kapseln_mockup_600x600.jpg", "images/products/waldkraft/innere-ruhe/melantonin-Drops-Mockup_600x600.jpg", "images/products/waldkraft/knochen/Astaxanthin-Drops-Mockup_600x600.jpg", "images/products/waldkraft/knochen/Astaxanthin-Hyaluron-Drops-Mockup_600x600.jpg", "images/products/waldkraft/knochen/Borax_Tropfen_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/knochen/Erdling-Vitamin-K2-Mockup-Flasche-Umverpackung_600x600.png", "images/products/waldkraft/knochen/Kraftpilz-Energie-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/knochen/L-Lysin_Mockup_600x600.jpg", "images/products/waldkraft/knochen/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/knochen/OPC-Pycnogenol-60-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/knochen/Osthea_300g_Mockup_600x600.jpg", "images/products/waldkraft/knochen/Sango_Koralle_Mockup_600x600.jpg", "images/products/waldkraft/knochen/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/knochen/arthridea_250g_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/knochen/arthridea_530Kapseln_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/knochen/bio-kurkuma-extrakt-mit-gingerol-und-piperin-in-oxymel-250ml-pa10317_600x600.jpg", "images/products/waldkraft/knochen/pea-palmitoylethanolamid-120-kapseln-4186-pa10621_600x600.jpg", "images/products/waldkraft/kolloide/Kolloidales-Germanium-100-ppm-100-ml-Spr-hflasche-Mockup_600x600.png", "images/products/waldkraft/kolloide/Kolloidales-Gold-100-ppm-100-ml-Mockup_600x600.png", "images/products/waldkraft/kolloide/Kolloidales_Silber_50_ppm_100_ml_Spr-hflasche_Mockup_1_1_1_1_600x600.png", "images/products/waldkraft/kolloide/waldkraft-Kolloidales-Silber-25ppm-250ml_600x600.png", "images/products/waldkraft/kraeuter/Kiefernnadel_Tinktur_mockup_600x600.jpg", "images/products/waldkraft/kraeuter/Loewenzahn_Tinktur_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/kraeuter/Mockups-Artemisia-alkohol-100ml_600x600.jpg", "images/products/waldkraft/kraeuter/Propolis-Tinktur-Mockup-1_600x600.png", "images/products/waldkraft/kraeuter/bio-kurkuma-extrakt-mit-gingerol-und-piperin-in-oxymel-250ml-pa10317_600x600.jpg", "images/products/waldkraft/magendarm/Basicum_120-Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/magendarm/Floratur-EM-BIO_2-1_600x600.png", "images/products/waldkraft/magendarm/Floratur_EM_BIO_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/magendarm/Gerstengras-Saftpulver-BIO_mockup_600x600.jpg", "images/products/waldkraft/magendarm/Kraftpilz-Hericium-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/magendarm/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/magendarm/bio-kurkuma-extrakt-mit-gingerol-und-piperin-in-oxymel-250ml-pa10317_600x600.jpg", "images/products/waldkraft/magendarm/chanca-piedra-pulver-150g-4098-pa10500_600x600.jpg", "images/products/waldkraft/magendarm/honigglas_klein_600x600.png", "images/products/waldkraft/magendarm/manuka-honig-mgo-840-250g-4467-wk10500_600x600.png", "images/products/waldkraft/magendarm/moor-elixier-pa10656-v_600x600.jpg", "images/products/waldkraft/mineralien/Basicum_120-Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/mineralien/Gerstengras-Saftpulver-BIO_mockup_600x600.jpg", "images/products/waldkraft/mineralien/Magnesium_Komplex_Mockup_600x600.jpg", "images/products/waldkraft/mineralien/Rotalgen_Calcium_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/mineralien/Sango_Koralle_Mockup_600x600.jpg", "images/products/waldkraft/mineralien/moor-elixier-pa10656-v_600x600.jpg", "images/products/waldkraft/mundhygiene/Vitamin-C-Komplex-120-Kapseln_600x600.jpg", "images/products/waldkraft/mundhygiene/Wasserstoffperoxid-3-Mockup_600x600.png", "images/products/waldkraft/mundhygiene/Zahnpulver_-Zitrone-_Mockup_600x600.png", "images/products/waldkraft/mundhygiene/Zahnpulver_mit_Notoginseng_Mockup_600x600.png", "images/products/waldkraft/naturkosmetik/Mockup-Artemisia-Balsam-30ml-miron-BgBW_600x600.png", "images/products/waldkraft/naturkosmetik/Nattokinase_Komplex_Mockup_web-jpg_600x600.jpg", "images/products/waldkraft/naturkosmetik/Nattokinase_Zink_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/naturkosmetik/Zahnpulver_-Zitrone-_Mockup_600x600.png", "images/products/waldkraft/naturkosmetik/Zahnpulver_mit_Notoginseng_Mockup_600x600.png", "images/products/waldkraft/naturkosmetik/manuka-honig-mgo-840-250g-4467-wk10500_600x600.png", "images/products/waldkraft/ozon/Canna3-Mockup_600x600.png", "images/products/waldkraft/ozon/Mockup-Kokoo3-50ml-1-1_600x600.png", "images/products/waldkraft/ozon/olivio3-ozonisiertes-olivenol-250ml-257-wk10090_600x600.png", "images/products/waldkraft/parasiten/Floratur-EM-BIO_2-1_600x600.png", "images/products/waldkraft/parasiten/Floratur_EM_BIO_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/parasiten/Kraftpilz-Energie-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/parasiten/Kraftpilz-Regeneration-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/parasiten/Kraftpilze_Mensch_Abwehr_Freya_Mockup_600x600.jpg", "images/products/waldkraft/parasiten/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/schlaf/B6_Wohlfu-hl_Erythrit_Drops_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/schlaf/KSM-Ashwagandha-BIO_Mockup_600x600.jpg", "images/products/waldkraft/schlaf/Noctea_Mopckup_600x600.jpg", "images/products/waldkraft/schlaf/honigglas_klein_600x600.png", "images/products/waldkraft/schlaf/melantonin-Drops-Mockup_600x600.jpg", "images/products/waldkraft/sensibilit\xE4t/Kelpalgen-Jod-BIO_mockup_600x600.jpg", "images/products/waldkraft/sensibilit\xE4t/MSM_Wunschpreis-jpg-0U1S_600x600.jpg", "images/products/waldkraft/sensibilit\xE4t/OPC-Pycnogenol-60-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/stoffwechsel/BIO-Chlorophyll-Extrakt-Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/stoffwechsel/Basicum_120-Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/stoffwechsel/Floratur-EM-BIO_2-1_600x600.png", "images/products/waldkraft/stoffwechsel/Floratur_EM_BIO_Mockup_webshop-jpg_600x600.jpg", "images/products/waldkraft/stoffwechsel/L-Arginin_Mopckup_600x600.jpg", "images/products/waldkraft/stoffwechsel/L-Methionin_Mockup_600x600.jpg", "images/products/waldkraft/stoffwechsel/Lungenkraut_Komplex_Mockup_175x62_600x600.jpg", "images/products/waldkraft/stoffwechsel/Roter_Maca_Extrakt-120-Kapseln-Mockup_600x600.png", "images/products/waldkraft/stoffwechsel/Schwarzer-Maca-Extrakt-120-Kapseln-Mockup_600x600.jpg", "images/products/waldkraft/stoffwechsel/Zink-Histidin-Komplex-120-Kapseln_mockup_600x600.jpg", "images/products/waldkraft/stoffwechsel/chanca-piedra-pulver-150g-4098-pa10500_600x600.jpg", "images/products/waldkraft/stoffwechsel/pea-palmitoylethanolamid-120-kapseln-4186-pa10621_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilz-Cordyceps-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilz-Energie-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilz-Hericium-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilz-Leben-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilz-Regeneration-120Kapseln_Mockup_600x600.jpg", "images/products/waldkraft/vitalpilze/Kraftpilze_Mensch_Abwehr_Freya_Mockup_600x600.jpg", "images/temp/gutscheine.jpg"]),
     mimeTypes: { ".png": "image/png", ".jpeg": "image/jpeg", ".jpg": "image/jpeg", ".webp": "image/webp" },
     _: {
-      client: { "start": "_app/immutable/entry/start.TAlPG93x.js", "app": "_app/immutable/entry/app.Bd1KDgUh.js", "imports": ["_app/immutable/entry/start.TAlPG93x.js", "_app/immutable/chunks/entry.B-h6Aso4.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/index.BDBoGLXD.js", "_app/immutable/entry/app.Bd1KDgUh.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.COCgkrSt.js", "_app/immutable/chunks/index.emHA90Ds.js"], "stylesheets": [], "fonts": [], "uses_env_dynamic_public": false },
+      client: { "start": "_app/immutable/entry/start.C8_T6G4y.js", "app": "_app/immutable/entry/app.NYUgxKJu.js", "imports": ["_app/immutable/entry/start.C8_T6G4y.js", "_app/immutable/chunks/entry.B_oBJj3n.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.DYca1GoS.js", "_app/immutable/entry/app.NYUgxKJu.js", "_app/immutable/chunks/preload-helper.BQ24v_F8.js", "_app/immutable/chunks/scheduler.96ZOacYB.js", "_app/immutable/chunks/index.BmkyPCuy.js"], "stylesheets": [], "fonts": [], "uses_env_dynamic_public": false },
       nodes: [
         __memo(() => Promise.resolve().then(() => (init__(), __exports))),
         __memo(() => Promise.resolve().then(() => (init__2(), __exports2))),
@@ -18465,7 +20085,9 @@ var manifest = (() => {
         __memo(() => Promise.resolve().then(() => (init__13(), __exports13))),
         __memo(() => Promise.resolve().then(() => (init__14(), __exports14))),
         __memo(() => Promise.resolve().then(() => (init__15(), __exports15))),
-        __memo(() => Promise.resolve().then(() => (init__16(), __exports16)))
+        __memo(() => Promise.resolve().then(() => (init__16(), __exports16))),
+        __memo(() => Promise.resolve().then(() => (init__17(), __exports17))),
+        __memo(() => Promise.resolve().then(() => (init__18(), __exports18)))
       ],
       routes: [
         {
@@ -18476,80 +20098,101 @@ var manifest = (() => {
           endpoint: null
         },
         {
+          id: "/admin",
+          pattern: /^\/admin\/?$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 5 },
+          endpoint: null
+        },
+        {
+          id: "/admin/books",
+          pattern: /^\/admin\/books\/?$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 6 },
+          endpoint: null
+        },
+        {
+          id: "/auth/callback",
+          pattern: /^\/auth\/callback\/?$/,
+          params: [],
+          page: null,
+          endpoint: __memo(() => Promise.resolve().then(() => (init_server(), server_exports)))
+        },
+        {
           id: "/buecher",
           pattern: /^\/buecher\/?$/,
           params: [],
-          page: { layouts: [0, 2], errors: [1, ,], leaf: 5 },
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 7 },
           endpoint: null
         },
         {
           id: "/buecher/cat/[catid]",
           pattern: /^\/buecher\/cat\/([^/]+?)\/?$/,
           params: [{ "name": "catid", "optional": false, "rest": false, "chained": false }],
-          page: { layouts: [0, 2], errors: [1, ,], leaf: 7 },
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 9 },
           endpoint: null
         },
         {
           id: "/buecher/[bookId]",
           pattern: /^\/buecher\/([^/]+?)\/?$/,
           params: [{ "name": "bookId", "optional": false, "rest": false, "chained": false }],
-          page: { layouts: [0, 2], errors: [1, ,], leaf: 6 },
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 8 },
           endpoint: null
         },
         {
           id: "/cdl-protokolle",
           pattern: /^\/cdl-protokolle\/?$/,
           params: [],
-          page: { layouts: [0], errors: [1], leaf: 8 },
+          page: { layouts: [0], errors: [1], leaf: 10 },
           endpoint: null
         },
         {
           id: "/gutscheine",
           pattern: /^\/gutscheine\/?$/,
           params: [],
-          page: { layouts: [0], errors: [1], leaf: 9 },
+          page: { layouts: [0], errors: [1], leaf: 11 },
           endpoint: null
         },
         {
           id: "/produkte",
           pattern: /^\/produkte\/?$/,
           params: [],
-          page: { layouts: [0, 3], errors: [1, ,], leaf: 10 },
+          page: { layouts: [0, 3], errors: [1, ,], leaf: 12 },
           endpoint: null
         },
         {
           id: "/produkte/cat/[catid]",
           pattern: /^\/produkte\/cat\/([^/]+?)\/?$/,
           params: [{ "name": "catid", "optional": false, "rest": false, "chained": false }],
-          page: { layouts: [0, 3], errors: [1, ,], leaf: 12 },
+          page: { layouts: [0, 3], errors: [1, ,], leaf: 14 },
           endpoint: null
         },
         {
           id: "/produkte/hashtag/[tag]",
           pattern: /^\/produkte\/hashtag\/([^/]+?)\/?$/,
           params: [{ "name": "tag", "optional": false, "rest": false, "chained": false }],
-          page: { layouts: [0, 3], errors: [1, ,], leaf: 13 },
+          page: { layouts: [0, 3], errors: [1, ,], leaf: 15 },
           endpoint: null
         },
         {
           id: "/produkte/[productid]",
           pattern: /^\/produkte\/([^/]+?)\/?$/,
           params: [{ "name": "productid", "optional": false, "rest": false, "chained": false }],
-          page: { layouts: [0, 3], errors: [1, ,], leaf: 11 },
+          page: { layouts: [0, 3], errors: [1, ,], leaf: 13 },
           endpoint: null
         },
         {
           id: "/search",
           pattern: /^\/search\/?$/,
           params: [],
-          page: { layouts: [0], errors: [1], leaf: 14 },
+          page: { layouts: [0], errors: [1], leaf: 16 },
           endpoint: null
         },
         {
           id: "/test",
           pattern: /^\/test\/?$/,
           params: [],
-          page: { layouts: [0], errors: [1], leaf: 15 },
+          page: { layouts: [0], errors: [1], leaf: 17 },
           endpoint: null
         }
       ],
@@ -18592,4 +20235,18 @@ export {
  * Copyright(c) 2015 Douglas Christopher Wilson
  * MIT Licensed
  */
+/*! Bundled license information:
+
+@supabase/auth-helpers-shared/dist/index.mjs:
+  (*! Bundled license information:
+  
+  cookie/index.js:
+    (*!
+     * cookie
+     * Copyright(c) 2012-2014 Roman Shtylman
+     * Copyright(c) 2015 Douglas Christopher Wilson
+     * MIT Licensed
+     *)
+  *)
+*/
 //# sourceMappingURL=index.js.map
