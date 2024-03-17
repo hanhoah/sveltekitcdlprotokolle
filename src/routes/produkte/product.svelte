@@ -1,20 +1,21 @@
 <script>
     import { getProductImg } from "$lib/functions/getProductImg";
-    export let product = {id:0,img:"",name:""};
-    // console.log('Book Komponenten Ausgabe ******************  book id ist ', book.id);
-    // console.log(typeof(book.id));
+    export let product = {id:0,img:"",name:"", price:""};
 </script>
 
+<a href={`/produkte/${product.id}`}>
 <div class=" w-full h-[300px] ">
-
-    <div  class=" pt-2 overflow-auto">
-            <a href={`/produkte/${product.id}`}>
+    <div  class=" pt-2 overflow-auto bg-white w-64 ">
                 <img class="mx-auto" width="150" src="{getProductImg(product.img)}" alt="{product.name}" />
-            </a>
             <div class="p-3 text-sm">
-                <a href={`/produkte/${product.id}`}>
                     {product.name}
-                </a>
+            </div>
+            <div class="p-3 text-lg font-bold text-center">
+                    {new Intl.NumberFormat('de-DE', {
+                        style: 'currency',
+                        currency: 'EUR',
+                    }).format(product.price)}
             </div>
         </div>
-</div>
+    </div>
+</a>

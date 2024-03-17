@@ -7,14 +7,17 @@
 <div class="px-2 m-2 border-2 ">
   <h2 >Produkte für die alternative Heilung</h2>
 </div>
-  <ul class="grid grid-cols-2 md:grid-cols-3">
+  <ul class="grid grid-cols-2 md:grid-cols-3 px-5">
     {#await data.streamed.products}
       Loading Products ...
       {:then products} 
       {#each products as product}
           <li class="my-2 relative">
-            {@html getBadge(product.id)}
-            <Product product={{id: product.id,name: product.name,img: product.image}} />
+            <div class="absolute right-10">
+              {@html getBadge(product.id)}
+
+            </div>
+            <Product product={{id: product.id,name: product.name,img: product.image, price: product.price}} />
           </li>
         {/each}
     {/await}

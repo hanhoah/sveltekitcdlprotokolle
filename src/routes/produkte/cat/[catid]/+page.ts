@@ -14,7 +14,7 @@ export async function load({ params }) {
 
 	console.log('desc', description);
 	const { data: products, error } = await supabase
-		.from('productswithcategory')
+		.from('productwithpricecategories')
 		.select()
 		.eq('category_id', catid)
 		.order('name');
@@ -25,6 +25,6 @@ export async function load({ params }) {
 		length,
 		category,
 		description,
-		products
+		products, 
 	};
 }

@@ -56,9 +56,9 @@
     </div>
 
 
-    <div class="bg-lime-100">
+    <div class="bg-lime-100 h-full ">
         <div class="w-full my-5 bg-lime-300 p-3 text-lg font-bold text-center">Ähnliche Produkte: </div>
-        <ul class="grid grid-cols-2 md:grid-cols-3">
+        <ul class="grid grid-cols-2 md:grid-cols-3 px-5 pb-20">
             {#await data.streamed.similarProducts}
             <div class="loading">
                 <Spinner />
@@ -66,9 +66,12 @@
             </div>
                 {:then similarProducts}
                     {#each similarProducts as similarProduct}
-                            <li class="my-2 relative">
-                              {@html getBadge(similarProduct.id)}
-                                <Product product={{id: similarProduct.id,name: similarProduct.name,img: similarProduct.image}} />
+                            <li class="my-2 relative ">
+                                <div class="absolute right-10">
+                                    {@html getBadge(similarProduct.id)}
+
+                                </div>
+                                <Product product={{id: similarProduct.id,name: similarProduct.name,img: similarProduct.image, price: similarProduct.price}} />
                             </li>
                     {/each}
             {/await}

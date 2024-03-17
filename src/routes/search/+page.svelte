@@ -55,10 +55,12 @@
     <ul class="grid grid-cols-2 md:grid-cols-3">
         {#each products as product}
         <div class="">
-            <li class="my-2 relative">
-                {@html getBadge(product.id)}
-                
-                <Product product={{id: product.id,name: product.name,img: product.image}} />
+            <li class="my-5 py-5 relative">
+                <div class="absolute right-10">
+                    {@html getBadge(product.id)}
+        
+                  </div>                
+                <Product product={{id: product.id,name: product.name,img: product.image, price: product.price}} />
                 
             </li>
         </div>

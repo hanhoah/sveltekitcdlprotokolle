@@ -46,11 +46,15 @@
 <!-- Hier zeigst du die Produkte an -->
 <ul class="grid grid-cols-2 md:grid-cols-3">
   {#each pageproducts as product}
+  
   <div class="lazy-load">
       <li class="my-2 relative">
           <!-- Beachte, dass wir das 'loading' Attribut dynamisch hinzufügen -->
-          {@html getBadge(product.id)}
-          <Product product={{id: product.id, name: product.name, img: product.image}} />
+          <div class="absolute right-10">
+            {@html getBadge(product.id)}
+
+          </div>
+          <Product product={{id: product.id, name: product.name, img: product.image, price: product.price}} />
       </li>
   </div>
   {/each}

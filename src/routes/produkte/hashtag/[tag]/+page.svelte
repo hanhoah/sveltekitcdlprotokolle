@@ -15,7 +15,7 @@ $: products = data.products
       <div class="my-2 relative">
           <!-- Beachte, dass wir das 'loading' Attribut dynamisch hinzufügen -->
           {@html getBadge(product.id)}
-          <Product product={{id: product.id, name: product.name, img: product.image}} />
+          <Product product={{id: product.id, name: product.name, img: product.image, price: product.price}} />
       </div>
   {/each}
 </div>
