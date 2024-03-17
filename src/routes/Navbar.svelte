@@ -1,3 +1,13 @@
+<script>
+  import Logo from "./Logo.svelte";
+  let isMenuOpen = false;
+  
+  let toggleMenu = ()=>{
+    isMenuOpen = !isMenuOpen;
+  }
+
+</script>
+
 <!-- mobile navbar -->
 <div class="md:hidden">
   <div class="navbar-mobile">
@@ -11,10 +21,6 @@
         <li><a on:click={toggleMenu} href="/cdl-protokolle">CDL Protokolle</a></li>
         <li><a on:click={toggleMenu}  href="/produkte">Produkte</a></li>
         <li><a on:click={toggleMenu}  href="/gutscheine">Gutscheine</a></li>
-<!--
-  <li><a on:click={toggleMenu}  href="/gai-goi-vermittlung">gg</a></li>
-
--->
       </ul></nav>
     </div>
     <button on:click={toggleMenu} class="burger">
@@ -39,14 +45,6 @@
   </div>
 </div>  
 
-<script>
-import Logo from "./Logo.svelte";
-let isMenuOpen = false;
-
-let toggleMenu = ()=>{
-  isMenuOpen = !isMenuOpen;
-}
-</script>
 
 <style>
 
