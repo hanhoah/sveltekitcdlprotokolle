@@ -4,6 +4,7 @@
     import { Spinner } from 'flowbite-svelte';
     import Product from '../product.svelte';
 	import { getBadge } from '$lib/functions/shops.ts';
+    import { removeTags } from '$lib/functions/helper.ts';
     export let data;
 
     $: img = getProductImg(data.data.image) 
@@ -20,7 +21,7 @@
 
 <svelte:head>
   <title>{name}</title>
-  <meta name="description" content={desc} />
+  <meta name="description" content={removeTags(desc)} />
 </svelte:head>
 
 <div class="w-full flex flex-row bg-gray-100 justify-center relative">
