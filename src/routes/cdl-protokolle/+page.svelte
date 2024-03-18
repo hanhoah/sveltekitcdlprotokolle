@@ -29,6 +29,11 @@
 	import Y from './y.svelte';
 	import Z from './z.svelte';
   </script>
+
+<svelte:head>
+    <title>CDL Protokolle laut Dr. Andreas Kalcker</title>
+    <meta name="description" content="Entdecken Sie CDL-Protokolle für Ihre Gesundheitsbedürfnisse. Optimieren Sie Ihre Selbstbehandlung mit CDL " />
+  </svelte:head>
     
   <Accordion activeClass="bg-white">
     <AccordionItem >

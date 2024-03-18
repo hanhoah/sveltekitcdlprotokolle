@@ -14,6 +14,11 @@
     const spc = '&#x20;'
 </script>
 
+<svelte:head>
+  <title>{title}</title>
+  <meta name="description" content="{desc}" />
+</svelte:head>
+
 <div class="w-full flex flex-row bg-gray-100 justify-center">
     <img class="py-10" width=400 alt="{title}" src="{img}" />
 </div>

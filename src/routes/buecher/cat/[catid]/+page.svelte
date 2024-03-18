@@ -8,11 +8,18 @@
     
 </script>
   
+<svelte:head>
+  <title>{data.data.title}</title>
+  <meta name="description" content="{data.data.metaDescription}" />
+</svelte:head>
 
 <div class="px-2 m-2 border-2 ">
     <h2>
         Bücher der Kategorie  {data.categories[catid].name}
     </h2>
+    <div>
+        {data.data.metaDescription}
+    </div>
   
   </div>
   
