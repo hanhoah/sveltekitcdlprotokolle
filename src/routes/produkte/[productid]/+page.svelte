@@ -18,6 +18,11 @@
 
 </script>
 
+<svelte:head>
+  <title>{name}</title>
+  <meta name="description" content={desc} />
+</svelte:head>
+
 <div class="w-full flex flex-row bg-gray-100 justify-center relative">
     {@html getBadge(id)}
     <img class="py-10" width=400 alt="{name}" src="{img}" />

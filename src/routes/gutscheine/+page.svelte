@@ -1,6 +1,11 @@
 <script>
     import Gutschein from "./gutschein.svelte";
 </script>
+<svelte:head>
+  <title>Gutscheine für alternative Heilmittel und Nahrungsergänzungsmittel</title>
+  <meta name="description" content="Aktuelle Gutscheine von Online Shops die alternative Heilmittel anbieten wie Cellavita, Waldkraft, Graf von Kronenberg, Kopp Verlag. " />
+</svelte:head>
+
 <div class="p-2">
     <h2>Gutscheine für alternative Heilmittel und Nahrungsergänzungsmittel</h2>
     

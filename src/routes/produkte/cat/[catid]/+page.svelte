@@ -35,6 +35,11 @@
   pageproducts = goToPage(1);
 </script>
 
+<svelte:head>
+  <title>Preisvergleich Produkte der alternativen Medizin - {category}</title>
+  <meta name="description" content={description} />
+</svelte:head>
+
 <div class="w-full"><h2 class="text-center my-5 p-2">{length} Produkte in der Kategorie {category} gefunden.</h2></div>
 
 <!-- Kategorie Beschreibung wenn vorhanden -->

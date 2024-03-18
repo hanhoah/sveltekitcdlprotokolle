@@ -28,6 +28,10 @@ export function getBadge(id) {
 			shop = 'Bedrop';
 			bgcolor = 'bg-orange-200';
 			break;
+		case 'ed':
+			shop = 'Edubily';
+			bgcolor = 'bg-amber-300';
+			break;
 		default:
 			shop = 'Unknown';
 	}
