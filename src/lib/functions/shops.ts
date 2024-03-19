@@ -32,6 +32,10 @@ export function getBadge(id) {
 			shop = 'Edubily';
 			bgcolor = 'bg-amber-300';
 			break;
+		case 'hk':
+			shop = 'Heilkraft';
+			bgcolor = 'bg-red-400';
+			break;
 		default:
 			shop = 'Unknown';
 	}
