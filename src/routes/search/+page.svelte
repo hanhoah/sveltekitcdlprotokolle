@@ -14,7 +14,7 @@
     
 </script>
 
-<div class="p-5 mt-5 border-2 ">
+<div class="p-2 mt-5 border-2 ">
 <div class="">
     Zu Ihrer Suche nach 
     <span class="bg-yellow-300 px-2">

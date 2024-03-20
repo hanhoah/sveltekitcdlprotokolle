@@ -4,8 +4,8 @@
 </script>
 
 <a href={`/produkte/${product.id}`}>
-<div class=" w-full h-[300px] ">
-    <div  class=" pt-2 overflow-auto bg-white w-64 ">
+<div class=" w-full h-[280px] ">
+    <div  class=" pt-2 overflow-auto bg-white w-44 ">
                 <img class="mx-auto" width="150" src="{getProductImg(product.img)}" alt="{product.name}" />
             <div class="p-3 text-sm">
                     {product.name}
