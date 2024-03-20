@@ -7,13 +7,13 @@
 <div class="px-2 m-2 border-2 ">
   <h2 >Produkte für die alternative Heilung</h2>
 </div>
-  <ul class="grid grid-cols-2 md:grid-cols-3 px-5">
+  <ul class="grid grid-cols-2 md:grid-cols-3 justify-around space-y-5">
     {#await data.streamed.products}
       Loading Products ...
       {:then products} 
       {#each products as product}
           <li class="my-2 relative">
-            <div class="absolute right-10">
+            <div class="absolute right-10 md:right-28">
               {@html getBadge(product.id)}
 
             </div>

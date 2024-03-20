@@ -15,12 +15,40 @@ $: products = data.products
 <div class="w-full"><h2 class="text-center my-5 p-2">Produkte mit dem Hashtag {hashtag} gefunden.</h2></div>
 
 <!-- Hier zeigst du die Produkte an -->
-<div class="grid grid-cols-2 md:grid-cols-3">
+<div class="grid grid-cols-2 md:grid-cols-3 space-y-5">
   {#each products as product}
-      <div class="my-2 relative">
-          <!-- Beachte, dass wir das 'loading' Attribut dynamisch hinzufügen -->
+  <div class="lazy-load">
+    <li class="my-2 relative">
+        <!-- Beachte, dass wir das 'loading' Attribut dynamisch hinzufügen -->
+        <div class="absolute right-10 md:right-28">
           {@html getBadge(product.id)}
-          <Product product={{id: product.id, name: product.name, img: product.image, price: product.price}} />
-      </div>
+
+        </div>
+        <Product product={{id: product.id, name: product.name, img: product.image, price: product.price}} />
+    </li>
+</div>
   {/each}
 </div>
+
+<style>
+
+  li{
+    list-style-type: none
+
+  }
+  .page-selector {
+    @apply my-10 flex justify-center
+  }
+  
+  .page-number {
+    @apply p-2 ml-5 border-2 cursor-pointer
+  }
+  
+  .page-number:hover {
+    @apply underline bg-gray-800 text-white
+  }
+  
+  .current-page {
+    @apply bg-blue-500 text-white; 
+  }
+  </style>

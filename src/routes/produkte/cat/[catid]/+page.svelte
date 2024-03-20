@@ -49,13 +49,13 @@
 {/if}
 
 <!-- Hier zeigst du die Produkte an -->
-<ul class="grid grid-cols-2 md:grid-cols-3">
+<ul class="grid grid-cols-2 md:grid-cols-3 space-y-5">
   {#each pageproducts as product}
   
   <div class="lazy-load">
       <li class="my-2 relative">
           <!-- Beachte, dass wir das 'loading' Attribut dynamisch hinzufügen -->
-          <div class="absolute right-10">
+          <div class="absolute right-10 md:right-28">
             {@html getBadge(product.id)}
 
           </div>
