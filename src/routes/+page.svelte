@@ -22,7 +22,7 @@
     <div class="flex flex-col md:flex-row justify-center pl-20 md:pl-0">    
         <Button text="CDL Protokolle Telegram" href="https://t.me/cdl_protokolle" /> 
         
-        <Button text="Bücher der alternativen Medizin" href="/buecher/" />
+        <Button text="Kontakt Feedback Verbesserungsvorschläge" href="https://t.me/cdlprotokollecom" />
         
     </div>
 </div>
