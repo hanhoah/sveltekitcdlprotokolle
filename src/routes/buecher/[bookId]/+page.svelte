@@ -5,11 +5,13 @@
     import Book from '../book.svelte';
     import { Badge } from 'flowbite-svelte';
 
+
     export let data;
     $: book = data.data
     $: title = book.title;
     $: img = getImg(book.img[0], book.id, "books")
     $: desc = book.desc;
+
 
     const spc = '&#x20;'
 </script>

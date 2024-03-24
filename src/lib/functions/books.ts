@@ -62,6 +62,15 @@ export async function getCategoryNameById(catId: number): Promise<string> {
 	return data[0].name;
 }
 
+export async function getBook(id: number): Promise<Book>|null{
+	const {data, error} = await supabase.from('books').select().eq('id', id).limit(1).single()
+	if(error)
+		return null;
+	else{
+		return data;
+	}
+}
+
 export async function getBooksFromIds(ids: number[]): Promise<Book[] | null> {
 	// 2. Jetzt werden die Bücher zu den IDs ermittelt
 	const { data, error: books_err } = await supabase.from('books').select().in('id', ids);
