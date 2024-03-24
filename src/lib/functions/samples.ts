@@ -1,14 +1,21 @@
 import supabase from "$lib/supabaseClient";
 import { fail } from "@sveltejs/kit";
 
-export async function getProductTags(){
+interface productTag {
+    product_tag: string
+}
+
+export async function getProductTags():Promise<productTag[]>{
     const {data, error} = await supabase.from('readingsamplesproducttags').select()
     if(error){
         fail(400)
         console.log('error samples.ts getProductTags()');
-        return {}
+        return []
     }
-    else return data;
+    else{
+console.log('data', data);
+        return data;
+    } 
 }
 
 export async function getReadingSample(leseprobenId: string){
