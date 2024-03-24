@@ -37,3 +37,14 @@ export async function getSimilarReadingSamples(sample: object){
         return data
     }
 }
+
+export async function getReadingSamples(sample: string):Promise[{}]{
+    const {data, error } = await supabase.from('readingsamples').select().ilike('product_tag', sample)
+    if(error){
+        console.log('error samples.ts getReadingSamples', sample);
+        fail(400)
+    }
+    else{
+        return data
+    }
+}

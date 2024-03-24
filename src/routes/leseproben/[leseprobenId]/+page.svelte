@@ -36,7 +36,7 @@
     
     <!-- die ausgewählte Leseprobe -->
 <div class="grid grid-cols-1 md:grid-cols-2 md:m-2 md:p-2">
-    <div class="p-2">
+    <div class="p-2 md:pr-10">
         <h2>{currentsample.id}</h2>
         {@html currentsample.text}
         
@@ -72,9 +72,11 @@
         Weitere Leseproben zu folgenden Produkten 
         <div class="grid grid-cols-3">
             {#each product_tags as tag }
-                <div class="border-2 border-blue-100 m-2 p-2">
-                    {tag.product_tag}
-                </div>
+                <a href="/leseproben/cat/{tag.product_tag.toLowerCase()}">
+                    <div class="border-2 border-blue-100 m-2 p-2">
+                        {tag.product_tag}
+                    </div>
+                </a>
             {/each}
 
         </div>

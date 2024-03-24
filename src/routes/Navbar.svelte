@@ -37,7 +37,7 @@
 <div class="hidden md:block">
   <div class="navbar-desktop space-x-20">
     <a class="w-full" href="/"><Logo /></a>
-    <div id="desktopmenu" class="flex flex-row w-full space-x-5">
+    <div id="desktopmenu" class="flex flex-row w-full space-x-5 pr-2">
         <a class="menuitem" href="/buecher">Bücher</a>
         <a class="menuitem"  href="/cdl-protokolle">CDL Protokolle</a>
         <a class="menuitem"  href="/produkte">Produkte</a>

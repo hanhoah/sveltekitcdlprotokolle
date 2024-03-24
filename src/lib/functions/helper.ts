@@ -9,3 +9,7 @@ export function removeTags(str: string): string|false {
 	// HTML tag with a null string.
 	return str.replace(/(<([^>]+)>)/ig, '');
 }
+
+export function capitalize(word: string): string{
+	return word.charAt(0).toUpperCase() + word.slice(1);
+}
