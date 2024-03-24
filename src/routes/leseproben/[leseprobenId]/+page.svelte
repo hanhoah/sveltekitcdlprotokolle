@@ -13,6 +13,11 @@
     
 </script>
 
+<svelte:head>
+	<title>{currentsample?.id}</title>
+	<meta name="description" content={currentsample?.text} />
+</svelte:head>
+
 
 <div class="grid grid-cols-3 text-xs border-2 bg-gray-200">
     <!-- weitere Leseprobem mit dem gleichen product_tag-->
