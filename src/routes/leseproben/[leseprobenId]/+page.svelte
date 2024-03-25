@@ -1,14 +1,18 @@
 <script>
 	import { getImg } from '$lib/functions/getBookImg.ts';
     import { Button } from 'flowbite-svelte';
-
-
+    import { nl2br } from '$lib/functions/nl2br.ts';
 
     export let data
     $: currentsample = data.sample
     $: samples = data.readingSamples
     $: book = data.book
     $: links = data.links
+
+    // prüfe ob beschreibung html tags enthält, wenn ja, dann belassen, 
+    // sonst nl2br
+
+
     const product_tags = data.product_tags
     
 </script>
@@ -27,9 +31,9 @@
         {sample.id}
     </div>
     {:else}
-    <div class="">
+    <div class="hover:bg-blue-800 hover:text-white">
         <a href="/leseproben/{sample.slug}">
-            <div class="border-2 m-1 p-1 "> 
+            <div class="m-1 p-1 "> 
                 {sample.id}
             </div>
         </a>
@@ -43,7 +47,7 @@
 <div class="grid grid-cols-1 md:grid-cols-2 md:m-2 md:p-2">
     <div class="p-2 md:pr-10">
         <h2>{currentsample.id}</h2>
-        {@html currentsample.text}
+        {@html nl2br(currentsample.text)}
         
     </div>
     
@@ -79,7 +83,7 @@
     <div class="grid grid-cols-3 md:grid-cols-4">
         {#each product_tags as tag }
             <a href="/leseproben/cat/{tag.product_tag.toLowerCase()}">
-                <div class="border-2 border-blue-100 m-1 md:m-2 p-1 md:p-2">
+                <div class="border-2 border-blue-100 m-1 md:m-2 p-1 md:p-2 hover:bg-blue-800 hover:text-white">
                     {tag.product_tag}
                 </div>
             </a>
