@@ -5,6 +5,12 @@ interface productTag {
     product_tag: string
 }
 
+export async function countSamples():Promise<number|null>{
+    const { count } = await supabase.from('readingsamples').select('*', { count: 'exact' })
+    // console.log('');
+    return count
+}
+
 export async function getProductTags():Promise<productTag[]>{
     const {data, error} = await supabase.from('readingsamplesproducttags').select()
     if(error){

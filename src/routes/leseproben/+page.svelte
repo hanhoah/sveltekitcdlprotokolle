@@ -2,10 +2,11 @@
     export let data
 
     const product_tags = data.product_tags
+    const counter = data.counter
 </script>
 
 <h2>
-    Leseproben
+    Aktuell {counter} Leseproben
 </h2>
 <p>
     Hier finden Sie informative Leseproben aus Büchern die wir Ihnen in der Bücher Rubrik empfehlen. Denken Sie daran dass die Leseproben nur einen minimalen Bruchteil der Informationsfülle aus dem Buch enthalten und diese nicht vollständig sind. 

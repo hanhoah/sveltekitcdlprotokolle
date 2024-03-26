@@ -1,6 +1,5 @@
 <script lang="ts">
     import Product from '../produkte/product.svelte';
-    import { Spinner } from 'flowbite-svelte';
     import { getBadge } from '$lib/functions/shops.ts';
 
     export let data
@@ -44,19 +43,19 @@
     <div class="hidden md:block">Wenn Sie ein PC benutzen: 1. Rechts klick 2. Link in neuem Tab öffnen.</div>
 
 {#if qtyProducts == 30 }
-    <div class="bg-green-100">
+    <div class="products">
         Hinweis: Aus Performance Gründen werden Suchergebnisse auf 30 Produkte limitiert. Falls Sie Ihr Produkt nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.
 
     </div>
 {/if}
 {#if qtyBooks == 30 }
-<div class="bg-red-100">
+<div class="books">
     Hinweis: Aus Performance Gründen werden Suchergebnisse auf 30 Bücher limitiert. Falls Sie Ihr Buch nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.
 
 </div>
 {/if}
 {#if qtySamples == 30 }
-<div class="bg-red-100">
+<div class="samples">
     Hinweis: Aus Performance Gründen werden Suchergebnisse auf 30 Informationen limitiert. Falls Sie Ihr Buch nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.
 
 </div>
@@ -66,12 +65,13 @@
     <ul class="grid grid-cols-2 md:grid-cols-3">
         {#each samples as sample}
         <a href="/leseproben/{sample.slug}">
-            <div class="border-2 m-2 p-2">
+            <div class="hover:bg-blue-800 hover:text-white border-2 m-2 p-2 hlink">
                 {sample.id}
             </div>
         </a>
         {/each}
     </ul>
+
 
     <div class="books w-full text-center my-5"> <h2> Ergebnisse Bücher: </h2></div>
     <ul class="grid grid-cols-2 md:grid-cols-3">
