@@ -2,20 +2,21 @@
 	import { capitalize } from '$lib/functions/helper.ts';
 
     export let data
-    let category = capitalize(data.catid)
+    $: category = capitalize(data.catid)
     const product_tags = data.product_tags
 </script>
 
 <h2>Leseproben der Kategory {category}  </h2>
 
-{#each data.samples as leseprobe }
-    <a href="/leseproben/{leseprobe.slug}">
-        <div class="border-2 m-2 p-2 hover:bg-blue-800 hover:text-white">
-            {leseprobe.id}
+<ul class="grid grid-cols-2 md:grid-cols-3">
+    {#each data.samples as sample}
+    <a href="/leseproben/{sample.slug}">
+        <div class="hover:bg-blue-800 hover:text-white border-2 m-2 p-2 hlink">
+            {sample.id}
         </div>
     </a>
-
-{/each}
+    {/each}
+</ul>
 
 <div class="bg-blue-300 p-5 ">
     Wähle faszinierende Leseproben aus folgenden Produkten 

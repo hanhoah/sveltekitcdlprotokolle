@@ -27,12 +27,14 @@ export async function getProductsByCategoryId(catid: number): Promise<object[]> 
 export async function getProductsByName(name: string): Promise<object[]> {
 	console.log('getProductsByName', name);
 
+	const formattedName = name.replace(/\s+/g, ' & ');
+
 	const { data, error } = await supabase
 		.from('products')
 		.select('*')
-		.textSearch('fts', name, {config: 'german'}).limit(30);
+		.textSearch('fts', formattedName, {config: 'german'}).limit(30);
 	if (error) {
-		console.log('Fehler beim Abrufen getProductsByName');
+		console.log('Fehler beim Abrufen getProductsByName', error);
 	} else {
 		return data;
 
