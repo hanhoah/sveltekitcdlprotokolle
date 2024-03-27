@@ -2,12 +2,15 @@
 	import { getImg } from '$lib/functions/getBookImg.ts';
     import { Button } from 'flowbite-svelte';
     import { nl2br } from '$lib/functions/nl2br.ts';
+    import { getBadge } from '$lib/functions/shops.ts';
+    import Product from '../../produkte/product.svelte';
 
     export let data
     $: currentsample = data.sample
     $: samples = data.readingSamples
     $: book = data.book
     $: links = data.links
+    let products = data.products
 
     // prüfe ob beschreibung html tags enthält, wenn ja, dann belassen, 
     // sonst nl2br
@@ -77,6 +80,20 @@
         </div>        
     </div>
 </div>
+
+<div class="products w-full text-center my-5"> <h2> Passende Produkte: </h2></div>
+<ul class="grid grid-cols-2 md:grid-cols-3">
+    {#each products as product}
+    <div class="">
+        <li class="my-5 py-5 relative">
+            <div class="absolute right-10">
+                {@html getBadge(product.id)}
+              </div>                
+            <Product product={{id: product.id,name: product.name,img: product.image, price: product.price}} />
+        </li>
+    </div>
+    {/each}
+</ul>
 
 <div class="bg-blue-300 p-5 ">
     Weitere Leseproben zu folgenden Produkten 

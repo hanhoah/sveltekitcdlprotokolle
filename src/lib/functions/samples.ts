@@ -19,7 +19,6 @@ export async function getProductTags():Promise<productTag[]>{
         return []
     }
     else{
-console.log('data', data);
         return data;
     } 
 }

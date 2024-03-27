@@ -10,7 +10,7 @@ interface Product {
 }
 
 export async function getProductsByCategoryId(catid: number): Promise<object[]> {
-	console.log('getProductsByCategoryId');
+	// console.log('getProductsByCategoryId');
 	// console.log('neue verbesserte Funktion durch nutzung von Supabase Views');
 	const { data, error } = await supabase
 		.from('productswithcategory')
@@ -25,7 +25,7 @@ export async function getProductsByCategoryId(catid: number): Promise<object[]> 
 }
 
 export async function getProductsByName(name: string): Promise<object[]> {
-	console.log('getProductsByName', name);
+	// console.log('getProductsByName', name);
 
 	const { data, error } = await supabase
 		.from('products')
@@ -34,7 +34,10 @@ export async function getProductsByName(name: string): Promise<object[]> {
 		.order('name');
 	if (error) {
 		console.log('Fehler beim Abrufen getProductsByName');
-	} else return data;
+	} else {
+		return data;
+
+	}
 }
 
 export async function getProductsByCategoryIdWithPagination(
@@ -42,8 +45,6 @@ export async function getProductsByCategoryIdWithPagination(
 	page: number,
 	pageSize: number
 ) {
-	console.log('getProductsByCategoryIdWithPagination');
-	console.log('page ist ', page);
 	const offset = (page - 1) * pageSize; // Berechne den Offset basierend auf der aktuellen Seite
 	const { data, error } = await supabase
 		.from('productswithcategory')
@@ -61,7 +62,6 @@ export async function getProductsByCategoryIdWithPagination(
 }
 
 export async function getProductIdsFromCatId(catId: number): Promise<string[]> {
-	console.log('getProductIdsFromCatid, ', catId);
 	let catProductIds: number[] = [];
 
 	const { data: productIds, error } = await supabase
@@ -79,7 +79,6 @@ export async function getProductIdsFromCatId(catId: number): Promise<string[]> {
 }
 
 export function getCategories(): object[] {
-	console.log('getCategories');
 	const categories = [
 		{ id: 5, name: 'Ayurveda' },
 		{ id: 6, name: 'Aphrodisiaka' }
@@ -89,7 +88,7 @@ export function getCategories(): object[] {
 }
 
 export async function countProductsByCategory(cat: number): Promise<number | null> {
-	console.log('countProductsByCategory');
+	// console.log('countProductsByCategory');
 	const { count } = await supabase
 		.from('products_categories')
 		.select('*', { count: 'exact', head: true })
@@ -99,7 +98,7 @@ export async function countProductsByCategory(cat: number): Promise<number | nul
 }
 
 export async function getCategoryNameById(catId: number): Promise<string> {
-	console.log('getCategoryNameById');
+	// console.log('getCategoryNameById');
 	const { data } = await supabase.from('categories').select('name').eq('id', catId);
 	return data[0].name;
 }
@@ -128,9 +127,9 @@ export async function getProductsFromIdsWithPagination(
 	pageSize: number
 ) {
 	const offset = page - 1 + pageSize; // Berechne den Offset basierend auf der aktuellen Seite
-	console.log('offset ist ', offset);
-	console.log('page ist ', page);
-	console.log('Pagesize ist ', pageSize);
+	// console.log('offset ist ', offset);
+	// console.log('page ist ', page);
+	// console.log('Pagesize ist ', pageSize);
 	const { data, error } = await supabase
 		.from('products')
 		.select('*')
