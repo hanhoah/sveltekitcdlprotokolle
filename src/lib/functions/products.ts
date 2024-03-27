@@ -25,13 +25,12 @@ export async function getProductsByCategoryId(catid: number): Promise<object[]> 
 }
 
 export async function getProductsByName(name: string): Promise<object[]> {
-	// console.log('getProductsByName', name);
+	console.log('getProductsByName', name);
 
 	const { data, error } = await supabase
 		.from('products')
 		.select('*')
-		.ilike('name', '%' + name + '%')
-		.order('name');
+		.textSearch('fts', name, {config: 'german'}).limit(30);
 	if (error) {
 		console.log('Fehler beim Abrufen getProductsByName');
 	} else {

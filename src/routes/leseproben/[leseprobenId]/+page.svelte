@@ -81,21 +81,24 @@
     </div>
 </div>
 
-<div class="products w-full text-center my-5"> <h2> Passende Produkte: </h2></div>
-<ul class="grid grid-cols-2 md:grid-cols-3">
-    {#each products as product}
-    <div class="">
-        <li class="my-5 py-5 relative">
-            <div class="absolute right-10">
-                {@html getBadge(product.id)}
-              </div>                
-            <Product product={{id: product.id,name: product.name,img: product.image, price: product.price}} />
-        </li>
-    </div>
-    {/each}
-</ul>
+<div class="products w-full text-center my-5 mb-24"> 
+    <h2> Passende Produkte: </h2>
 
-<div class="bg-blue-300 p-5 ">
+    <ul class="grid grid-cols-2 md:grid-cols-3">
+        {#each products as product}
+        <div class="">
+            <li class="my-5 py-5 relative">
+                <div class="absolute right-10">
+                    {@html getBadge(product.id)}
+                  </div>                
+                <Product product={{id: product.id,name: product.name,img: product.image, price: product.price}} />
+            </li>
+        </div>
+        {/each}
+    </ul>
+</div>
+
+<div class="bg-blue-300 p-5 mt-10">
     Weitere Leseproben zu folgenden Produkten 
     <div class="grid grid-cols-3 md:grid-cols-4">
         {#each product_tags as tag }
