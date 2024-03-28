@@ -12,7 +12,7 @@ export async function countSamples():Promise<number|null>{
 }
 
 export async function getProductTags():Promise<productTag[]>{
-    const {data, error} = await supabase.from('readingsamplesproducttags').select()
+    const {data, error} = await supabase.from('readingsamplesproducttags').select().order('product_tag')
     if(error){
         fail(400)
         console.log('error samples.ts getProductTags()');
