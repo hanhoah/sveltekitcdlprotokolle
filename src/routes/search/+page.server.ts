@@ -1,5 +1,6 @@
 export const prerender = false;
 import supabase from '$lib/supabaseClient.js';
+import { RESULTLIMIT } from '$lib/config.js';
 
 async function searchBooks(q: string) {
 	// prüfen ob mehrere Suchbegriffe eingegeben wurden
@@ -7,7 +8,7 @@ async function searchBooks(q: string) {
 	// wenn mehr als ein begriff dann mit & verknüpfen
 	if(anzahl > 1)
 		q = q.split(" ").join(" & ")
-	const { data } = await supabase.from('books').select().textSearch('fts', q, {config: 'german'}).limit(30);
+	const { data } = await supabase.from('books').select().textSearch('fts', q, {config: 'german'}).limit(RESULTLIMIT);
     // Überprüfe, ob das Ergebnis nicht null ist, bevor du darüber iterierst
     if (data !== null && typeof data !== 'undefined') {
         // Wenn das Ergebnis vorhanden ist, gib es zurück
@@ -21,11 +22,11 @@ async function searchBooks(q: string) {
 
 async function searchProducts(q: string) {
 	// prüfen ob mehrere Suchbegriffe eingegeben wurden
-	let anzahl = q.split(" ").length;
+	const anzahl = q.split(" ").length;
 	// wenn mehr als ein begriff dann mit & verknüpfen
 	if(anzahl > 1)
 		q = q.split(" ").join(" & ")
-	const { data } = await supabase.from('products').select().textSearch('fts', q, {config: 'german'}).limit(30);
+	const { data } = await supabase.from('products').select().textSearch('fts', q, {config: 'german'}).limit(RESULTLIMIT);
     // Überprüfe, ob das Ergebnis nicht null ist, bevor du darüber iterierst
     if (data !== null && typeof data !== 'undefined') {
         // Wenn das Ergebnis vorhanden ist, gib es zurück
@@ -43,7 +44,7 @@ async function searchSamples(q: string){
 	// wenn mehr als ein begriff dann mit & verknüpfen
 	if(anzahl > 1)
 		q = q.split(" ").join(" & ")
-	const { data } = await supabase.from('readingsamples').select().textSearch('fts', q, {config: 'german'}).limit(30);
+	const { data } = await supabase.from('readingsamples').select().textSearch('fts', q, {config: 'german'}).limit(RESULTLIMIT);
     // Überprüfe, ob das Ergebnis nicht null ist, bevor du darüber iterierst
     if (data !== null && typeof data !== 'undefined') {
         // Wenn das Ergebnis vorhanden ist, gib es zurück

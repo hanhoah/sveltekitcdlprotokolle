@@ -1,0 +1,1 @@
+export const RESULTLIMIT = 30;

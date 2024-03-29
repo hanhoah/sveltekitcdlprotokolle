@@ -12,6 +12,10 @@
     $: q = data.q
     import Book from '../buecher/book.svelte';
 
+    import { RESULTLIMIT } from '$lib/config.js';
+
+    
+
 </script>
 
 <div class="p-2 mt-5 border-2 ">
@@ -42,21 +46,21 @@
     <div class="md:hidden">Wenn Sie ein Smartphone benutzen einfach einen Link gedrückt halten. </div>
     <div class="hidden md:block">Wenn Sie ein PC benutzen: 1. Rechts klick 2. Link in neuem Tab öffnen.</div>
 
-{#if qtyProducts == 30 }
+{#if qtyProducts == RESULTLIMIT }
     <div class="products">
-        Hinweis: Aus Performance Gründen werden Suchergebnisse auf 30 Produkte limitiert. Falls Sie Ihr Produkt nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.
+        Hinweis: Aus Performance Gründen werden Suchergebnisse auf {RESULTLIMIT} Produkte limitiert. Falls Sie Ihr Produkt nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.
 
     </div>
 {/if}
-{#if qtyBooks == 30 }
+{#if qtyBooks == RESULTLIMIT }
 <div class="books">
-    Hinweis: Aus Performance Gründen werden Suchergebnisse auf 30 Bücher limitiert. Falls Sie Ihr Buch nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.
+    Hinweis: Aus Performance Gründen werden Suchergebnisse auf {RESULTLIMIT} Bücher limitiert. Falls Sie Ihr Buch nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.
 
 </div>
 {/if}
-{#if qtySamples == 30 }
+{#if qtySamples == RESULTLIMIT }
 <div class="samples">
-    Hinweis: Aus Performance Gründen werden Suchergebnisse auf 30 Informationen limitiert. Falls Sie Ihr Buch nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.
+    Hinweis: Aus Performance Gründen werden Suchergebnisse auf {RESULTLIMIT} Informationen limitiert. Falls Sie nicht die passende Information finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.
 
 </div>
 {/if}
