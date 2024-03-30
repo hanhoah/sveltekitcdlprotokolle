@@ -48,7 +48,7 @@ async function searchSamples(q: string){
     // Überprüfe, ob das Ergebnis nicht null ist, bevor du darüber iterierst
     if (data !== null && typeof data !== 'undefined') {
         // Wenn das Ergebnis vorhanden ist, gib es zurück
-        console.log('data from samples ist ', data);
+        // console.log('data from samples ist ', data);
         return data;
     } else {
         // Wenn das Ergebnis null oder undefiniert ist, gib ein leeres Array zurück oder handle den Fehler entsprechend
