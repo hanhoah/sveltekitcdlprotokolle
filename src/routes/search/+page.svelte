@@ -3,12 +3,14 @@
     import { getBadge } from '$lib/functions/shops.ts';
 
     export let data
-    $:  books = data.books
-    $:  qtyBooks = data.books.length
-    $:  products = data.products
-    $:  qtyProducts = data.products.length
-    $:  samples = data.samples
-    $:  qtySamples = data.samples.length
+    $: books = data.books
+    $: qtyBooks = data.books.length
+    $: products = data.products
+    $: qtyProducts = data.products.length
+    $: samples = data.samples
+    $: qtySamples = data.samples.length
+    $: videos = data.videos
+    $: qtyVideos = data.videos.length
     $: q = data.q
     import Book from '../buecher/book.svelte';
 
@@ -39,6 +41,11 @@
         {qtySamples} Informationen aus Leseproben 
 
     </span>    
+    und 
+    <span class="videos">
+        {qtyVideos} Videos 
+
+    </span>    
     gefunden. 
 </div>
 
@@ -61,6 +68,12 @@
 {#if qtySamples == RESULTLIMIT }
 <div class="samples">
     Hinweis: Aus Performance Gründen werden Suchergebnisse auf {RESULTLIMIT} Informationen limitiert. Falls Sie nicht die passende Information finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.
+
+</div>
+{/if}
+{#if qtyVideos == RESULTLIMIT }
+<div class="videos">
+    Hinweis: Aus Performance Gründen werden Suchergebnisse auf {RESULTLIMIT} Videos limitiert. Falls Sie nicht die passende Information finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.
 
 </div>
 {/if}
@@ -98,6 +111,16 @@
         {/each}
     </ul>
 
+    <div class="products w-full text-center my-5"> <h2> Ergebnisse Videos: </h2></div>
+    <ul class="grid grid-cols-2 md:grid-cols-3">
+        {#each videos as video}
+        <div class="">
+            <li class="my-5 py-5 relative">
+                {video.embed}
+            </li>
+        </div>
+        {/each}
+    </ul>
 
 
     <div class="mt-10">
@@ -125,4 +148,8 @@
     .samples{
         @apply bg-green-300 px-2
     }
+    .videos{
+        @apply bg-yellow-300 px-2
+    }
+
 </style>
