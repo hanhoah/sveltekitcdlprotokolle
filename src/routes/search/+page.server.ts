@@ -81,6 +81,7 @@ async function searchVideos(q: string){
 }
 
 
+
 export async function load({ params, url }) {
     let q = url.searchParams.get('q');
 	const books = await searchBooks(q);
@@ -89,4 +90,5 @@ export async function load({ params, url }) {
     const videos = await searchVideos(q);
 	return { q, books, products, samples, videos };
 }
+
 

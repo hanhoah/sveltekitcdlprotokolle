@@ -6,6 +6,7 @@
 	import Icon from '@iconify/svelte';
 	import { invalidate } from '$app/navigation'
   	import { onMount } from 'svelte'
+	import ScrollToTop from '$lib/components/scrollToTop.svelte';
 
 	export let data
 	let { supabase, session } = data
@@ -53,23 +54,25 @@
 
 <!-- Display -->
 <div class="bg-gray-50 max-w-screen-lg m-auto md:block justify-center items-center text-black">
-	<div class="w-full mx-auto px-1">
+	<div id="top" class="w-full mx-auto px-1">
 		<!-- 1280w (800h)-->
 		<Navbar></Navbar>
 		<form class="flex border-2 px-2 justify-center items-center" method="get" action="/search">
 			<input
-				class="w-full border-0 border-collapse border-gray-400"
-				type="text"
-				name="q"
-				placeholder="Wonach suchen Sie? (Bücher, Produkte, Inhaltsstoffe)"
+			class="w-full border-0 border-collapse border-gray-400"
+			type="text"
+			name="q"
+			placeholder="Wonach suchen Sie? (Bücher, Produkte, Inhaltsstoffe)"
 			/>
 			<button class="border-1 border-collapse border-gray-400 p-2" type="submit"
-				><Icon width="24" icon="ion:search-outline"></Icon></button
+			><Icon width="24" icon="ion:search-outline"></Icon></button
 			>
 		</form>
-
+		
 		<!-- Debugging-Ausgabe für die SEO-Daten -->
 		<slot />
 	</div>
 	<Footer></Footer>
 </div>
+
+<ScrollToTop />
