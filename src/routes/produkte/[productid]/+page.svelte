@@ -77,7 +77,7 @@
                                     {@html getBadge(similarProduct.image)}
 
                                 </div>
-                                <Product product={{id: similarProduct.id,name: similarProduct.name,img: similarProduct.image, price: similarProduct.price}} />
+                                <Product product={{id: similarProduct.id,name: similarProduct.name,img: similarProduct.image, price: similarProduct.price, slug: similarProduct.slug}} />
                             </li>
                     {/each}
             {/await}
