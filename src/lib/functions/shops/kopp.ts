@@ -1,8 +1,7 @@
 import cheerio from 'cheerio';
-import fs from 'fs'
-import path from 'path'
+import fs from 'fs';
 import axios from 'axios';
-import iconv from 'iconv-lite'
+import iconv from 'iconv-lite';
 
 async function getHtmlFromUrl(url) {
     try {
@@ -15,13 +14,12 @@ async function getHtmlFromUrl(url) {
     }
 }
 
-
-export async function getProductDataFromShop(url: string){
+export async function getProductDataFromShop(url: string) {
     const html = await getHtmlFromUrl(url);
     const $ = cheerio.load(html, { decodeEntities: false, xmlMode: true });
 
     // titel holen
-    const title  = $('h1').text();
+    const title = $('h1').text();
     console.log('titel ist ', title);
 
     // preis holen
@@ -29,57 +27,43 @@ export async function getProductDataFromShop(url: string){
     const price = priceElement.attr('content'); // Den Wert des "content"-Attributs extrahieren
 
     // bild link holen
-    const imgElement = $('div.productbox--image--zoom img')
-    const imageUrl = 'https://www.kopp-verlag.de/' + imgElement.attr('data-src')
+    const imgElement = $('div.productbox--image--zoom img');
+    const imageUrl = 'https://www.kopp-verlag.de/' + imgElement.attr('data-src');
 
     // bild im Ordner speichern
     // Dateinamen aus der Bild-URL extrahieren
-    const fileName = path.basename(imageUrl);
-
-    // Pfad zum Zielordner definieren
-    const rootfolder = "/home/han/projects/sveltekit/cdlprotokolle"
-    const targetFolder = path.join(rootfolder, 'static', 'images', 'products', 'kopp');
+    const fileName = imageUrl.split('/').pop();
 
     // Pfad zur Zieldatei definieren
-    const targetFilePath = path.join(targetFolder, fileName);
-
-    // Überprüfen, ob der Zielordner existiert. Wenn nicht, erstellen Sie ihn.
-    if (!fs.existsSync(targetFolder)) {
-        fs.mkdirSync(targetFolder, { recursive: true });
-    }
+    const targetFilePath = `static/images/products/kopp/${fileName}`;
 
     // Bild herunterladen und speichern
-    axios({
-        method: 'get',
-        url: imageUrl,
-        responseType: 'stream' // Stellen Sie sicher, dass die Antwort als Stream behandelt wird, um große Dateien zu handhaben
-    })
-    .then(response => {
-        response.data.pipe(fs.createWriteStream(targetFilePath)); // Bild in die Zieldatei schreiben
-    })
-    .catch(error => {
+    try {
+        const response = await axios.get(imageUrl, { responseType: 'stream' });
+        const writer = fs.createWriteStream(targetFilePath);
+        response.data.pipe(writer);
+    } catch (error) {
         console.error('Fehler beim Herunterladen und Speichern des Bildes:', error);
-    });
+    }
 
-    const image = `/kopp/${fileName}`
+    const image = `/images/products/kopp/${fileName}`;
     console.log('image url ', image);
 
     // affiliate link generieren
-    const afflink = 'https://c.kopp-verlag.de/kopp,verlag_4.html?1=546&3=0&4=&5=&d=' + url
-    console.log("afflink ", afflink );
+    const afflink = `https://c.kopp-verlag.de/kopp,verlag_4.html?1=546&3=0&4=&5=&d=${encodeURIComponent(url)}`;
+    console.log("afflink ", afflink);
 
     // beschreibung holen
     const descElement = $('div#collapse-descr div.card-body ').html();
     console.log('desc Element ', descElement);
 
-
     return {
-        id: title, 
-        name: title, 
-        price, 
-        image, 
-        link: afflink, 
+        id: title,
+        name: title,
+        price,
+        image,
+        link: afflink,
         description: descElement
-    }
-
+    };
 }
+
