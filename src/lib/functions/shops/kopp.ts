@@ -44,7 +44,7 @@ export async function getProductDataFromShop(url: string) {
         console.error('Fehler beim Herunterladen und Speichern des Bildes:', error);
     }
 
-    const image = `/images/products/kopp/${fileName}`;
+    const image = `/kopp/${fileName}`;
     console.log('image url ', image);
 
     // affiliate link generieren
