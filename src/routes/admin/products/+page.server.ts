@@ -142,7 +142,11 @@ export const actions = {
         // ermittle den Shop anhand der URL
         const shop = url.split('.')[1]
         // hole name, preis, bild im order kopp verlag speichern, affiliate link, beschreibung
-        let productData = await getProductData(url, shop)
+        // nur im dev mode 
+        if (process.env.NODE_ENV === 'development') {
+            const productData = await getProductData(url, shop)
+          }
+        
         // console.log(productData);
         console.log(await insertProductData(productData)); 
         console.log(await insertCategory(category, productData));
