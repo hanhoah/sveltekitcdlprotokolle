@@ -14,7 +14,7 @@
       {#each products as product}
           <li class="my-2 relative">
             <div class="absolute right-10 md:right-28">
-              {@html getBadge(product.id)}
+              {@html getBadge(product.image)}
 
             </div>
             <Product product={{id: product.id,name: product.name,img: product.image, price: product.price, slug: product.slug}} />

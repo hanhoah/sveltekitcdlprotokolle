@@ -25,7 +25,7 @@
 </svelte:head>
 
 <div class="w-full flex flex-row bg-gray-100 justify-center relative">
-    {@html getBadge(id)}
+    {@html getBadge(img)}
     <img class="py-10" width=400 alt="{name}" src="{img}" />
 </div>
 
@@ -74,7 +74,7 @@
                     {#each similarProducts as similarProduct}
                             <li class="my-2 relative ">
                                 <div class="absolute right-10">
-                                    {@html getBadge(similarProduct.id)}
+                                    {@html getBadge(similarProduct.image)}
 
                                 </div>
                                 <Product product={{id: similarProduct.id,name: similarProduct.name,img: similarProduct.image, price: similarProduct.price}} />

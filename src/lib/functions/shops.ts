@@ -1,40 +1,39 @@
 import { Badge } from 'flowbite-svelte';
 
-export function getBadge(id) {
-	let shopid = id.split('-')[0];
-	// console.log('get badge from shopid ', shopid);
+export function getBadge(image) {
+	const shopname = image.split('/')[1];
 	let shop = '';
 	let bgcolor = '';
 	let textcolor = '';
 
-	switch (shopid) {
-		case 'gvk':
+	switch (shopname) {
+		case 'kronenberg':
 			shop = 'Kronenberg';
 			bgcolor = 'bg-amber-500';
 			break;
-		case 'wk':
+		case 'waldkraft':
 			shop = 'Waldkraft';
 			bgcolor = 'bg-green-700';
 			break;
-		case 'cw':
+		case 'cellavita':
 			shop = 'Cellavita';
 			bgcolor = 'bg-lime-500';
 			break;
-		case 'cv':
-			shop = 'Cellavita';
-			bgcolor = 'bg-lime-500';
-			break;
-		case 'be':
+		case 'bedrop':
 			shop = 'Bedrop';
 			bgcolor = 'bg-orange-200';
 			break;
-		case 'ed':
+		case 'edubily':
 			shop = 'Edubily';
 			bgcolor = 'bg-amber-300';
 			break;
-		case 'hk':
+		case 'heilkraft':
 			shop = 'Heilkraft';
 			bgcolor = 'bg-red-400';
+			break;
+		case 'kopp':
+			shop = 'Kopp-Verlag';
+			bgcolor = 'bg-red-600'
 			break;
 		default:
 			shop = 'Unknown';

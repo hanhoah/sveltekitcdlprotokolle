@@ -138,11 +138,8 @@ export async function load(){
 export const actions = {
     addProduct: async({request})=>{
         const formData  = await request.formData()
-        console.log('formdata ist ', formData);
         const { url, category } = await extractFormData(formData)
-        console.log('Extrahierte Category: ', category);
-        // ermittle den Shop
-        // z.b. kopp-verlag
+        // ermittle den Shop anhand der URL
         const shop = url.split('.')[1]
         // hole name, preis, bild im order kopp verlag speichern, affiliate link, beschreibung
         let productData = await getProductData(url, shop)

@@ -49,7 +49,7 @@
   <div class="lazy-load">
       <li class="my-2 relative">
           <!-- Beachte, dass wir das 'loading' Attribut dynamisch hinzufügen -->
-          {@html getBadge(product.id)}
+          {@html getBadge(product.image)}
           <Product product={{id: product.id, name: product.name, img: product.image}} />
       </li>
   </div>

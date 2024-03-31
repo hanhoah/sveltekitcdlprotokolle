@@ -122,7 +122,7 @@
     <div class="">
         <li class="my-5 py-5 relative">
             <div class="absolute right-10">
-                {@html getBadge(product.id)}
+                {@html getBadge(product.image)}
               </div>                
             <Product product={{id: product.id,name: product.name,img: product.image, price: product.price, slug: product.slug}} />
         </li>
