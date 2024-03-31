@@ -2,8 +2,9 @@ import supabase from '$lib/supabaseClient.js';
 
 export async function load({ params }) {
 	let pid = params.productid;
-	let select = `id, name, image, description, link, products_categories(category_id)`;
-	let { data } = await supabase.from('products').select(select).eq('id', pid).limit(1).single();
+	let select = `id, name, image, description, link, products_categories(category_id), slug`;
+	let { data } = await supabase.from('products').select(select).eq('slug', pid).limit(1).single();
+	console.log('data ist ', data );
 
 	let name = data.name;
 	console.log('product: ', name, 'id: ', pid);
