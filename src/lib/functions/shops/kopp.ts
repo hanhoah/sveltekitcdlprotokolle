@@ -1,5 +1,4 @@
 import cheerio from 'cheerio';
-import fs from 'fs';
 import axios from 'axios';
 import iconv from 'iconv-lite';
 
@@ -40,7 +39,6 @@ export async function getProductDataFromShop(url: string) {
     // Bild herunterladen und speichern
     try {
         const response = await axios.get(imageUrl, { responseType: 'stream' });
-        const writer = fs.createWriteStream(targetFilePath);
         response.data.pipe(writer);
     } catch (error) {
         console.error('Fehler beim Herunterladen und Speichern des Bildes:', error);
