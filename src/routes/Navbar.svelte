@@ -22,6 +22,8 @@
         <li><a on:click={toggleMenu}  href="/produkte">Produkte</a></li>
         <li><a on:click={toggleMenu}  href="/gutscheine">Gutscheine</a></li>
         <li><a on:click={toggleMenu}  href="/leseproben">Leseproben</a></li>
+        <li><a on:click={toggleMenu}  href="/krankheiten">Krankheiten (Neu)</a></li>
+
       </ul></nav>
     </div>
     <button on:click={toggleMenu} class="burger">
@@ -43,6 +45,7 @@
         <a class="menuitem"  href="/produkte">Produkte</a>
         <a class="menuitem"  href="/gutscheine">Gutscheine</a>
         <a class="menuitem"  href="/leseproben">Leseproben</a>
+        <a class="menuitem"  href="/krankheiten">Krankheiten (Neu)</a>
     </div>
   </div>
 </div>  

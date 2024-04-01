@@ -29,7 +29,7 @@
 {/each}
 
 <div class="bg-blue-300 p-5 ">
-    Wähle faszinierende Leseproben aus folgenden Produkten 
+    Wähle faszinierende Leseproben aus folgenden Produkten / Themen
     <div class="grid grid-cols-3 md:grid-cols-4">
         {#each product_tags as tag }
             <a href="/leseproben/cat/{tag.product_tag.toLowerCase()}">
