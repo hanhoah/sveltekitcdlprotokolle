@@ -10,10 +10,12 @@ export function getBadge(image) {
 		case 'kronenberg':
 			shop = 'Kronenberg';
 			bgcolor = 'bg-amber-500';
+			textcolor = 'text-black'
 			break;
 		case 'waldkraft':
 			shop = 'Waldkraft';
 			bgcolor = 'bg-green-700';
+			textcolor = 'text-white'
 			break;
 		case 'cellavita':
 			shop = 'Cellavita';
@@ -34,16 +36,15 @@ export function getBadge(image) {
 		case 'kopp':
 			shop = 'Kopp-Verlag';
 			bgcolor = 'bg-red-600'
+			textcolor = 'text-white'
+
 			break;
 		default:
 			shop = 'Unknown';
 	}
-	const badge =
-		'<div class="border-2 absolute right-2 text-black rounded-md text-s p-1 text-center top-5 w-24 ' +
-		bgcolor +
-		' opacity-65" large color="green">' +
-		shop +
-		'</div>';
+	const badge =`<div class="border-2 absolute right-2 rounded-md text-s p-1 text-center top-5 w-24 ${bgcolor} opacity-85 ${textcolor}">
+	${shop} 
+</div>`;
 
 	// console.log('badge ', badge);
 
