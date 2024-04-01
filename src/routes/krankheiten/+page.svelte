@@ -1,4 +1,4 @@
-<div class="grid grid-cols-3">
+<div class="grid grid-cols-2 md:grid-cols-3 space-y-3 mx-2">
 <div class="letter">A</div>
 <li><a href="/search?q=Abnehmen">Abnehmen</a></li>
 <li><a href="/search?q=Adipositas">Adipositas</a></li>
@@ -11,7 +11,7 @@
 <li><a href="/search?q=Alzheimer">Alzheimer</a></li>
 <li><a href="/search?q=Anämie">Anämie</a></li>
 <li><a href="/search?q=Angina">Angina</a></li>
-<li><a href="/search?q=Angina Pectoris">Angina</a></li>
+<li><a href="/search?q=Angina Pectoris">Angina Pectoris</a></li>
 <li><a href="/search?q=Angst">Angst</a></li>
 <li><a href="/search?q=Angstzustände">Angstzustände</a></li>
 <li><a href="/search?q=Appetitlosigkeit">Appetitlosigkeit</a></li>
@@ -33,21 +33,20 @@
 <li><a href="/search?q=Blutarmut">Blutarmut</a></li>
 <li><a href="/search?q=Bluthochdruck">Bluthochdruck</a></li>
 <li><a href="/search?q=Bronchitis">Bronchitis</a></li>
-<li><a href="/search?q=Brüchige Nägel">Brüchige</a></li>
+<li><a href="/search?q=Brüchige Nägel">Brüchige Nägel</a></li>
 <div class="letter">C</div>
 <li><a href="/search?q=Candida">Candida</a></li>
-<li><a href="/search?q=Candida albicans">Candida</a></li>
-<li><a href="/search?q=Chorea Huntington">Chorea</a></li>
-<li><a href="/search?q=Chronische Müdigkeit">Chronische</a></li>
+<li><a href="/search?q=Candida albicans">Candida Albicans</a></li>
+<li><a href="/search?q=Chorea Huntington">Chorea Huntington</a></li>
+<li><a href="/search?q=Chronische Müdigkeit">Chronische Müdigkeit</a></li>
 <li><a href="/search?q=Colitis">Colitis</a></li>
-<li><a href="/search?q=Colitis Ulcerosa">Colitis</a></li>
+<li><a href="/search?q=Colitis Ulcerosa">Colitis Ulcerosa</a></li>
 <div class="letter">D</div>
 <li><a href="/search?q=Darminfektionen">Darminfektionen</a></li>
 <li><a href="/search?q=Darmpolypen">Darmpolypen</a></li>
 <li><a href="/search?q=Dehnungsstreifen">Dehnungsstreifen</a></li>
 <li><a href="/search?q=Demenz">Demenz</a></li>
 <li><a href="/search?q=Depressionen">Depressionen</a></li>
-<li><a href="/search?q=DEPRESSIONEN">DEPRESSIONEN</a></li>
 <li><a href="/search?q=Diabetes">Diabetes</a></li>
 <li><a href="/search?q=Dickdarmentzündung">Dickdarmentzündung</a></li>
 <li><a href="/search?q=Durchfall">Durchfall</a></li>
@@ -67,10 +66,10 @@
 <li><a href="/search?q=Gicht">Gicht</a></li>
 <li><a href="/search?q=Glaukom">Glaukom</a></li>
 <li><a href="/search?q=Gonorrhoe">Gonorrhoe</a></li>
-<li><a href="/search?q=Graue Haare">Graue</a></li>
-<li><a href="/search?q=Grauer Star">Grauer</a></li>
+<li><a href="/search?q=Graue Haare">Graue Haare</a></li>
+<li><a href="/search?q=Grauer Star">Grauer Star</a></li>
 <li><a href="/search?q=Grippe">Grippe</a></li>
-<li><a href="/search?q=Grüner Star">Grüner</a></li>
+<li><a href="/search?q=Grüner Star">Grüner Star</a></li>
 <li><a href="/search?q=Gürtelrose">Gürtelrose</a></li>
 <div class="letter">H</div>
 <li><a href="/search?q=Haarausfall">Haarausfall</a></li>
@@ -84,7 +83,7 @@
 <li><a href="/search?q=Hirnödeme">Hirnödeme</a></li>
 <li><a href="/search?q=Hirnschlag">Hirnschlag</a></li>
 <li><a href="/search?q=HIV">HIV</a></li>
-<li><a href="/search?q=hohes Cholesterin">hohes</a></li>
+<li><a href="/search?q=hohes Cholesterin">hohes Cholesterin</a></li>
 <li><a href="/search?q=Husten">Husten</a></li>
 <li><a href="/search?q=Hyperaktivität">Hyperaktivität</a></li>
 <div class="letter">I / J / K</div>
@@ -92,9 +91,9 @@
 <li><a href="/search?q=Jetlag">Jetlag</a></li>
 <li><a href="/search?q=Juckreiz">Juckreiz</a></li>
 <li><a href="/search?q=Karies">Karies</a></li>
-<li><a href="/search?q=Kennedy-Krankheit">Kennedy</a></li>
+<li><a href="/search?q=Kennedy-Krankheit">Kennedy-Krankheit</a></li>
 <li><a href="/search?q=Knochenbruch">Knochenbruch</a></li>
-<li><a href="/search?q=Koliken bei Säuglingen">Koliken</a></li>
+<li><a href="/search?q=Koliken bei Säuglingen">Koliken bei Säuglingen</a></li>
 <li><a href="/search?q=Konzentrationsschwäche">Konzentrationsschwäche</a></li>
 <li><a href="/search?q=Kopfschmerzen">Kopfschmerzen</a></li>
 <li><a href="/search?q=Krampfadern">Krampfadern</a></li>
@@ -106,11 +105,10 @@
 <li><a href="/search?q=Leistenbruch">Leistenbruch</a></li>
 <li><a href="/search?q=Lepra">Lepra</a></li>
 <li><a href="/search?q=Lupus">Lupus</a></li>
-<li><a href="/search?q=Lupus e">Lupus</a></li>
+<li><a href="/search?q=Lupus e">Lupus E</a></li>
 <li><a href="/search?q=Lymphknoten">Lymphknoten</a></li>
 <div class="letter">M</div>
 <li><a href="/search?q=Magendarmbeschwerden">Magendarmbeschwerden</a></li>
-<li><a href="/search?q=Makuladegenaration">Makuladegenaration</a></li>
 <li><a href="/search?q=Makuladegeneration">Makuladegeneration</a></li>
 <li><a href="/search?q=Malaria">Malaria</a></li>
 <li><a href="/search?q=Mandelentzündung">Mandelentzündung</a></li>
@@ -119,13 +117,13 @@
 <li><a href="/search?q=Migräne">Migräne</a></li>
 <li><a href="/search?q=Milzinfektionen">Milzinfektionen</a></li>
 <li><a href="/search?q=Mittelohrentzündung">Mittelohrentzündung</a></li>
-<li><a href="/search?q=Morbus Bechterew">Morbus</a></li>
-<li><a href="/search?q=Morbus Crohn">Morbus</a></li>
-<li><a href="/search?q=Morbus Huntington">Morbus</a></li>
+<li><a href="/search?q=Morbus Bechterew">Morbus Bechterew</a></li>
+<li><a href="/search?q=Morbus Crohn">Morbus Crohn</a></li>
+<li><a href="/search?q=Morbus Huntington">Morbus Huntington</a></li>
 <li><a href="/search?q=MS">MS</a></li>
 <li><a href="/search?q=Müdigkeit">Müdigkeit</a></li>
 <li><a href="/search?q=Mukoviszidose">Mukoviszidose</a></li>
-<li><a href="/search?q=Multiple Sklerose">Multiple</a></li>
+<li><a href="/search?q=Multiple Sklerose">Multiple Sklerose</a></li>
 <li><a href="/search?q=Mundgeruch">Mundgeruch</a></li>
 <li><a href="/search?q=Muskelkrämpfe">Muskelkrämpfe</a></li>
 <li><a href="/search?q=Muskelschwäche">Muskelschwäche</a></li>
@@ -202,4 +200,5 @@
     .letter{
         @apply text-3xl
     }
+    li{list-style: none;}
 </style>
