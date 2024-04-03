@@ -1,16 +1,14 @@
 import supabase from '$lib/supabaseClient';
 
 export async function getBookDetails(slug: string) {
-	console.log('function getBookDetails', slug);
 	try {
-		// Buchdaten abrufen
-		const { data } = await supabase.from('books').select().eq('slug', slug).limit(1).single();
-		// console.log('bookdetails data ergebnis ist ', data);
-
-		// Die Buchdaten und die dazugehörigen Hashtags zurückgeben
+		let sid = "id"
+		// if the parameter is longer then 4 characters it is considered to be a slug, otherwise it is an id (by default)
+		if(slug.length>4)
+			sid = "slug"
+		const { data } = await supabase.from('books').select().eq(sid, slug).limit(1).single();
 		return { data };
 	} catch (error) {
-		// console.error(error);
 		return {};
 	}
 }
