@@ -109,7 +109,7 @@
 <div id="books" class="books w-full text-center my-5"> <h2> Ergebnisse Bücher: </h2></div>
 <ul class="grid grid-cols-2 md:grid-cols-3">
     {#each books as book}
-    <li class="my-2"><Book book={{id: book.id,title: book.title,img: book.img}} /></li>
+    <li class="my-2"><Book book={{slug: book.slug, id: book.id,title: book.title,img: book.img}} /></li>
 {/each}
 </ul>
 
