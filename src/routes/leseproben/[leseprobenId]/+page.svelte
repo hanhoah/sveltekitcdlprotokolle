@@ -99,7 +99,7 @@
 </div>
 
 <div class="bg-blue-300 p-5 mt-10">
-    Weitere Leseproben zu folgenden Produkten 
+    Weitere Leseproben zu folgenden Produkten / Themen
     <div class="grid grid-cols-3 md:grid-cols-4">
         {#each product_tags as tag }
             <a href="/leseproben/cat/{tag.product_tag.toLowerCase()}">

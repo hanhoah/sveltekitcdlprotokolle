@@ -135,7 +135,7 @@
 <li><a href="/search?q=Kennedy-Krankheit">Kennedy-Krankheit</a></li>
 <li><a href="/search?q=Knochenbruch">Knochenbruch</a></li>
 <li><a href="/search?q=Knochenkrebs">Knochenkrebs</a></li>
-<li><a href="/search?q=Koliken bei Säuglingen">Koliken bei Säuglingen</a></li>
+<li><a href="/search?q=Koliken">Koliken bei Säuglingen</a></li>
 <li><a href="/search?q=Konzentrationsschwäche">Konzentrationsschwäche</a></li>
 <li><a href="/search?q=Kopfschmerzen">Kopfschmerzen</a></li>
 <li><a href="/search?q=Krampfadern">Krampfadern</a></li>
