@@ -18,7 +18,7 @@
     <Spinner /> loading books ...
       {:then books} 
         {#each books as book}
-        <li class="my-2"><Book book={{id: book.id,title: book.title,img: book.img}} /></li>
+        <li class="my-2"><Book book={{slug: book.slug, id: book.id,title: book.title,img: book.img}} /></li>
         {/each}
     {/await}
   </ul>

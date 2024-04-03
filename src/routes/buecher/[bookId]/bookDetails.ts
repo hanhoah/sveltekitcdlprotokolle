@@ -1,13 +1,11 @@
 import supabase from '$lib/supabaseClient';
 
-/**
- * @param {number} bookId
- */
-export async function getBookDetails(bookId: number) {
-	// console.log('function getBookDetails', bookId);
+export async function getBookDetails(slug: string) {
+	console.log('function getBookDetails', slug);
 	try {
 		// Buchdaten abrufen
-		const { data } = await supabase.from('books').select('*').eq('id', bookId).limit(1).single();
+		const { data } = await supabase.from('books').select().eq('slug', slug).limit(1).single();
+		// console.log('bookdetails data ergebnis ist ', data);
 
 		// Die Buchdaten und die dazugehörigen Hashtags zurückgeben
 		return { data };
@@ -21,6 +19,7 @@ export async function getBooklinks(bookid: number) {
 	try {
 		// links holen
 		const { data } = await supabase.from('booklinks').select('label, link').eq('book_id', bookid);
+		
 		return data;
 	} catch (error) {
 		return {};

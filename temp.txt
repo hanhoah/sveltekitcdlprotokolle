@@ -1,0 +1,26 @@
+ARTHROSE
+
+1. Die Ursache der Arthrose ...
+
+ist ungeklärt und die Schulmedizin kennt keine effiziente pharmazeutische Lö­
+sung. Es handelt sich um eine chronische, degenerative Krankheit, die durch eine
+obstruktive Störung übermäßigen Gelenkverschleiß hervorruft. Auch „Ver­
+schleißrheuma“ genannt,console.log(''); hat diese Krankheit angeblich eine mechanische Ursa­
+che, keine entzündliche wie bei der Arthritis.
+Die Arthrose verursacht im fortgeschrittenen Stadium Deformationen. Folgende
+Gelenke sind am häufigsten betroffen: Hals- und Lendenwirbel, Hüften, Hände,
+Knie, Knöchel. Die Beschwerden erscheinen in der Regel nach einer anhaltenden
+Anstrengung und verschwinden im Ruhezustand.
+
+2. Symptome
+
+Schmerzen: Aufgrund von Knorpelverschleiß und dem direktem Aneinanderrei­
+ben nackter Knochen. Zu Beginn der Krankheit tauchen Schmerzen beim Bewe­
+gen der Gelen-ke auf und verschwinden in der Ruheposition wieder. In fortge­
+schrittenem Krankheitsstadium schmerzen die Gelenke auch ohne Bewegung.
+Zum Schmerz kommen folgende Symptome hinzu: Knirschen der Gelenke auf­
+grund fehlender Schmiere und Ausdehnung des Gelenkes, Deformation wegen
+seitlichen Wachstums der Knochen, Entzündung und Ödeme aufgrund der Ent­
+zündung und der Ansammlung von Flüssigkeit und Steife nach Ruhephasen.
+
+3. Zeugenbericht [...]
