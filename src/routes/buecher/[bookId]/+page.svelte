@@ -13,6 +13,8 @@
     $: img = getImg(book.img[0], book.id, "books")
     $: desc = book.desc;
 
+    let similarBooks = data.similarBooks;
+
 
     const spc = '&#x20;'
 </script>
@@ -28,7 +30,7 @@
 
 
     <div class="bg-yellow-100">
-        <h2 class=" bg-yellow-300 p-2">{title}</h2>
+        <h2 class=" bg-yellow-300 p-2 text-center">{title}</h2>
         <div class="p-5">
             {@html nl2br(desc)}
 
@@ -53,4 +55,11 @@
         </div>
     </div>
 
-    
+    <div>
+        <h2 class=" bg-gray-300 p-2 text-center">Ähnliche Bücher</h2>
+        <ul class="grid grid-cols-2 md:grid-cols-3">
+            {#each similarBooks as book}
+            <li class="my-2"><Book book={{slug: book.slug, id: book.id,title: book.title,img: book.img}} /></li>
+            {/each}
+          </ul>
+    </div>

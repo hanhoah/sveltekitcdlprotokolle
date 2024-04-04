@@ -1,26 +1,9 @@
-ARTHROSE
+ASTHMA
 
-1. Die Ursache der Arthrose ...
-
-ist ungeklärt und die Schulmedizin kennt keine effiziente pharmazeutische Lö­
-sung. Es handelt sich um eine chronische, degenerative Krankheit, die durch eine
-obstruktive Störung übermäßigen Gelenkverschleiß hervorruft. Auch „Ver­
-schleißrheuma“ genannt,console.log(''); hat diese Krankheit angeblich eine mechanische Ursa­
-che, keine entzündliche wie bei der Arthritis.
-Die Arthrose verursacht im fortgeschrittenen Stadium Deformationen. Folgende
-Gelenke sind am häufigsten betroffen: Hals- und Lendenwirbel, Hüften, Hände,
-Knie, Knöchel. Die Beschwerden erscheinen in der Regel nach einer anhaltenden
-Anstrengung und verschwinden im Ruhezustand.
+1. Die Ursache von Asthma ist ungeklärt und die Schulmedizin kennt keine effiziente pharmazeutische Lösung. Es handelt sich um eine Erkrankung, die durch eine Entzündung der Atemwege hervorgerufen wird. Bei Menschen mit empfindlichen Atemwegen können die Symptome durch das Einatmen von Substanzen ausgelöst werden, die Allergene oder auslösende Stoffe genannt werden. Die feinen Atemwege (Lungenbläschen) können sich gelegent­ lich und reversibel verschließen, wenn sich die glatte Muskulatur zusammenzieht oder sich die Schleimhäute ausdehnen, was in der Regel eine Reaktion auf unge­ eignete Umwelteinflüsse ist (Kälte, Feuchtigkeit oder Allergene), körperliche Anstrengung bei hyperreaktiven Patienten oder emotionaler Stress. Bei Kindern sind die häufigsten Auslöser allgemeine Krankheiten, wie zum Bei­ spiel Erkältungskrankheiten.
 
 2. Symptome
 
-Schmerzen: Aufgrund von Knorpelverschleiß und dem direktem Aneinanderrei­
-ben nackter Knochen. Zu Beginn der Krankheit tauchen Schmerzen beim Bewe­
-gen der Gelen-ke auf und verschwinden in der Ruheposition wieder. In fortge­
-schrittenem Krankheitsstadium schmerzen die Gelenke auch ohne Bewegung.
-Zum Schmerz kommen folgende Symptome hinzu: Knirschen der Gelenke auf­
-grund fehlender Schmiere und Ausdehnung des Gelenkes, Deformation wegen
-seitlichen Wachstums der Knochen, Entzündung und Ödeme aufgrund der Ent­
-zündung und der Ansammlung von Flüssigkeit und Steife nach Ruhephasen.
+Die charakteristischen Symptome von bronchialem Asthma sind Atemnot oder Atemschwierigkeiten von unterschiedlicher Intensität oder Dauer, Bronchospas­ mus begleitet von Husten, Schleimabsonderungen, Pfeifgeräusche beim Atmen und ein ungewöhnliches Atemmuster, bei dem das Ausatmen doppelt so lange dauert wie das Einatmen. Ebenfalls typisch ist ein beklemmendes Gefühl in der Brust. Bei einigen Patienten können diese Symptome in schwerer Form auftreten und mehrere Tage oder wochenlang anhalten.
 
 3. Zeugenbericht [...]

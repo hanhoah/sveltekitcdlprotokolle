@@ -59,7 +59,7 @@ export function getCategories(): object[] {
 export async function getCategoryNameById(catId: number): Promise<string> {
 	console.log('funktion call getCategoryNameById');
 	const { data } = await supabase.from('categories').select('name').eq('id', catId);
-	console.log('data ', data);
+	// console.log('data ', data);
 	return data[0].name;
 }
 
@@ -86,8 +86,8 @@ export async function getBooksFromIds(ids: number[]): Promise<Book[] | null> {
 	}
 }
 
-export async function getBooksFromCategory(catid: number): Promise<Book[] | null> {
-	const { data, error } = await supabase.from('books_categories_view').select().eq('category_id', catid).order('prio').limit(RESULTLIMIT);
+export async function getBooksFromCategory(catid: number, limit:number=9): Promise<Book[] | null> {
+	const { data, error } = await supabase.from('books_categories_view').select().eq('category_id', catid).order('prio').limit(limit);
 
 	if (error) {
 		// console.error('Fehler beim Abrufen der Bücher aus der ID-Liste:', books_err.message);
@@ -105,4 +105,12 @@ export async function getBookCategories(): Promise<string[] | null> {
 	} else {
 		return data;
 	}
+}
+
+export async function getCatId(bookid: number): Promise<number | null>{
+	const {data, error} = await supabase.from('books_categories').select('category_id').eq('book_id', bookid).single();
+	if(error)
+		return null
+	return data.category_id;
+
 }
