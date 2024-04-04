@@ -1,4 +1,5 @@
 import supabase from '$lib/supabaseClient';
+import { RESULTLIMIT } from '$lib/config';
 
 interface Book {
 	id: number;
@@ -81,6 +82,17 @@ export async function getBooksFromIds(ids: number[]): Promise<Book[] | null> {
 	} else {
 		// Entferne Duplikate aus den Buch-IDs
 		// console.log('Bücher:', data);
+		return data;
+	}
+}
+
+export async function getBooksFromCategory(catid: number): Promise<Book[] | null> {
+	const { data, error } = await supabase.from('books_categories_view').select().eq('category_id', catid).order('prio').limit(RESULTLIMIT);
+
+	if (error) {
+		// console.error('Fehler beim Abrufen der Bücher aus der ID-Liste:', books_err.message);
+		return null;
+	} else {
 		return data;
 	}
 }

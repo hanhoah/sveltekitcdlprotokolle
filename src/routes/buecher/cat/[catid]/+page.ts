@@ -1,6 +1,5 @@
 import {
-	getBookIdsFromCatId,
-	getBooksFromIds,
+	getBooksFromCategory,
 	getBookCategories,
 	getCategoryNameById
 } from '$lib/functions/books.js';
@@ -9,7 +8,6 @@ import { getCategoryDescription } from '$lib/functions/categories.js';
 
 export async function load({ params }) {
 	const catid = params.catid;
-	const bookIds = await getBookIdsFromCatId(parseInt(catid));
 	const catname = await getCategoryNameById(parseInt(catid));
 	
 	const bookcategories = getBookCategories();
@@ -23,7 +21,7 @@ export async function load({ params }) {
 	return {
 		data,
 		streamed: {
-			books: getBooksFromIds(bookIds)
+			books: getBooksFromCategory(parseInt(catid))
 		}
 	};
 }
