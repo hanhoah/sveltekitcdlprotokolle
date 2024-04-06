@@ -14,7 +14,8 @@ function prepareStatement(q:string){
 async function searchBooks(q: string) {
     q = prepareStatement(q)
     //redis
-    const cached = await redis.get(`books-${q}`)
+    // const cached = await redis.get(`books-${q}`)
+    const cached = false
     if(cached){
         console.log('Cache hit!', `books-${q}`);
         return JSON.parse(cached)
@@ -24,7 +25,7 @@ async function searchBooks(q: string) {
 	const { data } = await supabase.from('books').select().textSearch('fts', q, {config: 'german'}).limit(RESULTLIMIT);
     // Überprüfe, ob das Ergebnis nicht null ist, bevor du darüber iterierst
     if (data !== null && typeof data !== 'undefined') {
-        redis.set(`books-${q}`, JSON.stringify(data), "EX", 7200)
+        // redis.set(`books-${q}`, JSON.stringify(data), "EX", 7200)
         return data;
     } else {
         return [];
