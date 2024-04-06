@@ -1,94 +1,90 @@
 export const prerender = false;
 import supabase from '$lib/supabaseClient.js';
 import { RESULTLIMIT } from '$lib/config.js';
+import { redis } from '$lib/server/redis.js';
 
-async function searchBooks(q: string) {
-	// prüfen ob mehrere Suchbegriffe eingegeben wurden
+
+function prepareStatement(q:string){
+    // prüfen ob mehrere Suchbegriffe eingegeben wurden
 	let anzahl = q.split(" ").length;
 	// wenn mehr als ein begriff dann mit & verknüpfen
 	if(anzahl > 1)
 		q = q.split(" ").join(" & ")
+    return q
+}
+
+async function searchBooks(q: string) {
+    q = prepareStatement(q)
+    //redis
+    const cached = await redis.get(`books-${q}`)
+    if(cached){
+        console.log('Cache hit!', `books-${q}`);
+        return JSON.parse(cached)
+    }
+    // if not cached fetch data from database
+    console.log('Cache miss!', `books-${q}`);
 	const { data } = await supabase.from('books').select().textSearch('fts', q, {config: 'german'}).limit(RESULTLIMIT);
     // Überprüfe, ob das Ergebnis nicht null ist, bevor du darüber iterierst
     if (data !== null && typeof data !== 'undefined') {
-        // Wenn das Ergebnis vorhanden ist, gib es zurück
+        redis.set(`books-${q}`, JSON.stringify(data), "EX", 7200)
         return data;
     } else {
-        // Wenn das Ergebnis null oder undefiniert ist, gib ein leeres Array zurück oder handle den Fehler entsprechend
-        console.log('Die Buchsuche ergab kein Ergebnis.');
         return [];
     }
 }
 
 async function searchProducts(q: string) {
-	// prüfen ob mehrere Suchbegriffe eingegeben wurden
-	const anzahl = q.split(" ").length;
-	// wenn mehr als ein begriff dann mit & verknüpfen
-	if(anzahl > 1)
-		q = q.split(" ").join(" & ")
+    q = prepareStatement(q)
 	const { data } = await supabase.from('products').select().textSearch('fts', q, {config: 'german'}).limit(RESULTLIMIT);
-    // Überprüfe, ob das Ergebnis nicht null ist, bevor du darüber iterierst
     if (data !== null && typeof data !== 'undefined') {
-        // Wenn das Ergebnis vorhanden ist, gib es zurück
         return data;
     } else {
-        // Wenn das Ergebnis null oder undefiniert ist, gib ein leeres Array zurück oder handle den Fehler entsprechend
-        console.log('Die Produktsuche ergab kein Ergebnis.');
         return [];
     }
 }
 
 async function searchSamples(q: string){
-	// prüfen ob mehrere Suchbegriffe eingegeben wurden
-	let anzahl = q.split(" ").length;
-	// wenn mehr als ein begriff dann mit & verknüpfen
-	if(anzahl > 1)
-		q = q.split(" ").join(" & ")
+    q = prepareStatement(q)
 	const { data } = await supabase.from('readingsamples').select().textSearch('fts', q, {config: 'german'}).limit(RESULTLIMIT);
     // Überprüfe, ob das Ergebnis nicht null ist, bevor du darüber iterierst
     if (data !== null && typeof data !== 'undefined') {
-        // Wenn das Ergebnis vorhanden ist, gib es zurück
-        // console.log('data from samples ist ', data);
         return data;
     } else {
-        // Wenn das Ergebnis null oder undefiniert ist, gib ein leeres Array zurück oder handle den Fehler entsprechend
-        console.log('Die Informationssuche (readingsamples) ergab kein Ergebnis.');
         return [];
     }
-
 }
 
 
 async function searchVideos(q: string){
-	// prüfen ob mehrere Suchbegriffe eingegeben wurden
-	let anzahl = q.split(" ").length;
-	// wenn mehr als ein begriff dann mit & verknüpfen
-	if(anzahl > 1)
-		q = q.split(" ").join(" & ")
+    q = prepareStatement(q)
 	const { data } = await supabase.from('videos').select().textSearch('fts', q, {config: 'german'}).limit(RESULTLIMIT);
     // Überprüfe, ob das Ergebnis nicht null ist, bevor du darüber iterierst
     if (data !== null && typeof data !== 'undefined') {
         // Wenn das Ergebnis vorhanden ist, gib es zurück
-        console.log('q ist ', q);
-        console.log('data from videos ist ', data);
         return data;
     } else {
-        // Wenn das Ergebnis null oder undefiniert ist, gib ein leeres Array zurück oder handle den Fehler entsprechend
-        console.log('Die Suche nach passenden Videos ergab kein Ergebnis.');
         return [];
     }
-
 }
 
-
-
-export async function load({ params, url }) {
+export async function load({ url, setHeaders }) {
     let q = url.searchParams.get('q');
+
+    // if(cached){
+    //     console.log('Cache hit!');
+    //     return JSON.parse(cached)
+    // }
+
+    // adding browser caching
+    setHeaders({
+        "cache-control": "max-age=3600"
+    })
 	const books = await searchBooks(q);
 	const products = await searchProducts(q);
     const samples = await searchSamples(q);
     const videos = await searchVideos(q);
+
 	return { q, books, products, samples, videos };
 }
-
+ 
 

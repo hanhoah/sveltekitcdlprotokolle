@@ -3,8 +3,11 @@ import { getProductsByName } from '$lib/functions/products.js';
 import { getProductTags, getReadingSample, getSimilarReadingSamples } from '$lib/functions/samples.js';
 import { getBooklinks } from '../../buecher/[bookId]/bookDetails.js';
 
-export async function load({params}){
+export async function load({params, setHeaders}){
     const leseprobenId = params.leseprobenId
+    setHeaders({
+        "cache-control": "max-age=86400"
+    })
     const sample = await getReadingSample(leseprobenId)
     const readingSamples = await getSimilarReadingSamples(sample)
     const book = await getBook(sample?.book_id)

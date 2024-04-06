@@ -5,7 +5,10 @@ const categories = [
 	{ id: 4, name: 'Tiergesundheit' }
 ];
 
-export function load() {
+export function load({setHeaders}) {
+	setHeaders({
+		"cache-control": "max-age=86400"
+	})
 	return {
 		categories
 	};

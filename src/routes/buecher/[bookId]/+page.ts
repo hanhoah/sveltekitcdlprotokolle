@@ -1,8 +1,12 @@
 import { getBooksFromCategory, getCatId } from '$lib/functions/books.ts';
 import { getBookDetails, getBooklinks } from './bookDetails.ts';
 
-export async function load({ params }) {
+export async function load({ params, setHeaders }) {
 	let slug = params.bookId;
+
+	setHeaders({
+		"cache-control": "max-age=86400"
+	})
 	let { data } = await getBookDetails(slug);
 	let bookid = data.id;
 	// console.log('bookid ist ', bookid);

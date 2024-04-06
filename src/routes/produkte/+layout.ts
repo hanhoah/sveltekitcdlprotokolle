@@ -27,7 +27,10 @@ async function fetchCategories(){
 
 console.log('Produkt Layout wird initialisiert...');
 
-export async function load() {
+export async function load({setHeaders}) {
+	setHeaders({
+		"cache-control": "max-age=3600"
+	})
 	const { count } = await supabase.from('products').select('*', { count: 'exact', head: true });
 	const categories = await fetchCategories()
 
