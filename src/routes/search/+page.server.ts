@@ -1,8 +1,6 @@
 export const prerender = false;
 import supabase from '$lib/supabaseClient.js';
 import { RESULTLIMIT } from '$lib/config.js';
-import { redis } from '$lib/server/redis.js';
-
 
 function prepareStatement(q:string){
     // prüfen ob mehrere Suchbegriffe eingegeben wurden
