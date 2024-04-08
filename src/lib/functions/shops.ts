@@ -1,7 +1,9 @@
 import { Badge } from 'flowbite-svelte';
 
 export function getBadge(image) {
+	console.log('images ist ', image);
 	const shopname = image.split('/')[1];
+	console.log('shopname ist ', shopname);
 	let shop = '';
 	let bgcolor = '';
 	let textcolor = '';

@@ -2,7 +2,7 @@ import supabase from '$lib/supabaseClient.js';
 
 export async function load({ params }) {
 	let pid = params.productid;
-	let select = `id, name, image, description, link, products_categories(category_id), slug`;
+	let select = `id, name, img, description, link, products_categories(category_id), slug`;
 	let { data } = await supabase.from('products').select(select).eq('slug', pid).limit(1).single();
 	console.log('data ist ', data );
 
@@ -52,8 +52,13 @@ export async function load({ params }) {
 	// spids = similar product ids
 	let spids = await getSimilarProductIds(kid, pid);
 
+	// badgestring
+	const badgestring = data.img
+	console.log('badgestring from server, ', badgestring);
+
 	return {
 		data,
+		badgestring,
 		searchterm,
 		streamed: {
 			similarProducts: getProductsFromIds(spids)
