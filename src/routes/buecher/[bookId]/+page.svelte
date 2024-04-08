@@ -1,9 +1,7 @@
 <script>
     import { Button } from 'flowbite-svelte';
     import { getImg } from '$lib/functions/getBookImg.ts';
-    import { Spinner } from 'flowbite-svelte';
     import Book from '../book.svelte';
-    import { Badge } from 'flowbite-svelte';
     import { nl2br } from '$lib/functions/nl2br.ts';
 
     export let data;

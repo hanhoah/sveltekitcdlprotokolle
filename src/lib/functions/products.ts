@@ -24,8 +24,22 @@ export async function getProductsByCategoryId(catid: number): Promise<object[]> 
 	} else return data;
 }
 
+// getting Products by there ids 
+export async function getProductsByIds(ids: string[]): Promise<object>[] {
+	console.log('getProductById', ids);
+
+	const {data, error} = await supabase.from('products').select().in('id', ids)
+
+	if(error){
+		console.log('error getProductById ', error);
+
+	} else{
+		return data
+	}
+}
+
 export async function getProductsByName(name: string): Promise<object[]> {
-	console.log('getProductsByName', name);
+	// console.log('getProductsByName', name);
 
 	const formattedName = name.replace(/\s+/g, ' & ');
 

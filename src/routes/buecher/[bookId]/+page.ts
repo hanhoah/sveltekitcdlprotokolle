@@ -4,13 +4,8 @@ import { getBookDetails, getBooklinks } from './bookDetails.ts';
 export async function load({ params, setHeaders }) {
 	let slug = params.bookId;
 
-	setHeaders({
-		"cache-control": "max-age=86400"
-	})
 	let { data } = await getBookDetails(slug);
 	let bookid = data.id;
-	// console.log('bookid ist ', bookid);
-	// console.log('data in page.ts ist ', data);
 	const links = await getBooklinks(bookid)
 
 	// ähnliche Bücher holen

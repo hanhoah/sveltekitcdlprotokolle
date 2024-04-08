@@ -12,3 +12,4 @@ vite.config.ts.timestamp-*
 /src/supabase.js
 /src/routes/admin
 .vercel
+/src/.scripts

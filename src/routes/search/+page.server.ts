@@ -22,11 +22,11 @@ async function searchBooks(q: string) {
     // Vercel KV Cache
     const cached = await kv.get(`books-${q}`)
     if(cached){
-        console.log('Cache hit!', `books-${q}`);
+        // console.log('Cache hit!', `books-${q}`);
         return cached
     }
     // if not cached fetch data from database
-    console.log('Cache miss!', `books-${q}`);
+    // console.log('Cache miss!', `books-${q}`);
 	const { data } = await supabase.from('books').select().textSearch('fts', q, {config: 'german'}).limit(RESULTLIMIT);
     // Überprüfe, ob das Ergebnis nicht null ist, bevor du darüber iterierst
     if (data !== null && typeof data !== 'undefined') {
@@ -42,11 +42,11 @@ async function searchProducts(q: string) {
         // Vercel KV Cache
         const cached = await kv.get(`products-${q}`)
         if(cached){
-            console.log('Cache hit!', `products-${q}`);
+            // console.log('Cache hit!', `products-${q}`);
             return cached
         }
         // if not cached fetch data from database
-        console.log('Cache miss!', `products-${q}`);
+        // console.log('Cache miss!', `products-${q}`);
 	const { data } = await supabase.from('products').select().textSearch('fts', q, {config: 'german'}).limit(RESULTLIMIT);
     if (data !== null && typeof data !== 'undefined') {
         kv.set(`products-${q}`, JSON.stringify(data))
@@ -61,11 +61,11 @@ async function searchSamples(q: string){
         // Vercel KV Cache
         const cached = await kv.get(`samples-${q}`)
         if(cached){
-            console.log('Cache hit!', `samples-${q}`);
+            // console.log('Cache hit!', `samples-${q}`);
             return cached
         }
         // if not cached fetch data from database
-        console.log('Cache miss!', `samples-${q}`);
+        // console.log('Cache miss!', `samples-${q}`);
 	const { data } = await supabase.from('readingsamples').select().textSearch('fts', q, {config: 'german'}).limit(RESULTLIMIT);
     // Überprüfe, ob das Ergebnis nicht null ist, bevor du darüber iterierst
     if (data !== null && typeof data !== 'undefined') {
