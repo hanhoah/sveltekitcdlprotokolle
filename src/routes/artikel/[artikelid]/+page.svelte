@@ -3,7 +3,7 @@
 
     export let data
     $: description = data.data.description
-    $: title = data.data.title
+    $: title = data.data.id
     const products =  data.products
 
 </script>
