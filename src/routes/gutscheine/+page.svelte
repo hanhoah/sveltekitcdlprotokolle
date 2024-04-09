@@ -12,6 +12,7 @@
     <!-- https://icon-sets.iconify.design/ -->
 
     <div class=" grid grid-cols-2 lg:grid-cols-4">
+        <Gutschein icon="streamline:medical-cross-sign-healthcare-solid" href="https://www.bio-apo.de/product/kolloidales-silber-silberwasser-25-ppm.480898.html?p=1458807" color="lime" desc="15% Rabatt auf Kolloidales Silber" shop="bio-apo" code="CDL" gueltig="für immer" />
         <Gutschein icon="ph:tree-thin" href="https://www.waldkraft.bio/?sPartner=energiereich" color="red" desc="10% Rabatt auf erste Bestellung" shop="Waldkraft" code="energiereich" gueltig="einmalig" />
         <Gutschein icon="game-icons:medicine-pills" href="https://c.kopp-verlag.de/kopp,verlag_4.html?1=546&3=0&4=&5=&d=https%3A%2F%2Fwww.kopp-verlag.de%2Fa%2Fkopp-dmso-9990-ph.-eur.-dimethylsulfoxid-pharma-1-liter" color="orange" desc="10% Rabatt auf DMSO" shop="Kopp Verlag" code="DMSO10" gueltig="bis zum 31.3.2024" />
         <Gutschein icon="material-symbols:forest-rounded" href="https://edubily.de/collections/all/?ref=1jv8kbelnr" color="yellow" desc="5% auf alle Produkte" shop="Edubily" code="telegram5" gueltig="für immer" />
