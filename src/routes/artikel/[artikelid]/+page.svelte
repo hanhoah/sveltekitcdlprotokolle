@@ -5,6 +5,7 @@
     $: description = data.data.description
     $: title = data.data.id
     const products =  data.products
+    const moreposts = data.moreposts
 
 </script>
 
@@ -18,17 +19,29 @@
     {@html description}
 
 
-    <h2 class="text-center">Zum Artikel passende Produkte: </h2>
-
-    <div>
-
-        <div class="grid grid-cols-3">
-        {#each products as product }
-            <div >
-                <Product product={product} />
+    
+    <div class="md:grid md:grid-cols-2">
+        
+        <div>
+            <h2 class="text-center">Zum Artikel passende Produkte: </h2>
+            <div class="grid grid-cols-2">
+                {#each products as product }
+                    <div >
+                        <Product product={product} />
+                    </div>
+                {/each}
             </div>
-            {/each}
         </div>
+        <div>
+            <h2 class="text-center">Weitere spannende Blog Beiträge</h2>
+            <div>
+                <ul>
+                    {@html moreposts}
+                </ul>
+            </div>
+        </div>
+
+
     </div>
 
     

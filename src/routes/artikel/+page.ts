@@ -1,9 +1,9 @@
-import { fetchPostsTitle } from "$lib/functions/posts";
+import { fetchPostsTitle, renderPostList } from "$lib/functions/posts";
 
 export async function load(){
-    const posts = await fetchPostsTitle()
-    console.log('posts are ', posts);
+    const postsData = await fetchPostsTitle();
+    const posts = await renderPostList(postsData);
     return {
         posts
-    }
+    };
 }

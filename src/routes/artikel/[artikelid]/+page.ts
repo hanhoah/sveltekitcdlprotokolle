@@ -1,4 +1,4 @@
-import { fetchPost } from "$lib/functions/posts.ts";
+import { fetchPost, fetchPostsTitle, renderPostList } from "$lib/functions/posts.ts";
 import { getProductsByIds } from "$lib/functions/products.ts"
 
 
@@ -12,7 +12,11 @@ export async function load({params, setHeaders}){
 
     const products = await getProductsByIds(data.products)
 
+    const postsData = await fetchPostsTitle();
+    const moreposts = await renderPostList(postsData);
 
 
-    return {data, products}
+
+
+    return {data, products, moreposts}
 }
