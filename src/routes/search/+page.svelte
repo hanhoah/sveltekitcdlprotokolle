@@ -12,6 +12,7 @@
     $: videos = data.videos
     $: qtyVideos = data.videos.length
     $: posts = data.posts
+    console.log('posts from search are: ', posts);
     $: qtyPosts = data.articles.length
     $: q = data.q
     import Book from '../buecher/book.svelte';

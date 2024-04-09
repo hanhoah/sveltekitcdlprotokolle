@@ -3,11 +3,11 @@
 
     export let data
     $: description = data.data.description
-    let title = data.data.id
+    $: title = data.data.id
     console.log('blogpost: ', title);
-    let metadescription = data.data.metadescription
-    const products =  data.products
-    const moreposts = data.moreposts
+    $: metadescription = data.data.metadescription
+    $: products =  data.products
+    $: moreposts = data.moreposts
 
 </script>
 

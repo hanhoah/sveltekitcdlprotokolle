@@ -80,11 +80,11 @@ async function searchSamples(q: string){
 async function searchArticles(q: string){
     q = prepareStatement(q)
         // Vercel KV Cache
-        const cached = await kv.get(`posts-${q}`)
-        if(cached){
-            // console.log('Cache hit!', `samples-${q}`);
-            return cached
-        }
+        // const cached = await kv.get(`posts-${q}`)
+        // if(cached){
+        //     // console.log('Cache hit!', `samples-${q}`);
+        //     return cached
+        // }
         // if not cached fetch data from database
         // console.log('Cache miss!', `samples-${q}`);
 	const { data } = await supabase.from('posts').select('id, slug').textSearch('fts', q, {config: 'german'}).limit(RESULTLIMIT);
@@ -139,6 +139,7 @@ export async function load({ url, setHeaders }) {
     const articles = await searchArticles(q);
     //posts are the rendered articles
     const posts = await renderPostList(articles)
+    console.log('posts from search inside server are ', posts);
 
 	return { q, books, products, samples, videos, articles, posts };
 }
