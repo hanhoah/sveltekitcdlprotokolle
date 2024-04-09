@@ -11,13 +11,16 @@
     $: qtySamples = data.samples.length
     $: videos = data.videos
     $: qtyVideos = data.videos.length
+    $: posts = data.posts
+    $: qtyPosts = data.articles.length
     $: q = data.q
     import Book from '../buecher/book.svelte';
 
     import { RESULTLIMIT } from '$lib/config.js';
 
+    console.log('Suche nach: ', q);
+
     function getPerformanceNotice(){
-    console.log('renderperfoemancenotice: ');
     let html = ""
     if(qtyBooks == RESULTLIMIT)
         html += `<div class=\"<bg-red-300 px-2\">Hinweis: Aus Performance Gründen werden Suchergebnisse auf ${RESULTLIMIT} Ergebnisse limitiert. Falls Sie das passende Buch nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.</div>`
@@ -27,8 +30,8 @@
         html += `<div class=\"bg-green-300 px-2\">Hinweis: Aus Performance Gründen werden Suchergebnisse auf ${RESULTLIMIT} Ergebnisse limitiert. Falls Sie die passende Information nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.</div>`
     if(qtyVideos == RESULTLIMIT)
     html += `<div class=\"bg-yellow-300 px-2\">Hinweis: Aus Performance Gründen werden Suchergebnisse auf ${RESULTLIMIT} Ergebnisse limitiert. Falls Sie die passende Video nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.</div>`
-    
-
+    if(qtyPosts == RESULTLIMIT)
+    html += `<div class=\"bg-lime-300 px-2\">Hinweis: Aus Performance Gründen werden Suchergebnisse auf ${RESULTLIMIT} Ergebnisse limitiert. Falls Sie den passenden Artikel nicht finden, verfeinern Sie Ihre Suche mit einem weiteren Begriff.</div>`
     return html
 }
 
@@ -43,44 +46,31 @@
     </span>
     
     wurden 
-    <span class="books">
-        {#if qtyBooks >0 }
+    {#if qtyBooks >0 }
+        <span class="books">
             <a href="#books">{qtyBooks} Bücher </a>
-        {:else}
-            {qtyBooks} Bücher 
-        {/if}
-    </span>
-    und 
-    <span class="products">
-        {#if qtyProducts >0 }
+        </span>
+    {/if}
+    {#if qtyProducts >0 }
+        <span class="products">
             <a href="#products">{qtyProducts} Produkte </a>
-        {:else}
-            {qtyProducts} Produkte 
-        {/if}
-
-    </span>
-    und 
-    <span class="samples">
-        {#if qtySamples >0 }
+        </span>
+    {/if}
+    {#if qtySamples >0 }
+        <span class="samples">
             <a href="#samples">{qtySamples} Informationen aus Leseproben  </a>
-        {:else}
-            {qtySamples} Informationen aus Leseproben 
-        {/if}
-        
-        
-
-    </span>    
-    und 
-    <span class="videos">
-        {#if qtySamples >0 }
+        </span>    
+    {/if}
+    {#if qtyVideos >0 }
+        <span class="videos">
             <a href="#videos">{qtyVideos} Videos  </a>
-        {:else}
-            {qtyVideos} Videos 
-        {/if}
-
-        
-
-    </span>    
+        </span>    
+    {/if}
+    {#if qtyPosts >0 }
+        <span class="posts">
+            <a href="#posts">{qtyPosts} Artikel  </a>
+        </span>    
+    {/if}
     gefunden. 
 </div>
 
@@ -122,9 +112,9 @@
     <div class="">
         <li class="my-5 py-5 relative">
             <div class="absolute right-10">
-                {@html getBadge(product.image)}
+                {@html getBadge(product.img)}
               </div>                
-            <Product product={{id: product.id,name: product.name,img: product.image, price: product.price, slug: product.slug}} />
+            <Product product={{id: product.id,name: product.name,img: product.img, price: product.price, slug: product.slug}} />
         </li>
     </div>
     {/each}
@@ -132,8 +122,8 @@
 
 {/if}
 
-{#if qtySamples > 0 }
-<div id="videos" class="products w-full text-center my-5"> <h2> Ergebnisse Videos: </h2></div>
+{#if qtyVideos > 0 }
+<div id="videos" class="videos w-full text-center my-5"> <h2> Ergebnisse Videos: </h2></div>
 <ul class="grid grid-cols-2 md:grid-cols-3">
     {#each videos as video}
     <div class="">
@@ -143,6 +133,12 @@
     </div>
     {/each}
 </ul>
+{/if}
+
+{#if qtyPosts > 0 }
+<div id="posts" class="posts w-full text-center my-5"> <h2> Ergebnisse Artikel: </h2></div>
+
+{@html posts}
 
 {/if}
 
@@ -175,6 +171,9 @@
     }
     .videos{
         @apply bg-yellow-300 px-2
+    }
+    .posts{
+        @apply bg-lime-300 px-2
     }
 
 </style>

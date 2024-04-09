@@ -24,7 +24,7 @@ export async function getProductsByCategoryId(catid: number): Promise<object[]> 
 	} else return data;
 }
 
-// getting Products by there ids 
+// getting Products by their ids 
 export async function getProductsByIds(ids: string[]): Promise<object>[] {
 	console.log('getProductById', ids);
 

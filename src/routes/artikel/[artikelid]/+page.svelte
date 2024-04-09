@@ -3,7 +3,9 @@
 
     export let data
     $: description = data.data.description
-    $: title = data.data.id
+    let title = data.data.id
+    console.log('blogpost: ', title);
+    let metadescription = data.data.metadescription
     const products =  data.products
     const moreposts = data.moreposts
 
@@ -11,7 +13,7 @@
 
 <svelte:head>
 	<title>{title}</title>
-	<meta name="description" content={title} />
+	<meta name="description" content={metadescription} />
 </svelte:head>
 
 <div class="m-3 md:m-10 ">

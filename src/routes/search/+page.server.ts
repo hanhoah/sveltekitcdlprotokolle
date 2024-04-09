@@ -2,6 +2,7 @@ export const prerender = false;
 import supabase from '$lib/supabaseClient.js';
 import { RESULTLIMIT } from '$lib/config.js';
 import { kv } from '@vercel/kv';
+import { renderPostList } from '$lib/functions/posts.js';
 
 function prepareStatement(q:string){
     // prüfen ob mehrere Suchbegriffe eingegeben wurden
@@ -40,11 +41,11 @@ async function searchBooks(q: string) {
 async function searchProducts(q: string) {
     q = prepareStatement(q)
         // Vercel KV Cache
-        const cached = await kv.get(`products-${q}`)
-        if(cached){
-            // console.log('Cache hit!', `products-${q}`);
-            return cached
-        }
+        // const cached = await kv.get(`products-${q}`)
+        // if(cached){
+        //     // console.log('Cache hit!', `products-${q}`);
+        //     return cached
+        // }
         // if not cached fetch data from database
         // console.log('Cache miss!', `products-${q}`);
 	const { data } = await supabase.from('products').select().textSearch('fts', q, {config: 'german'}).limit(RESULTLIMIT);
@@ -76,6 +77,25 @@ async function searchSamples(q: string){
     }
 }
 
+async function searchArticles(q: string){
+    q = prepareStatement(q)
+        // Vercel KV Cache
+        const cached = await kv.get(`posts-${q}`)
+        if(cached){
+            // console.log('Cache hit!', `samples-${q}`);
+            return cached
+        }
+        // if not cached fetch data from database
+        // console.log('Cache miss!', `samples-${q}`);
+	const { data } = await supabase.from('posts').select('id, slug').textSearch('fts', q, {config: 'german'}).limit(RESULTLIMIT);
+    // Überprüfe, ob das Ergebnis nicht null ist, bevor du darüber iterierst
+    if (data !== null && typeof data !== 'undefined') {
+        kv.set(`samples-${q}`, JSON.stringify(data))
+        return data;
+    } else {
+        return [];
+    }
+}
 
 async function searchVideos(q: string){
     q = prepareStatement(q)
@@ -88,6 +108,7 @@ async function searchVideos(q: string){
         // if not cached fetch data from database
         console.log('Cache miss!', `videos-${q}`);
 	const { data } = await supabase.from('videos').select().textSearch('fts', q, {config: 'german'}).limit(RESULTLIMIT);
+    console.log('searchVideos', data);
     // Überprüfe, ob das Ergebnis nicht null ist, bevor du darüber iterierst
     if (data !== null && typeof data !== 'undefined') {
         kv.set(`videos-${q}`, JSON.stringify(data))
@@ -112,10 +133,14 @@ export async function load({ url, setHeaders }) {
     })
 	const books = await searchBooks(q);
 	const products = await searchProducts(q);
+    console.log('products are ', products);
     const samples = await searchSamples(q);
     const videos = await searchVideos(q);
+    const articles = await searchArticles(q);
+    //posts are the rendered articles
+    const posts = await renderPostList(articles)
 
-	return { q, books, products, samples, videos };
+	return { q, books, products, samples, videos, articles, posts };
 }
  
 
