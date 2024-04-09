@@ -47,7 +47,7 @@
         <a class="menuitem"  href="/gutscheine">Gutscheine</a>
         <a class="menuitem"  href="/leseproben">Leseproben</a>
         <a class="menuitem"  href="/krankheiten">Krankheiten</a>
-        <a class="menuitem"  href="/blog">Blog (Neu)</a>
+        <a class="menuitem"  href="/artikel">Blog (Neu)</a>
     </div>
   </div>
 </div>  
