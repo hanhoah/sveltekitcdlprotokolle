@@ -133,7 +133,7 @@ export async function load({ url, setHeaders }) {
     })
 	const books = await searchBooks(q);
 	const products = await searchProducts(q);
-    console.log('products are ', products);
+    // console.log('products are ', products);
     const samples = await searchSamples(q);
     const videos = await searchVideos(q);
     const articles = await searchArticles(q);
