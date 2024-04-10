@@ -1,7 +1,7 @@
 import * as cheerio from 'cheerio';
 import axios from 'axios';
 import iconv from 'iconv-lite';
-import fs from 'fs';
+// import fs from 'fs';
 
 async function getHtmlFromUrl(url) {
     try {
@@ -62,7 +62,7 @@ export async function getProductDataFromBioApo(url: string) {
 // Bild herunterladen und speichern
 try {
     const response = await axios.get(imageUrl, { responseType: 'stream' });
-    const writer = fs.createWriteStream(targetFilePath);
+    // const writer = fs.createWriteStream(targetFilePath);
     response.data.pipe(writer);
     // console.log('Bild wurde erfolgreich heruntergeladen und gespeichert:', targetFilePath);
 } catch (error) {
