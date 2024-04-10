@@ -21,10 +21,10 @@ $: products = data.products
     <li class="my-2 relative">
         <!-- Beachte, dass wir das 'loading' Attribut dynamisch hinzufügen -->
         <div class="absolute right-10 md:right-28">
-          {@html getBadge(product.image)}
+          {@html getBadge(product.img)}
 
         </div>
-        <Product product={{id: product.id, name: product.name, img: product.image, price: product.price, slug: product.slug}} />
+        <Product product={{id: product.id, name: product.name, img: product.img, price: product.price, slug: product.slug}} />
     </li>
 </div>
   {/each}
