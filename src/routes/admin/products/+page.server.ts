@@ -1,6 +1,7 @@
 import { fail } from "@sveltejs/kit";
 import supabase from "$lib/supabaseClient";
-import { getProductDataFromShop } from "$lib/functions/shops/kopp.ts";
+import { getProductDataFromKopp } from "$lib/functions/shops/kopp.ts";
+import { getProductDataFromBioApo } from "$lib/functions/shops/bio-apo.js";
 
 interface ProductData {
     id: string, 
@@ -114,7 +115,11 @@ async function getProductData(url: string, shop: sring){
     console.log('getproductData()', '\n',url, '\n', shop);
     switch(shop){
         case "kopp-verlag":
-            productData = await getProductDataFromShop(url)
+            productData = await getProductDataFromKopp(url)
+            break;
+        case "bio-apo":
+            console.log('bio apo gefunden');
+            productData = await getProductDataFromBioApo(url)
             break;
     }
 
@@ -141,11 +146,10 @@ export const actions = {
         const { url, category } = await extractFormData(formData)
         // ermittle den Shop anhand der URL
         const shop = url.split('.')[1]
-        // hole name, preis, bild im order kopp verlag speichern, affiliate link, beschreibung
+        // hole name, preis, bild aus dem ordner kopp verlag speichern, affiliate link, beschreibung
         // nur im dev mode 
         const productData = await getProductData(url, shop)
-        
-        // console.log(productData);
+        // console.log('received productData is: ', productData);
         console.log(await insertProductData(productData)); 
         console.log(await insertCategory(category, productData));
         

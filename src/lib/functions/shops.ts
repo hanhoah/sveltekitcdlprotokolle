@@ -12,6 +12,11 @@ export function getBadge(image) {
 	let textcolor = '';
 
 	switch (shopname) {
+		case 'bio-apo':
+			shop = 'bio-apo';
+			bgcolor = 'bg-green-500';
+			textcolor = 'text-white'
+			break;
 		case 'kronenberg':
 			shop = 'Kronenberg';
 			bgcolor = 'bg-amber-500';

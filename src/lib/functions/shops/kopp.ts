@@ -13,7 +13,7 @@ async function getHtmlFromUrl(url) {
     }
 }
 
-export async function getProductDataFromShop(url: string) {
+export async function getProductDataFromKopp(url: string) {
     const html = await getHtmlFromUrl(url);
     const $ = cheerio.load(html, { decodeEntities: false, xmlMode: true });
 
