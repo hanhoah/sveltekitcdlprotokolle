@@ -13,7 +13,7 @@ export async function load({ params, setHeaders }) {
 	const catid = await getCatId(bookid);
 	console.log('cat id ist ', catid);
 	// 2. Bücher aus der Kategorie holen
-	let similarBooks = await getBooksFromCategory(catid, 12)
+	let similarBooks = await getBooksFromCategory(catid, 30)
 	console.log('similarBooks ist ', similarBooks);
 	// 3. Ergebnis rendern
 

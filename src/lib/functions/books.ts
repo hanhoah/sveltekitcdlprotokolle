@@ -86,7 +86,7 @@ export async function getBooksFromIds(ids: number[]): Promise<Book[] | null> {
 	}
 }
 
-export async function getBooksFromCategory(catid: number, limit:number=9): Promise<Book[] | null> {
+export async function getBooksFromCategory(catid: number, limit:number=30): Promise<Book[] | null> {
 	const { data, error } = await supabase.from('books_categories_view').select().eq('category_id', catid).order('prio').limit(limit);
 
 	if (error) {

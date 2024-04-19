@@ -8,7 +8,7 @@ async function getData(){
 		return cached
 	}
 	console.log('cache bookindex not found');
-	const { data } = await supabase.from('books').select().eq('active', true).order('prio').limit(12);
+	const { data } = await supabase.from('books').select().eq('active', true).order('prio').limit(30);
 	if (data !== null && typeof data !== 'undefined') {
 		kv.set("bookindex", JSON.stringify(data))
         return data;
