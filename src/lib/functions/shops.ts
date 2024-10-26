@@ -1,4 +1,9 @@
 export function getBadge(image) {
+    if (!image) {
+        console.log('Fehler: image ist undefined oder leer');
+        return ''; // Rückgabe eines leeren Strings oder einer anderen Standardausgabe
+    }
+
 	// console.log('images ist ', image);
 	let shopname = ""
 	try {

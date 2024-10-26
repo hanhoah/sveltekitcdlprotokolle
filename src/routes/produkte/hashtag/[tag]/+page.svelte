@@ -1,7 +1,6 @@
 <script>
 export let data
 import Product from '../../product.svelte';
-import { getBadge } from '$lib/functions/shops.ts';
 
 $: hashtag = data.hashtag
 $: products = data.products
@@ -20,10 +19,6 @@ $: products = data.products
   <div class="lazy-load">
     <li class="my-2 relative">
         <!-- Beachte, dass wir das 'loading' Attribut dynamisch hinzufügen -->
-        <div class="absolute right-10 md:right-28">
-          {@html getBadge(product.img)}
-
-        </div>
         <Product product={{id: product.id, name: product.name, img: product.img, price: product.price, slug: product.slug}} />
     </li>
 </div>

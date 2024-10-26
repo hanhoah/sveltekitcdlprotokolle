@@ -2,7 +2,6 @@
   // Configuration
   const maxProductsPerPage = 50;
 
-  import { getBadge } from '$lib/functions/shops.ts';
   import Product from '../../../produkte/product.svelte';
 
   export let data;
@@ -55,10 +54,6 @@
   <div class="lazy-load">
       <li class="my-2 relative">
           <!-- Beachte, dass wir das 'loading' Attribut dynamisch hinzufügen -->
-          <div class="absolute right-10 md:right-28">
-            {@html getBadge(product.image)}
-
-          </div>
           <Product product={{id: product.id, name: product.name, img: product.image, price: product.price, slug: product.slug}} />
       </li>
   </div>

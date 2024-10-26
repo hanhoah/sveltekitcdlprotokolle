@@ -39,7 +39,7 @@ export async function getProductsByIds(ids: string[]): Promise<object>[] {
 }
 
 export async function getProductsByName(name: string): Promise<object[]> {
-	// console.log('getProductsByName', name);
+	console.log('getProductsByName', name);
 
 	const formattedName = name.replace(/\s+/g, ' & ');
 
@@ -50,6 +50,8 @@ export async function getProductsByName(name: string): Promise<object[]> {
 	if (error) {
 		console.log('Fehler beim Abrufen getProductsByName', error);
 	} else {
+		// console.log('data', data[0]);
+		// console.log('data', data[1]);
 		return data;
 
 	}

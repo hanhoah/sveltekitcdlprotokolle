@@ -12,7 +12,7 @@ dependencies:
     specifier: ^0.3.0
     version: 0.3.0(@supabase/supabase-js@2.39.8)
   '@supabase/supabase-js':
-    specifier: ^2.39.7
+    specifier: ^2.39.8
     version: 2.39.8
   '@sveltejs/adapter-node':
     specifier: ^4.0.1
@@ -21,13 +21,13 @@ dependencies:
     specifier: ^3.0.1
     version: 3.0.1(@sveltejs/kit@2.5.4)
   '@sveltejs/adapter-vercel':
-    specifier: ^5.1.0
+    specifier: ^5.1.1
     version: 5.1.1(@sveltejs/kit@2.5.4)
   '@sveltejs/enhanced-img':
     specifier: ^0.1.8
     version: 0.1.8(svelte@4.2.12)
   '@sveltejs/kit':
-    specifier: ^2.5.3
+    specifier: ^2.5.4
     version: 2.5.4(@sveltejs/vite-plugin-svelte@3.0.2)(svelte@4.2.12)(vite@5.1.6)
   '@sveltejs/vite-plugin-svelte':
     specifier: ^3.0.2
@@ -107,7 +107,7 @@ devDependencies:
     specifier: ^4.2.12
     version: 4.2.12
   svelte-check:
-    specifier: ^3.6.6
+    specifier: ^3.6.7
     version: 3.6.7(postcss@8.4.35)(svelte@4.2.12)
   svgo:
     specifier: ^3.2.0
@@ -122,7 +122,7 @@ devDependencies:
     specifier: ^5.4.2
     version: 5.4.2
   vite:
-    specifier: ^5.1.5
+    specifier: ^5.1.6
     version: 5.1.6(@types/node@20.12.5)
   vite-plugin-image-optimizer:
     specifier: ^1.1.7
@@ -1733,7 +1733,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.23.0
-      caniuse-lite: 1.0.30001597
+      caniuse-lite: 1.0.30001671
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -1794,7 +1794,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001597
+      caniuse-lite: 1.0.30001671
       electron-to-chromium: 1.4.703
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
@@ -1823,8 +1823,8 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  /caniuse-lite@1.0.30001597:
-    resolution: {integrity: sha512-7LjJvmQU6Sj7bL0j5b5WY/3n7utXUJvAe1lxhsHDbLmwX9mdL86Yjtr+5SRCyf8qME4M7pU2hswj0FpyBVCv9w==}
+  /caniuse-lite@1.0.30001671:
+    resolution: {integrity: sha512-jocyVaSSfXg2faluE6hrWkMgDOiULBMca4QLtDT39hw1YxaIPHWc1CcTCKkPmHgGH6tKji6ZNbMSmUAvENf2/A==}
     dev: true
 
   /chalk@4.1.2:

@@ -1,7 +1,6 @@
 <script>
   export let data;
   import Product from './product.svelte';
-  import { getBadge } from '$lib/functions/shops.ts';
 </script>
 
 <div class="px-2 m-2 border-2 ">
@@ -13,10 +12,6 @@
       {:then products} 
       {#each products as product}
           <li class="my-2 relative">
-            <div class="absolute right-10 md:right-28">
-              {@html getBadge(product.img)}
-
-            </div>
             <Product product={{id: product.id,name: product.name,img: product.img, price: product.price, slug: product.slug}} />
           </li>
         {/each}

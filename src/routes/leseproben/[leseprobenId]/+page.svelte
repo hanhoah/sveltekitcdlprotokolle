@@ -2,7 +2,6 @@
 	import { getImg } from '$lib/functions/getBookImg.ts';
     import { Button } from 'flowbite-svelte';
     import { nl2br } from '$lib/functions/nl2br.ts';
-    import { getBadge } from '$lib/functions/shops.ts';
     import Product from '../../produkte/product.svelte';
 
     export let data
@@ -88,10 +87,8 @@
         {#each products as product}
         <div class="">
             <li class="my-5 py-5 relative">
-                <div class="absolute right-10">
-                    {@html getBadge(product.image)}
-                  </div>                
-                <Product product={{id: product.id,name: product.name,img: product.image, price: product.price}} />
+          
+                <Product product={{id: product.id,name: product.name,img: product.img, price: product.price, slug: product.slug}} />
             </li>
         </div>
         {/each}
