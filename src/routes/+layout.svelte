@@ -58,8 +58,8 @@ inject({ mode: dev ? 'development' : 'production' });
 </svelte:head>
 
 <!-- Display -->
-<div class="bg-gray-50 max-w-screen-lg m-auto md:block justify-center items-center text-black">
-	<div id="top" class="w-full mx-auto px-1">
+<div class="bg-gray-50  max-w-screen-lg  m-auto md:block justify-center items-center text-black">
+	<div id="top" class="w-full mx-auto px-1 ">
 		<!-- 1280w (800h)-->
 		<Navbar></Navbar>
 		<form class="flex border-2 px-2 justify-center items-center" method="get" action="/search">
@@ -75,7 +75,10 @@ inject({ mode: dev ? 'development' : 'production' });
 		</form>
 		
 		<!-- Debugging-Ausgabe für die SEO-Daten -->
-		<slot />
+		 <div class="p-2 md:p-5">
+			 <slot />
+
+		 </div>
 	</div>
 	<Footer></Footer>
 </div>

@@ -2,7 +2,7 @@
     import Button from "$lib/components/button.svelte";
 </script>
 
-<div class="p-3 space-y-5">
+<div class="p-3 space-y-5 max-h-full min-h-full">
     <h1 class="">
         Willkommen auf cdl-protokolle.com
     </h1>
