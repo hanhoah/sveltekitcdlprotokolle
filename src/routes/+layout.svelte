@@ -4,29 +4,28 @@
 	import { page } from '$app/stores';
 	import Navbar from './Navbar.svelte';
 	import Icon from '@iconify/svelte';
-	import { invalidate } from '$app/navigation'
-  	import { onMount } from 'svelte'
+	import { invalidate } from '$app/navigation';
+	import { onMount } from 'svelte';
 	import ScrollToTop from '$lib/components/scrollToTop.svelte';
 	// Import the Analytics package, and the SvelteKit dev variable.
 	import { dev } from '$app/environment';
-    import { inject } from '@vercel/analytics';
+	import { inject } from '@vercel/analytics';
 
-	export let data
-	let { supabase, session } = data
-  $: ({ supabase, session } = data)
-  
-  onMount(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, _session) => {
-      if (_session?.expires_at !== session?.expires_at) {
-        invalidate('supabase:auth')
-      }
-    })
+	export let data;
+	let { supabase, session } = data;
+	$: ({ supabase, session } = data);
 
-    return () => subscription.unsubscribe()
-  });
+	onMount(() => {
+		const {
+			data: { subscription }
+		} = supabase.auth.onAuthStateChange((event, _session) => {
+			if (_session?.expires_at !== session?.expires_at) {
+				invalidate('supabase:auth');
+			}
+		});
 
+		return () => subscription.unsubscribe();
+	});
 
 	function getDescription($page) {
 		try {
@@ -46,11 +45,9 @@
 			return 'CDL Protokolle ';
 		}
 	}
-// Inject the Analytics functionality
-inject({ mode: dev ? 'development' : 'production' });
+	// Inject the Analytics functionality
+	inject({ mode: dev ? 'development' : 'production' });
 </script>
-
-
 
 <svelte:head>
 	<title>{getTitle($page)}</title>
@@ -58,27 +55,26 @@ inject({ mode: dev ? 'development' : 'production' });
 </svelte:head>
 
 <!-- Display -->
-<div class="bg-gray-50  max-w-screen-lg  m-auto md:block justify-center items-center text-black">
-	<div id="top" class="w-full mx-auto px-1 ">
+<div class="bg-gray-50 max-w-screen-xl m-auto md:block justify-center items-center text-black">
+	<div id="top" class="w-full mx-auto px-1">
 		<!-- 1280w (800h)-->
 		<Navbar></Navbar>
 		<form class="flex border-2 px-2 justify-center items-center" method="get" action="/search">
 			<input
-			class="w-full border-0 border-collapse border-gray-400"
-			type="text"
-			name="q"
-			placeholder="Wonach suchen Sie? (Bücher, Produkte, Inhaltsstoffe)"
+				class="w-full border-0 border-collapse border-gray-400"
+				type="text"
+				name="q"
+				placeholder="Wonach suchen Sie? (Bücher, Produkte, Inhaltsstoffe)"
 			/>
 			<button class="border-1 border-collapse border-gray-400 p-2" type="submit"
-			><Icon width="24" icon="ion:search-outline"></Icon></button
+				><Icon width="24" icon="ion:search-outline"></Icon></button
 			>
 		</form>
-		
-		<!-- Debugging-Ausgabe für die SEO-Daten -->
-		 <div class="p-2 md:p-5">
-			 <slot />
 
-		 </div>
+		<!-- Debugging-Ausgabe für die SEO-Daten -->
+		<div class="p-2 md:p-5">
+			<slot />
+		</div>
 	</div>
 	<Footer></Footer>
 </div>
