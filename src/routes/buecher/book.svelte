@@ -6,15 +6,15 @@
 	// console.log(typeof(book.id));
 </script>
 
-<div class=" w-full h-[300px]">
-	<div class=" pt-2 overflow-auto">
-		<a href={`/buecher/${book.slug}`}>
-			<img class="mx-auto" width="150" src={getImg(book.img, book.id, 'books')} alt={book.title} />
-		</a>
-		<div class="p-3">
-			<a href={`/buecher/${book.id}`}>
+<a href={`/buecher/${book.slug}`}>
+	<div class="card bg-base-100 w-72 shadow-xl">
+		<figure>
+			<img src={getImg(book.img, book.id, 'books')} alt={book.title} />
+		</figure>
+		<div class="card-body">
+			<h2 class="card-title">
 				{book.title}
-			</a>
+			</h2>
 		</div>
 	</div>
-</div>
+</a>
