@@ -1,8 +1,8 @@
 <div class="flex flex-col md:flex-row space-x-3">
-	<div class="w-5/6">
+	<div class="md:w-5/6">
 		<slot />
 	</div>
-	<div class="w-1/6">
+	<div class="md:w-1/6">
 		<a href="/produkte/cat/9">
 			<button class="btn btn-accent">Chlordioxid Produkte kaufen</button></a
 		>

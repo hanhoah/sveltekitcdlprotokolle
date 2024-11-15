@@ -227,7 +227,7 @@
 			</tr>
 
 			<tr>
-				<td>👉ALS Amyotrophe Lateralsklerose Multiple Sklerose</td>
+				<td>ALS Amyotrophe Lateralsklerose Multiple Sklerose</td>
 				<td><a href="/cdl-protokolle/kombinierte-protokolle/cekz">CEKZ</a></td>
 			</tr>
 			<tr>
