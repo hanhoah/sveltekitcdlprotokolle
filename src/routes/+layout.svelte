@@ -9,7 +9,6 @@
 	import ScrollToTop from '$lib/components/scrollToTop.svelte';
 	// Import the Analytics package, and the SvelteKit dev variable.
 	import { dev } from '$app/environment';
-	import { inject } from '@vercel/analytics';
 
 	export let data;
 	let { supabase, session } = data;
@@ -45,8 +44,6 @@
 			return 'CDL Protokolle ';
 		}
 	}
-	// Inject the Analytics functionality
-	inject({ mode: dev ? 'development' : 'production' });
 </script>
 
 <svelte:head>
